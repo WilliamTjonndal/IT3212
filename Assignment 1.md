@@ -17,7 +17,8 @@ This dataset contains contains the following data:
 - ``OpenInt``: Open interest, number of stocks that are still open to be traded.
 - ``Symbol``: Stock symbol, abbreviation used to identify a stock.
 
-<img src="img/first_few_rows.png" First few rows of the dataset width="500">
+<img src="img/first_few_rows.png" width="500"/>
+
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; **Figure 1**: First few rows of the dataset
 
 
