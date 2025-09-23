@@ -77,7 +77,7 @@ Note: The ``OpenInt`` column is always **0**, so we will ignore it completely.
 
 #### ii. Explain why feature scaling is necessary and how it impacts the model.
 
-
+Feature scaling is important because raw features often have very different ranges, and this can cause models to give more weight to features with larger values. By scaling, we ensure that all features contribute equally, which improves fairness and accuracy.
 
 ## 5. Data Splitting
 
@@ -88,8 +88,7 @@ Note: The ``OpenInt`` column is always **0**, so we will ignore it completely.
 
 ### b. Explain the importance of splitting the data and how it prevents overfitting.
 
-```py
-```
+Feature scaling is important because raw features often have very different ranges, and this can cause models to give more weight to features with larger values. By scaling, we ensure that all features contribute equally, which improves fairness and accuracy.
 
 
 ## 6. Apply dimensionality reduction techniques such as Principal Component Analysis (PCA) and discuss how it affects the dataset.
