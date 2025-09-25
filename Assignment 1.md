@@ -6,9 +6,7 @@
 
 ### a. Explore the dataset by displaying the first few rows, summary statistics, and data types of each column.
 
-We have chosen the Stock market dataset.\
-
-the dataset contains contains the following columns:
+We have chosen the Stock market dataset. The dataset contains contains the following columns:
 
 - ``Date``: The date the stock was traded (datetime)
 - ``Open``: Price of the first stock that was traded on that date (float)
@@ -16,36 +14,73 @@ the dataset contains contains the following columns:
 - ``Low``: Lowest price the stock was traded for on that date (float)
 - ``Close``: Last price the stock was traded for on that date (float)
 - ``Volume``: Number of traded stocks that (integer)
-- ``OpenInt``: Open interest, number of stocks that are still open to be traded that date (integer)
+- ``OpenInt``: Open contract, number of stocks that are still open to be traded that date (integer)
 - ``Symbol``: Stock symbol, abbreviation used to identify a stock (string)
 
-<img src="img/first_few_rows.png" width="500"/>
+<p>
+  <img src="img/first_few_rows.png" width="500"/><br>
+  <em align="center">Figure 1: First few rows of the dataset</em>
+</p>
 
-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; **Figure 1**: First few rows of the dataset
+<p>
+  <img src="img/initial_statistics.png" width="500"/><br>
+  <em align="center">Figure 2: Initial statistics of the dataset.</em>
+</p>
 
+<p>
+  <img src="img/data_over_time.png" width="500"/><br>
+  <em align="center">Figure 3: Number of stock data over time.</em>
+</p>
+
+<p>
+  <img src="img/open_over_time.png" width="500"/><br>
+  <em align="center">Figure 4: Open price over time</em>
+</p>
+
+<p>
+  <img src="img/high_over_time.png" width="500"/><br>
+  <em align="center">Figure 5: High price over time</em>
+</p>
+
+<p>
+  <img src="img/low_over_time.png" width="500"/><br>
+  <em align="center">Figure 6: Low price over time</em>
+</p>
+
+<p>
+  <img src="img/close_over_time.png" width="500"/><br>
+  <em align="center">Figure 7: Close price over time</em>
+</p>
+
+In the initial analysis, we observed that the open-, high-, low- and close price for the stocks were relative the same in terms of mean and average value.
+
+The initial summary statistics reveal two significant drops, around 1978 and 2010, which later stabilized. However, when comparing the price trends with the number of recorded stock entries, we found that these drops were not caused by actual market movements but rather by missing data during those periods. Since the model is trained on individual stocks rather than on aggregated averages, a drop in the total amount of data for a given day will not affect the model’s performance.
+
+We also observe a significant shift in stock prices around 2005. As illustrated in Figure 3, this aligns with a substantial increase in the number of recorded stocks from that period until 2017. The correlation between the surge in available stock data and the change in price statistics suggests that the shift was primarily driven by the expansion of the dataset rather than by underlying market dynamics.
 
 ### b. Identify missing values, outliers, and unique values in categorical columns.
 
-```py
-```
+In Figure 2, we identify outliers such as extremely high values in the open, high, low, and close prices, as well as instances of negative low prices.
 
+In total, stock data was collected for 7196 companies. Of these, 32 files were empty and therefore unuasable.
+
+The unique values in categorial columns are the stock symbols, i.e., the identifiers for the different companies.
 
 ## 2. Data Cleaning
 
 ### a. Handling Missing Values
 
-The dataset contains some empty files, which we obviously ignore.\
-Some files are not properly formatted csv files. How we handle with such files is described belows.
+In total, stock data was collected for 7196 companies. Of these, 32 files were empty and therefore unuasable. The OpenInt column was consistently set to 0 across all records, indicating that no open contracts were reported for any given date.
+
+Since this only represents a very small fraction of the total dataset, we chose to exclude these companies from the analysis rather than attempting to manipulate their data since. The successfully collected data contained no missing colums, but the openInt column is always set to 0 so we will ignore it completely in the further analysis.
 
 ### b. Choose appropriate methods to handle missing values (e.g., mean/median imputation for numerical data, mode imputation for categorical data, or deletion of rows/columns).
 
-Note: The ``OpenInt`` column is always **0**, so we will ignore it completely.
+We chose to ignore the 32 companies and therefore delete these records from the and ignore the OpenInt feature completely 
 
 ### c. Justify your choices for handling missing data.
 
-```py
-```
-
+Given that the 32 companies with missing stock data represent a very small fraction of the total dataset, we chose to exclude them from the analysis rather than attempting to manipulate or reconstruct their data. Moreover, we had no basis for generating replacement values, as the files were empty. Furthermore, there was no reasonable basis for generating replacement values, as the corresponding files were entirely empty. The situation would have been different if only specific columns had been missing, in which case imputation methods could have been appropriately applied. The OpenInt column consistently contained only zeros, making it non-informative. This column was therefore dropped entirely.
 
 ## 3. Handling Outliers
 
