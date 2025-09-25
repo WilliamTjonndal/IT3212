@@ -7,15 +7,17 @@
 ### a. Explore the dataset by displaying the first few rows, summary statistics, and data types of each column.
 
 We have chosen the Stock market dataset.\
-This dataset contains contains the following data:
-- ``Date``: The date the stock was traded.
-- ``Open``: Price of the first stock that was traded on that date.
-- ``High``: Highest price the stock was traded for.
-- ``Low``: Lowest price the stock was traded for.
-- ``Close``: Last price the stock was traded for.
-- ``Volume``: Number of traded stocks.
-- ``OpenInt``: Open interest, number of stocks that are still open to be traded.
-- ``Symbol``: Stock symbol, abbreviation used to identify a stock.
+
+the dataset contains contains the following columns:
+
+- ``Date``: The date the stock was traded (datetime)
+- ``Open``: Price of the first stock that was traded on that date (float)
+- ``High``: Highest price the stock was traded for on that date (float)
+- ``Low``: Lowest price the stock was traded for on that date (float)
+- ``Close``: Last price the stock was traded for on that date (float)
+- ``Volume``: Number of traded stocks that (integer)
+- ``OpenInt``: Open interest, number of stocks that are still open to be traded that date (integer)
+- ``Symbol``: Stock symbol, abbreviation used to identify a stock (string)
 
 <img src="img/first_few_rows.png" width="500"/>
 
@@ -89,7 +91,7 @@ Feature scaling is important because raw features often have very different rang
 
 ### b. Explain the importance of splitting the data and how it prevents overfitting.
 
-Feature scaling is important because raw features often have very different ranges, and this can cause models to give more weight to features with larger values. By scaling, we ensure that all features contribute equally, which improves fairness and accuracy.
+Splitting the data allows the model to be trained on one set and evaluated on another, ensuring that performance is measured on unseen data. The training set adjusts model parameters, while the test set checks generalization. This prevents overfitting by forcing the model to learn patterns instead of memorizing the training data. A validation set is often used during training to tune hyperparameters and monitor performance.
 
 
 ## 6. Apply dimensionality reduction techniques such as Principal Component Analysis (PCA) and discuss how it affects the dataset.
