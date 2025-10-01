@@ -91,9 +91,9 @@ We also observe a significant shift in stock prices around 2005. As illustrated 
 
 ### b. Identify missing values, outliers, and unique values in categorical columns.
 
-In Figure 2, we identify outliers such as extremely high values in the open, high, low, and close prices, as well as instances of negative low prices.
+In Figure 2, we identify outliers such as extremely high values in the open, high, low, and close prices, as well as instances of negative low prices. <!-- using which method? -->
 
-In total, stock data was collected for 7196 companies. Of these, 32 files were empty and therefore unuasable.
+In total, the dataset contains stock data for 7196 different companies where 32 companies contain empty data and are therefore unusable.
 
 The unique values in categorial columns are the stock symbols, i.e., the identifiers for the different companies.
 
@@ -101,9 +101,9 @@ The unique values in categorial columns are the stock symbols, i.e., the identif
 
 ### a. Handling Missing Values
 
-In total, stock data was collected for 7196 companies. Of these, 32 files were empty and therefore unuasable. The OpenInt column was consistently set to 0 across all records, indicating that no open contracts were reported for any given date.
+The OpenInt column was consistently set to 0 across all records, so we will ignore it completely in further analysis.
 
-Since this only represents a very small fraction of the total dataset, we chose to exclude these companies from the analysis rather than attempting to manipulate their data since. The successfully collected data contained no missing colums, but the openInt column is always set to 0 so we will ignore it completely in the further analysis.
+Regarding the 32 companies with empty data, they only represent a very small fraction of the total dataset, so we chose to exclude these companies from the analysis rather than attempting to manipulate their data since the successfully collected data contained no missing colums.
 
 ### b. Choose appropriate methods to handle missing values (e.g., mean/median imputation for numerical data, mode imputation for categorical data, or deletion of rows/columns).
 
