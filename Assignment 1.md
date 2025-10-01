@@ -53,17 +53,17 @@ We have chosen the Stock market dataset. The dataset contains contains the follo
 - `OpenInt`: Open contract, number of stocks that are still open to be traded on that date (integer)
 - `Symbol`: Stock symbol, abbreviation used to identify a stock (string)
 
-<p align="center">
+<p>
   <img src="img/datatypes.png" width="600"/><br>
   <em>Figure 1: Data types for each column</em>
 </p>
 
-<p align="center">
+<p>
   <img src="img/first_few_rows.png" width="600"/><br>
   <em>Figure 2: First few rows of the dataset</em>
 </p>
 
-<p align="center">
+<p>
   <img src="img/initial_statistics.png" width="600"/><br>
   <em>Figure 3: Initial statistics of the dataset</em>
 </p>
@@ -138,61 +138,36 @@ In total, stock data was collected for 7195 companies. Of these, 32 files were e
 
 ### a. Handling Missing Values
 
-<p>
-<p style="display: flex; justify-content: center; gap: 20px; align-items: flex-start;">
-  <span>
-    <img src="img/open_over_time_after_filled.png" width="500"/><br>
-    <em align="center">Figure 13a: Open price over time after forward filling</em>
-  </span>
-  <span>
-    <img src="img/open_over_time_with_count_after_filled.png" width="500"/><br>
-    <em align="center">Figure 13b: Open price over time with count </em>
-  </span>
-</p>
+<div align="center">
+  <img src="img/open_over_time_after_filled.png" width="500"/>
+  <img src="img/open_over_time_with_count_after_filled.png" width="500"/><br>
+  <em>Figure 13a: Open price over time after forward filling  Figure 13b: Open price over time with count</em>
+</div>
 
-<p style="display: flex; justify-content: center; gap: 20px; align-items: flex-start;">
-  <span>
-    <img src="img/high_over_time_after_filled.png" width="500"/><br>
-    <em align="center">Figure 14a: High price over time after forward filling</em>
-  </span>
-  <span>
-    <img src="img/high_over_time_with_count_after_filled.png" width="500"/><br>
-    <em align="center">Figure 14b: High price over time with count </em>
-  </span>
-</p>
+<div align="center">
+  <img src="img/high_over_time_after_filled.png" width="500"/>
+  <img src="img/high_over_time_with_count_after_filled.png" width="500"/><br>
+  <em>Figure 14a: High price over time after forward filling  Figure 14b: High price over time with count</em>
+</div>
 
-<p style="display: flex; justify-content: center; gap: 20px; align-items: flex-start;">
-  <span>
-    <img src="img/low_over_time_after_filled.png" width="500"/><br>
-    <em align="center">Figure 15a: Low price over time after forward filling</em>
-  </span>
-  <span>
-    <img src="img/low_over_time_with_count_after_filled.png" width="500"/><br>
-    <em align="center">Figure 15b: Low price over time with count </em>
-  </span>
-</p>
+<div align="center">
+  <img src="img/low_over_time_after_filled.png" width="500"/>
+  <img src="img/low_over_time_with_count_after_filled.png" width="500"/><br>
+  <em>Figure 15a: Low price over time after forward filling  Figure 15b: Low price over time with count</em>
+</div>
 
-<p style="display: flex; justify-content: center; gap: 20px; align-items: flex-start;">
-  <span>
-    <img src="img/close_over_time_after_filled.png" width="500"/><br>
-    <em align="center">Figure 15a: Close price over time after forward filling</em>
-  </span>
-  <span>
-    <img src="img/close_over_time_with_count_after_filled.png" width="500"/><br>
-    <em align="center">Figure 15b: Close price over time </em>
-  </span>
-</p>
+<div align="center">
+  <img src="img/close_over_time_after_filled.png" width="500"/>
+  <img src="img/close_over_time_with_count_after_filled.png" width="500"/><br>
+  <em>Figure 16a: Close price over time after forward filling  Figure 16b: Close price over time with count</em>
+</div>
 
-<p style="display: flex; justify-content: center; gap: 20px; align-items: flex-start;">
-  <span>
-    <img src="img/volume_over_time_after_filled.png" width="500"/><br>
-    <em align="center">Figure 16a: Volume over time after forward filling</em>
-  </span>
-  <span>
-    <img src="img/volume_over_time_with_count_after_filled.png" width="500"/><br>
-    <em align="center">Figure 16b: Volume over time with count </em>
-  </span>
-</p>
+<div align="center">
+  <img src="img/volume_over_time_after_filled.png" width="500"/>
+  <img src="img/volume_over_time_with_count_after_filled.png" width="500"/><br>
+  <em>Figure 17a: Volume over time after forward filling  Figure 17b: Volume over time with count</em>
+</div>
+
 
 After handling missing values, the fluctuations seen in Figures 4–8 are resolved, leaving only the major shifts around 1970 and 2005, which correlate with the previously discussed increases in available stock data.
 
