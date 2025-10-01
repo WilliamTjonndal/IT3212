@@ -53,75 +53,50 @@ We have chosen the Stock market dataset. The dataset contains contains the follo
 - `OpenInt`: Open contract, number of stocks that are still open to be traded on that date (integer)
 - `Symbol`: Stock symbol, abbreviation used to identify a stock (string)
 
-<p>
+<p align="center">
   <img src="img/datatypes.png" width="600"/><br>
-  <em align="center">Figure 1: Data types for each column</em>
+  <em>Figure 1: Data types for each column</em>
 </p>
 
-<p>
+<p align="center">
   <img src="img/first_few_rows.png" width="600"/><br>
-  <em align="center">Figure 2: First few rows of the dataset</em>
+  <em>Figure 2: First few rows of the dataset</em>
 </p>
 
-<p>
+<p align="center">
   <img src="img/initial_statistics.png" width="600"/><br>
-  <em align="center">Figure 3: Initial statistics of the dataset.</em>
+  <em>Figure 3: Initial statistics of the dataset</em>
 </p>
 
-<p style="display: flex; justify-content: center; gap: 20px; align-items: flex-start;">
-  <span>
-    <img src="img/open_over_time.png" width="500"/><br>
-    <em align="center">Figure 4a: Open price over time before forward filling</em>
-  </span>
-  <span>
-    <img src="img/open_over_time_with_count.png" width="500"/><br>
-    <em align="center">Figure 4b: Open price over time with count</em>
-  </span>
-</p>
+<div align="center">
+  <img src="img/open_over_time.png" width="500"/>
+  <img src="img/open_over_time_with_count.png" width="500"/><br>
+  <em>Figure 4a: Open price over time before forward filling  Figure 4b: Open price over time with count</em>
+</div>
 
-<p style="display: flex; justify-content: center; gap: 20px; align-items: flex-start;">
-  <span>
-    <img src="img/high_over_time.png" width="500"/><br>
-    <em align="center">Figure 5a: High price over time before forward filling</em>
-  </span>
-  <span>
-    <img src="img/high_over_time_with_count.png" width="500"/><br>
-    <em align="center">Figure 5b: High price over time with count</em>
-  </span>
-</p>
+<div align="center">
+  <img src="img/high_over_time.png" width="500"/>
+  <img src="img/high_over_time_with_count.png" width="500"/><br>
+  <em>Figure 5a: High price over time before forward filling  Figure 5b: High price over time with count</em>
+</div>
 
-<p style="display: flex; justify-content: center; gap: 20px; align-items: flex-start;">
-  <span>
-    <img src="img/low_over_time.png" width="500"/><br>
-    <em align="center">Figure 6a: Low price over time before forward filling</em>
-  </span>
-  <span>
-    <img src="img/low_over_time_with_count.png" width="500"/><br>
-    <em align="center">Figure 6b: Low price over time with count</em>
-  </span>
-</p>
+<div align="center">
+  <img src="img/low_over_time.png" width="500"/>
+  <img src="img/low_over_time_with_count.png" width="500"/><br>
+  <em>Figure 6a: Low price over time before forward filling  Figure 6b: Low price over time with count</em>
+</div>
 
-<p style="display: flex; justify-content: center; gap: 20px; align-items: flex-start;">
-  <span>
-    <img src="img/close_over_time.png" width="500"/><br>
-    <em align="center">Figure 7a: Close price over time before forward filling</em>
-  </span>
-  <span>
-    <img src="img/close_over_time_with_count.png" width="500"/><br>
-    <em align="center">Figure 7b: Close price over time with count</em>
-  </span>
-</p>
+<div align="center">
+  <img src="img/close_over_time.png" width="500"/>
+  <img src="img/close_over_time_with_count.png" width="500"/><br>
+  <em>Figure 7a: Close price over time before forward filling  Figure 7b: Close price over time with count</em>
+</div>
 
-<p style="display: flex; justify-content: center; gap: 20px; align-items: flex-start;">
-  <span>
-    <img src="img/volum_over_time.png" width="500"/><br>
-    <em align="center">Figure 8a: Volume over time before forward filling</em>
-  </span>
-  <span>
-    <img src="img/volume_over_time_with_count.png" width="500"/><br>
-    <em align="center">Figure 8b: Volume over time with count</em>
-  </span>
-</p>
+<div align="center">
+  <img src="img/volum_over_time.png" width="500"/>
+  <img src="img/volume_over_time_with_count.png" width="500"/><br>
+  <em>Figure 8a: Volume over time before forward filling  Figure 8b: Volume over time with count</em>
+</div>
 
 <p>
   <img src="img/data_over_time.png" width="500"/><br>
