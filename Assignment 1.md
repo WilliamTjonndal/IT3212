@@ -1,7 +1,5 @@
 # IT3212 Assignment 1: Data Preprocessing
 
-----------
-
 ## Table of Contents
 
 1. [Data Exploration](#1-data-exploration)  
@@ -31,7 +29,7 @@
 
 6. [Dimensionality Reduction](#6-apply-dimensionality-reduction-techniques-such-as-principal-component-analysis-pca-and-discuss-how-it-affects-the-dataset)
 
-----------
+<div style="page-break-after: always;"></div>
 
 ## 1. Data Exploration
 
