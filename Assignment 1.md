@@ -85,9 +85,12 @@ We have chosen the Stock market dataset. The dataset contains contains the follo
 
 In the initial analysis, we observed that the open-, high-, low- and close price for the stocks were relative the same in terms of mean and average value.
 
-The initial summary statistics reveal two significant drops, around 1978 and 2010, which later stabilized. However, when comparing the price trends with the number of recorded stock entries, we found that these drops were not caused by actual market movements but rather by missing data during those periods. Since the model is trained on individual stocks rather than on aggregated averages, a drop in the total amount of data for a given day will not affect the model’s performance.
+The initial summary statistics reveal two significant drops, around 1978 and 2010, which later stabilized.\
+However, when comparing the price trends with the number of recorded stock entries, we found that these drops were not caused by actual market movements but rather by missing data during those periods.\
+Since the model is trained on individual stocks rather than on aggregated averages, a drop in the total amount of data for a given day will not affect the model’s performance.
 
-We also observe a significant shift in stock prices around 2005. As illustrated in Figure 3, this aligns with a substantial increase in the number of recorded stocks from that period until 2017. The correlation between the surge in available stock data and the change in price statistics suggests that the shift was primarily driven by the expansion of the dataset rather than by underlying market dynamics.
+We also observe a significant shift in stock prices around 2005. As illustrated in Figure 3, this aligns with a substantial increase in the number of recorded stocks from that period until 2017.\
+The correlation between the surge in available stock data and the change in price statistics suggests that the shift was primarily driven by the expansion of the dataset rather than by underlying market dynamics.
 
 ### b. Identify missing values, outliers, and unique values in categorical columns.
 
@@ -107,17 +110,20 @@ Regarding the 32 companies with empty data, they only represent a very small fra
 
 ### b. Choose appropriate methods to handle missing values (e.g., mean/median imputation for numerical data, mode imputation for categorical data, or deletion of rows/columns).
 
-We chose to ignore the 32 companies and therefore delete these records from the and ignore the OpenInt feature completely 
+We chose to ignore the 32 companies and therefore delete these records from the dataset and ignore the OpenInt completely.
 
 ### c. Justify your choices for handling missing data.
 
-Given that the 32 companies with missing stock data represent a very small fraction of the total dataset, we chose to exclude them from the analysis rather than attempting to manipulate or reconstruct their data. Moreover, we had no basis for generating replacement values, as the files were empty. Furthermore, there was no reasonable basis for generating replacement values, as the corresponding files were entirely empty. The situation would have been different if only specific columns had been missing, in which case imputation methods could have been appropriately applied. The OpenInt column consistently contained only zeros, making it non-informative. This column was therefore dropped entirely.
+Given that the 32 companies with missing stock data represent a very small fraction of the total dataset, we chose to exclude them from the analysis rather than attempting to manipulate or reconstruct their data.\
+Moreover, we had no basis for generating replacement values, as the files were empty.\
+Furthermore, there was no reasonable basis for generating replacement values, as the corresponding files were entirely empty. The situation would have been different if only specific columns had been missing, in which case imputation methods could have been appropriately applied.\
+The OpenInt column consistently contained only zeros, making it non-informative. This column was therefore dropped entirely.
 
 ## 3. Handling Outliers
 
 ### a. Detect outliers using methods such as the IQR method or Z-score.
 
-We have decided to use the ***IQR / minimum maximum / Z-index*** method to detect and remove outliers.
+We have decided to use the ***IQR / minimum maximum / Z-index*** method to detect and remove outliers. <!-- TBD-->
 
 
 
@@ -126,6 +132,8 @@ We have decided to use the ***IQR / minimum maximum / Z-index*** method to detec
 ```py
 ```
 
+Outliers that are outside of known financial crises are removed, while outliers in know financial crises are transformed. <!-- to be determined, specify why -->
+
 
 ## 4. Data Transformation
 
@@ -133,12 +141,15 @@ We have decided to use the ***IQR / minimum maximum / Z-index*** method to detec
 
 #### i. Apply label encoding or one-hot encoding to transform categorical data into numerical form.
 
-```py
-```
+<p>
+  <img src="img/apply_label_encoding.png" width="500"/><br>
+  <em align="center">Figure 8: Applying label encoding to the Symbol column</em>
+</p>
 
 #### ii. Justify your choice of encoding method.
 
-
+With 7,162 unique companies, one-hot encoding would introduce 7,162 extra features, making the model unnecessarily complex.\
+Label encoding is thus more suitable in this case.
 
 ### b. Feature Scaling
 
@@ -148,18 +159,33 @@ We have decided to use the ***IQR / minimum maximum / Z-index*** method to detec
 
 #### ii. Explain why feature scaling is necessary and how it impacts the model.
 
-Feature scaling is important because raw features often have very different ranges, and this can cause models to give more weight to features with larger values. By scaling, we ensure that all features contribute equally, which improves fairness and accuracy.
+Feature scaling is important because raw features often have very different ranges, and this can cause models to give more weight to features with larger values.\
+By scaling, we ensure that all features contribute equally, which improves fairness and accuracy.
 
 ## 5. Data Splitting
 
 ### a. Split the preprocessed dataset into training and testing sets. Typically, an 80-20 or 70-30 split is used.
 
+We choose to keep the opening price as the y value (the value that we're trying to predict).
+
 ```py
+# Split into 80% training and 20% testing
+df_train, df_test = train_test_split(df_filled, test_size=0.2, random_state=42)
+
+print("Training set shape:", df_train.shape)
+print("Testing set shape:", df_test.shape)
+```
+**``Outputs:``**
+```
+>>> Training set shape: (11910132, 7)
+>>> Testing set shape: (2977533, 7)
 ```
 
 ### b. Explain the importance of splitting the data and how it prevents overfitting.
 
-Splitting the data allows the model to be trained on one set and evaluated on another, ensuring that performance is measured on unseen data. The training set adjusts model parameters, while the test set checks generalization. This prevents overfitting by forcing the model to learn patterns instead of memorizing the training data. A validation set is often used during training to tune hyperparameters and monitor performance.
+Splitting the data allows the model to be trained on one set and evaluated on another, ensuring that performance is measured on unseen data.\
+The training set adjusts model parameters, while the test set checks generalization. This prevents overfitting by forcing the model to learn patterns instead of memorizing the training data.\
+A validation set is often used during training to tune hyperparameters and monitor performance.
 
 
 ## 6. Apply dimensionality reduction techniques such as Principal Component Analysis (PCA) and discuss how it affects the dataset.
