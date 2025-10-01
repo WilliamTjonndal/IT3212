@@ -86,6 +86,8 @@ Given that the 32 companies with missing stock data represent a very small fract
 
 ### a. Detect outliers using methods such as the IQR method or Z-score.
 
+We have decided to use the ***IQR / minimum maximum / Z-index*** method to detect and remove outliers.
+
 
 
 ### b. Decide whether to remove, cap, or transform the outliers. Justify your decisions.
