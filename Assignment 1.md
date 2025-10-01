@@ -1,35 +1,42 @@
 # IT3212 Assignment 1: Data Preprocessing
 
+---
+
 ## Table of Contents
 
-1. [Data Exploration](#1-data-exploration)  
-   - [a. Explore the dataset](#a-explore-the-dataset-by-displaying-the-first-few-rows-summary-statistics-and-data-types-of-each-column)  
+1. [Data Exploration](#1-data-exploration)
+
+   - [a. Explore the dataset](#a-explore-the-dataset-by-displaying-the-first-few-rows-summary-statistics-and-data-types-of-each-column)
    - [b. Identify missing values, outliers, and unique values](#b-identify-missing-values-outliers-and-unique-values-in-categorical-columns)
 
-2. [Data Cleaning](#2-data-cleaning)  
-   - [a. Handling Missing Values](#a-handling-missing-values)  
-   - [b. Methods to Handle Missing Values](#b-choose-appropriate-methods-to-handle-missing-values-eg-meanmedian-imputation-for-numerical-data-mode-imputation-for-categorical-data-or-deletion-of-rowscolumns)  
+2. [Data Cleaning](#2-data-cleaning)
+
+   - [a. Handling Missing Values](#a-handling-missing-values)
+   - [b. Methods to Handle Missing Values](#b-choose-appropriate-methods-to-handle-missing-values-eg-meanmedian-imputation-for-numerical-data-mode-imputation-for-categorical-data-or-deletion-of-rowscolumns)
    - [c. Justification for Handling Missing Data](#c-justify-your-choices-for-handling-missing-data)
 
-3. [Handling Outliers](#3-handling-outliers)  
-   - [a. Detecting Outliers](#a-detect-outliers-using-methods-such-as-the-iqr-method-or-z-score)  
+3. [Handling Outliers](#3-handling-outliers)
+
+   - [a. Detecting Outliers](#a-detect-outliers-using-methods-such-as-the-iqr-method-or-z-score)
    - [b. Outlier Treatment and Justification](#b-decide-whether-to-remove-cap-or-transform-the-outliers-justify-your-decisions)
 
-4. [Data Transformation](#4-data-transformation)  
-   - [a. Encoding Categorical Data](#a-encoding-categorical-data)  
-     - [i. Apply encoding](#i-apply-label-encoding-or-one-hot-encoding-to-transform-categorical-data-into-numerical-form)  
-     - [ii. Justification of encoding method](#ii-justify-your-choice-of-encoding-method)  
-   - [b. Feature Scaling](#b-feature-scaling)  
-     - [i. Apply scaling technique](#i-apply-feature-scaling-techniques-such-as-normalization-min-max-scaling-or-standardization-z-score-normalization-to-the-dataset)  
+4. [Data Transformation](#4-data-transformation)
+
+   - [a. Encoding Categorical Data](#a-encoding-categorical-data)
+     - [i. Apply encoding](#i-apply-label-encoding-or-one-hot-encoding-to-transform-categorical-data-into-numerical-form)
+     - [ii. Justification of encoding method](#ii-justify-your-choice-of-encoding-method)
+   - [b. Feature Scaling](#b-feature-scaling)
+     - [i. Apply scaling technique](#i-apply-feature-scaling-techniques-such-as-normalization-min-max-scaling-or-standardization-z-score-normalization-to-the-dataset)
      - [ii. Importance of scaling](#ii-explain-why-feature-scaling-is-necessary-and-how-it-impacts-the-model)
 
-5. [Data Splitting](#5-data-splitting)  
-   - [a. Split into training/testing sets](#a-split-the-preprocessed-dataset-into-training-and-testing-sets-typically-an-80-20-or-70-30-split-is-used)  
+5. [Data Splitting](#5-data-splitting)
+
+   - [a. Split into training/testing sets](#a-split-the-preprocessed-dataset-into-training-and-testing-sets-typically-an-80-20-or-70-30-split-is-used)
    - [b. Importance of data splitting](#b-explain-the-importance-of-splitting-the-data-and-how-it-prevents-overfitting)
 
 6. [Dimensionality Reduction](#6-apply-dimensionality-reduction-techniques-such-as-principal-component-analysis-pca-and-discuss-how-it-affects-the-dataset)
 
-<div style="page-break-after: always;"></div>
+---
 
 ## 1. Data Exploration
 
@@ -37,101 +44,216 @@
 
 We have chosen the Stock market dataset. The dataset contains contains the following columns:
 
-- ``Date``: The date the stock was traded (datetime)
-- ``Open``: Price of the first stock that was traded on that date (float)
-- ``High``: Highest price the stock was traded for on that date (float)
-- ``Low``: Lowest price the stock was traded for on that date (float)
-- ``Close``: Last price the stock was traded for on that date (float)
-- ``Volume``: Number of traded stocks that (integer)
-- ``OpenInt``: Open contract, number of stocks that are still open to be traded that date (integer)
-- ``Symbol``: Stock symbol, abbreviation used to identify a stock (string)
+- `Date`: The date the stock was traded (datetime)
+- `Open`: Price of the first stock that was traded on that date (float)
+- `High`: Highest price of the stock was traded on that date (float)
+- `Low`: Lowest price of the stock that was traded on that date (float)
+- `Close`: Last price of the stock that was traded on that date (float)
+- `Volume`: Number of traded stocks on that date (integer)
+- `OpenInt`: Open contract, number of stocks that are still open to be traded on that date (integer)
+- `Symbol`: Stock symbol, abbreviation used to identify a stock (string)
 
 <p>
-  <img src="img/first_few_rows.png" width="500"/><br>
-  <em align="center">Figure 1: First few rows of the dataset</em>
+  <img src="img/datatypes.png" width="600"/><br>
+  <em align="center">Figure 1: Data types for each column</em>
 </p>
 
 <p>
-  <img src="img/initial_statistics.png" width="500"/><br>
-  <em align="center">Figure 2: Initial statistics of the dataset.</em>
+  <img src="img/first_few_rows.png" width="600"/><br>
+  <em align="center">Figure 2: First few rows of the dataset</em>
+</p>
+
+<p>
+  <img src="img/initial_statistics.png" width="600"/><br>
+  <em align="center">Figure 3: Initial statistics of the dataset.</em>
+</p>
+
+<p style="display: flex; justify-content: center; gap: 20px; align-items: flex-start;">
+  <span>
+    <img src="img/open_over_time.png" width="500"/><br>
+    <em align="center">Figure 4a: Open price over time before forward filling</em>
+  </span>
+  <span>
+    <img src="img/open_over_time_with_count.png" width="500"/><br>
+    <em align="center">Figure 4b: Open price over time with count</em>
+  </span>
+</p>
+
+<p style="display: flex; justify-content: center; gap: 20px; align-items: flex-start;">
+  <span>
+    <img src="img/high_over_time.png" width="500"/><br>
+    <em align="center">Figure 5a: High price over time before forward filling</em>
+  </span>
+  <span>
+    <img src="img/high_over_time_with_count.png" width="500"/><br>
+    <em align="center">Figure 5b: High price over time with count</em>
+  </span>
+</p>
+
+<p style="display: flex; justify-content: center; gap: 20px; align-items: flex-start;">
+  <span>
+    <img src="img/low_over_time.png" width="500"/><br>
+    <em align="center">Figure 6a: Low price over time before forward filling</em>
+  </span>
+  <span>
+    <img src="img/low_over_time_with_count.png" width="500"/><br>
+    <em align="center">Figure 6b: Low price over time with count</em>
+  </span>
+</p>
+
+<p style="display: flex; justify-content: center; gap: 20px; align-items: flex-start;">
+  <span>
+    <img src="img/close_over_time.png" width="500"/><br>
+    <em align="center">Figure 7a: Close price over time before forward filling</em>
+  </span>
+  <span>
+    <img src="img/close_over_time_with_count.png" width="500"/><br>
+    <em align="center">Figure 7b: Close price over time with count</em>
+  </span>
+</p>
+
+<p style="display: flex; justify-content: center; gap: 20px; align-items: flex-start;">
+  <span>
+    <img src="img/volum_over_time.png" width="500"/><br>
+    <em align="center">Figure 8a: Volume over time before forward filling</em>
+  </span>
+  <span>
+    <img src="img/volume_over_time_with_count.png" width="500"/><br>
+    <em align="center">Figure 8b: Volume over time with count</em>
+  </span>
 </p>
 
 <p>
   <img src="img/data_over_time.png" width="500"/><br>
-  <em align="center">Figure 3: Number of stock data over time.</em>
+  <em align="center">Figure 9: Number of stock data over time.</em>
 </p>
 
-<p>
-  <img src="img/open_over_time.png" width="500"/><br>
-  <em align="center">Figure 4: Open price over time</em>
-</p>
+In the initial analysis, we observed that the open, high, low, and close prices of the stocks were relatively similar in terms of their mean and average values (see Figures 4–8).
 
-<p>
-  <img src="img/high_over_time.png" width="500"/><br>
-  <em align="center">Figure 5: High price over time</em>
-</p>
-
-<p>
-  <img src="img/low_over_time.png" width="500"/><br>
-  <em align="center">Figure 6: Low price over time</em>
-</p>
-
-<p>
-  <img src="img/close_over_time.png" width="500"/><br>
-  <em align="center">Figure 7: Close price over time</em>
-</p>
-
-In the initial analysis, we observed that the open-, high-, low- and close price for the stocks were relative the same in terms of mean and average value.
-
-The initial summary statistics reveal two significant drops, around 1978 and 2010, which later stabilized.\
-However, when comparing the price trends with the number of recorded stock entries, we found that these drops were not caused by actual market movements but rather by missing data during those periods.\
-Since the model is trained on individual stocks rather than on aggregated averages, a drop in the total amount of data for a given day will not affect the model’s performance.
-
-We also observe a significant shift in stock prices around 2005. As illustrated in Figure 3, this aligns with a substantial increase in the number of recorded stocks from that period until 2017.\
-The correlation between the surge in available stock data and the change in price statistics suggests that the shift was primarily driven by the expansion of the dataset rather than by underlying market dynamics.
+We observe a massive increase in available stock data around 1970 and 2005 in Figure 9. The rise around 1970 follows the launch of NASDAQ, introducing electronic quotations, while the surge around 2005 reflects major data digitization and consolidation efforts.
 
 ### b. Identify missing values, outliers, and unique values in categorical columns.
 
-In Figure 2, we identify outliers such as extremely high values in the open, high, low, and close prices, as well as instances of negative low prices. <!-- using which method? -->
+We observe unusual fluctuations in the mean and median values across all price columns, correlating with changes in available stock data and missing values (see Figures 4–8). These anomalies will be addressed in the data cleaning process in the next section. In total, stock data was collected for 7,196 companies, of which 32 files were empty and therefore unusable.
 
-In total, the dataset contains stock data for 7196 different companies where 32 companies contain empty data and are therefore unusable.
+Boxplots for each column (Figure 10) reveal many high outliers, though they do not fully explain their causes. It is also important to note that market trends vary, and sharp drops do not always indicate unrealistic prices but can reflect real economic events, such as the 2008 financial crisis observed in Figures 4–8. This will be further examined in the handling outliers section.
 
-The unique values in categorial columns are the stock symbols, i.e., the identifiers for the different companies.
+The categorical columns contain unique stock symbols, serving as identifiers for each company (Figure 9).
+
+<p>
+  <img src="img/boxplots.png" width="500"/><br>
+  <em align="center">Figure 10: Boxplots for each column</em>
+</p>
+
+The unique values in categorial columns are the stock symbols, i.e., the identifiers for the different companies. See figure 11.
+
+<p>
+  <img src="img/unique_columns.png" width="500"/><br>
+  <em align="center">Figure 11: Unique values for each column</em>
+</p>
+
+In total, stock data was collected for 7195 companies. Of these, 32 files were empty and therefore unuasable. For the retrieved companies, the collected rows (date with given stock prices for a company) contained no missing data as you see in figure 12, but figure suggest that there might be some missing days of stock data. to handle this we used forward fill, excluding wewkends and market holidays. Filling inn with average value would be wrong since market could vary, so it is reasonable to fill in with the previous stock data. If there are missing stock data on monday, we forward fill with data from friday
+
+<p>
+  <img src="img/missing_values.png" width="500"/><br>
+  <em align="center">Figure 12: Missing values for each column</em>
+</p>
 
 ## 2. Data Cleaning
 
 ### a. Handling Missing Values
 
-The OpenInt column was consistently set to 0 across all records, so we will ignore it completely in further analysis.
+<p>
+<p style="display: flex; justify-content: center; gap: 20px; align-items: flex-start;">
+  <span>
+    <img src="img/open_over_time_after_filled.png" width="500"/><br>
+    <em align="center">Figure 13a: Open price over time after forward filling</em>
+  </span>
+  <span>
+    <img src="img/open_over_time_with_count_after_filled.png" width="500"/><br>
+    <em align="center">Figure 13b: Open price over time with count </em>
+  </span>
+</p>
 
-Regarding the 32 companies with empty data, they only represent a very small fraction of the total dataset, so we chose to exclude these companies from the analysis rather than attempting to manipulate their data since the successfully collected data contained no missing colums.
+<p style="display: flex; justify-content: center; gap: 20px; align-items: flex-start;">
+  <span>
+    <img src="img/high_over_time_after_filled.png" width="500"/><br>
+    <em align="center">Figure 14a: High price over time after forward filling</em>
+  </span>
+  <span>
+    <img src="img/high_over_time_with_count_after_filled.png" width="500"/><br>
+    <em align="center">Figure 14b: High price over time with count </em>
+  </span>
+</p>
+
+<p style="display: flex; justify-content: center; gap: 20px; align-items: flex-start;">
+  <span>
+    <img src="img/low_over_time_after_filled.png" width="500"/><br>
+    <em align="center">Figure 15a: Low price over time after forward filling</em>
+  </span>
+  <span>
+    <img src="img/low_over_time_with_count_after_filled.png" width="500"/><br>
+    <em align="center">Figure 15b: Low price over time with count </em>
+  </span>
+</p>
+
+<p style="display: flex; justify-content: center; gap: 20px; align-items: flex-start;">
+  <span>
+    <img src="img/close_over_time_after_filled.png" width="500"/><br>
+    <em align="center">Figure 15a: Close price over time after forward filling</em>
+  </span>
+  <span>
+    <img src="img/close_over_time_with_count_after_filled.png" width="500"/><br>
+    <em align="center">Figure 15b: Close price over time </em>
+  </span>
+</p>
+
+<p style="display: flex; justify-content: center; gap: 20px; align-items: flex-start;">
+  <span>
+    <img src="img/volume_over_time_after_filled.png" width="500"/><br>
+    <em align="center">Figure 16a: Volume over time after forward filling</em>
+  </span>
+  <span>
+    <img src="img/volume_over_time_with_count_after_filled.png" width="500"/><br>
+    <em align="center">Figure 16b: Volume over time with count </em>
+  </span>
+</p>
+
+After handling missing values, the fluctuations seen in Figures 4–8 are resolved, leaving only the major shifts around 1970 and 2005, which correlate with the previously discussed increases in available stock data.
+
+<p>
+  <img src="img/statistics_after_filled.png" width="600"/><br>
+  <em align="center">Figure 17: Statistics of dataset after forward-filling.</em>
+</p>
+
+<p>
+  <img src="img/boxplots.png" width="600"/><br>
+  <em align="center">Figure 18: Boxplots for each column after forward-filling</em>
+</p>
+
+Despite forward filling resolving the price fluctuations, outliers remain visible in Figures 17 and 18, which will be addressed in the next section.
 
 ### b. Choose appropriate methods to handle missing values (e.g., mean/median imputation for numerical data, mode imputation for categorical data, or deletion of rows/columns).
 
-We chose to ignore the 32 companies and therefore delete these records from the dataset and ignore the OpenInt completely.
+We ignore the 32 companies with empty stock data, drop the open interest column, and apply forward fill for missing values in price columns.
 
 ### c. Justify your choices for handling missing data.
 
-Given that the 32 companies with missing stock data represent a very small fraction of the total dataset, we chose to exclude them from the analysis rather than attempting to manipulate or reconstruct their data.\
-Moreover, we had no basis for generating replacement values, as the files were empty.\
-Furthermore, there was no reasonable basis for generating replacement values, as the corresponding files were entirely empty. The situation would have been different if only specific columns had been missing, in which case imputation methods could have been appropriately applied.\
-The OpenInt column consistently contained only zeros, making it non-informative. This column was therefore dropped entirely.
+The 32 companies represent a very small share of the dataset. The open interest column is excluded since it contains only zeros for all entries (see Figures 3 and 9), indicating no reported open contracts and adding no useful information for prediction while introducing unnecessary computation overhead. Forward fill is used because missing prices are most likely close to the previous trading day’s values, providing realistic continuity, while mean or median imputation would be inaccurate due to large price fluctuations over decades.
 
 ## 3. Handling Outliers
 
 ### a. Detect outliers using methods such as the IQR method or Z-score.
 
-We have decided to use the ***IQR / minimum maximum / Z-index*** method to detect and remove outliers. <!-- TBD-->
+We have decided to use the **_IQR / minimum maximum / Z-index_** method to detect and remove outliers.
 
-
+Detected outliers with boxplot which show many high outliers, but these figures dont give a lot of reason to why a data it an outlier, so this issue will be further explored in the next handlig outliers section
 
 ### b. Decide whether to remove, cap, or transform the outliers. Justify your decisions.
 
 ```py
+
 ```
-
-Outliers that are outside of known financial crises are removed, while outliers in know financial crises are transformed. <!-- to be determined, specify why -->
-
 
 ## 4. Data Transformation
 
@@ -139,54 +261,48 @@ Outliers that are outside of known financial crises are removed, while outliers 
 
 #### i. Apply label encoding or one-hot encoding to transform categorical data into numerical form.
 
+
+# TODO: Add figures with statistics of dataset and first few rows after label encoding, but outliers must be handled before applying these operations to the dataset
 <p>
-  <img src="img/apply_label_encoding.png" width="500"/><br>
-  <em align="center">Figure 8: Applying label encoding to the Symbol column</em>
+  <img src="img/" width="600"/><br>
+  <em align="center">Figure 19: Statistics of dataset after label encoding.</em>
 </p>
+
+<p>
+  <img src="img/" width="600"/><br>
+  <em align="center">Figure 20: First few rows of dataset after label encoding</em>
+</p>
+
+We applied label encoding to the symbol column. Since encoding starts from 0, the count in Figure 19 is 7162, despite there being 7163 unique companies.
 
 #### ii. Justify your choice of encoding method.
 
-With 7,162 unique companies, one-hot encoding would introduce 7,162 extra features, making the model unnecessarily complex.\
-Label encoding is thus more suitable in this case.
+With 7,162 unique companies, one-hot encoding would introduce 7,162 extra features, making the model unnecessarily complex. Label encoding is thus more suitable in this case, as it assigns each unique company a numeric value, reducing dimensionality while preserving category distinction.
 
 ### b. Feature Scaling
 
 #### i. Apply feature scaling techniques such as normalization (Min-Max scaling) or standardization (Z-score normalization) to the dataset.
 
-
+## TODO: Min-Max scaling!
 
 #### ii. Explain why feature scaling is necessary and how it impacts the model.
 
-Feature scaling is important because raw features often have very different ranges, and this can cause models to give more weight to features with larger values.\
-By scaling, we ensure that all features contribute equally, which improves fairness and accuracy.
+Feature scaling is important because raw features often have very different ranges, and this can cause models to give more weight to features with larger values. By scaling, we ensure that all features contribute equally, which improves fairness and accuracy.
 
 ## 5. Data Splitting
 
 ### a. Split the preprocessed dataset into training and testing sets. Typically, an 80-20 or 70-30 split is used.
 
-We choose to keep the opening price as the y value (the value that we're trying to predict).
-
-```py
-# Split into 80% training and 20% testing
-df_train, df_test = train_test_split(df_filled, test_size=0.2, random_state=42)
-
-print("Training set shape:", df_train.shape)
-print("Testing set shape:", df_test.shape)
-```
-**``Outputs:``**
-```
->>> Training set shape: (11910132, 7)
->>> Testing set shape: (2977533, 7)
-```
+## TODO: Split data into training and testing sets
 
 ### b. Explain the importance of splitting the data and how it prevents overfitting.
 
-Splitting the data allows the model to be trained on one set and evaluated on another, ensuring that performance is measured on unseen data.\
-The training set adjusts model parameters, while the test set checks generalization. This prevents overfitting by forcing the model to learn patterns instead of memorizing the training data.\
-A validation set is often used during training to tune hyperparameters and monitor performance.
-
+Splitting the data allows the model to be trained on one set and evaluated on another, ensuring that performance is measured on unseen data. The training set adjusts model parameters, while the test set checks generalization. This prevents overfitting by forcing the model to learn patterns instead of memorizing the training data. A validation set is often used during training to tune hyperparameters and monitor performance.
 
 ## 6. Apply dimensionality reduction techniques such as Principal Component Analysis (PCA) and discuss how it affects the dataset.
 
-```py
-```
+## TODO: Apply PCA?
+
+Applying Principal Component Analysis (PCA) to our stock dataset — which includes features such as Open, High, Low, Close, Volume, and OpenInt — helps reduce dimensionality by transforming the original correlated features into a smaller set of uncorrelated components. Since stock prices (Open, High, Low, Close) are often highly correlated, PCA captures most of their shared variance in the first few principal components.
+
+This dimensionality reduction simplifies the dataset while retaining the majority of the information. As a result, the model becomes less complex, less prone to multicollinearity, and easier to visualize. However, interpretability decreases since the new principal components are linear combinations of the original features rather than directly meaningful attributes like “Open” or “Close” price.
