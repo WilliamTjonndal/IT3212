@@ -1,6 +1,37 @@
 # IT3212 Assignment 1: Data Preprocessing
 
-<!-- Create a table of contents here) -->
+----------
+
+## Table of Contents
+
+1. [Data Exploration](#1-data-exploration)  
+   - [a. Explore the dataset](#a-explore-the-dataset-by-displaying-the-first-few-rows-summary-statistics-and-data-types-of-each-column)  
+   - [b. Identify missing values, outliers, and unique values](#b-identify-missing-values-outliers-and-unique-values-in-categorical-columns)
+
+2. [Data Cleaning](#2-data-cleaning)  
+   - [a. Handling Missing Values](#a-handling-missing-values)  
+   - [b. Methods to Handle Missing Values](#b-choose-appropriate-methods-to-handle-missing-values-eg-meanmedian-imputation-for-numerical-data-mode-imputation-for-categorical-data-or-deletion-of-rowscolumns)  
+   - [c. Justification for Handling Missing Data](#c-justify-your-choices-for-handling-missing-data)
+
+3. [Handling Outliers](#3-handling-outliers)  
+   - [a. Detecting Outliers](#a-detect-outliers-using-methods-such-as-the-iqr-method-or-z-score)  
+   - [b. Outlier Treatment and Justification](#b-decide-whether-to-remove-cap-or-transform-the-outliers-justify-your-decisions)
+
+4. [Data Transformation](#4-data-transformation)  
+   - [a. Encoding Categorical Data](#a-encoding-categorical-data)  
+     - [i. Apply encoding](#i-apply-label-encoding-or-one-hot-encoding-to-transform-categorical-data-into-numerical-form)  
+     - [ii. Justification of encoding method](#ii-justify-your-choice-of-encoding-method)  
+   - [b. Feature Scaling](#b-feature-scaling)  
+     - [i. Apply scaling technique](#i-apply-feature-scaling-techniques-such-as-normalization-min-max-scaling-or-standardization-z-score-normalization-to-the-dataset)  
+     - [ii. Importance of scaling](#ii-explain-why-feature-scaling-is-necessary-and-how-it-impacts-the-model)
+
+5. [Data Splitting](#5-data-splitting)  
+   - [a. Split into training/testing sets](#a-split-the-preprocessed-dataset-into-training-and-testing-sets-typically-an-80-20-or-70-30-split-is-used)  
+   - [b. Importance of data splitting](#b-explain-the-importance-of-splitting-the-data-and-how-it-prevents-overfitting)
+
+6. [Dimensionality Reduction](#6-apply-dimensionality-reduction-techniques-such-as-principal-component-analysis-pca-and-discuss-how-it-affects-the-dataset)
+
+----------
 
 ## 1. Data Exploration
 
