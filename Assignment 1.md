@@ -202,54 +202,51 @@ We preferred filling with the previous day's data instead of the next day's data
 ### a. Detect outliers using methods such as the IQR method or Z-score.
 
 <h1 style="color:green">
-TODO: Decide if this is the correct method to handle outliers: we use capping and IQR in the graphs below?
+TODO: Decide if this is the correct method to handle outliers: we use trimming and IQR in the graphs below
 </h1>
 
-<!-- talk more about how we used IQR (volatility etc)-->
-
-We have decided to use the IQR method to detect outliers.\
+We have decided to use the Interquartile Range (IQR) method to detect outliers.\
+We use rolling IQR with with a 2.5 multiplier.
 We also have a filter that detects any stocks with a price that is either negative, lower than $\$ 0.01$ or greater than $\$100,000$.\
 Finally, we consider all stocks with a volume of $0$ to be outliers.
 
-Below are same figures as before, but with IQR and capping applied to the dataset to remove outliers.
+Below are same figures as before, but with IQR and trimming applied to the dataset to remove outliers.
 
 <p align="center">
   <img src="img/open_iqr_cap.png" width="600"/><br>
-  <em>Figure 20: Open price over time after IQR and capping</em>
+  <em>Figure 20: Open price over time after IQR and trimming</em>
 </p>
 
 <p align="center">
   <img src="img/high_iqr_cap.png" width="600"/><br>
-  <em>Figure 21: High price over time after IQR and capping</em>
+  <em>Figure 21: High price over time after IQR and trimming</em>
 </p>
 
 <p align="center">
   <img src="img/low_iqr_cap.png" width="600"/><br>
-  <em>Figure 22: Low price over time after IQR and capping</em>
+  <em>Figure 22: Low price over time after IQR and trimming</em>
 </p>
 
 <p align="center">
   <img src="img/close_iqr_cap.png" width="600"/><br>
-  <em>Figure 23: Close price over time after IQR and capping</em>
+  <em>Figure 23: Close price over time after IQR and trimming</em>
 </p>
 
 <p align="center">
   <img src="img/volume_iqr_cap.png" width="600"/><br>
-  <em>Figure 24: Volume over time after IQR and capping</em>
+  <em>Figure 24: Volume over time after IQR and trimming</em>
 </p>
 
 ### b. Decide whether to remove, cap, or transform the outliers. Justify your decisions.
 
+<!-- talk more about how we used IQR or improve the text-->
+
 All fields where we detected outliers were removed.\
-We have chosen to do this because very have a very large data set, so we believe that removing such outliers is not a problem.\
+We have chosen to do this because very have a very large data set, since we believe that removing outliers without affecting the quality of the data is not a problem.\
 IQR is chosen because it is robust to non-normal distributions, as
-stock price data often is not normally distributed—it can be skewed.\
-It also captures local volatility better than Z-index especially for time series.
-
-
-<!-- Customizable for volatility:
-You’re already using 2.5 * IQR, which gives you control over sensitivity. This can be fine-tuned based on how volatile the asset class is -->
-
+stock price data often is not normally distributed - it can be skewed.\
+It also captures local volatility and adapts to the changing scale of each stock's price and trading behavior over time.\
+Finally, rolling IQR handles temporal fluctuations more effectively than global methods like Z-scores, which may flag valid price jumps as outliers.
 
 ## 4. Data Transformation
 
