@@ -54,7 +54,7 @@ We have chosen the Stock market dataset. The dataset contains contains the follo
 - `Symbol`: Stock symbol, abbreviation used to identify a stock (string)
 
 <p>
-  <img src="img/datatypes.png" width="600"/><br>
+  <img src="img/datatypes.png" width="400"/><br>
   <em>Figure 1: Data types for each column</em>
 </p>
 
@@ -123,14 +123,14 @@ The categorical columns contain unique stock symbols, serving as identifiers for
 The unique values in categorial columns are the stock symbols, i.e., the identifiers for the different companies. See figure 11.
 
 <p>
-  <img src="img/unique_columns.png" width="500"/><br>
+  <img src="img/unique_columns.png" width="400"/><br>
   <em align="center">Figure 11: Unique values for each column</em>
 </p>
 
 In total, stock data was collected for 7195 companies. Of these, 32 files were empty and therefore unuasable. For the retrieved companies, the collected rows (date with given stock prices for a company) contained no missing data as you see in figure 12, but figure suggest that there might be some missing days of stock data. to handle this we used forward fill, excluding wewkends and market holidays. Filling inn with average value would be wrong since market could vary, so it is reasonable to fill in with the previous stock data. If there are missing stock data on monday, we forward fill with data from friday
 
 <p>
-  <img src="img/missing_values.png" width="500"/><br>
+  <img src="img/missing_values.png" width="400"/><br>
   <em align="center">Figure 12: Missing values for each column</em>
 </p>
 
