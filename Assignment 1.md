@@ -53,54 +53,54 @@ We have chosen the Stock market dataset. The dataset contains contains the follo
 - `OpenInt`: Open contract, number of stocks that are still open to be traded on that date (integer)
 - `Symbol`: Stock symbol, abbreviation used to identify a stock (string)
 
-<p>
-  <img src="img/datatypes.png" width="400"/><br>
+<p align="center">
+  <img src="img/datatypes.png" width="200"/><br>
   <em>Figure 1: Data types for each column</em>
 </p>
 
-<p>
+<p align="center">
   <img src="img/first_few_rows.png" width="600"/><br>
   <em>Figure 2: First few rows of the dataset</em>
 </p>
 
-<p>
+<p align="center">
   <img src="img/initial_statistics.png" width="600"/><br>
   <em>Figure 3: Initial statistics of the dataset</em>
 </p>
 
-<div align="center">
+<p align="center">
   <img src="img/open_over_time.png" width="500"/>
   <img src="img/open_over_time_with_count.png" width="500"/><br>
   <em>Figure 4a: Open price over time before forward filling  Figure 4b: Open price over time with count</em>
-</div>
+</p>
 
-<div align="center">
+<p align="center">
   <img src="img/high_over_time.png" width="500"/>
   <img src="img/high_over_time_with_count.png" width="500"/><br>
   <em>Figure 5a: High price over time before forward filling  Figure 5b: High price over time with count</em>
-</div>
+</p>
 
-<div align="center">
+<p align="center">
   <img src="img/low_over_time.png" width="500"/>
   <img src="img/low_over_time_with_count.png" width="500"/><br>
   <em>Figure 6a: Low price over time before forward filling  Figure 6b: Low price over time with count</em>
-</div>
+</p>
 
-<div align="center">
+<p align="center">
   <img src="img/close_over_time.png" width="500"/>
   <img src="img/close_over_time_with_count.png" width="500"/><br>
   <em>Figure 7a: Close price over time before forward filling  Figure 7b: Close price over time with count</em>
-</div>
+</p>
 
-<div align="center">
+<p align="center">
   <img src="img/volum_over_time.png" width="500"/>
   <img src="img/volume_over_time_with_count.png" width="500"/><br>
   <em>Figure 8a: Volume over time before forward filling  Figure 8b: Volume over time with count</em>
-</div>
+</p>
 
-<p>
+<p align="center">
   <img src="img/data_over_time.png" width="500"/><br>
-  <em align="center">Figure 9: Number of stock data over time.</em>
+  <em>Figure 9: Number of stock data over time.</em>
 </p>
 
 In the initial analysis, we observed that the open, high, low, and close prices of the stocks were relatively similar in terms of their mean and average values (see Figures 4–8).
@@ -115,70 +115,70 @@ Boxplots for each column (Figure 10) reveal many high outliers, though they do n
 
 The categorical columns contain unique stock symbols, serving as identifiers for each company (Figure 9).
 
-<p>
+<p align="center">
   <img src="img/boxplots.png" width="500"/><br>
-  <em align="center">Figure 10: Boxplots for each column</em>
+  <em>Figure 10: Boxplots for each column</em>
 </p>
 
 The unique values in categorial columns are the stock symbols, i.e., the identifiers for the different companies. See figure 11.
 
-<p>
+<p align="center">
   <img src="img/unique_columns.png" width="400"/><br>
-  <em align="center">Figure 11: Unique values for each column</em>
+  <em>Figure 11: Unique values for each column</em>
 </p>
 
 In total, stock data was collected for 7195 companies. Of these, 32 files were empty and therefore unuasable. For the retrieved companies, the collected rows (date with given stock prices for a company) contained no missing data as you see in figure 12, but figure suggest that there might be some missing days of stock data. to handle this we used forward fill, excluding wewkends and market holidays. Filling inn with average value would be wrong since market could vary, so it is reasonable to fill in with the previous stock data. If there are missing stock data on monday, we forward fill with data from friday
 
-<p>
+<p align="center">
   <img src="img/missing_values.png" width="400"/><br>
-  <em align="center">Figure 12: Missing values for each column</em>
+  <em>Figure 12: Missing values for each column</em>
 </p>
 
 ## 2. Data Cleaning
 
 ### a. Handling Missing Values
 
-<div align="center">
+<p align="center">
   <img src="img/open_over_time_after_filled.png" width="500"/>
   <img src="img/open_over_time_with_count_after_filled.png" width="500"/><br>
   <em>Figure 13a: Open price over time after forward filling  Figure 13b: Open price over time with count</em>
-</div>
+</p>
 
-<div align="center">
+<p align="center">
   <img src="img/high_over_time_after_filled.png" width="500"/>
   <img src="img/high_over_time_with_count_after_filled.png" width="500"/><br>
   <em>Figure 14a: High price over time after forward filling  Figure 14b: High price over time with count</em>
-</div>
+</p>
 
-<div align="center">
+<p align="center">
   <img src="img/low_over_time_after_filled.png" width="500"/>
   <img src="img/low_over_time_with_count_after_filled.png" width="500"/><br>
   <em>Figure 15a: Low price over time after forward filling  Figure 15b: Low price over time with count</em>
-</div>
+</p>
 
-<div align="center">
+<p align="center">
   <img src="img/close_over_time_after_filled.png" width="500"/>
   <img src="img/close_over_time_with_count_after_filled.png" width="500"/><br>
   <em>Figure 16a: Close price over time after forward filling  Figure 16b: Close price over time with count</em>
-</div>
+</p>
 
-<div align="center">
+<p align="center">
   <img src="img/volume_over_time_after_filled.png" width="500"/>
   <img src="img/volume_over_time_with_count_after_filled.png" width="500"/><br>
   <em>Figure 17a: Volume over time after forward filling  Figure 17b: Volume over time with count</em>
-</div>
+</p>
 
 
 After handling missing values, the fluctuations seen in Figures 4–8 are resolved, leaving only the major shifts around 1970 and 2005, which correlate with the previously discussed increases in available stock data.
 
-<p>
+<p align="center">
   <img src="img/statistics_after_filled.png" width="600"/><br>
-  <em align="center">Figure 17: Statistics of dataset after forward-filling.</em>
+  <em>Figure 17: Statistics of dataset after forward-filling.</em>
 </p>
 
 <p>
   <img src="img/boxplots.png" width="600"/><br>
-  <em align="center">Figure 18: Boxplots for each column after forward-filling</em>
+  <em>Figure 18: Boxplots for each column after forward-filling</em>
 </p>
 
 Despite forward filling resolving the price fluctuations, outliers remain visible in Figures 17 and 18, which will be addressed in the next section.
@@ -213,14 +213,14 @@ Detected outliers with boxplot which show many high outliers, but these figures 
 
 
 # TODO: Add figures with statistics of dataset and first few rows after label encoding, but outliers must be handled before applying these operations to the dataset
-<p>
+<p align="center">
   <img src="img/" width="600"/><br>
-  <em align="center">Figure 19: Statistics of dataset after label encoding.</em>
+  <em>Figure 19: Statistics of dataset after label encoding.</em>
 </p>
 
-<p>
+<p align="center">
   <img src="img/" width="600"/><br>
-  <em align="center">Figure 20: First few rows of dataset after label encoding</em>
+  <em>Figure 20: First few rows of dataset after label encoding</em>
 </p>
 
 We applied label encoding to the symbol column. Since encoding starts from 0, the count in Figure 19 is 7162, despite there being 7163 unique companies.
