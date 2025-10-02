@@ -63,57 +63,57 @@ We have chosen the Stock market dataset. The dataset contains contains the follo
   <em>Figure 2: First few rows of the dataset</em>
 </p>
 
+Below are a few figures describing some summary statistics of the dataset.
+
 <p align="center">
   <img src="img/initial_statistics.png" width="600"/><br>
   <em>Figure 3: Initial statistics of the dataset</em>
 </p>
 
+In the initial analysis, we observed that the open, high, low, and close prices of the stocks were relatively similar in terms of their mean and average values (see Figures 4–8).
+
 <p align="center">
-  <img src="img/open_over_time.png" width="500"/>
   <img src="img/open_over_time_with_count.png" width="500"/><br>
-  <em>Figure 4a: Open price over time before forward filling  Figure 4b: Open price over time with count</em>
+  <em> Figure 4: Open price over time before forward filling with count</em>
 </p>
 
 <p align="center">
-  <img src="img/high_over_time.png" width="500"/>
   <img src="img/high_over_time_with_count.png" width="500"/><br>
-  <em>Figure 5a: High price over time before forward filling  Figure 5b: High price over time with count</em>
+  <em>Figure 5: High price over time before forward filling with  count</em>
 </p>
 
 <p align="center">
-  <img src="img/low_over_time.png" width="500"/>
   <img src="img/low_over_time_with_count.png" width="500"/><br>
-  <em>Figure 6a: Low price over time before forward filling  Figure 6b: Low price over time with count</em>
+  <em>Figure 6: Low price over time before forward filling with count</em>
 </p>
 
 <p align="center">
-  <img src="img/close_over_time.png" width="500"/>
   <img src="img/close_over_time_with_count.png" width="500"/><br>
-  <em>Figure 7a: Close price over time before forward filling  Figure 7b: Close price over time with count</em>
+  <em>Figure 7: Close price over time before forward filling with count</em>
 </p>
 
 <p align="center">
-  <img src="img/volum_over_time.png" width="500"/>
   <img src="img/volume_over_time_with_count.png" width="500"/><br>
-  <em>Figure 8a: Volume over time before forward filling  Figure 8b: Volume over time with count</em>
+  <em>Figure 8: Volume over time before forward filling with count</em>
 </p>
+
+We observe a massive increase in available stock data around 1970 and 2005 in Figure 9.\
+The rise around 1970 follows the launch of NASDAQ, introducing electronic quotations, while the surge around 2005 reflects major data digitization and consolidation efforts.
 
 <p align="center">
   <img src="img/data_over_time.png" width="500"/><br>
-  <em>Figure 9: Number of stock data over time.</em>
+  <em>Figure 9: Number of stock data over time</em>
 </p>
-
-In the initial analysis, we observed that the open, high, low, and close prices of the stocks were relatively similar in terms of their mean and average values (see Figures 4–8).
-
-We observe a massive increase in available stock data around 1970 and 2005 in Figure 9. The rise around 1970 follows the launch of NASDAQ, introducing electronic quotations, while the surge around 2005 reflects major data digitization and consolidation efforts.
 
 ### b. Identify missing values, outliers, and unique values in categorical columns.
 
-We observe unusual fluctuations in the mean and median values across all price columns, correlating with changes in available stock data and missing values (see Figures 4–8). These anomalies will be addressed in the data cleaning process in the next section. In total, stock data was collected for 7,196 companies, of which 32 files were empty and therefore unusable.
+We observe unusual fluctuations in the mean and median values across all price columns, correlating with changes in available stock data and missing values (see Figures 4–8).\
+These anomalies will be addressed in the data cleaning process in the next section.\
+In total, stock data was collected for 7,196 companies, of which 32 files were empty and therefore unusable.
 
-Boxplots for each column (Figure 10) reveal many high outliers, though they do not fully explain their causes. It is also important to note that market trends vary, and sharp drops do not always indicate unrealistic prices but can reflect real economic events, such as the 2008 financial crisis observed in Figures 4–8. This will be further examined in the handling outliers section.
-
-The categorical columns contain unique stock symbols, serving as identifiers for each company (Figure 9).
+Boxplots for each column (Figure 10) reveal many high outliers, though they do not fully explain their causes.\
+It is also important to note that market trends vary, and sharp drops do not always indicate unrealistic prices but can reflect real economic events, such as the 2008 financial crisis observed in Figures 4–8.\
+This will be further examined in the handling outliers section.
 
 <p align="center">
   <img src="img/boxplots.png" width="500"/><br>
@@ -123,14 +123,18 @@ The categorical columns contain unique stock symbols, serving as identifiers for
 The unique values in categorial columns are the stock symbols, i.e., the identifiers for the different companies. See figure 11.
 
 <p align="center">
-  <img src="img/unique_columns.png" width="400"/><br>
+  <img src="img/unique_columns.png" width="200"/><br>
   <em>Figure 11: Unique values for each column</em>
 </p>
 
-In total, stock data was collected for 7195 companies. Of these, 32 files were empty and therefore unuasable. For the retrieved companies, the collected rows (date with given stock prices for a company) contained no missing data as you see in figure 12, but figure suggest that there might be some missing days of stock data. to handle this we used forward fill, excluding wewkends and market holidays. Filling inn with average value would be wrong since market could vary, so it is reasonable to fill in with the previous stock data. If there are missing stock data on monday, we forward fill with data from friday
+In total, stock data was collected for 7195 companies. Of these, 32 files were empty and therefore unusable.\
+For the retrieved companies, the collected rows (date with given stock prices for a company) contained no missing data as shown in figure 12, but figures 4-8 suggest that there might be some missing days of stock data.\
+To handle this we will use forward fill and exclude weekends and market holidays.\
+Filling inn with average values would be wrong since the market could vary, so it is reasonable to fill in with the previous stock data.\
+If there are missing stock data on Monday, we forward fill with data from Friday.
 
 <p align="center">
-  <img src="img/missing_values.png" width="400"/><br>
+  <img src="img/missing_values.png" width="200"/><br>
   <em>Figure 12: Missing values for each column</em>
 </p>
 
@@ -166,8 +170,7 @@ In total, stock data was collected for 7195 companies. Of these, 32 files were e
   <img src="img/volume_over_time_after_filled.png" width="500"/>
   <img src="img/volume_over_time_with_count_after_filled.png" width="500"/><br>
   <em>Figure 17a: Volume over time after forward filling  Figure 17b: Volume over time with count</em>
-</p>
-
+</p
 
 After handling missing values, the fluctuations seen in Figures 4–8 are resolved, leaving only the major shifts around 1970 and 2005, which correlate with the previously discussed increases in available stock data.
 
