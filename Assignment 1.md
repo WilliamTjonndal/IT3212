@@ -1,7 +1,5 @@
 # IT3212 Assignment 1: Data Preprocessing
 
----
-
 ## Table of Contents
 
 1. [Data Exploration](#1-data-exploration)
@@ -36,8 +34,6 @@
 
 6. [Dimensionality Reduction](#6-apply-dimensionality-reduction-techniques-such-as-principal-component-analysis-pca-and-discuss-how-it-affects-the-dataset)
 
----
-
 ## 1. Data Exploration
 
 ### a. Explore the dataset by displaying the first few rows, summary statistics, and data types of each column.
@@ -70,57 +66,57 @@ Below are a few figures describing some summary statistics of the dataset.
   <em>Figure 3: Initial statistics of the dataset</em>
 </p>
 
-In the initial analysis, we observed that the open, high, low, and close prices of the stocks were relatively similar in terms of their mean and average values (see Figures 4–8).
+The initial summary statistics also revealed several sudden significant changes in mean and median price.
 
 <p align="center">
   <img src="img/open_over_time_with_count.png" width="500"/><br>
-  <em> Figure 4: Open price over time before forward filling with count</em>
+  <em> Figure 4: Open price over time</em>
 </p>
 
 <p align="center">
   <img src="img/high_over_time_with_count.png" width="500"/><br>
-  <em>Figure 5: High price over time before forward filling with  count</em>
+  <em>Figure 5: High price over time</em>
 </p>
 
 <p align="center">
   <img src="img/low_over_time_with_count.png" width="500"/><br>
-  <em>Figure 6: Low price over time before forward filling with count</em>
+  <em>Figure 6: Low price over time</em>
 </p>
 
 <p align="center">
   <img src="img/close_over_time_with_count.png" width="500"/><br>
-  <em>Figure 7: Close price over time before forward filling with count</em>
+  <em>Figure 7: Close price over time</em>
 </p>
 
 <p align="center">
   <img src="img/volume_over_time_with_count.png" width="500"/><br>
-  <em>Figure 8: Volume over time before forward filling with count</em>
+  <em>Figure 8: Volume over time</em>
 </p>
 
-We observe a massive increase in available stock data around 1970 and 2005 in Figure 9.\
-The rise around 1970 follows the launch of NASDAQ, introducing electronic quotations, while the surge around 2005 reflects major data digitization and consolidation efforts.
+### b. Identify missing values, outliers, and unique values in categorical columns.
+
+When comparing the price trends with the number of recorded stock entries, we found that these drops were not caused by actual market movements but rather by missing data during those periods.
+
+In the initial analysis, we observed that the open, high, low, and close prices of the stocks were relatively similar in terms of their mean and average values (see Figures 4–8).
+
+We also observed a significant shift in stock prices around 1970 and 2005. As illustrated in Figure 9, this aligns with substantial increases in the number of recorded stocks.\
+The correlation between the surge in available stock data (Visualized by the dotted green count line) and the change in price statistics suggests that the shift was primarily driven by the expansion of the dataset rather than by underlying market dynamics.
 
 <p align="center">
   <img src="img/data_over_time.png" width="500"/><br>
   <em>Figure 9: Number of stock data points over time</em>
 </p>
 
-### b. Identify missing values, outliers, and unique values in categorical columns.
-
-We observe unusual fluctuations in the mean and median values across all price columns, correlating with changes in available stock data and missing values (see Figures 4–8).\
-These anomalies will be addressed in the data cleaning process in the next section.\
-In total, stock data was collected for 7,196 companies, of which 32 files were empty and therefore unusable.
-
 Boxplots for each column (Figure 10) reveal many high outliers, though they do not fully explain their causes.\
-It is also important to note that market trends vary, and sharp drops do not always indicate unrealistic prices but can reflect real economic events, such as the 2008 financial crisis observed in Figures 4–8.\
-This will be further examined in the handling outliers section.
+It is also important to note that market trends vary, and sharp drops do not always indicate unrealistic prices but can reflect real economic events, such as the 2008 financial crisis observed in Figures 4–8.
 
 <p align="center">
   <img src="img/boxplots.png" width="500"/><br>
   <em>Figure 10: Boxplots for each column</em>
 </p>
 
-The unique values in categorial columns are the stock symbols, i.e., the identifiers for the different companies. See figure 11.
+The unique values in categorial columns are the stock symbols, i.e., the identifiers for the different companies. See figure 11.\
+The OpenInt column has the value 0 for every row.
 
 <p align="center">
   <img src="img/unique_columns.png" width="200"/><br>
@@ -128,82 +124,96 @@ The unique values in categorial columns are the stock symbols, i.e., the identif
 </p>
 
 In total, stock data was collected for 7195 companies. Of these, 32 files were empty and therefore unusable.\
-For the retrieved companies, the collected rows (date with given stock prices for a company) contained no missing data as shown in figure 12, but figures 4-8 suggest that there might be some missing days of stock data.\
-To handle this we will use forward fill and exclude weekends and market holidays.\
-Filling inn with average values would be wrong since the market could vary, so it is reasonable to fill in with the previous stock data.\
-If there are missing stock data on Monday, we forward fill with data from Friday.
+For the retrieved companies, the collected rows (date with given stock prices for a company) contained no missing data as shown in figure 12, but figures 4-8 suggest that there might be some missing days of stock data.
 
 <p align="center">
   <img src="img/missing_values.png" width="200"/><br>
   <em>Figure 12: Missing values for each column</em>
 </p>
 
+The dataset also contains some cells with negative values, this will be treated as invalid data as the price of a stock can't be below 0.
+
 ## 2. Data Cleaning
 
 ### a. Handling Missing Values
 
+Below are the same figures as in Task 1, but now with forward-filling applied to the dataset.
+
 <p align="center">
   <img src="img/open_over_time_with_count_after_filled.png" width="500"/><br>
-  <em>Figure 13: Open price over time after forward filling</em>
+  <em>Figure 13: Open price over time after forward-filling</em>
 </p>
 
 <p align="center">
   <img src="img/high_over_time_with_count_after_filled.png" width="500"/><br>
-  <em>Figure 14: High price over time after forward filling</em>
+  <em>Figure 14: High price over time after forward-filling</em>
 </p>
 
 <p align="center">
   <img src="img/low_over_time_with_count_after_filled.png" width="500"/><br>
-  <em>Figure 15: Low price over time after forward filling</em>
+  <em>Figure 15: Low price over time after forward-filling</em>
 </p>
 
 <p align="center">
   <img src="img/close_over_time_with_count_after_filled.png" width="500"/><br>
-  <em>Figure 16: Close price over time after forward filling</em>
+  <em>Figure 16: Close price over time after forward-filling</em>
 </p>
 
 <p align="center">
   <img src="img/volume_over_time_with_count_after_filled.png" width="500"/><br>
-  <em>Figure 17: Volume over time after forward filling</em>
+  <em>Figure 17: Volume over time after forward-filling</em>
 </p
 
 After handling missing values, the fluctuations seen in Figures 4–8 are resolved, leaving only the major shifts around 1970 and 2005, which correlate with the previously discussed increases in available stock data.
 
 <p align="center">
   <img src="img/statistics_after_filled.png" width="500"/><br>
-  <em>Figure 17: Statistics of the dataset after forward-filling</em>
+  <em>Figure 18: Statistics of the dataset after forward-filling</em>
 </p>
+
+Despite forward-filling resolving the price fluctuations, outliers remain visible (Figure 19).
 
 <p align="center">
   <img src="img/boxplots.png" width="500"/><br>
-  <em>Figure 18: Boxplots for each column after forward-filling</em>
+  <em>Figure 19: Boxplots for each column after forward-filling</em>
 </p>
-
-Despite forward filling resolving the price fluctuations, outliers remain visible in Figures 17 and 18, which will be addressed in the next section.
 
 ### b. Choose appropriate methods to handle missing values (e.g., mean/median imputation for numerical data, mode imputation for categorical data, or deletion of rows/columns).
 
-We ignore the 32 companies with empty stock data, dropped the open interest column, and apply forward fill for missing values in price columns.
+As stated above, we used forward-fill to handle missing values.\
+Filling in with average values would be wrong since the market could vary, so it is reasonable to fill in with the previous stock data.\
+If there are missing stock data on Monday, we forward-fill with data from Friday.
+
+We also decided to exclude weekends and market holidays.
+
+The OpenInt column was completely dropped.
+
+We ignore the 32 companies with empty stock data, dropped the open interest column, and apply forward-fill for missing values in price columns.
 
 ### c. Justify your choices for handling missing data.
 
-The 32 companies represent a very small share of the dataset.\
+The 32 companies represent a very small share of the dataset. We chose to ignore these companies to avoid creating stock data with nothing to base it on.\
 The open interest column is excluded since it contains only zeros for all entries (see Figures 2 and 3), indicating no reported open contracts and adding no useful information for prediction while introducing unnecessary computation overhead.\
-Forward fill is used because missing prices are most likely close to the previous trading days' values, providing realistic continuity, while mean or median imputation would be inaccurate due to large price fluctuations over decades.
+Forward-fill is used because missing prices are more likely close to the previous day's data rather than to mean or median price.\
+We preferred filling with the previous day's data instead of the next day's data as otherwise that would fill our dataset using the knowledge of future prices.
 
 ## 3. Handling Outliers
 
 ### a. Detect outliers using methods such as the IQR method or Z-score.
 
-We have decided to use the **_IQR / minimum maximum / Z-index_** method to detect and remove outliers.
+<h1 style="color:green">
+TODO: Decide if this is the correct method to handle outliers, maybe cap instead of ffill?
+</h1>
 
-Detected outliers with boxplot which show many high outliers, but these figures dont give a lot of reason to why a data it an outlier, so this issue will be further explored in the next handlig outliers section
+We have decided to use the Z-score method to detect outliers.\
+We mark absolute Z-scores over 4 as outliers, which is higher than the usual threshold of 3 for Z-score.\
+This is because stock data is much more volatile than usual forms of data, meaning values with high Z-scores can still be seen as not being outliers. 
 
 ### b. Decide whether to remove, cap, or transform the outliers. Justify your decisions.
 
-```py
-
-```
+All fields where we detected outliers was set to the same value as the previous day.\
+This is the method we used for filling missing data previously, and we chose to keep using it here.\
+We decided to use the same method here to have consistency in our handling of missing values/outliers.
 
 ## 4. Data Transformation
 
@@ -211,18 +221,28 @@ Detected outliers with boxplot which show many high outliers, but these figures 
 
 #### i. Apply label encoding or one-hot encoding to transform categorical data into numerical form.
 
+<h1 style="color:green">
+TODO: Add figures with statistics of dataset and first few rows after label encoding, but outliers must be handled before applying these operations to the dataset
+</h1>
 
-# TODO: Add figures with statistics of dataset and first few rows after label encoding, but outliers must be handled before applying these operations to the dataset
+<!-- alternatively fig caption: Applying label encoding to the Symbol column-->
+
 <p align="center">
   <img src="img/" width="600"/><br>
-  <em>Figure 19: Statistics of dataset after label encoding.</em>
+  <em>Figure 20: Statistics of dataset after label encoding.</em>
 </p>
 
 <p align="center">
   <img src="img/" width="600"/><br>
-  <em>Figure 20: First few rows of dataset after label encoding</em>
+  <em>Figure 21: First few rows of dataset after label encoding</em>
 </p>
 
+
+<h1 style="color:green">
+TODO finn ut om det under her er bra
+</h1>
+
+We chose to label encode the symbol column, setting an integer to replace every unique value of symbol in the dataset.\
 We applied label encoding to the symbol column. Since encoding starts from 0, the count in Figure 19 is 7162, despite there being 7163 unique companies.
 
 #### ii. Justify your choice of encoding method.
@@ -233,26 +253,63 @@ With 7,162 unique companies, one-hot encoding would introduce 7,162 extra featur
 
 #### i. Apply feature scaling techniques such as normalization (Min-Max scaling) or standardization (Z-score normalization) to the dataset.
 
-## TODO: Min-Max scaling!
+<h1 style="color:green">
+TODO: Min-Max scaling!
+</h1>
+
+We decided to use Min-Max normalization to scale the dataset.\
+The scaling was only used on the columns that have ordinal data, meaning values have a meaningful order.\
+These columns are Open price, High price, Low price, Close price, and Volume.
+
+Min-Max was chosen instead of other scaling techniques, as the result of Min-Max scaling gives an intuitive understanding of the output.\
+What you can tell from the result of Min-Max scaling is what percentage from the minimum value to the maximum value a give datapoint is.\
+This is preferred over Z-score normalization, as we felt we don't have an intuitive understanding of it in the context of stock data.
 
 #### ii. Explain why feature scaling is necessary and how it impacts the model.
 
-Feature scaling is important because raw features often have very different ranges, and this can cause models to give more weight to features with larger values. By scaling, we ensure that all features contribute equally, which improves fairness and accuracy.
+Feature scaling is important because raw features often have very different ranges, and this can cause models to give more weight to features with larger values.\
+By scaling, we ensure that all features contribute equally, which improves fairness and accuracy.
 
 ## 5. Data Splitting
 
 ### a. Split the preprocessed dataset into training and testing sets. Typically, an 80-20 or 70-30 split is used.
 
+<h1 style="color:green">
+# TODO: Split chronologically
+</h1>
+
+We split the dataset into a training and testing dataset using an 80-20 split. Instead of splitting the dataset randomly, we choose to use the chronologically last 20% of the dataset as testing data. This avoids data leakage, as the model isn't trained on events and values that aren't available at the time of the prediction.
+
+When training the model, we would prefer using chronological splits with rolling validation, as this method would mean most of the training data could be used for both validation and training without data leakage.
+
+<h1 style="color:green">
 ## TODO: Split data into training and testing sets
+</h1>
 
 ### b. Explain the importance of splitting the data and how it prevents overfitting.
 
-Splitting the data allows the model to be trained on one set and evaluated on another, ensuring that performance is measured on unseen data. The training set adjusts model parameters, while the test set checks generalization. This prevents overfitting by forcing the model to learn patterns instead of memorizing the training data. A validation set is often used during training to tune hyperparameters and monitor performance.
+Splitting the data allows the model to be trained on one set and evaluated on another, ensuring that performance is measured on unseen data.\
+The training set adjusts model parameters, while the test set checks generalization. This prevents overfitting by forcing the model to learn patterns instead of memorizing the training data.\
+A validation set is often used during training to tune hyperparameters and monitor performance.
 
 ## 6. Apply dimensionality reduction techniques such as Principal Component Analysis (PCA) and discuss how it affects the dataset.
 
-## TODO: Apply PCA?
+<h1 style="color:green">
+TODO: Apply PCA? and choose explanation below
+</h1>
+
+<!-- the two paragraphs below seem to be AI generated, rewrite?-->
 
 Applying Principal Component Analysis (PCA) to our stock dataset — which includes features such as Open, High, Low, Close, Volume, and OpenInt — helps reduce dimensionality by transforming the original correlated features into a smaller set of uncorrelated components. Since stock prices (Open, High, Low, Close) are often highly correlated, PCA captures most of their shared variance in the first few principal components.
 
 This dimensionality reduction simplifies the dataset while retaining the majority of the information. As a result, the model becomes less complex, less prone to multicollinearity, and easier to visualize. However, interpretability decreases since the new principal components are linear combinations of the original features rather than directly meaningful attributes like “Open” or “Close” price.
+
+<h1 style="color:green">
+TODO improve explanation?
+</h1>
+
+<!-- possibly human written?-->
+
+Applying dimensionality reduction using PCA changes the dimensions of the dataset by replacing columns with a smaller number of new features. The effect is the reduction of dimensions, which can speed up model training and remove features that aren't valuable for training.
+
+There are also problems with dimensionality reduction. One is that it makes the features in the data less intuitively understood, making it hard to understand the dataset and interpret predictions. Dimensionality reduction also loses some information, which might be valuable to training the model.
