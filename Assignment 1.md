@@ -202,18 +202,54 @@ We preferred filling with the previous day's data instead of the next day's data
 ### a. Detect outliers using methods such as the IQR method or Z-score.
 
 <h1 style="color:green">
-TODO: Decide if this is the correct method to handle outliers, maybe cap instead of ffill?
+TODO: Decide if this is the correct method to handle outliers: we use capping and IQR in the graphs below?
 </h1>
 
-We have decided to use the Z-score method to detect outliers.\
-We mark absolute Z-scores over 4 as outliers, which is higher than the usual threshold of 3 for Z-score.\
-This is because stock data is much more volatile than usual forms of data, meaning values with high Z-scores can still be seen as not being outliers. 
+<!-- talk more about how we used IQR (volatility etc)-->
+
+We have decided to use the IQR method to detect outliers.\
+We also have a filter that detects any stocks with a price that is either negative, lower than $\$ 0.01$ or greater than $\$100,000$.\
+Finally, we consider all stocks with a volume of $0$ to be outliers.
+
+Below are same figures as before, but with IQR and capping applied to the dataset to remove outliers.
+
+<p align="center">
+  <img src="img/open_iqr_cap.png" width="600"/><br>
+  <em>Figure 20: Open price over time after IQR and capping</em>
+</p>
+
+<p align="center">
+  <img src="img/high_iqr_cap.png" width="600"/><br>
+  <em>Figure 21: High price over time after IQR and capping</em>
+</p>
+
+<p align="center">
+  <img src="img/low_iqr_cap.png" width="600"/><br>
+  <em>Figure 22: Low price over time after IQR and capping</em>
+</p>
+
+<p align="center">
+  <img src="img/close_iqr_cap.png" width="600"/><br>
+  <em>Figure 23: Close price over time after IQR and capping</em>
+</p>
+
+<p align="center">
+  <img src="img/volume_iqr_cap.png" width="600"/><br>
+  <em>Figure 24: Volume over time after IQR and capping</em>
+</p>
 
 ### b. Decide whether to remove, cap, or transform the outliers. Justify your decisions.
 
-All fields where we detected outliers was set to the same value as the previous day.\
-This is the method we used for filling missing data previously, and we chose to keep using it here.\
-We decided to use the same method here to have consistency in our handling of missing values/outliers.
+All fields where we detected outliers were removed.\
+We have chosen to do this because very have a very large data set, so we believe that removing such outliers is not a problem.\
+IQR is chosen because it is robust to non-normal distributions, as
+stock price data often is not normally distributed—it can be skewed.\
+It also captures local volatility better than Z-index especially for time series.
+
+
+<!-- Customizable for volatility:
+You’re already using 2.5 * IQR, which gives you control over sensitivity. This can be fine-tuned based on how volatile the asset class is -->
+
 
 ## 4. Data Transformation
 
