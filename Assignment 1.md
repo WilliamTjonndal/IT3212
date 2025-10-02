@@ -102,7 +102,7 @@ The rise around 1970 follows the launch of NASDAQ, introducing electronic quotat
 
 <p align="center">
   <img src="img/data_over_time.png" width="500"/><br>
-  <em>Figure 9: Number of stock data over time</em>
+  <em>Figure 9: Number of stock data points over time</em>
 </p>
 
 ### b. Identify missing values, outliers, and unique values in categorical columns.
@@ -143,44 +143,39 @@ If there are missing stock data on Monday, we forward fill with data from Friday
 ### a. Handling Missing Values
 
 <p align="center">
-  <img src="img/open_over_time_after_filled.png" width="500"/>
   <img src="img/open_over_time_with_count_after_filled.png" width="500"/><br>
-  <em>Figure 13a: Open price over time after forward filling  Figure 13b: Open price over time with count</em>
+  <em>Figure 13: Open price over time after forward filling</em>
 </p>
 
 <p align="center">
-  <img src="img/high_over_time_after_filled.png" width="500"/>
   <img src="img/high_over_time_with_count_after_filled.png" width="500"/><br>
-  <em>Figure 14a: High price over time after forward filling  Figure 14b: High price over time with count</em>
+  <em>Figure 14: High price over time after forward filling</em>
 </p>
 
 <p align="center">
-  <img src="img/low_over_time_after_filled.png" width="500"/>
   <img src="img/low_over_time_with_count_after_filled.png" width="500"/><br>
-  <em>Figure 15a: Low price over time after forward filling  Figure 15b: Low price over time with count</em>
+  <em>Figure 15: Low price over time after forward filling</em>
 </p>
 
 <p align="center">
-  <img src="img/close_over_time_after_filled.png" width="500"/>
   <img src="img/close_over_time_with_count_after_filled.png" width="500"/><br>
-  <em>Figure 16a: Close price over time after forward filling  Figure 16b: Close price over time with count</em>
+  <em>Figure 16: Close price over time after forward filling</em>
 </p>
 
 <p align="center">
-  <img src="img/volume_over_time_after_filled.png" width="500"/>
   <img src="img/volume_over_time_with_count_after_filled.png" width="500"/><br>
-  <em>Figure 17a: Volume over time after forward filling  Figure 17b: Volume over time with count</em>
+  <em>Figure 17: Volume over time after forward filling</em>
 </p
 
 After handling missing values, the fluctuations seen in Figures 4–8 are resolved, leaving only the major shifts around 1970 and 2005, which correlate with the previously discussed increases in available stock data.
 
 <p align="center">
-  <img src="img/statistics_after_filled.png" width="600"/><br>
-  <em>Figure 17: Statistics of dataset after forward-filling.</em>
+  <img src="img/statistics_after_filled.png" width="500"/><br>
+  <em>Figure 17: Statistics of the dataset after forward-filling</em>
 </p>
 
-<p>
-  <img src="img/boxplots.png" width="600"/><br>
+<p align="center">
+  <img src="img/boxplots.png" width="500"/><br>
   <em>Figure 18: Boxplots for each column after forward-filling</em>
 </p>
 
@@ -188,11 +183,13 @@ Despite forward filling resolving the price fluctuations, outliers remain visibl
 
 ### b. Choose appropriate methods to handle missing values (e.g., mean/median imputation for numerical data, mode imputation for categorical data, or deletion of rows/columns).
 
-We ignore the 32 companies with empty stock data, drop the open interest column, and apply forward fill for missing values in price columns.
+We ignore the 32 companies with empty stock data, dropped the open interest column, and apply forward fill for missing values in price columns.
 
 ### c. Justify your choices for handling missing data.
 
-The 32 companies represent a very small share of the dataset. The open interest column is excluded since it contains only zeros for all entries (see Figures 3 and 9), indicating no reported open contracts and adding no useful information for prediction while introducing unnecessary computation overhead. Forward fill is used because missing prices are most likely close to the previous trading day’s values, providing realistic continuity, while mean or median imputation would be inaccurate due to large price fluctuations over decades.
+The 32 companies represent a very small share of the dataset.\
+The open interest column is excluded since it contains only zeros for all entries (see Figures 2 and 3), indicating no reported open contracts and adding no useful information for prediction while introducing unnecessary computation overhead.\
+Forward fill is used because missing prices are most likely close to the previous trading days' values, providing realistic continuity, while mean or median imputation would be inaccurate due to large price fluctuations over decades.
 
 ## 3. Handling Outliers
 
