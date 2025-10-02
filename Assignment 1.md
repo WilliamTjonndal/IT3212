@@ -202,7 +202,7 @@ We preferred filling with the previous day's data instead of the next day's data
 ### a. Detect outliers using methods such as the IQR method or Z-score.
 
 <h1 style="color:green">
-TODO: Decide if this is the correct method to handle outliers: we use trimming and IQR in the graphs below
+TODO: Decide if this is the correct method to handle outliers: we talk about using trimming and IQR in the sections below
 </h1>
 
 We have decided to use the Interquartile Range (IQR) method to detect outliers.\
@@ -260,20 +260,28 @@ TODO: Add figures with statistics of dataset and first few rows after label enco
 
 <!-- alternatively fig caption: Applying label encoding to the Symbol column-->
 
+We have chosen to apply label encoding.\
+Below are some summary statistics of the dataset after encoding the ``Symbol`` column.
+
 <p align="center">
-  <img src="img/" width="600"/><br>
-  <em>Figure 20: Statistics of dataset after label encoding.</em>
+  <img src="img/statistics_after_label_encoding.png" width="600"/><br>
+  <em>Figure 25: First few rows of the dataset after label encoding</em>
 </p>
 
 <p align="center">
-  <img src="img/" width="600"/><br>
-  <em>Figure 21: First few rows of dataset after label encoding</em>
+  <img src="img/number_records_symbol.png" width="500"/><br>
+  <em>Figure 26: Number of entries per Symbol after label encoding</em>
 </p>
 
+<p align="center">
+  <img src="img/avg_close_price_symbols.png" width="500"/><br>
+  <em>Figure 27: Average close price per symbol after label encoding</em>
+</p>
 
-<h1 style="color:green">
-TODO finn ut om det under her er bra
-</h1>
+<p align="center">
+  <img src="img/avg_close_price_time_symbols.png" width="500"/><br>
+  <em>Figure 28: Close price over time after label encoding</em>
+</p>
 
 We chose to label encode the symbol column, setting an integer to replace every unique value of symbol in the dataset.\
 We applied label encoding to the symbol column. Since encoding starts from 0, the count in Figure 19 is 7162, despite there being 7163 unique companies.
