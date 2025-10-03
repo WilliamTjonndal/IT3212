@@ -337,10 +337,6 @@ By scaling, we ensure that all features contribute equally, which improves fairn
 
 ### a. Split the preprocessed dataset into training and testing sets. Typically, an 80-20 or 70-30 split is used.
 
-<h1 style="color:green">
-# TODO: Split chronologically
-</h1>
-
 Below is the code used to split the dataset.
 
 ```py
@@ -372,10 +368,6 @@ This avoids data leakage, as the model isn't trained on events and values that a
 
 When training the model, we would prefer using chronological splits with rolling validation, as this method would mean most of the training data could be used for both validation and training without data leakage.
 
-<h1 style="color:green">
-## TODO: Split data into training and testing sets
-</h1>
-
 ### b. Explain the importance of splitting the data and how it prevents overfitting.
 
 Splitting the data allows the model to be trained on one set and evaluated on another, ensuring that performance is measured on unseen data.\
@@ -396,7 +388,29 @@ This dimensionality reduction simplifies the dataset while retaining the majorit
 
 <h1 style="color:green">
 TODO improve explanation?
-</h1>
+</h1>¨
+
+**Why PCA?**\
+To reduce dimensionality while preserving as much variance as possible.
+
+Helps in visualizing complex data.
+
+Can improve the performance of machine learning models by reducing noise and correlations.
+
+<p align="center">
+  <img src="img/pca_train.png" width="250"/><br>
+  <em>Figure 34: First few lines from the PCA train set</em>
+</p>
+
+<p align="center">
+  <img src="img/pca_test.png" width="250"/><br>
+  <em>Figure 35: First few lines from the PCA test set</em>
+</p>
+
+<p align="center">
+  <img src="img/pca_overview.png" width="500"/><br>
+  <em>Figure 36: A random sample from the first two PCA components</em>
+</p>
 
 <!-- possibly human written?-->
 
