@@ -243,10 +243,6 @@ We know Z-score can remove values for very volatile stocks, but since we only de
 
 #### i. Apply label encoding or one-hot encoding to transform categorical data into numerical form.
 
-<h1 style="color:green">
-TODO: figures seem weird, double check if encoding worked correctly
-</h1>
-
 We have chosen to apply label encoding.\
 Below are some summary statistics of the dataset after encoding the ``Symbol`` column.
 
@@ -353,26 +349,11 @@ A validation set is often used during training to tune hyperparameters and monit
 
 ## 6. Apply dimensionality reduction techniques such as Principal Component Analysis (PCA) and discuss how it affects the dataset.
 
-<h1 style="color:green">
-TODO: Apply PCA? and choose explanation below
-</h1>
-
 <!-- the two paragraphs below seem to be AI generated, rewrite?-->
 
 Applying Principal Component Analysis (PCA) to our stock dataset — which includes features such as Open, High, Low, Close, Volume, and OpenInt — helps reduce dimensionality by transforming the original correlated features into a smaller set of uncorrelated components. Since stock prices (Open, High, Low, Close) are often highly correlated, PCA captures most of their shared variance in the first few principal components.
 
 This dimensionality reduction simplifies the dataset while retaining the majority of the information. As a result, the model becomes less complex, less prone to multicollinearity, and easier to visualize. However, interpretability decreases since the new principal components are linear combinations of the original features rather than directly meaningful attributes like “Open” or “Close” price.
-
-<h1 style="color:green">
-TODO improve explanation?
-</h1>¨
-
-**Why PCA?**\
-To reduce dimensionality while preserving as much variance as possible.
-
-Helps in visualizing complex data.
-
-Can improve the performance of machine learning models by reducing noise and correlations.
 
 <p align="center">
   <img src="img/PCA_Train_Head.png" width="250"/><br>
