@@ -1,33 +1,30 @@
 # IT3212 Assignment 1: Data Preprocessing
 
-### Group 25
-
 ## Table of Contents
 
-- [IT3212 Assignment 1: Data Preprocessing](#it3212-assignment-1-data-preprocessing)
-    - [Group 25](#group-25)
-  - [Table of Contents](#table-of-contents)
-  - [1. Data Exploration](#1-data-exploration)
-    - [a. Explore the dataset by displaying the first few rows, summary statistics, and data types of each column.](#a-explore-the-dataset-by-displaying-the-first-few-rows-summary-statistics-and-data-types-of-each-column)
-    - [b. Identify missing values, outliers, and unique values in categorical columns.](#b-identify-missing-values-outliers-and-unique-values-in-categorical-columns)
-  - [2. Data Cleaning](#2-data-cleaning)
-    - [a. Handling Missing Values](#a-handling-missing-values)
-    - [b. Choose appropriate methods to handle missing values (e.g., mean/median imputation for numerical data, mode imputation for categorical data, or deletion of rows/columns).](#b-choose-appropriate-methods-to-handle-missing-values-eg-meanmedian-imputation-for-numerical-data-mode-imputation-for-categorical-data-or-deletion-of-rowscolumns)
-    - [c. Justify your choices for handling missing data.](#c-justify-your-choices-for-handling-missing-data)
-  - [3. Handling Outliers](#3-handling-outliers)
-    - [a. Detect outliers using methods such as the IQR method or Z-score.](#a-detect-outliers-using-methods-such-as-the-iqr-method-or-z-score)
-    - [b. Decide whether to remove, cap, or transform the outliers. Justify your decisions.](#b-decide-whether-to-remove-cap-or-transform-the-outliers-justify-your-decisions)
-  - [4. Data Transformation](#4-data-transformation)
-    - [a. Encoding Categorical Data](#a-encoding-categorical-data)
-      - [i. Apply label encoding or one-hot encoding to transform categorical data into numerical form.](#i-apply-label-encoding-or-one-hot-encoding-to-transform-categorical-data-into-numerical-form)
-      - [ii. Justify your choice of encoding method.](#ii-justify-your-choice-of-encoding-method)
-    - [b. Feature Scaling](#b-feature-scaling)
-      - [i. Apply feature scaling techniques such as normalization (Min-Max scaling) or standardization (Z-score normalization) to the dataset.](#i-apply-feature-scaling-techniques-such-as-normalization-min-max-scaling-or-standardization-z-score-normalization-to-the-dataset)
-      - [ii. Explain why feature scaling is necessary and how it impacts the model.](#ii-explain-why-feature-scaling-is-necessary-and-how-it-impacts-the-model)
-  - [5. Data Splitting](#5-data-splitting)
-    - [a. Split the preprocessed dataset into training and testing sets. Typically, an 80-20 or 70-30 split is used.](#a-split-the-preprocessed-dataset-into-training-and-testing-sets-typically-an-80-20-or-70-30-split-is-used)
-    - [b. Explain the importance of splitting the data and how it prevents overfitting.](#b-explain-the-importance-of-splitting-the-data-and-how-it-prevents-overfitting)
-  - [6. Apply dimensionality reduction techniques such as Principal Component Analysis (PCA) and discuss how it affects the dataset.](#6-apply-dimensionality-reduction-techniques-such-as-principal-component-analysis-pca-and-discuss-how-it-affects-the-dataset)
+- [1. Data Exploration](#1-data-exploration)
+  - [a. Explore the dataset by displaying the first few rows, summary statistics, and data types of each column.](#a-explore-the-dataset-by-displaying-the-first-few-rows-summary-statistics-and-data-types-of-each-column)
+  - [b. Identify missing values, outliers, and unique values in categorical columns.](#b-identify-missing-values-outliers-and-unique-values-in-categorical-columns)
+- [2. Data Cleaning](#2-data-cleaning)
+  - [a. Handling Missing Values](#a-handling-missing-values)
+  - [b. Choose appropriate methods to handle missing values (e.g., mean/median imputation for numerical data, mode imputation for categorical data, or deletion of rows/columns).](#b-choose-appropriate-methods-to-handle-missing-values-eg-meanmedian-imputation-for-numerical-data-mode-imputation-for-categorical-data-or-deletion-of-rowscolumns)
+  - [c. Justify your choices for handling missing data.](#c-justify-your-choices-for-handling-missing-data)
+- [3. Handling Outliers](#3-handling-outliers)
+  - [a. Detect outliers using methods such as the IQR method or Z-score.](#a-detect-outliers-using-methods-such-as-the-iqr-method-or-z-score)
+  - [b. Decide whether to remove, cap, or transform the outliers. Justify your decisions.](#b-decide-whether-to-remove-cap-or-transform-the-outliers-justify-your-decisions)
+- [4. Data Transformation](#4-data-transformation)
+  - [a. Encoding Categorical Data](#a-encoding-categorical-data)
+    - [i. Apply label encoding or one-hot encoding to transform categorical data into numerical form.](#i-apply-label-encoding-or-one-hot-encoding-to-transform-categorical-data-into-numerical-form)
+    - [ii. Justify your choice of encoding method.](#ii-justify-your-choice-of-encoding-method)
+  - [b. Feature Scaling](#b-feature-scaling)
+    - [i. Apply feature scaling techniques such as normalization (Min-Max scaling) or standardization (Z-score normalization) to the dataset.](#i-apply-feature-scaling-techniques-such-as-normalization-min-max-scaling-or-standardization-z-score-normalization-to-the-dataset)
+    - [ii. Explain why feature scaling is necessary and how it impacts the model.](#ii-explain-why-feature-scaling-is-necessary-and-how-it-impacts-the-model)
+- [5. Data Splitting](#5-data-splitting)
+  - [a. Split the preprocessed dataset into training and testing sets. Typically, an 80-20 or 70-30 split is used.](#a-split-the-preprocessed-dataset-into-training-and-testing-sets-typically-an-80-20-or-70-30-split-is-used)
+  - [b. Explain the importance of splitting the data and how it prevents overfitting.](#b-explain-the-importance-of-splitting-the-data-and-how-it-prevents-overfitting)
+- [6. Apply dimensionality reduction techniques such as Principal Component Analysis (PCA) and discuss how it affects the dataset.](#6-apply-dimensionality-reduction-techniques-such-as-principal-component-analysis-pca-and-discuss-how-it-affects-the-dataset)
+
+<div style="page-break-after: always;"></div>
 
 ## 1. Data Exploration
 
@@ -128,6 +125,8 @@ For the retrieved companies, the collected rows (date with given stock prices fo
 
 The dataset also contains some cells with negative values, this will be treated as invalid data as the price of a stock can't be below 0.
 
+<div style="page-break-after: always;"></div>
+
 ## 2. Data Cleaning
 
 ### a. Handling Missing Values
@@ -192,6 +191,8 @@ The open interest column is excluded since it contains only zeros for all entrie
 Forward-fill is used because missing prices are more likely close to the previous day's data rather than to mean or median price.\
 We preferred filling with the previous day's data instead of the next day's data as otherwise that would fill our dataset using the knowledge of future prices.
 
+<div style="page-break-after: always;"></div>
+
 ## 3. Handling Outliers
 
 ### a. Detect outliers using methods such as the IQR method or Z-score.
@@ -236,6 +237,8 @@ Z-score is chosen to remove outliers, as it seems to be most used method for det
 Finally, rolling Z-score handles temporal fluctuations more effectively than global Z-score, which may flag small jumps after a normal price increase as an outlier.
 
 We know Z-score can remove values for very volatile stocks, but since we only detected around 5000 outliers per column, we have decided that it's okay to get rid of these data points since our dataset is so large.
+
+<div style="page-break-after: always;"></div>
 
 ## 4. Data Transformation
 
@@ -326,6 +329,8 @@ This means that the stock prices are densely packed at the lower end of their ow
 Feature scaling is important because raw features often have very different ranges, and this can cause models to give more weight to features with larger values.\
 By scaling, we ensure that all features contribute equally, which improves fairness and accuracy.
 
+<div style="page-break-after: always;"></div>
+
 ## 5. Data Splitting
 
 ### a. Split the preprocessed dataset into training and testing sets. Typically, an 80-20 or 70-30 split is used.
@@ -346,6 +351,8 @@ When training the model, we would prefer using chronological splits with rolling
 Splitting the data allows the model to be trained on one set and evaluated on another, ensuring that performance is measured on unseen data.\
 The training set adjusts model parameters, while the test set checks generalization. This prevents overfitting by forcing the model to learn patterns instead of memorizing the training data.\
 A validation set is often used during training to tune hyperparameters and monitor performance.
+
+<div style="page-break-after: always;"></div>
 
 ## 6. Apply dimensionality reduction techniques such as Principal Component Analysis (PCA) and discuss how it affects the dataset.
 
