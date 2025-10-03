@@ -201,52 +201,46 @@ We preferred filling with the previous day's data instead of the next day's data
 
 ### a. Detect outliers using methods such as the IQR method or Z-score.
 
-<h1 style="color:green">
-TODO: Decide if this is the correct method to handle outliers: we talk about using trimming and IQR in the sections below
-</h1>
+We have decided to use Z-score to detect outliers.\
+We use a per-stock rolling Z-score with a window of 1 month, filling all cells with a Z-score above 3 with the previous day's value for the same stock.
 
-We have decided to use the Interquartile Range (IQR) method to detect outliers.\
-We use rolling IQR with with a 2.5 multiplier.
-We also have a filter that detects any stocks with a price that is either negative, lower than $\$ 0.01$ or greater than $\$100,000$.\
-Finally, we consider all stocks with a volume of $0$ to be outliers.
+We also do this with all cells where the value is negative, as neither price nor volume can be negative.
 
-Below are same figures as before, but with IQR and trimming applied to the dataset to remove outliers.
+Below are same figures as before, but with Z-score outliers removed. This doesnt have much of an effect on the graphs as we didn't find many outliers, around 5000 in each column in total.
 
 <p align="center">
-  <img src="img/open_iqr_cap.png" width="600"/><br>
-  <em>Figure 20: Open price over time after IQR and trimming</em>
+  <img src="img/open_zscore.png" width="600"/><br>
+  <em>Figure 20: Open price over time after removing outliers</em>
 </p>
 
 <p align="center">
-  <img src="img/high_iqr_cap.png" width="600"/><br>
-  <em>Figure 21: High price over time after IQR and trimming</em>
+  <img src="img/high_zscore.png" width="600"/><br>
+  <em>Figure 21: High price over time after removing outliers</em>
 </p>
 
 <p align="center">
-  <img src="img/low_iqr_cap.png" width="600"/><br>
-  <em>Figure 22: Low price over time after IQR and trimming</em>
+  <img src="img/low_zscore.png" width="600"/><br>
+  <em>Figure 22: Low price over time after removing outliers</em>
 </p>
 
 <p align="center">
-  <img src="img/close_iqr_cap.png" width="600"/><br>
-  <em>Figure 23: Close price over time after IQR and trimming</em>
+  <img src="img/close_zscore.png" width="600"/><br>
+  <em>Figure 23: Close price over time after removing outliers</em>
 </p>
 
 <p align="center">
-  <img src="img/volume_iqr_cap.png" width="600"/><br>
-  <em>Figure 24: Volume over time after IQR and trimming</em>
+  <img src="img/volume_zscore.png" width="600"/><br>
+  <em>Figure 24: Volume over time after removing outliers</em>
 </p>
 
 ### b. Decide whether to remove, cap, or transform the outliers. Justify your decisions.
 
-<!-- talk more about how we used IQR or improve the text-->
+All fields where we detected outliers were filled with the previous day's data.\
+We have chosen to do this to be consistent with our method of filling cells, as we do the same with missing rows.\
+Z-score is chosen to remove outliers, as it seems to be most used method for detecting outliers in stock data. Our group also has more experience using Z-score, so we're more familiar with how the method works, meaning we understand our new dataset better.\
+Finally, rolling Z-score handles temporal fluctuations more effectively than global Z-score, which may flag small jumps after a normal price increase as an outlier.
 
-All fields where we detected outliers were removed.\
-We have chosen to do this because very have a very large dataset, since we believe that removing outliers without affecting the quality of the data is not a problem.\
-IQR is chosen because it is robust to non-normal distributions, as
-stock price data often is not normally distributed - it can be skewed.\
-It also captures local volatility and adapts to the changing scale of each stock's price and trading behavior over time.\
-Finally, rolling IQR handles temporal fluctuations more effectively than global methods like Z-scores, which may flag valid price jumps as outliers.
+We know Z-score can remove values for very volatile stocks, but since we only detected around 5000 outliers per column, we have decided that it's okay to get rid of these data points since our dataset is so large.
 
 ## 4. Data Transformation
 
