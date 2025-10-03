@@ -268,17 +268,17 @@ Below are some summary statistics of the dataset after encoding the ``Symbol`` c
 
 <p align="center">
   <img src="img/number_records_symbol.png" width="500"/><br>
-  <em>Figure 26: Number of entries per Symbol after label encoding</em>
+  <em>Figure 26: Number of entries per stock symbol after label encoding</em>
 </p>
 
 <p align="center">
   <img src="img/avg_close_price_symbols.png" width="500"/><br>
-  <em>Figure 27: Average close price per symbol after label encoding</em>
+  <em>Figure 27: Average close price for 20 stock symbols after label encoding</em>
 </p>
 
 <p align="center">
   <img src="img/avg_close_price_time_symbols.png" width="500"/><br>
-  <em>Figure 28: Close price over time after label encoding</em>
+  <em>Figure 28: Close price over time for stock symbol 0 after label encoding</em>
 </p>
 
 We chose to label encode the symbol column, setting an integer to replace every unique value of symbol in the dataset.\
@@ -337,34 +337,14 @@ By scaling, we ensure that all features contribute equally, which improves fairn
 
 ### a. Split the preprocessed dataset into training and testing sets. Typically, an 80-20 or 70-30 split is used.
 
-Below is the code used to split the dataset.
-
-```py
-df_train_list = []
-df_test_list = []
-
-for sym, group in df.groupby("Symbol"):
-    group = group.sort_values("Date")
-    split_idx = int(len(group) * 0.8)
-    df_train_list.append(group.iloc[:split_idx])
-    df_test_list.append(group.iloc[split_idx:])
-
-df_train = pd.concat(df_train_list)
-df_test = pd.concat(df_test_list)
-
-print("Training set shape:", df_train.shape)
-print("Testing set shape:", df_test.shape)
-```
-**``Outputs:``**
+We split the dataset into a training and testing dataset using an 80-20 split.\
+Instead of splitting the dataset randomly, we choose to use the chronologically last 20% of the dataset as testing data.\
+This avoids data leakage, as the model isn't trained on events and values that aren't available at the time of the prediction.
 
 ```
 Training set shape: (12606582, 7)
 Testing set shape: (3156587, 7)
 ```
-
-We split the dataset into a training and testing dataset using an 80-20 split.\
-Instead of splitting the dataset randomly, we choose to use the chronologically last 20% of the dataset as testing data.\
-This avoids data leakage, as the model isn't trained on events and values that aren't available at the time of the prediction.
 
 When training the model, we would prefer using chronological splits with rolling validation, as this method would mean most of the training data could be used for both validation and training without data leakage.
 
