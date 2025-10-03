@@ -255,10 +255,8 @@ Finally, rolling IQR handles temporal fluctuations more effectively than global 
 #### i. Apply label encoding or one-hot encoding to transform categorical data into numerical form.
 
 <h1 style="color:green">
-TODO: Add figures with statistics of dataset and first few rows after label encoding, but outliers must be handled before applying these operations to the dataset
+TODO: figures seem weird, double check if encoding worked correctly
 </h1>
-
-<!-- alternatively fig caption: Applying label encoding to the Symbol column-->
 
 We have chosen to apply label encoding.\
 Below are some summary statistics of the dataset after encoding the ``Symbol`` column.
@@ -294,10 +292,6 @@ With 7,162 unique companies, one-hot encoding would introduce 7,162 extra featur
 
 #### i. Apply feature scaling techniques such as normalization (Min-Max scaling) or standardization (Z-score normalization) to the dataset.
 
-<h1 style="color:green">
-TODO: Min-Max scaling!
-</h1>
-
 We decided to use Min-Max normalization to scale the dataset.\
 The scaling was only used on the columns that have ordinal data, meaning values have a meaningful order.\
 These columns are Open price, High price, Low price, Close price, and Volume.
@@ -305,6 +299,34 @@ These columns are Open price, High price, Low price, Close price, and Volume.
 Min-Max was chosen instead of other scaling techniques, as the result of Min-Max scaling gives an intuitive understanding of the output.\
 What you can tell from the result of Min-Max scaling is what percentage from the minimum value to the maximum value a give datapoint is.\
 This is preferred over Z-score normalization, as we felt we don't have an intuitive understanding of it in the context of stock data.
+
+<p align="center">
+  <img src="img/after_min_max.png" width="500"/><br>
+  <em>Figure 29: First few rows of the dataset after Min-Max scaling</em>
+</p>
+
+<p align="center">
+  <img src="img/high_scaling.png" width="500"/><br>
+  <em>Figure 30: High price before and after Min-Max scaling</em>
+</p>
+
+<p align="center">
+  <img src="img/close_scaling.png" width="500"/><br>
+  <em>Figure 31: Close price before and after Min-Max scaling</em>
+</p>
+
+<p align="center">
+  <img src="img/low_scaling.png" width="500"/><br>
+  <em>Figure 32: Low price before and after Min-Max scaling</em>
+</p>
+
+<p align="center">
+  <img src="img/volume_scaling.png" width="500"/><br>
+  <em>Figure 33: Volume before and after Min-Max scaling</em>
+</p>
+
+We can see that after scaling we get a left-skewed distribution.\
+This means that the stock prices are densely packed at the lower end of their own range.
 
 #### ii. Explain why feature scaling is necessary and how it impacts the model.
 
