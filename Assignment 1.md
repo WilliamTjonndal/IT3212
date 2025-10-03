@@ -1,38 +1,33 @@
 # IT3212 Assignment 1: Data Preprocessing
 
+### Group 25
+
 ## Table of Contents
 
-1. [Data Exploration](#1-data-exploration)
-
-   - [a. Explore the dataset](#a-explore-the-dataset-by-displaying-the-first-few-rows-summary-statistics-and-data-types-of-each-column)
-   - [b. Identify missing values, outliers, and unique values](#b-identify-missing-values-outliers-and-unique-values-in-categorical-columns)
-
-2. [Data Cleaning](#2-data-cleaning)
-
-   - [a. Handling Missing Values](#a-handling-missing-values)
-   - [b. Methods to Handle Missing Values](#b-choose-appropriate-methods-to-handle-missing-values-eg-meanmedian-imputation-for-numerical-data-mode-imputation-for-categorical-data-or-deletion-of-rowscolumns)
-   - [c. Justification for Handling Missing Data](#c-justify-your-choices-for-handling-missing-data)
-
-3. [Handling Outliers](#3-handling-outliers)
-
-   - [a. Detecting Outliers](#a-detect-outliers-using-methods-such-as-the-iqr-method-or-z-score)
-   - [b. Outlier Treatment and Justification](#b-decide-whether-to-remove-cap-or-transform-the-outliers-justify-your-decisions)
-
-4. [Data Transformation](#4-data-transformation)
-
-   - [a. Encoding Categorical Data](#a-encoding-categorical-data)
-     - [i. Apply encoding](#i-apply-label-encoding-or-one-hot-encoding-to-transform-categorical-data-into-numerical-form)
-     - [ii. Justification of encoding method](#ii-justify-your-choice-of-encoding-method)
-   - [b. Feature Scaling](#b-feature-scaling)
-     - [i. Apply scaling technique](#i-apply-feature-scaling-techniques-such-as-normalization-min-max-scaling-or-standardization-z-score-normalization-to-the-dataset)
-     - [ii. Importance of scaling](#ii-explain-why-feature-scaling-is-necessary-and-how-it-impacts-the-model)
-
-5. [Data Splitting](#5-data-splitting)
-
-   - [a. Split into training/testing sets](#a-split-the-preprocessed-dataset-into-training-and-testing-sets-typically-an-80-20-or-70-30-split-is-used)
-   - [b. Importance of data splitting](#b-explain-the-importance-of-splitting-the-data-and-how-it-prevents-overfitting)
-
-6. [Dimensionality Reduction](#6-apply-dimensionality-reduction-techniques-such-as-principal-component-analysis-pca-and-discuss-how-it-affects-the-dataset)
+- [IT3212 Assignment 1: Data Preprocessing](#it3212-assignment-1-data-preprocessing)
+    - [Group 25](#group-25)
+  - [Table of Contents](#table-of-contents)
+  - [1. Data Exploration](#1-data-exploration)
+    - [a. Explore the dataset by displaying the first few rows, summary statistics, and data types of each column.](#a-explore-the-dataset-by-displaying-the-first-few-rows-summary-statistics-and-data-types-of-each-column)
+    - [b. Identify missing values, outliers, and unique values in categorical columns.](#b-identify-missing-values-outliers-and-unique-values-in-categorical-columns)
+  - [2. Data Cleaning](#2-data-cleaning)
+    - [a. Handling Missing Values](#a-handling-missing-values)
+    - [b. Choose appropriate methods to handle missing values (e.g., mean/median imputation for numerical data, mode imputation for categorical data, or deletion of rows/columns).](#b-choose-appropriate-methods-to-handle-missing-values-eg-meanmedian-imputation-for-numerical-data-mode-imputation-for-categorical-data-or-deletion-of-rowscolumns)
+    - [c. Justify your choices for handling missing data.](#c-justify-your-choices-for-handling-missing-data)
+  - [3. Handling Outliers](#3-handling-outliers)
+    - [a. Detect outliers using methods such as the IQR method or Z-score.](#a-detect-outliers-using-methods-such-as-the-iqr-method-or-z-score)
+    - [b. Decide whether to remove, cap, or transform the outliers. Justify your decisions.](#b-decide-whether-to-remove-cap-or-transform-the-outliers-justify-your-decisions)
+  - [4. Data Transformation](#4-data-transformation)
+    - [a. Encoding Categorical Data](#a-encoding-categorical-data)
+      - [i. Apply label encoding or one-hot encoding to transform categorical data into numerical form.](#i-apply-label-encoding-or-one-hot-encoding-to-transform-categorical-data-into-numerical-form)
+      - [ii. Justify your choice of encoding method.](#ii-justify-your-choice-of-encoding-method)
+    - [b. Feature Scaling](#b-feature-scaling)
+      - [i. Apply feature scaling techniques such as normalization (Min-Max scaling) or standardization (Z-score normalization) to the dataset.](#i-apply-feature-scaling-techniques-such-as-normalization-min-max-scaling-or-standardization-z-score-normalization-to-the-dataset)
+      - [ii. Explain why feature scaling is necessary and how it impacts the model.](#ii-explain-why-feature-scaling-is-necessary-and-how-it-impacts-the-model)
+  - [5. Data Splitting](#5-data-splitting)
+    - [a. Split the preprocessed dataset into training and testing sets. Typically, an 80-20 or 70-30 split is used.](#a-split-the-preprocessed-dataset-into-training-and-testing-sets-typically-an-80-20-or-70-30-split-is-used)
+    - [b. Explain the importance of splitting the data and how it prevents overfitting.](#b-explain-the-importance-of-splitting-the-data-and-how-it-prevents-overfitting)
+  - [6. Apply dimensionality reduction techniques such as Principal Component Analysis (PCA) and discuss how it affects the dataset.](#6-apply-dimensionality-reduction-techniques-such-as-principal-component-analysis-pca-and-discuss-how-it-affects-the-dataset)
 
 ## 1. Data Exploration
 
@@ -294,19 +289,22 @@ Min-Max was chosen instead of other scaling techniques, as the result of Min-Max
 What you can tell from the result of Min-Max scaling is what percentage from the minimum value to the maximum value a give datapoint is.\
 This is preferred over Z-score normalization, as we felt we don't have an intuitive understanding of it in the context of stock data.
 
+
+
 <p align="center">
   <img src="img/after_min_max.png" width="500"/><br>
   <em>Figure 29: First few rows of the dataset after Min-Max scaling</em>
 </p>
 
+
 <p align="center">
-  <img src="img/high_scaling.png" width="500"/><br>
-  <em>Figure 30: High price before and after Min-Max scaling</em>
+  <img src="img/open_scaling.png" width="500"/><br>
+  <em>Figure 30: Open price before and after Min-Max scaling</em>
 </p>
 
 <p align="center">
-  <img src="img/close_scaling.png" width="500"/><br>
-  <em>Figure 31: Close price before and after Min-Max scaling</em>
+  <img src="img/high_scaling.png" width="500"/><br>
+  <em>Figure 31: High price before and after Min-Max scaling</em>
 </p>
 
 <p align="center">
@@ -315,8 +313,13 @@ This is preferred over Z-score normalization, as we felt we don't have an intuit
 </p>
 
 <p align="center">
+  <img src="img/close_scaling.png" width="500"/><br>
+  <em>Figure 33: Close price before and after Min-Max scaling</em>
+</p>
+
+<p align="center">
   <img src="img/volume_scaling.png" width="500"/><br>
-  <em>Figure 33: Volume before and after Min-Max scaling</em>
+  <em>Figure 34: Volume before and after Min-Max scaling</em>
 </p>
 
 We can see that after scaling we get a left-skewed distribution.\
@@ -336,8 +339,8 @@ Instead of splitting the dataset randomly, we choose to use the chronologically 
 This avoids data leakage, as the model isn't trained on events and values that aren't available at the time of the prediction.
 
 ```
-Training set shape: (12606582, 7)
-Testing set shape: (3156587, 7)
+Training set shape: (12634695, 7)
+Testing set shape: (3163614, 7)
 ```
 
 When training the model, we would prefer using chronological splits with rolling validation, as this method would mean most of the training data could be used for both validation and training without data leakage.
@@ -372,18 +375,18 @@ Helps in visualizing complex data.
 Can improve the performance of machine learning models by reducing noise and correlations.
 
 <p align="center">
-  <img src="img/pca_train.png" width="250"/><br>
-  <em>Figure 34: First few lines from the PCA train set</em>
+  <img src="img/PCA_Train_Head.png" width="250"/><br>
+  <em>Figure 35: First few lines from the PCA train set</em>
 </p>
 
 <p align="center">
-  <img src="img/pca_test.png" width="250"/><br>
-  <em>Figure 35: First few lines from the PCA test set</em>
+  <img src="img/PCA_Test_Head.png" width="250"/><br>
+  <em>Figure 36: First few lines from the PCA test set</em>
 </p>
 
 <p align="center">
-  <img src="img/pca_overview.png" width="500"/><br>
-  <em>Figure 36: A random sample from the first two PCA components</em>
+  <img src="img/PCA_vuisualized.png" width="500"/><br>
+  <em>Figure 37: A random sample from the first two PCA components</em>
 </p>
 
 <!-- possibly human written?-->
