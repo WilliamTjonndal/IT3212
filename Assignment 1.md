@@ -242,7 +242,7 @@ Below are same figures as before, but with IQR and trimming applied to the datas
 <!-- talk more about how we used IQR or improve the text-->
 
 All fields where we detected outliers were removed.\
-We have chosen to do this because very have a very large data set, since we believe that removing outliers without affecting the quality of the data is not a problem.\
+We have chosen to do this because very have a very large dataset, since we believe that removing outliers without affecting the quality of the data is not a problem.\
 IQR is chosen because it is robust to non-normal distributions, as
 stock price data often is not normally distributed - it can be skewed.\
 It also captures local volatility and adapts to the changing scale of each stock's price and trading behavior over time.\
@@ -341,7 +341,34 @@ By scaling, we ensure that all features contribute equally, which improves fairn
 # TODO: Split chronologically
 </h1>
 
-We split the dataset into a training and testing dataset using an 80-20 split. Instead of splitting the dataset randomly, we choose to use the chronologically last 20% of the dataset as testing data. This avoids data leakage, as the model isn't trained on events and values that aren't available at the time of the prediction.
+Below is the code used to split the dataset.
+
+```py
+df_train_list = []
+df_test_list = []
+
+for sym, group in df.groupby("Symbol"):
+    group = group.sort_values("Date")
+    split_idx = int(len(group) * 0.8)
+    df_train_list.append(group.iloc[:split_idx])
+    df_test_list.append(group.iloc[split_idx:])
+
+df_train = pd.concat(df_train_list)
+df_test = pd.concat(df_test_list)
+
+print("Training set shape:", df_train.shape)
+print("Testing set shape:", df_test.shape)
+```
+**``Outputs:``**
+
+```
+Training set shape: (12606582, 7)
+Testing set shape: (3156587, 7)
+```
+
+We split the dataset into a training and testing dataset using an 80-20 split.\
+Instead of splitting the dataset randomly, we choose to use the chronologically last 20% of the dataset as testing data.\
+This avoids data leakage, as the model isn't trained on events and values that aren't available at the time of the prediction.
 
 When training the model, we would prefer using chronological splits with rolling validation, as this method would mean most of the training data could be used for both validation and training without data leakage.
 
