@@ -191,6 +191,18 @@ When keeping only 1–5% of the coefficients, the image remains recognizable but
 
 ### <a id="blob-section-3"></a> Evaluate and discuss the effect of different parameters in the algorithms on the detection of different blobs.
 
+The blob detection algorithm implemented in your code uses the Laplacian of Gaussian (LoG) method from skimage.feature.blob_log, and the effectiveness of the detection is heavily influenced by the parameters passed to this function. The key parameters—max_sigma, num_sigma, and threshold—control how the algorithm identifies and responds to features in the image.
+
+The max_sigma parameter defines the maximum standard deviation for the Gaussian kernel and essentially sets the upper limit for the size of blobs that can be detected. In your code, this is set to 30, which allows detection of relatively large blobs. If max_sigma is set too low, larger blobs will not be detected at all. On the other hand, a very high value can lead to the detection of large, low-contrast regions that may not correspond to meaningful features, increasing the likelihood of false positives. Adjusting this parameter allows you to target blobs of different sizes depending on the nature of your images.
+
+The num_sigma parameter defines how many intermediate scales are tested between 0 and max_sigma. With a value of 10 in your code, the algorithm checks 10 different scales. Increasing this number can improve the precision of blob detection, especially for blobs that do not fall neatly into one of the predefined scales. However, this also increases computational complexity. Fewer values speed up processing but can miss blobs whose sizes lie between the sampled scales.
+
+The threshold parameter determines the minimum intensity difference required for a region to be considered a blob. A low threshold (e.g., 0.05) makes the algorithm more sensitive, allowing it to detect faint or low-contrast blobs, but it may also detect noise. Conversely, a high threshold (e.g., 0.2) makes the detection stricter, potentially missing subtle features while reducing false positives. Your current value of 0.1 represents a balanced starting point, though tuning it based on the contrast and quality of your images may yield better results.
+
+Visualizations in your code play a crucial role in evaluating the impact of these parameters. The overlay of detected blobs on grayscale and RGB images helps confirm whether the blobs align with visually identifiable features or not. Histograms of blob sizes reveal the distribution of detected radii across images and can indicate whether certain sizes are being over- or under-represented, possibly suggesting adjustments to max_sigma. The 2D heatmaps of blob positions show where blobs tend to occur spatially, revealing patterns or clustering, and can also highlight issues such as biased detection in bright regions due to thresholding.
+
+In summary, the choice of max_sigma, num_sigma, and threshold significantly affects blob detection outcomes. Fine-tuning these parameters based on your specific image set—considering blob size, image contrast, and noise levels—is essential for optimal performance. Using diagnostic visualizations like size histograms and heatmaps can guide effective parameter adjustments.
+
 <div style="page-break-after: always;"></div>
 
 
