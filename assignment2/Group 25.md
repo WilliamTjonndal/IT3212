@@ -226,6 +226,8 @@ An LBP histogram counts how many pixels in the LBP image have each code value fr
   <em>Figure 13: LBP by category for several images</em>
 </p>
 
+
+
 ### <a id="lbp-section-4"></a>7. Discuss the differences in the histograms and what they tell you about the textures of the different images.
 
 
