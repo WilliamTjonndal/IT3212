@@ -217,12 +217,12 @@ An LBP histogram counts how many pixels in the LBP image have each code value fr
 ### <a id="lbp-section-3"></a>5. Apply your LBP function to at least three different grayscale images (e.g., a natural scene, a texture, and a face image). Generate and compare the histograms of the LBP images.
 
 <p align="center">
-  <img src="results/lbp/lbp_panel.png" width="800"/><br>
+  <img src="results/lbp/lbp_grid.png" width="800"/><br>
   <em>Figure 13: LBP for several images</em>
 </p>
 
 <p align="center">
-  <img src="results/lbp/lbp_panel_category.png" width="800"/><br>
+  <img src="results/lbp/lbp_grid_category.png" width="800"/><br>
   <em>Figure 13: LBP by category for several images</em>
 </p>
 
