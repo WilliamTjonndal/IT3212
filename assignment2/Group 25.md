@@ -217,9 +217,18 @@ Local Binary Patterns (LBP) encodes local texture at each pixel by comparing the
 
 An LBP histogram counts how many pixels in the LBP image have each code value from 0 to 255, and shows the texture distribution within the original image. The histogram is used to capture the frequency of occurrence of different texture patterns in the original image.
 
-### <a id="lbp-section-5"></a>5. Apply your LBP function to at least three different grayscale images (e.g., a natural scene, a texture, and a face image).
+### <a id="lbp-section-5"></a>5. Apply your LBP function to at least three different grayscale images (e.g., a natural scene, a texture, and a face image). Generate and compare the histograms of the LBP images.
 
-### <a id="lbp-section-6"></a>6. Generate and compare the histograms of the LBP images.
+<p align="center">
+  <img src="results/lbp/lbp_panel.png" width="800"/><br>
+  <em>Figure 13: LBP for several images</em>
+</p>
+
+<p align="center">
+  <img src="results/lbp/lbp_panel_category.png" width="800"/><br>
+  <em>Figure 13: LBP by category for several images</em>
+</p>
+
 
 ### <a id="lbp-section-7"></a>7. Discuss the differences in the histograms and what they tell you about the textures of the different images.
 
