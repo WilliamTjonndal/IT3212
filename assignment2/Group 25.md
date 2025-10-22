@@ -29,13 +29,10 @@
   - [3. Discuss the impact of varying parameters like cell size, block size, and the number of bins on the resulting HOG descriptors.](#hog-section-3)
 
 - [Local Binary Patterns](#4-lbp)
-  - [1. Write a Python function to compute the LBP of a given grayscale image (basic 8-neighbor).](#lbp-section-1)
-  - [2. Output the LBP image where each pixel is replaced by its corresponding LBP value.](#lbp-section-2)
-  - [3. Write a Python function to compute the histogram of the LBP image.](#lbp-section-3)
-  - [4. Plot the histogram and explain what it represents in terms of texture features.](#lbp-section-4)
-  - [5. Apply the LBP function to at least three grayscale images (natural scene, texture, face).](#lbp-section-5)
-  - [6. Generate and compare the histograms of the LBP images.](#lbp-section-6)
-  - [7. Discuss the differences in the histograms and what they reveal about image textures.](#lbp-section-7)
+  - [1. Write a Python function to compute the LBP of a given grayscale image (basic 8-neighbor). Output the LBP image where each pixel is replaced by its corresponding LBP value.](#lbp-section-1)
+  - [2. Write a Python function to compute the histogram of the LBP image. Plot the histogram and explain what it represents in terms of texture features.](#lbp-section-2)
+  - [3. Apply the LBP function to at least three grayscale images (natural scene, texture, face). Generate and compare the histograms of the LBP images.](#lbp-section-3)
+  - [4. Discuss the differences in the histograms and what they reveal about image textures.](#lbp-section-4)
 
 - [Implement a Blob Detection Algorithm](#4-blob-detection)
    - [1. Apply the blob detection algorithm to one of the provided image datasets on blackborad.](#blob-section-1)
@@ -217,7 +214,7 @@ Local Binary Patterns (LBP) encodes local texture at each pixel by comparing the
 
 An LBP histogram counts how many pixels in the LBP image have each code value from 0 to 255, and shows the texture distribution within the original image. The histogram is used to capture the frequency of occurrence of different texture patterns in the original image.
 
-### <a id="lbp-section-5"></a>5. Apply your LBP function to at least three different grayscale images (e.g., a natural scene, a texture, and a face image). Generate and compare the histograms of the LBP images.
+### <a id="lbp-section-3"></a>5. Apply your LBP function to at least three different grayscale images (e.g., a natural scene, a texture, and a face image). Generate and compare the histograms of the LBP images.
 
 <p align="center">
   <img src="results/lbp/lbp_panel.png" width="800"/><br>
@@ -229,8 +226,7 @@ An LBP histogram counts how many pixels in the LBP image have each code value fr
   <em>Figure 13: LBP by category for several images</em>
 </p>
 
-
-### <a id="lbp-section-7"></a>7. Discuss the differences in the histograms and what they tell you about the textures of the different images.
+### <a id="lbp-section-4"></a>7. Discuss the differences in the histograms and what they tell you about the textures of the different images.
 
 
 
