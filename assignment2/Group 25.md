@@ -214,6 +214,8 @@ Local Binary Patterns (LBP) encodes local texture at each pixel by comparing the
 
 An LBP histogram counts how many pixels in the LBP image have each code value from 0 to 255, and shows the texture distribution within the original image. The histogram is used to capture the frequency of occurrence of different texture patterns in the original image.
 
+In Figure 12, the LBP histogram shows tall peaks near the extreme codes (0 and 255), indicating many uniform patterns from smooth regions such as Mona Lisa’s cheeks and forehead and the sky background. Distinct clusters around 60–70 and 120–140 correspond to edge textures visible along the hairline/veil, eyelids and lips, and the neckline/garment folds highlighted in the LBP image in figure 11. Narrower peaks near 180–200 and 240–250 arise from sharper transitions in the rocky background and dress embroidery. Low, scattered bins capture the fine crackle of the paint and small stippled details across the landscape.
+
 ### <a id="lbp-section-3"></a>5. Apply your LBP function to at least three different grayscale images (e.g., a natural scene, a texture, and a face image). Generate and compare the histograms of the LBP images.
 
 <p align="center">
@@ -221,14 +223,16 @@ An LBP histogram counts how many pixels in the LBP image have each code value fr
   <em>Figure 13: LBP for several images</em>
 </p>
 
-<p align="center">
-  <img src="results/lbp/lbp_grid_category.png" width="800"/><br>
-  <em>Figure 13: LBP by category for several images</em>
-</p>
-
-
+The LBP histograms clearly differentiate the three textures. For Image 1 (portrait), dominant peaks at extreme codes at 0 and 255 indicate many uniform patterns from smooth regions like the skin and sky, with secondary mid-range peaks from facial and garment edges. Image 2 (brick wall) shows concentrated, repeating mid-range peaks, reflecting the regular, edge-dominated brick pattern with fewer uniform regions. Image 3 (mountain/forest) has the broadest distribution with tall spikes across several codes, including extremes, consistent with heterogeneous, high-contrast textures from ridges, foliage, and mist. These distinct profiles demonstrate that LBP histograms capture texture smoothness, regularity, and complexity in a way that separates the images.
 
 ### <a id="lbp-section-4"></a>7. Discuss the differences in the histograms and what they tell you about the textures of the different images.
+
+<p align="center">
+  <img src="results/lbp/lbp_grid_category.png" width="800"/><br>
+  <em>Figure 14: LBP by category for several images</em>
+</p>
+
+The categorized LBP histograms and overlays in Figure 14 separate flat (codes 0/255), uniform-edge, and corner/texture patterns, revealing distinct texture regimes. Image 1 (portrait) shows high flat counts with secondary uniform-edge peaks, the overlay places flats on skin/sky and edges along the hairline, eyes, and garment folds, typical of largely smooth surfaces with soft boundaries. Image 2 (brick wall) is dominated by repeated uniform-edge peaks and few flats, the overlay aligns these edge codes with mortar lines, indicating a regular, periodic, edge-rich texture. Image 3 (mountain/forest) has the broadest distribution and the largest corner/texture component, the overlay highlights dense non-uniform patterns over trees, ridges, and rocks, evidencing a heterogeneous, high-contrast texture field.
 
 
 
