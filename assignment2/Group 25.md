@@ -2,47 +2,51 @@
 
 ## Table of Contents
 
-- [IT3212 Assignment 2: Image Preprocessing](#it3212-assignment-2-image-preprocessing)
-  - [Table of Contents](#table-of-contents)
-  - [ Fourier Transformation](#-fourier-transformation)
-    - [ 1. Load a grayscale image and apply the 2D Discrete Fourier Transform (DFT) to it Visualize the original image and its frequency spectrum (magnitude). Submit the images, and explanation.](#-1-load-a-grayscale-image-and-apply-the-2d-discrete-fourier-transform-dft-to-it-visualize-the-original-image-and-its-frequency-spectrum-magnitude-submit-the-images-and-explanation)
-    - [ 2. Implement a low-pass filter in the frequency domain to remove high-frequency noise from an image. Compare the filtered image with the original image. Submit images, and analysis of the results](#-2-implement-a-low-pass-filter-in-the-frequency-domain-to-remove-high-frequency-noise-from-an-image-compare-the-filtered-image-with-the-original-image-submit-images-and-analysis-of-the-results)
-    - [ 3. Implement a high-pass filter to enhance the edges in an image. Visualize the filtered image and discuss the effects observed. Submit images, and explanation.](#-3-implement-a-high-pass-filter-to-enhance-the-edges-in-an-image-visualize-the-filtered-image-and-discuss-the-effects-observed-submit-images-and-explanation)
-    - [ 4. Implement an image compression technique using Fourier Transform by selectively keeping only a certain percentage of the Fourier coefficients. Evaluate the quality of the reconstructed image as you vary the percentage of coefficients used. Submit the images, and your observations on image quality and compression ratio.](#-4-implement-an-image-compression-technique-using-fourier-transform-by-selectively-keeping-only-a-certain-percentage-of-the-fourier-coefficients-evaluate-the-quality-of-the-reconstructed-image-as-you-vary-the-percentage-of-coefficients-used-submit-the-images-and-your-observations-on-image-quality-and-compression-ratio)
-  - [ Principal Component Analysis](#-principal-component-analysis)
-    - [1. PCA Implementation](#1-pca-implementation)
-    - [2. Reconstruction of images](#2-reconstruction-of-images)
-      - [a. Using the selected principal components, reconstruct the images.](#a-using-the-selected-principal-components-reconstruct-the-images)
-      - [b. Compare the reconstructed images with the original images to observe the effects of dimensionality reduction.](#b-compare-the-reconstructed-images-with-the-original-images-to-observe-the-effects-of-dimensionality-reduction)
-    - [3. Experimentation](#3-experimentation)
-      - [a. Vary the number of principal components (k) and observe the impact on the quality of the reconstructed images.](#a-vary-the-number-of-principal-components-k-and-observe-the-impact-on-the-quality-of-the-reconstructed-images)
-      - [b. Plot the variance explained by the principal components and determine the optimal number of components that balances compression and quality.](#b-plot-the-variance-explained-by-the-principal-components-and-determine-the-optimal-number-of-components-that-balances-compression-and-quality)
-    - [4. Visual Analysis](#4-visual-analysis)
-      - [a. Display the original images alongside the reconstructed images for different values of k.](#a-display-the-original-images-alongside-the-reconstructed-images-for-different-values-of-k)
-      - [b. Comment on the visual quality of the images and how much information is lost during compression.](#b-comment-on-the-visual-quality-of-the-images-and-how-much-information-is-lost-during-compression)
-    - [5. Error Analysis](#5-error-analysis)
-      - [a. Compute the Mean Squared Error (MSE) between the original and reconstructed images.](#a-compute-the-mean-squared-error-mse-between-the-original-and-reconstructed-images)
-      - [b. Analyze the trade-off between compression and reconstruction error.](#b-analyze-the-trade-off-between-compression-and-reconstruction-error)
-  - [ Histogram of Oriented Gradients](#-histogram-of-oriented-gradients)
-    - [1. Write a Python script to compute the HOG features of a given image using a library such as OpenCV or scikit-image. Apply your implementation to at least three different images, including both simple and complex scenes.](#1-write-a-python-script-to-compute-the-hog-features-of-a-given-image-using-a-library-such-as-opencv-or-scikit-image-apply-your-implementation-to-at-least-three-different-images-including-both-simple-and-complex-scenes)
-    - [3. Visualize the original image, the gradient image, and the HOG feature image. Compare the HOG features extracted from different images.](#3-visualize-the-original-image-the-gradient-image-and-the-hog-feature-image-compare-the-hog-features-extracted-from-different-images)
-    - [3. Discuss the impact of varying parameters like cell size, block size, and the number of bins on the resulting HOG descriptors.](#3-discuss-the-impact-of-varying-parameters-like-cell-size-block-size-and-the-number-of-bins-on-the-resulting-hog-descriptors)
-  - [ Local Binary Patterns](#-local-binary-patterns)
-    - [1. Write a Python function to compute the LBP of a given grayscale image (basic 8-neighbor). Your function should output the LBP image, where each pixel is replaced by its corresponding LBP value.](#1-write-a-python-function-to-compute-the-lbp-of-a-given-grayscale-image-basic-8-neighbor-your-function-should-output-the-lbp-image-where-each-pixel-is-replaced-by-its-corresponding-lbp-value)
-    - [3. Write a Python function to compute the histogram of the LBP image. Plot the histogram and explain what it represents in terms of the texture features of the image.](#3-write-a-python-function-to-compute-the-histogram-of-the-lbp-image-plot-the-histogram-and-explain-what-it-represents-in-terms-of-the-texture-features-of-the-image)
-    - [5. Apply your LBP function to at least three different grayscale images (e.g., a natural scene, a texture, and a face image). Generate and compare the histograms of the LBP images.](#5-apply-your-lbp-function-to-at-least-three-different-grayscale-images-eg-a-natural-scene-a-texture-and-a-face-image-generate-and-compare-the-histograms-of-the-lbp-images)
-    - [7. Discuss the differences in the histograms and what they tell you about the textures of the different images.](#7-discuss-the-differences-in-the-histograms-and-what-they-tell-you-about-the-textures-of-the-different-images)
-  - [ Implement a Blob Detection Algorithm.](#-implement-a-blob-detection-algorithm)
-    - [ 1. Apply the contour detection algorithm to the same image dataset. Visualize the detected contours on the original images, marking each contour with a different color.](#-1-apply-the-contour-detection-algorithm-to-the-same-image-dataset-visualize-the-detected-contours-on-the-original-images-marking-each-contour-with-a-different-color)
-    - [ 2. Calculate and display relevant statistics for each image, such as the number of blobs detected, their sizes, and positions.](#-2-calculate-and-display-relevant-statistics-for-each-image-such-as-the-number-of-blobs-detected-their-sizes-and-positions)
-    - [ 3. Evaluate and discuss the effect of different parameters in the algorithms on the detection of different blobs.](#-3-evaluate-and-discuss-the-effect-of-different-parameters-in-the-algorithms-on-the-detection-of-different-blobs)
-  - [ Implement a Contour Detection Algorithm](#-implement-a-contour-detection-algorithm)
-    - [ 1. Apply the contour detection algorithm to the same image dataset. Visualize the detected contours on the original images, marking each contour with a different color.](#-1-apply-the-contour-detection-algorithm-to-the-same-image-dataset-visualize-the-detected-contours-on-the-original-images-marking-each-contour-with-a-different-color-1)
-    - [ 2. Calculate and display relevant statistics for each image, such as the number of contours detected, contour area, and perimeter.](#-2-calculate-and-display-relevant-statistics-for-each-image-such-as-the-number-of-contours-detected-contour-area-and-perimeter)
-    - [ 3. Compare the results of blob detection and contour detection for the chosen dataset.](#-3-compare-the-results-of-blob-detection-and-contour-detection-for-the-chosen-dataset)
-    - [ 4. Discuss the advantages and limitations of each technique.](#-4-discuss-the-advantages-and-limitations-of-each-technique)
-    - [ 5. Analyze the impact of different parameters (e.g., threshold values, filter sizes) on the detection results.](#-5-analyze-the-impact-of-different-parameters-eg-threshold-values-filter-sizes-on-the-detection-results)
-    - [ 6. Provide examples where one technique might be more suitable than the other.](#-6-provide-examples-where-one-technique-might-be-more-suitable-than-the-other)
+  - [Fourier Transformation](#1-fourier-transformation)
+    - [ 1. Load a grayscale image and apply the 2D Discrete Fourier Transform (DFT) to it Visualize the original image and its frequency spectrum (magnitude). Submit the images, and explanation.](#DFT-section-1)
+    - [ 2. Implement a low-pass filter in the frequency domain to remove high-frequency noise from an image. Compare the filtered image with the original image. Submit images, and analysis of the results](#DFT-section-2)
+    - [ 3. Implement a high-pass filter to enhance the edges in an image. Visualize the filtered image and discuss the effects observed. Submit images, and explanation.](#DFT-section-3)
+    - [ 4. Implement an image compression technique using Fourier Transform by selectively keeping only a certain percentage of the Fourier coefficients. Evaluate the quality of the reconstructed image as you vary the percentage of coefficients used. Submit the images, and your observations on image quality and compression ratio.](#DFT-section-4)
+
+- [PCA](#2-principal-component-analysis)
+  - [1. PCA Implementation](#PCA-section-1)
+  - [2. Reconstruction of images](#PCA-section-2)
+    - [a. Using the selected principal components, reconstruct the images.](#PCA-section-2a)
+    - [b. Compare the reconstructed images with the original images to observe the effects of dimensionality reduction.](#PCA-section-2b)
+  - [3. Experimentation](#PCA-section-3)
+    - [a. Vary the number of principal components (k) and observe the impact on the quality of the reconstructed images.](#PCA-section-3a)
+    - [b. Plot the variance explained by the principal components and determine the optimal number of components that balances compression and quality.](#PCA-section-3b)
+  - [4. Visual Analysis](#PCA-section-4)
+    - [a. Display the original images alongside the reconstructed images for different values of k.](#PCA-section-4a)
+    - [b. Comment on the visual quality of the images and how much information is lost during compression.](#PCA-section-4b)
+  - [5. Error Analysis](#PCA-section-5)
+    - [a. Compute the Mean Squared Error (MSE) between the original and reconstructed images.](#PCA-section-5a)
+    - [b. Analyze the trade-off between compression and reconstruction error.](#PCA-section-5b)
+
+
+- [Histogram of Oriented Gradients](#3-histogram-of-oriented-gradients)
+    - [1. Write a Python script to compute the HOG features of a given image using a library such as OpenCV or scikit-image. Apply your implementation to at least three different images, including both simple and complex scenes.](#hog-section-1)
+    - [2. Visualize the original image, the gradient image, and the HOG feature image. Compare the HOG features extracted from different images.](#hog-section-2)
+    - [3. Discuss the impact of varying parameters like cell size, block size, and the number of bins on the resulting HOG descriptors.](#hog-section-3)
+
+- [Local Binary Patterns](#4-local-binary-patterns)
+    - [1. Write a Python function to compute the LBP of a given grayscale image (basic 8-neighbor). Your function should output the LBP image, where each pixel is replaced by its corresponding LBP value.](#lbp-section-1)
+    - [2. Write a Python function to compute the histogram of the LBP image. Plot the histogram and explain what it represents in terms of the texture features of the image.](#lbp-section-2)
+    - [3. Apply your LBP function to at least three different grayscale images (e.g., a natural scene, a texture, and a face image). Generate and compare the histograms of the LBP images.](#lbp-section-3)
+    - [4. Discuss the differences in the histograms and what they tell you about the textures of the different images.](#lbp-section-4)
+
+- [Implement a Blob Detection Algorithm.](#5-blob-detection)
+    - [ 1. Apply the contour detection algorithm to the same image dataset. Visualize the detected contours on the original images, marking each contour with a different color.](#blob-section-1)
+    - [ 2. Calculate and display relevant statistics for each image, such as the number of blobs detected, their sizes, and positions.](#blob-section-2)
+    - [ 3. Evaluate and discuss the effect of different parameters in the algorithms on the detection of different blobs.](#blob-section-3)
+
+- [Implement a Contour Detection Algorithm](#6-contour-detection)
+    - [1. Apply the contour detection algorithm to the same image dataset. Visualize the detected contours on the original images, marking each contour with a different color.](#contour-section-1)
+    - [2. Calculate and display relevant statistics for each image, such as the number of contours detected, contour area, and perimeter.](#contour-section-2)
+    - [3. Compare the results of blob detection and contour detection for the chosen dataset.](#contour-section-3)
+    - [ 4. Discuss the advantages and limitations of each technique.](#contour-section-4)
+    - [5. Analyze the impact of different parameters (e.g., threshold values, filter sizes) on the detection results.](#contour-section-5)
+    - [6. Provide examples where one technique might be more suitable than the other.](#contour-section-6)
 
 <div style="page-break-after: always;"></div>
 
@@ -217,13 +221,13 @@ In figure 16, we can see that the MSE is continually decreasing from 0.028 (k=1)
 
 <div style="page-break-after: always;"></div>
 
-## <a id="3-hog"></a> Histogram of Oriented Gradients
+## <a id="3-histogram-of-oriented-gradients"></a> Histogram of Oriented Gradients
 
 ### <a id="hog-section-1"></a>1. Write a Python script to compute the HOG features of a given image using a library such as OpenCV or scikit-image. Apply your implementation to at least three different images, including both simple and complex scenes.
 
 Histogram of Oriented Gradients (HOG) features capture local shape by counting how often edges point in each direction within small regions, then normalizing and concatenating them into a feature vector. The x and y gradients are the horizontal and vertical changes in pixel intensity, revealing edge direction. The gradient magnitude is the overall edge strength at each pixel, used as the weight when voting into orientation bins. We used the skimage library to compute the HOG features of a given image.
 
-### <a id="hog-section2"></a>3. Visualize the original image, the gradient image, and the HOG feature image. Compare the HOG features extracted from different images.
+### <a id="hog-section-2"></a>2. Visualize the original image, the gradient image, and the HOG feature image. Compare the HOG features extracted from different images.
 
 <p align="center">
   <img src="results/hog/hog_features.png" width="800"/><br>
@@ -267,7 +271,7 @@ The amount of orientation also doens't have the same impact as cell size, but fe
 
 
 
-## <a id="4-lbp"></a> Local Binary Patterns
+## <a id="4-local-binary-patterns"></a> Local Binary Patterns
 
 ### <a id="lbp-section-1"></a>1. Write a Python function to compute the LBP of a given grayscale image (basic 8-neighbor). Your function should output the LBP image, where each pixel is replaced by its corresponding LBP value.
 
@@ -278,7 +282,7 @@ The amount of orientation also doens't have the same impact as cell size, but fe
 
 Local Binary Patterns (LBP) encodes local texture at each pixel by comparing the pixel's intensity to its eight immediate neighbors: 1 for each neighbor that is at least as bright as the center, otherwise 0. Reading these eight bits in a fixed order yields an 8-bit pattern that is converted to a decimal value in the range from 0 to 255, and the pixel in the LBP image is replaced by this value. Figure 19 presents the original image alongside its 8-neighbor LBP representation.
 
-### <a id="lbp-section-2"></a>3. Write a Python function to compute the histogram of the LBP image. Plot the histogram and explain what it represents in terms of the texture features of the image.
+### <a id="lbp-section-2"></a>2. Write a Python function to compute the histogram of the LBP image. Plot the histogram and explain what it represents in terms of the texture features of the image.
 
 <p align="center">
   <img src="results/lbp/lbp_histogram.png" width="800"/><br>
@@ -289,25 +293,38 @@ An LBP histogram counts how many pixels in the LBP image have each code value fr
 
 In figure 20, the LBP histogram shows tall peaks near the extreme codes (0 and 255), indicating many uniform patterns.
 
-### <a id="lbp-section-3"></a>5. Apply your LBP function to at least three different grayscale images (e.g., a natural scene, a texture, and a face image). Generate and compare the histograms of the LBP images.
+
+
+### <a id="lbp-section-3"></a>3. Apply your LBP function to at least three different grayscale images (e.g., a natural scene, a texture, and a face image). Generate and compare the histograms of the LBP images.
 
 <p align="center">
   <img src="results/lbp/lbp_grid.png" width="800"/><br>
   <em>Figure 21: LBP for several images</em>
 </p>
 
-The LBP histograms in figure 21 clearly differentiate the three textures. For Image 1 (portrait), dominant peaks at extreme codes at 0 and 255 indicate many uniform patternse. Image 2 (brick wall) shows concentrated, repeating mid-range peaks, reflecting fewer uniform regions in the image. Image 3 (mountain/forest) has the broadest distribution with tall spikes across several codes, including extremes, consistent with heterogeneous, high-contrast textures from ridges, foliage, and mist. 
+The LBP histograms differs among the three images. The image of Mona Lisa and the brickwall has a large spike around code 255 and some smaller spikes in the range from 0 to 255.. The image of the landscape has more large spikes at higher code values and for values around 100 to 150.
 
-### <a id="lbp-section-4"></a>7. Discuss the differences in the histograms and what they tell you about the textures of the different images.
+### <a id="lbp-section-4"></a>4. Discuss the differences in the histograms and what they tell you about the textures of the different images.
 
-<p align="center">
+<!-- <p align="center">
   <img src="results/lbp/lbp_grid_category.png" width="800"/><br>
   <em>Figure 22: LBP by category for several images</em>
-</p>
+</p> -->
+
+The LBP histograms in figure 21 clearly differentiate the three textures. For Image 1 (portrait), dominant peaks at extreme codes at 0 and 255 indicate many uniform patternse. Image 2 (brick wall) shows concentrated, repeating mid-range peaks, reflecting fewer uniform regions in the image. 
+
+
+
 
 The categorized LBP histograms and overlays in Figure 22 separate flat (codes 0/255), uniform-edge, and corner/texture patterns, revealing distinct texture patterns. Image 1 (portrait) shows high flat counts with secondary uniform-edge peaks, the overlay places flats on skin/sky and edges along the hairline, eyes, and garment folds, typical of largely smooth surfaces with soft boundaries. Image 2 (brick wall) is dominated by repeated uniform-edge peaks and few flats, the overlay aligns these edge codes with mortar lines, indicating a regular, periodic, edge-rich texture. Image 3 (mountain/forest) has the broadest distribution and the largest corner/texture component, the overlay highlights dense non-uniform patterns over trees, ridges, and rocks, evidencing a heterogeneous, high-contrast texture field.
 
 
+and the image of the landscape has 
+
+where the first image has large spikes at 0 and 255, w
+The LBP histograms in figure 21 clearly differentiate the three textures. For Image 1 (portrait), dominant peaks at extreme codes at 0 and 255 indicate many uniform patternse. Image 2 (brick wall) shows concentrated, repeating mid-range peaks, reflecting fewer uniform regions in the image. 
+
+Image 3 (mountain/forest) has the broadest distribution with tall spikes across several codes, including extremes, consistent with heterogeneous, high-contrast textures from ridges, foliage, and mist. 
 
 
 
@@ -323,10 +340,11 @@ The categorized LBP histograms and overlays in Figure 22 separate flat (codes 0/
 
 
 
-## <a id="4-blob-detection"></a> Implement a Blob Detection Algorithm. 
+
+## <a id="5-blob-detection"></a> Implement a Blob Detection Algorithm. 
 
 
-### <a id="blob-section-2"></a> 1. Apply the blob detection algorithm to one of the provided image datasets on blackboard. Visualize the detected blobs on the original images, marking each detected blob with a circle or bounding box.
+### <a id="blob-section-1"></a> 1. Apply the blob detection algorithm to one of the provided image datasets on blackboard. Visualize the detected blobs on the original images, marking each detected blob with a circle or bounding box.
 
 <p align="center">
   <img src="results/blob2/blob_detection.png" width="300"/><br>
@@ -379,7 +397,7 @@ The `threshold` parameter determines the minimum intensity difference required f
 
 
 
-## <a id="5-contour-detection"></a> Implement a Contour Detection Algorithm
+## <a id="6-contour-detection"></a> Implement a Contour Detection Algorithm
 
 ### <a id="contour-section-1"></a> 1. Apply the contour detection algorithm to the same image dataset. Visualize the detected contours on the original images, marking each contour with a different color.
 
@@ -454,7 +472,7 @@ Below are the same images but with the Marching Squares contour detection algori
 ### <a id="contour-section-3"></a> 3. Compare the results of blob detection and contour detection for the chosen dataset.
 
 <p align="center">
-  <img src="results/contour2/blob_vs_contour_all.png" width="300"/><br>
+  <img src="results/blob2/blob_vs_contour_detection.png" width="300"/><br>
   <em>Figure 37: Blod and contour detection applied to images</em>
 </p>
 
