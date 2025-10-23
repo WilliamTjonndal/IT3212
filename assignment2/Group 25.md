@@ -124,14 +124,29 @@ The Structural Similarity Index (SSIM) is a metric used to measure the similarit
 ### <a id="PCA-section-1"></a>1. PCA Implementation
 
 <p align="center">
-  <img src="results/pca/2d.png" width="800"/><br>
-  <em>Figure "1": Components</em>
+  <img src="results/pca/original.png" width="800"/><br>
+  <em>Figure "-1": Original images</em>
 </p>
+
+We loaded the original images in grayscale with a size of 128x128 px, then normalized all pixel values between 0 and 1.
+
+The images were converted into a 2d matrix with image as row and pixel value as column.
+
+A covariance matrix was calculated for the image matrix, and it was used to calculate eigenvalues and eigenvectors, sorted in descending order.
 
 <p align="center">
   <img src="results/pca/components.png" width="800"/><br>
-  <em>Figure "1": Components</em>
+  <em>Figure "0": Principal Components</em>
 </p>
+
+We selected the top k=6 eigenvectors to start with, and will experiment with the amount later. These were used to create our principal components, as seen in figure "0".
+
+<p align="center">
+  <img src="results/pca/2d.png" width="800"/><br>
+  <em>Figure "1": Images visualized as PC1 vs PC2</em>
+</p>
+
+We visualized all 8 images in the 2-dimensional subspace defined by PC1 and PC2, shown in figure "1".
 
 ### <a id="PCA-section-2"></a>2. Reconstruction of images
 
