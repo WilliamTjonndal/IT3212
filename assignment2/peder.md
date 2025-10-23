@@ -19,6 +19,11 @@ Implement the following steps:
 6. Project the original images onto the lower-dimensional subspace defined by the selected principal components.
 
 <p align="center">
+  <img src="results/pca/2d.png" width="800"/><br>
+  <em>Figure "1": Components</em>
+</p>
+
+<p align="center">
   <img src="results/pca/components.png" width="800"/><br>
   <em>Figure "1": Components</em>
 </p>
@@ -28,7 +33,7 @@ Reconstruction of Images:
 1. Using the selected principal components, reconstruct the images.
 
 <p align="center">
-  <img src="results/pca/reconstructedwithk6.png" width="800"/><br>
+  <img src="results/pca/reconstructedwithdifferentKs.png" width="800"/><br>
   <em>Figure "2": Images reconstructed with k = 6</em>
 </p>
 
