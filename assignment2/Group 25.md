@@ -193,7 +193,7 @@ As seen in figure "3" the reconstructed images are fairly close to the original 
   <em>Figure "7": Orignal images comapred to reconstructed images with k = 6</em>
 </p>
 
-In figure 7 we can see that the MSE is continually decreasing from 0.028 (k=1) to 0.0033 (k=6), and becomes aproximally 0 at k=7, which is in line with the dataset being rank n-1=7. We chose k=6 as a balance between compression and quality(PSNR ≈ 25 dB at a [0,1]-scale)
+In figure 7 we can see that the MSE is continually decreasing from 0.028 (k=1) to 0.0033 (k=6), and becomes aproximally 0 at k=7, which is in line with the dataset being rank n-1=7. We chose k=6 as a balance between compression and quality, with a peak signal to noise ratio (PSNR) of about 25dB.
 
 
 
