@@ -189,6 +189,8 @@ With a threshold of 90% we see that six prinicple components would be needed to 
 
 #### <a id="PCA-section-4a"></a>a. Display the original images alongside the reconstructed images for different values of k.
 
+The original images alongside the reconstructed images for different values of k is shown if figure "5" 
+
 #### <a id="PCA-section-4b"></a>b. Comment on the visual quality of the images and how much information is lost during compression.
 
 As seen in figure "3" the reconstructed images are fairly close to the original with the exeption of image nr 4(from the left). 
