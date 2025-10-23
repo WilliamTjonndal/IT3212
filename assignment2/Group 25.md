@@ -171,7 +171,13 @@ Histogram of Oriented Gradients (HOG) features capture local shape by counting h
   <em>Figure 10: HOG features with different parameters</em>
 </p>
 
-As observed in figure 10, Smaller cells (4×4) make HOG very sensitive to fine texture and small edges, while larger cells (16×16) average local gradients and emphasize only coarse object shape/silhouette. Bigger blocks (4×4 cells) normalize over a wider area, improving illumination/contrast robustness but slightly smoothing local detail, tiny blocks (1×1) keep punchy local contrast but are less robust. Fewer orientation bins (6) give compact, coarse angle coding that highlights major contours; many bins (18) capture subtle angle changes but can add redundancy/noise.
+As shown in figure 10, using smaller cells (4×4) makes the HOG more sensitive to fine texture and details. This is most visible on the image of the strawberry, where individual seeds are much more recognizable compared to HOG with other parameters.
+
+Larger cells (16×16) smooth local gradients and emphasize only the rough shape of the image.
+
+Block size has less impact than cell size, but iny blocks (1×1) preserve more local contrast and are less robust to illumination/contrast changes, while large blocks (4×4 cells) normalize gradients across a wider area, improving robustness to illumination/contrast changes, but slightly smooths local variation.
+
+The amount of orientation also doens't have the same impact as cell size, but fewer orientation bins (6) give more compact, coarse angle coding that highlights major contours, while many bins (18) capture subtle angle changes but can add redundancy/noise.
 
 <div style="page-break-after: always;"></div>
 
