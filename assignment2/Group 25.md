@@ -94,6 +94,7 @@ Keeping only a percentage of the Fourier coefficients means ranking the DFT coef
 
 Compression ratio (CR) measures how much an image is reduced in size, defined as compressed size divided by original size. A lower CR means more compression, and potentially greater quality loss, while a higher CR means less compression. As shown in figure 5, the compression ratio is linear, meaning that keeping more coefficients takes more space.
 
+
 <p align="center">
   <img src="results/dft/PSNR.png" width="500"/><br>
   <em>Figure 6: Peak Signal-to-Noise Ratio</em>
