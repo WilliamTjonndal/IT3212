@@ -33,7 +33,7 @@ Reconstruction of Images:
 1. Using the selected principal components, reconstruct the images.
 
 <p align="center">
-  <img src="results/pca/reconstructedwithdifferentKs.png" width="800"/><br>
+  <img src="results/pca/reconstructedwithk6.png" width="800"/><br>
   <em>Figure "2": Images reconstructed with k = 6</em>
 </p>
 
@@ -51,7 +51,7 @@ Experimentation:
 reconstructed images.
 
 <p align="center">
-  <img src="results/pca/differentKsrecon.png" width="800"/><br>
+  <img src="results/pca/reconstructedwithdifferentKs.png" width="800"/><br>
   <em>Figure "4": Images reconstructed with different K's</em>
 </p>
 
@@ -72,15 +72,12 @@ With a threshold of 90% we see that six prinicple components would be needed to 
 Visual Analysis:
 1. Display the original images alongside the reconstructed images for different values of k.
 
-<p align="center">
-  <img src="results/pca/originalvsk6.png" width="800"/><br>
-  <em>Figure "6": Orignal images comapred to reconstructed images with k = 6</em>
-</p>
+In figure 4
 
 2. Comment on the visual quality of the images and how much information is lost during
 compression.
 
-As seen in figure "k6 vs original" the reconstructed images are fairly close to the original with the exeption of image nr 4(from the left). 
+As seen in figure "3" the reconstructed images are fairly close to the original with the exeption of image nr 4(from the left). 
 
 Error Analysis:
 <p align="center">
