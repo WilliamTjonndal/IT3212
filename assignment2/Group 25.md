@@ -196,7 +196,11 @@ The original images alongside the reconstructed images for different values of k
 
 #### <a id="PCA-section-4b"></a>b. Comment on the visual quality of the images and how much information is lost during compression.
 
-As seen in figure 12, the reconstructed images are fairly close to the original with the exeption of the fourth image from the left which is very blurry.
+As seen in figure 12, the reconstructed images are very similar to the originals, with the exeption of the fourth image from the left which is very blurry. You can still make out the expression in the image, but it's much harder than with the rest.
+
+This problem can also be seen in figure 13, where reconstructions with lower values for k are more blurry than those with higher values.
+
+You can also see a representation of the quality of the reconstruction using MSE in figure 15, and it will be discussed further in the next section.
 
 ### <a id="PCA-section-5"></a>5. Error Analysis
 
