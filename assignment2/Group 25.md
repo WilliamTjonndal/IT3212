@@ -300,7 +300,11 @@ In figure 20, the LBP histogram shows tall peaks near the extreme codes (0 and 2
   <em>Figure 21: LBP for several images</em>
 </p>
 
-The LBP histograms differs among the three images. The image of Mona Lisa and the brickwall has a large spike around code 255 and some smaller spikes in the range from 0 to 255. The image of the landscape has more large spikes at higher code values and for values around 100 to 150.
+The LBP histograms differs among the three images. The image of Mona Lisa's histogram has a more uniform distribution of pixel values, with smaller spikes and large spikes at 0 and 255.
+
+The image of the bricks wall's histogram has a slightly less uniform distribuiton, with more sparse spikes.
+
+The image of the landscape's histogram is much less uniformly distributed, with tall, sparse spikes and not much between them.
 
 ### <a id="lbp-section-4"></a>4. Discuss the differences in the histograms and what they tell you about the textures of the different images.
 
@@ -309,20 +313,24 @@ The LBP histograms differs among the three images. The image of Mona Lisa and th
   <em>Figure 22: LBP by category for several images</em>
 </p>
 
-The LBP histograms in figure 21 clearly differentiate the three textures. For Image 1 (portrait), dominant peaks at extreme codes at 0 and 255 indicate many uniform patternse. Image 2 (brick wall) shows concentrated, repeating mid-range peaks, reflecting fewer uniform regions in the image. 
+We categorized LBP pixel values into 4 categories, flat 0, edge (uniform), flat 255, and corner/noise. The categories are decided based on the binary encoding of the surrounding pixel values, where the amount of transitions between 0 and 1 decide the category.
 
+No transitions in the binary pixel value, e.g. 00000000, means it's categoriezed as flat, going into either flat 0 or flat 255, depending on whether every number is 0 or 1.
 
+One or two transitions in the binary pixel value, e.g. 11000111, means it's classified as an edge.
 
+More than two transitions, e.g. 10101010, are classified as a corner/noise.
 
-The categorized LBP histograms and overlays in Figure 22 separate flat (codes 0/255), uniform-edge, and corner/texture patterns, revealing distinct texture patterns. Image 1 (portrait) shows high flat counts with secondary uniform-edge peaks, the overlay places flats on skin/sky and edges along the hairline, eyes, and garment folds, typical of largely smooth surfaces with soft boundaries. Image 2 (brick wall) is dominated by repeated uniform-edge peaks and few flats, the overlay aligns these edge codes with mortar lines, indicating a regular, periodic, edge-rich texture. Image 3 (mountain/forest) has the broadest distribution and the largest corner/texture component, the overlay highlights dense non-uniform patterns over trees, ridges, and rocks, evidencing a heterogeneous, high-contrast texture field.
+After visualizing the LBP results in this way, it's much easier to interpret our results. In the image of mona lisa, you can see the edges are clearly marked in red, while the rest of the image 
+is filled with flat 0, flat 255, and corner/noise.
 
+The image of the brick wall has much more noise, and it also has many corners, so it's filled with way more pixels classified as corner/noise. Not many of the brick edges are correctly classified as edges, which is because of choosing a radius of 4, which isn't as good at recognizing thin edges like on the bricks.
 
-and the image of the landscape has 
+The image of the forest is also not classified as well as the image of mona lisa. This time, most of the sky is classified as edges, which is caused by it having a gradient, which is interpreted as an edge when using LBP.
 
-where the first image has large spikes at 0 and 255, w
-The LBP histograms in figure 21 clearly differentiate the three textures. For Image 1 (portrait), dominant peaks at extreme codes at 0 and 255 indicate many uniform patternse. Image 2 (brick wall) shows concentrated, repeating mid-range peaks, reflecting fewer uniform regions in the image. 
+We selected the parameters of the LBP function to improve the categorization for the image of mona lisa, which is why it's categories seem more accurate than for the brick wall or the landscape.
 
-Image 3 (mountain/forest) has the broadest distribution with tall spikes across several codes, including extremes, consistent with heterogeneous, high-contrast textures from ridges, foliage, and mist. 
+To receive better results, we would perform a discrete fourier transform on the images, reducing noise. We would also 
 
 
 
