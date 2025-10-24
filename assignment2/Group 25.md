@@ -470,7 +470,7 @@ Contour detection algorithms aim to identify and extract the boundaries of objec
 
 <p align="center">
   <img src="results/blob2/blob_vs_contour_detection.png" width="300"/><br>
-  <em>Figure 37: Blob-![alt text](image.png) and contour detection applied to images</em>
+  <em>Figure 37: Blob- and contour detection applied to images</em>
 </p>
 
 ### <a id="contour-section-4"></a> 4. Discuss the advantages and limitations of each technique.
