@@ -481,6 +481,8 @@ Contour detection algorithms aim to identify and extract the boundaries of objec
   <em>Figure 37: Blob- and contour detection applied to images</em>
 </p>
 
+Blob detection excels at highlighting regions that stand out from their surroundings. In image 3 of figure 37 (with tram tracks), it better detects the windows on the left building because the pixels differ from the surrounding pixels. In contrast, contour detection is strongest at tracing boundaries and sharp intensity changes, so it better captures the right-hand building’s windows with their well-defined edges. Similar patterns can be seen in the other images.
+
 ### <a id="contour-section-4"></a> 4. Discuss the advantages and limitations of each technique.
 
 
@@ -489,7 +491,7 @@ Contour detection algorithms aim to identify and extract the boundaries of objec
   <em>Figure 38: Blob and contour detection applied to circular regions</em>
 </p>
 
-Blob detection is efficient at identifying roughly circular regions and provides quick localization and size estimates, making it ideal for detecting spots or particles across multiple scales. As shown in Figure 38, blob detection correctly separates the two touching circular objects, whereas contour detection merges them into a single unit.However, the blob detection algorithm lacks detailed shape information and struggles with irregular or complex objects.
+Blob detection is efficient at identifying roughly circular regions and provides quick localization and size estimates, making it ideal for detecting spots or particles across multiple scales. As shown in Figure 38, blob detection correctly separates the two touching circular objects, whereas contour detection merges them into a single unit. However, the blob detection algorithm lacks detailed shape information and struggles with irregular or complex objects.
 
 <p align="center">
   <img src="results/goodcontour.png" width="300"/><br>
