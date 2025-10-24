@@ -101,14 +101,14 @@ Compression ratio (CR) measures how much an image is reduced in size, defined as
   <em>Figure 6: Peak Signal-to-Noise Ratio</em>
 </p>
 
-Peak signal-to-noise ratio (PSNR) is the ratio between the maximum possible power of an image and the power of corrupting noise that affects the quality of its representation. In figure 6, PSNR rises quickly at very low keep-rates, from about 20 dB at 0.1% to around 30–31 dB by 3–5%, then shows diminishing returns, reaching roughly 37 dB at 20%. About 3–5% already yields acceptable quality, while increases beyond 10% bring only small gains.
+Peak Signal-to-Noise Ratio (PSNR) computes the peak signal-to-noise ratio, in decibels, between two images. This ratio is used as a quality measurement between the original and a compressed image. The higher the PSNR, the better the quality of the compressed, or reconstructed image. In figure 6, PSNR rises quickly at very low keep rates, from about 20 dB at 0.1% to around 29–31 dB by 3–5%, then levels off, reaching roughly 37 dB at 20%. As noted in in figure 4, retaining more than 5% of coefficients yields little additional quality. This aligns with the PSNR curve in figure 6 where increases beyond 5% are marginal, and PSNR values above 30 dB already indicate good quality.
 
 <p align="center">
   <img src="results/dft/SSIM.png" width="500"/><br>
   <em>Figure 7: Structural Similarity Index</em>
 </p>
 
-The Structural Similarity Index (SSIM) is a metric used to measure the similarity between two images by comparing luminance, contrast, and structure, where 1 indicates a perfect match. As shown in figure 7, SSIM rises sharply at very low keep-rates and then converges slowly to 1. Keeping more than 10% of the coeffisients only yield minor gains in similarity.
+The Structural Similarity Index (SSIM) is a metric used to measure the similarity between two images by comparing luminance, contrast, and structure, where 1 indicates a perfect match. As shown in figure 7, SSIM rises sharply at very low keep-rates and then converges slowly to 1. Keeping more than 5% of the coeffisients only yield minor gains in similarity, which corresponds with the quality trends shown in figure 6.
 
 
 <div style="page-break-after: always;"></div>
@@ -132,7 +132,7 @@ The Structural Similarity Index (SSIM) is a metric used to measure the similarit
   <em>Figure 8: Original images</em>
 </p>
 
-We loaded the original images in grayscale with a size of 128x128 px, then normalized all pixel values between 0 and 1.
+We loaded the original images in grayscale with a size of 128x128 pixels, then normalized all pixel values between 0 and 1.
 
 The images were converted into a 2D matrix with image as row and pixel value as column.
 
@@ -143,7 +143,7 @@ A covariance matrix was calculated for the image matrix, and it was used to calc
   <em>Figure 9: Principal Components</em>
 </p>
 
-We selected the top k=6 eigenvectors to start with, and will experiment with the amount later. These were used to create our principal components, as seen in figure 9.
+We selected the top k = 6 eigenvectors to start with, and will experiment with the amount later. These were used to create our principal components, as seen in figure 9.
 
 <p align="center">
   <img src="results/pca/2d.png" width="800"/><br>
@@ -177,8 +177,7 @@ We visualized all 8 images in the 2-dimensional subspace defined by PC1 and PC2,
   <em>Figure 13: Images reconstructed with different K's</em>
 </p>
 
-We experimented with different k's for the reconstruction of the original images. Figure 13 illustrates how the reconstruction increasingly aporaches an aproximation of the original images with every aditional increase of k.
-
+We experimented with different k values for the reconstruction of the original images. Figure 13 illustrates how the reconstruction increasingly aporaches an aproximation of the original images with every aditional increase of k.
 
 #### <a id="PCA-section-3b"></a>b. Plot the variance explained by the principal components and determine the optimal number of components that balances compression and quality.
 
@@ -197,7 +196,7 @@ The original images alongside the reconstructed images for different values of k
 
 #### <a id="PCA-section-4b"></a>b. Comment on the visual quality of the images and how much information is lost during compression.
 
-As seen in figure 12, the reconstructed images are fairly close to the original with the exeption of the fourth image from the left.
+As seen in figure 12, the reconstructed images are fairly close to the original with the exeption of the fourth image from the left which is very blurry.
 
 ### <a id="PCA-section-5"></a>5. Error Analysis
 
@@ -214,7 +213,7 @@ As seen in figure 12, the reconstructed images are fairly close to the original 
   <em>Figure 16: Orignal images comapred to reconstructed images with k = 6</em>
 </p>
 
-In figure 16, we can see that the MSE is continually decreasing from 0.028 (k=1) to 0.0033 (k=6), and becomes aproximally 0 at k=7, which is in line with the dataset being rank n-1=7. We chose k=6 as a balance between compression and quality, with a peak signal to noise ratio (PSNR) of about 25dB.
+In figure 16, we can see that the MSE is continually decreasing from 0.028 (k = 1) to 0.0033 (k =6 ), and becomes aproximally 0 at k = 7, which is in line with the dataset being rank n - 1 = 7. We chose k = 6 as a balance between compression and quality, with a PNSR of about 25 dB.
 
 
 
@@ -225,7 +224,7 @@ In figure 16, we can see that the MSE is continually decreasing from 0.028 (k=1)
 
 ### <a id="hog-section-1"></a>1. Write a Python script to compute the HOG features of a given image using a library such as OpenCV or scikit-image. Apply your implementation to at least three different images, including both simple and complex scenes.
 
-Histogram of Oriented Gradients (HOG) features capture local shape by counting how often edges point in each direction within small regions, then normalizing and concatenating them into a feature vector. The x and y gradients are the horizontal and vertical changes in pixel intensity, revealing edge direction. The gradient magnitude is the overall edge strength at each pixel, used as the weight when voting into orientation bins. We used the skimage library to compute the HOG features of a given image.
+Histogram of Oriented Gradients (HOG) features capture local shape by counting how often edges point in each direction within small regions, then normalizing and concatenating them into a feature vector. The x and y gradients are the horizontal and vertical changes in pixel intensity, revealing edge direction. The gradient magnitude is the overall edge strength at each pixel, used as the weight when voting into orientation bins. HOG is a feature descriptor used for object detection.
 
 ### <a id="hog-section-2"></a>2. Visualize the original image, the gradient image, and the HOG feature image. Compare the HOG features extracted from different images.
 
@@ -234,7 +233,7 @@ Histogram of Oriented Gradients (HOG) features capture local shape by counting h
   <em>Figure 17: HOG features with baseline parameters</em>
 </p>
 
-As shown in figure 17, HOG better represent sharp edges so it is better at displaying the contours of the human and the car compared to small details like the seeds on the strawberry.
+As shown in figure 17, HOG is better at capturing sharp edges and overall shape/contour than fine textures. Consequently, it renders the human and car contour more clearly since the original images contain fewer details and has well-defined edges. The strawberry and tiger are harder to recognize from HOG features because their appearances are dominated by fine textures as seeds and fur. 
 
 ### <a id="hog-section-3"></a>3. Discuss the impact of varying parameters like cell size, block size, and the number of bins on the resulting HOG descriptors.
 
@@ -243,13 +242,12 @@ As shown in figure 17, HOG better represent sharp edges so it is better at displ
   <em>Figure 18: HOG features with different parameters</em>
 </p>
 
-As shown in figure 18, using smaller cells (4×4) makes the HOG more sensitive to fine texture and details. This is most visible on the image of the strawberry, where individual seeds are much more recognizable compared to HOG with other parameters.
 
-Larger cells (16×16) smooth local gradients and emphasize only the rough shape of the image.
+As shown in figure 18, using smaller cells (4×4) makes the HOG more sensitive to fine textures and details. This is most visible on the image of the strawberry, where individual seeds are much more recognizable compared to HOG features with other parameters. Smaller cells also improves the tiger image, revealing more fine fur detail. Larger cells (16×16) smooth local gradients and emphasize only the rough shape of the image.
 
 Block size has less impact than cell size, but tiny blocks (1×1) preserve more local contrast and are less robust to illumination/contrast changes, while large blocks (4×4 cells) normalize gradients across a wider area, improving robustness to illumination/contrast changes, but slightly smooths local variation.
 
-The amount of orientation also doens't have the same impact as cell size, but fewer orientation bins (6) give more compact, coarse angle coding that highlights major contours, while many bins (18) capture subtle angle changes but can add redundancy/noise.
+The amount of orientation also does not have the same impact as cell size, but fewer orientation bins (6) give more compact, coarse angle coding that highlights major contours, while many bins (18) capture subtle angle changes but can add redundancy/noise.
 
 <div style="page-break-after: always;"></div>
 
@@ -302,14 +300,14 @@ In figure 20, the LBP histogram shows tall peaks near the extreme codes (0 and 2
   <em>Figure 21: LBP for several images</em>
 </p>
 
-The LBP histograms differs among the three images. The image of Mona Lisa and the brickwall has a large spike around code 255 and some smaller spikes in the range from 0 to 255.. The image of the landscape has more large spikes at higher code values and for values around 100 to 150.
+The LBP histograms differs among the three images. The image of Mona Lisa and the brickwall has a large spike around code 255 and some smaller spikes in the range from 0 to 255. The image of the landscape has more large spikes at higher code values and for values around 100 to 150.
 
 ### <a id="lbp-section-4"></a>4. Discuss the differences in the histograms and what they tell you about the textures of the different images.
 
-<!-- <p align="center">
+<p align="center">
   <img src="results/lbp/lbp_grid_category.png" width="800"/><br>
   <em>Figure 22: LBP by category for several images</em>
-</p> -->
+</p>
 
 The LBP histograms in figure 21 clearly differentiate the three textures. For Image 1 (portrait), dominant peaks at extreme codes at 0 and 255 indicate many uniform patternse. Image 2 (brick wall) shows concentrated, repeating mid-range peaks, reflecting fewer uniform regions in the image. 
 
@@ -351,7 +349,7 @@ Image 3 (mountain/forest) has the broadest distribution with tall spikes across 
   <em>Figure 23: Blob detection applied on greyscale images</em>
 </p>
 
-Our blob detection algorithm uses the Laplacian of Gaussian (LoG) method. The results are shown in figure 23.
+Blob detection algorithms identify regions in an image with distinct properties like brightness or color. Our implemented blob detection algorithm uses the Laplacian of Gaussian (LoG) method. The results are shown in figure 23.
 
 ### <a id="blob-section-2"></a> 2. Calculate and display relevant statistics for each image, such as the number of blobs detected, their sizes, and positions.
 
@@ -401,13 +399,12 @@ The `threshold` parameter determines the minimum intensity difference required f
 
 ### <a id="contour-section-1"></a> 1. Apply the contour detection algorithm to the same image dataset. Visualize the detected contours on the original images, marking each contour with a different color.
 
-
-Below are the same images but with the Marching Squares contour detection algorithm applied on the grayscale version of the images.
-
 <p align="center">
   <img src="results/contour2/contour_detection.png" width="300"/><br>
   <em>Figure 26: Contour detection applied to greyscale images</em>
 </p>
+
+Contour detection algorithms aim to identify and extract the boundaries of objects within an image, often represented as a sequence of connected points or curves. Our implemented contour detection algorithm uses the Marching Squares  method. The results are shown in figure 26.
 
 ### <a id="contour-section-2"></a> 2. Calculate and display relevant statistics for each image, such as the number of contours detected, contour area, and perimeter.
 
@@ -473,40 +470,38 @@ Below are the same images but with the Marching Squares contour detection algori
 
 <p align="center">
   <img src="results/blob2/blob_vs_contour_detection.png" width="300"/><br>
-  <em>Figure 37: Blod and contour detection applied to images</em>
+  <em>Figure 37: Blob-![alt text](image.png) and contour detection applied to images</em>
 </p>
-
-
 
 ### <a id="contour-section-4"></a> 4. Discuss the advantages and limitations of each technique.
 
 
 <p align="center">
   <img src="results/goodblob.png" width="300"/><br>
-  <em>Figure 38: Blob and contour detection applied to circles</em>
+  <em>Figure 38: Blob and contour detection applied to circular regions</em>
 </p>
 
-Blob detection is efficient at identifying roughly circular regions and provides quick localization and size estimates, making it ideal for detecting spots or particles across multiple scales. However, it lacks detailed shape information and struggles with irregular or complex objects.
+Blob detection is efficient at identifying roughly circular regions and provides quick localization and size estimates, making it ideal for detecting spots or particles across multiple scales. As shown in Figure 38, blob detection correctly separates the two touching circular objects, whereas contour detection merges them into a single unit.However, the blob detection algorithm lacks detailed shape information and struggles with irregular or complex objects.
 
 <p align="center">
   <img src="results/goodcontour.png" width="300"/><br>
-  <em>Figure 39: Blob and contour detection applied to rectangles</em>
+  <em>Figure 39: Blob and contour detection applied to rectangular regions</em>
 </p>
 
-Contour detection, on the other hand, excels at outlining precise object boundaries and capturing detailed shape features, which is valuable for morphological analysis. Its effectiveness depends heavily on image quality and edge definition, and it can be computationally more intensive and sensitive to noise.
+Contour detection, on the other hand, excels at outlining precise object boundaries and capturing detailed shape features, which is valuable for morphological analysis. As shown in Figure 38, contour detection correctly identifies a the rectangular object, whereas blob detection splits the region into multiple blobs. The effectiveness of the contour detection technique depends heavily on image quality and edge definition, and it can be computationally more intensive and sensitive to noise.
 
 So blob detection is best for fast, approximate feature localization, while contour detection is preferred when detailed shape and boundary information is required.
 
 ### <a id="contour-section-5"></a> 5. Analyze the impact of different parameters (e.g., threshold values, filter sizes) on the detection results.
 
+The performance of both blob and contour detection methods is sensitive to parameters like threshold values and filter sizes.
+
+In blob detection, adjusting the `threshold` controls the sensitivity. Lower thresholds detect more blobs but increase false positives, while higher thresholds reduce noise but may miss subtle features. Similarly, the choice of `max_sigma` and `num_sigma` affects the scale range and granularity of detected blobs. The variations of threshold values in blob detection are shown in figure 25.
+
 <p align="center">
   <img src="results/contour_analysis.png" width="800"/><br>
   <em>Figure 40: Contour detection with different thresholds</em>
 </p>
-
-The performance of both blob and contour detection methods is sensitive to parameters like threshold values and filter sizes.
-
-In blob detection, adjusting the `threshold` controls the sensitivity. Lower thresholds detect more blobs but increase false positives, while higher thresholds reduce noise but may miss subtle features. Similarly, the choice of `max_sigma` and `num_sigma` affects the scale range and granularity of detected blobs. The variations of threshold values in blob detection are shown in figure 25.
 
 For contour detection, the threshold used in binarization critically impacts which features are segmented, too low of a threshold may merge objects or include noise, while too high may fragment or miss contours. Additionally, morphological operations like removing small objects depend on filter sizes that balance noise reduction against losing small meaningful contours. Contour detection with different thresholds are shown in figure 40.
 
