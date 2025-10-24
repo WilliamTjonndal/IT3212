@@ -282,7 +282,7 @@ The amount of orientation also does not have the same impact as cell size, but f
   <em>Figure 19: LBP</em>
 </p>
 
-Local Binary Patterns (LBP) encodes local texture at each pixel by comparing the pixel's intensity to its eight immediate neighbors: 1 for each neighbor that is at least as bright as the center, otherwise 0. Reading these eight bits in a fixed order yields an 8-bit pattern that is converted to a decimal value in the range from 0 to 255, and the pixel in the LBP image is replaced by this value. Figure 19 presents the original image alongside its 8-neighbor LBP representation.
+Local Binary Patterns (LBP) encodes local texture at each pixel by comparing the pixel's intensity to its eight immediate neighbors: 1 for each neighbor that is at least as bright as the center, otherwise 0. Reading these eight bits in a fixed order yields an 8-bit pattern that is converted to a decimal value in the range from 0 to 255, and the pixel in the LBP image is replaced by this value. Figure 19 presents the original image alongside its 8-neighbor LBP representation, looking at the pixels 1 radius (1 pixel) away from the center pixel.
 
 ### <a id="lbp-section-2"></a>2. Write a Python function to compute the histogram of the LBP image. Plot the histogram and explain what it represents in terms of the texture features of the image.
 
@@ -304,7 +304,7 @@ In figure 20, the LBP histogram shows tall peaks near the extreme codes (0 and 2
   <em>Figure 21: LBP for several images</em>
 </p>
 
-The LBP histograms differs among the three images. The image of Mona Lisa's histogram has a more uniform distribution of pixel values, with smaller spikes and large spikes at 0 and 255.
+The LBP histograms differs among the three images. The image of Mona Lisa's histogram has a more uniform distribution of pixel values, with smaller spikes and large spikes at 0 and 255. For this LBP (figure 21), we increased the radius from 1 pixel to 4, and compared to the LBP in figure 19, the edges of the subject and the countours of the background are much more preserved.
 
 The image of the bricks wall's histogram has a slightly less uniform distribuiton, with more sparse spikes.
 
@@ -334,7 +334,7 @@ The image of the forest is also not classified as well as the image of mona lisa
 
 We selected the parameters of the LBP function to improve the categorization for the image of mona lisa, which is why it's categories seem more accurate than for the brick wall or the landscape.
 
-To receive better results, we would perform a discrete fourier transform on the images, reducing noise. We would also vary the parameters, the amount of neighbours and the radius, based on the dataset,\. This is so the LBP pixel value categories fit better for all images in the dataset instead of maximising quality for one of them.
+To receive better results, we would perform a discrete fourier transform on the images, reducing noise. We would also vary the parameters, the amount of neighbours and the radius, based on the dataset. This is so the LBP pixel value categories fit better for all images in the dataset instead of maximising quality for one of them.
 
 
 
@@ -365,7 +365,7 @@ Blob detection algorithms identify regions in an image with distinct properties 
 ### <a id="blob-section-2"></a> 2. Calculate and display relevant statistics for each image, such as the number of blobs detected, their sizes, and positions.
 
 <p align="center">
-  <img src="results/blob2/blob_detection_analysis.png" width="300"/><br>
+  <img src="results/blob2/blob_detection_analysis.png" width="700"/><br>
   <em>Figure 24: Blob detection statistic</em>
 </p>
 
@@ -381,14 +381,14 @@ The `max_sigma` parameter defines the maximum standard deviation for the Gaussia
 
 If `max_sigma` is set too low, larger blobs will not be detected at all. On the other hand, a high value can lead to the detection of large, low-contrast regions that may not correspond to meaningful features.
 
-The `num_sigma` parameter defines how many intermediate scales are tested between $0$ and `max_sigma`. We set a value value of $10$ so our code checks 10 different scales. Increasing this number can improve the precision of blob detection, especially for blobs that do not fall neatly into one of the predefined scales. However this can also greatly increases computational complexity.
+The `num_sigma` parameter defines how many intermediate scales are tested between $0$ and `max_sigma`. We set a value value of $10$ so to check $10$ different scales. Increasing this number can improve the precision of blob detection, especially for blobs that do not fall neatly into one of the predefined scales. However this can also greatly increases computational complexity.
 
 <p align="center">
   <img src="results/blob_analysis.png" width="800"/><br>
   <em>Figure 25: Blob detection with different thresholds</em>
 </p>
 
-The `threshold` parameter determines the minimum intensity difference required for a region to be considered a blob. A low `threshold` like $0.05$ makes the algorithm more sensitive, allowing it to detect faint or low-contrast blobs, but it may also detect noise. Conversely, a high `threshold` like $0.2$ makes the detection stricter, potentially missing subtle features while reducing false positives. This is shown in figure 25.
+The `threshold` parameter determines the minimum intensity difference required for a region to be considered a blob. A low `threshold` like $0.05$ makes the algorithm more sensitive, allowing it to detect faint or low-contrast blobs, but it may also detect noise, as seen in the leftmost image in figure 25. Conversely, a high `threshold` like $0.3$ makes the detection stricter, potentially missing subtle features while reducing false positives, as seein in the rightmost image.
 
 <div style="page-break-after: always;"></div>
 
@@ -450,11 +450,11 @@ Contour detection algorithms aim to identify and extract the boundaries of objec
   <em>Figure 31: Statistics for contour detection on image 5</em>
 </p>
 
-<!-- HISTOGRAMS -->
+<!-- BAR PLOTS - maybe change to histograms? -->
 
 <p align="center">
   <img src="results/contour/contour1h.png" width="700"/><br>
-  <em>Figure 32: Histogram of statistics for contour detection on image 1</em>
+  <em>Figure 32: Bar plot of statistics for contour detection on image 1</em>
 </p>
 
 <p align="center">
@@ -464,41 +464,43 @@ Contour detection algorithms aim to identify and extract the boundaries of objec
 
 <p align="center">
   <img src="results/contour/contour3h.png" width="700"/><br>
-  <em>Figure 34: Histogram of statistics for contour detection on image 3</em>
+  <em>Figure 34: Bar plot of statistics for contour detection on image 3</em>
 </p>
 
 <p align="center">
   <img src="results/contour/contour4h.png" width="700"/><br>
-  <em>Figure 35: Histogram of statistics for contour detection on image 4</em>
+  <em>Figure 35: Bar plot of statistics for contour detection on image 4</em>
 </p>
 
 <p align="center">
   <img src="results/contour/contour5h.png" width="700"/><br>
-  <em>Figure 36: Histogram of statistics for contour detection on image 5</em>
+  <em>Figure 36: Bar plot of statistics for contour detection on image 5</em>
 </p>
 
 ### <a id="contour-section-3"></a> 3. Compare the results of blob detection and contour detection for the chosen dataset.
 
 <p align="center">
   <img src="results/blob2/blob_vs_contour_detection.png" width="300"/><br>
-  <em>Figure 37: Blob- and contour detection applied to images</em>
+  <em>Figure 37: Blob- and contour detection applied to images (blob detection - red, countour detection - green)</em>
 </p>
 
-Blob detection excels at highlighting regions that stand out from their surroundings. In image 3 of figure 37 (with tram tracks), it better detects the windows on the left building because the pixels differ from the surrounding pixels. In contrast, contour detection is strongest at tracing boundaries and sharp intensity changes, so it better captures the right-hand building’s windows with their well-defined edges. Similar patterns can be seen in the other images.
+Blob detection excels at highlighting regions that stand out from their surroundings. In image 3 of figure 37 (with tram tracks), blob detection better detects the windows on the left building. This is because the pixels differ in intensity from their surroundings, but there are no hard edges.
+
+In contrast, contour detection is strongest at tracing boundaries and sharp intensity changes, so it better captures the right-hand building’s windows because of its hard edges. Similar patterns can be seen in the other images.
 
 ### <a id="contour-section-4"></a> 4. Discuss the advantages and limitations of each technique.
 
 
 <p align="center">
-  <img src="results/goodblob.png" width="300"/><br>
-  <em>Figure 38: Blob and contour detection applied to circular regions</em>
+  <img src="results/goodblob.png" width="800"/><br>
+  <em>Figure 38: Blob- and contour detection applied to circular regions</em>
 </p>
 
 Blob detection is efficient at identifying roughly circular regions and provides quick localization and size estimates, making it ideal for detecting spots or particles across multiple scales. As shown in Figure 38, blob detection correctly separates the two touching circular objects, whereas contour detection merges them into a single unit. However, the blob detection algorithm lacks detailed shape information and struggles with irregular or complex objects.
 
 <p align="center">
-  <img src="results/goodcontour.png" width="300"/><br>
-  <em>Figure 39: Blob and contour detection applied to rectangular regions</em>
+  <img src="results/goodcontour.png" width="800"/><br>
+  <em>Figure 39: Blob- and contour detection applied to rectangular regions</em>
 </p>
 
 Contour detection, on the other hand, excels at outlining precise object boundaries and capturing detailed shape features, which is valuable for morphological analysis. As shown in Figure 38, contour detection correctly identifies a the rectangular object, whereas blob detection splits the region into multiple blobs. The effectiveness of the contour detection technique depends heavily on image quality and edge definition, and it can be computationally more intensive and sensitive to noise.
