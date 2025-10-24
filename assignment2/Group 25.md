@@ -328,14 +328,13 @@ More than two transitions, e.g. 10101010, are classified as a corner/noise.
 After visualizing the LBP results in this way, it's much easier to interpret our results. In the image of mona lisa, you can see the edges are clearly marked in red, while the rest of the image 
 is filled with flat 0, flat 255, and corner/noise.
 
-The image of the brick wall has much more noise, and it also has many corners, so it's filled with way more pixels classified as corner/noise. Not many of the brick edges are correctly classified as edges, which is because of choosing a radius of 4, which isn't as good at recognizing thin edges like on the bricks.
+The image of the brick wall has much more noise, and it also has many corners, so it's filled with way more pixels classified as corner/noise. Not many of the brick edges are correctly classified as edges, which is because of choosing a radius of 4, which isn't as good at recognizing thin edges like on the bricks. The higher radius makes the LBP recognize thich edges easier, but is worse at detecting thin edges.
 
 The image of the forest is also not classified as well as the image of mona lisa. This time, most of the sky is classified as edges, which is caused by it having a gradient, which is interpreted as an edge when using LBP.
 
 We selected the parameters of the LBP function to improve the categorization for the image of mona lisa, which is why it's categories seem more accurate than for the brick wall or the landscape.
 
-To receive better results, we would perform a discrete fourier transform on the images, reducing noise. We would also 
-
+To receive better results, we would perform a discrete fourier transform on the images, reducing noise. We would also vary the parameters, the amount of neighbours and the radius, based on the dataset,\. This is so the LBP pixel value categories fit better for all images in the dataset instead of maximising quality for one of them.
 
 
 
