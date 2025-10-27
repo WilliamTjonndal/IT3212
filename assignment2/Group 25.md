@@ -55,7 +55,7 @@
 ### <a id="DFT-section-1"></a> 1. Load a grayscale image and apply the 2D Discrete Fourier Transform (DFT) to it Visualize the original image and its frequency spectrum (magnitude). Submit the images, and explanation.
 
 <p align="center">
-  <img src="results/dft/dft.png" width="500"/><br>
+  <img src="results/dft/dft.png" width="700"/><br>
   <em>Figure 1: Discrete fourier transformation</em>
 </p>
 
@@ -64,25 +64,33 @@ The 2D Discrete Fourier Transform (DFT) converts an image from the spatial domai
 ### <a id="DFT-section-2"></a> 2. Implement a low-pass filter in the frequency domain to remove high-frequency noise from an image. Compare the filtered image with the original image. Submit images, and analysis of the results
 
 <p align="center">
-  <img src="results/dft/lpf.png" width="500"/><br>
+  <img src="results/dft/lpf.png" width="700"/><br>
   <em>Figure 2: Low-pass filter</em>
 </p>
 
 A low-pass filter on the DFT keeps the low-frequency components near the spectrum’s center and suppresses high-frequency components toward the edges. After applying the inverse DFT, the loss of high-frequency detail like edges and fine textures produces a blurred image, as seen in figure 2.
 
+<div style="page-break-after: always;"></div>
+
 ### <a id="DFT-section-3"></a> 3. Implement a high-pass filter to enhance the edges in an image. Visualize the filtered image and discuss the effects observed. Submit images, and explanation.
 
 <p align="center">
-  <img src="results/dft/hpf.png" width="500"/><br>
+  <img src="results/dft/hpf.png" width="700"/><br>
   <em>Figure 3: High-pass filter</em>
 </p>
 
 A DFT high-pass filter preserves the high-frequency components toward the spectrum’s edges while suppressing the low-frequency components near the center. After the inverse DFT, the retained high-frequency detail emphasizes edges and fine textures, yielding a sharper image, as shown in figure 3.
 
+<div style="page-break-after: always;"></div>
+
 ### <d id="DFT-section-4"></a> 4. Implement an image compression technique using Fourier Transform by selectively keeping only a certain percentage of the Fourier coefficients. Evaluate the quality of the reconstructed image as you vary the percentage of coefficients used. Submit the images, and your observations on image quality and compression ratio.
 
 <p align="center">
-  <img src="results/dft/coefficients.png" width="500"/><br>
+  <img src="results/dft/coefficients1.png" width="400" /><br>
+  <!-- Samme som neste bilde delt opp -->
+</p>
+<p align="center">
+  <img src="results/dft/coefficients2.png" width="400"/><br>
   <em>Figure 4: Discrete fourier transformation coeffisients</em>
 </p>
 
@@ -146,11 +154,13 @@ A covariance matrix was calculated for the image matrix, and it was used to calc
 We selected the top k = 6 eigenvectors to start with, and will experiment with the amount later. These were used to create our principal components, as seen in figure 9.
 
 <p align="center">
-  <img src="results/pca/2d.png" width="800"/><br>
+  <img src="results/pca/2d.png" width="400"/><br>
   <em>Figure 10: Images visualized as PC1 vs PC2</em>
 </p>
 
 We visualized all 8 images in the 2-dimensional subspace defined by PC1 and PC2, shown in figure 10.
+
+<div style="page-break-after: always;"></div>
 
 ### <a id="PCA-section-2"></a>2. Reconstruction of images
 
@@ -167,7 +177,7 @@ We visualized all 8 images in the 2-dimensional subspace defined by PC1 and PC2,
   <em>Figure 12: Original images vs reconstructed images with k = 6</em>
 </p>
 
-
+<div style="page-break-after: always;"></div>
 
 ### <a id="PCA-section-3"></a>3. Experimentation
 #### <a id="PCA-section-3a"></a>a. Vary the number of principal components (k) and observe the impact on the quality of the reconstructed images.
@@ -179,6 +189,8 @@ We visualized all 8 images in the 2-dimensional subspace defined by PC1 and PC2,
 
 We experimented with different k values for the reconstruction of the original images. Figure 13 illustrates how the reconstruction increasingly aporaches an aproximation of the original images with every aditional increase of k.
 
+<div style="page-break-after: always;"></div>
+
 #### <a id="PCA-section-3b"></a>b. Plot the variance explained by the principal components and determine the optimal number of components that balances compression and quality.
 
 <p align="center">
@@ -187,6 +199,8 @@ We experimented with different k values for the reconstruction of the original i
 </p>
 
 With a threshold of 90% we see that six prinicple components would be needed to reach this level. As seen in figure 13 the images reconstructed with less than six components are considerably more blurry. Given that our dataset is a facial emotions dataset would mean that blurry images are detrimental to the intended purpose of the dataset. However, using all seven components would aproximate a full reconstruction of the original images and would constitute little compression. It can therefore be argued that in our case, if we want to compress our images we could only use six priniciple componets before it would make the subjects emotions difficult to recognize.
+
+<div style="page-break-after: always;"></div>
 
 ### <a id="PCA-section-4"></a>4. Visual Analysis
 
@@ -202,13 +216,17 @@ This problem can also be seen in figure 13, where reconstructions with lower val
 
 You can also see a representation of the quality of the reconstruction using MSE in figure 15, and it will be discussed further in the next section.
 
+<div style="page-break-after: always;"></div>
+
 ### <a id="PCA-section-5"></a>5. Error Analysis
 
 #### <a id="PCA-section-5a"></a>a. Compute the Mean Squared Error (MSE) between the original and reconstructed images.
 <p align="center">
-  <img src="results/pca/mse.png" width="800"/><br>
+  <img src="results/pca/mse.png" width="600"/><br>
   <em>Figure 15: Orignal images comapred to reconstructed images with k = 6</em>
 </p>
+
+<div style="page-break-after: always;"></div>
 
 #### <a id="PCA-section-5b"></a>b. Analyze the trade-off between compression and reconstruction error.
 
@@ -239,10 +257,17 @@ Histogram of Oriented Gradients (HOG) features capture local shape by counting h
 
 As shown in figure 17, HOG is better at capturing sharp edges and overall shape/contour than fine textures. Consequently, it renders the human and car contour more clearly since the original images contain fewer details and has well-defined edges. The strawberry and tiger are harder to recognize from HOG features because their appearances are dominated by fine textures as seeds and fur. 
 
+<div style="page-break-after: always;"></div>
+
 ### <a id="hog-section-3"></a>3. Discuss the impact of varying parameters like cell size, block size, and the number of bins on the resulting HOG descriptors.
 
 <p align="center">
-  <img src="results/hog/hog_features_grid.png" width="800"/><br>
+  <img src="results/hog/hog_features_grid1.png" width="600" /><br>
+  <!-- Samme som neste bilde delt opp -->
+</p>
+
+<p align="center">
+  <img src="results/hog/hog_features_grid2.png" width="600"/><br>
   <em>Figure 18: HOG features with different parameters</em>
 </p>
 
@@ -284,6 +309,8 @@ The amount of orientation also does not have the same impact as cell size, but f
 
 Local Binary Patterns (LBP) encodes local texture at each pixel by comparing the pixel's intensity to its eight immediate neighbors: 1 for each neighbor that is at least as bright as the center, otherwise 0. Reading these eight bits in a fixed order yields an 8-bit pattern that is converted to a decimal value in the range from 0 to 255, and the pixel in the LBP image is replaced by this value. Figure 19 presents the original image alongside its 8-neighbor LBP representation, looking at the pixels 1 radius (1 pixel) away from the center pixel.
 
+<div style="page-break-after: always;"></div>
+
 ### <a id="lbp-section-2"></a>2. Write a Python function to compute the histogram of the LBP image. Plot the histogram and explain what it represents in terms of the texture features of the image.
 
 <p align="center">
@@ -295,12 +322,12 @@ An LBP histogram counts how many pixels in the LBP image have each code value fr
 
 In figure 20, the LBP histogram shows tall peaks near the extreme codes (0 and 255), indicating many uniform patterns.
 
-
+<div style="page-break-after: always;"></div>
 
 ### <a id="lbp-section-3"></a>3. Apply your LBP function to at least three different grayscale images (e.g., a natural scene, a texture, and a face image). Generate and compare the histograms of the LBP images.
 
 <p align="center">
-  <img src="results/lbp/lbp_grid.png" width="800"/><br>
+  <img src="results/lbp/lbp_grid.png" width="600"/><br>
   <em>Figure 21: LBP for several images</em>
 </p>
 
@@ -309,6 +336,8 @@ The LBP histograms differs among the three images. The image of Mona Lisa's hist
 The image of the bricks wall's histogram has a slightly less uniform distribuiton, with more sparse spikes.
 
 The image of the landscape's histogram is much less uniformly distributed, with tall, sparse spikes and not much between them.
+
+<div style="page-break-after: always;"></div>
 
 ### <a id="lbp-section-4"></a>4. Discuss the differences in the histograms and what they tell you about the textures of the different images.
 
@@ -348,7 +377,7 @@ To receive better results, we would perform a discrete fourier transform on the 
 
 
 
-
+<div style="page-break-after: always;"></div>
 
 ## <a id="5-blob-detection"></a> Implement a Blob Detection Algorithm. 
 
@@ -365,7 +394,7 @@ Blob detection algorithms identify regions in an image with distinct properties 
 ### <a id="blob-section-2"></a> 2. Calculate and display relevant statistics for each image, such as the number of blobs detected, their sizes, and positions.
 
 <p align="center">
-  <img src="results/blob2/blob_detection_analysis.png" width="700"/><br>
+  <img src="results/blob2/blob_detection_analysis.png" width="600"/><br>
   <em>Figure 24: Blob detection statistic</em>
 </p>
 
@@ -373,7 +402,9 @@ The overlay of detected blobs on grayscale and RGB images helps confirm whether 
 
 Histograms of blob sizes reveal the distribution of detected radius across images and can indicate whether certain sizes are being over- or under-represented.
 
-The 2D heatmaps of blob positions show where blobs tend to occur spatially, revealing patterns or clustering, and can also highlight issues such as biased detection in bright regions due to thresholding. 
+The 2D heatmaps of blob positions show where blobs tend to occur spatially, revealing patterns or clustering, and can also highlight issues such as biased detection in bright regions due to thresholding.
+
+<div style="page-break-after: always;"></div>
 
 ### <a id="blob-section-3"></a> 3. Evaluate and discuss the effect of different parameters in the algorithms on the detection of different blobs.
 
@@ -477,6 +508,8 @@ Contour detection algorithms aim to identify and extract the boundaries of objec
   <em>Figure 36: Bar plot of statistics for contour detection on image 5</em>
 </p>
 
+<div style="page-break-after: always;"></div>
+
 ### <a id="contour-section-3"></a> 3. Compare the results of blob detection and contour detection for the chosen dataset.
 
 <p align="center">
@@ -487,6 +520,8 @@ Contour detection algorithms aim to identify and extract the boundaries of objec
 Blob detection excels at highlighting regions that stand out from their surroundings. In image 3 of figure 37 (with tram tracks), blob detection better detects the windows on the left building. This is because the pixels differ in intensity from their surroundings, but there are no hard edges.
 
 In contrast, contour detection is strongest at tracing boundaries and sharp intensity changes, so it better captures the right-hand building’s windows because of its hard edges. Similar patterns can be seen in the other images.
+
+<div style="page-break-after: always;"></div>
 
 ### <a id="contour-section-4"></a> 4. Discuss the advantages and limitations of each technique.
 
@@ -507,6 +542,8 @@ Contour detection, on the other hand, excels at outlining precise object boundar
 
 So blob detection is best for fast, approximate feature localization, while contour detection is preferred when detailed shape and boundary information is required.
 
+<div style="page-break-after: always;"></div>
+
 ### <a id="contour-section-5"></a> 5. Analyze the impact of different parameters (e.g., threshold values, filter sizes) on the detection results.
 
 The performance of both blob and contour detection methods is sensitive to parameters like threshold values and filter sizes.
@@ -519,6 +556,8 @@ In blob detection, adjusting the `threshold` controls the sensitivity. Lower thr
 </p>
 
 For contour detection, the threshold used in binarization critically impacts which features are segmented, too low of a threshold may merge objects or include noise, while too high may fragment or miss contours. Additionally, morphological operations like removing small objects depend on filter sizes that balance noise reduction against losing small meaningful contours. Contour detection with different thresholds are shown in figure 40.
+
+<div style="page-break-after: always;"></div>
 
 ### <a id="contour-section-6"></a> 6. Provide examples where one technique might be more suitable than the other.
 
