@@ -3,32 +3,23 @@
 ## Table of Contents
 
 - [1. Develop a problem statement (real world and machine learning)](#1-problem-statement)
-
   - [a. This is one of the most important skills that a Machine Learning Engineer Scientist should have. Select a dataset and frame a machine learning problem and then connect this machine learning problem to the real world scenario. ](#problem-statement-section-1)
-
 - [2. Implement the preprocessing and justify the preprocessing steps](#2-preprocessing)
-
 - [3. Extract features and justify the methods used](#3-extract-features)
-
 - [4. Select features and justify the methods used](#4-select-feactures)
-
 - [5. Implement five out of the following algorithms and justify the choice](#5-implement-algorithms)
-
-  - [a. Regression (linear or polynomial)](#implement-algorithms-section-1)
+  - [a. Logistic regression](#implement-algorithms-section-1)
   - [b. Additive model](#implement-algorithms-section-2)
-  - [c. Decision trees](#implement-algorithms-section-3)
-  - [d. Naïve Bayes](#implement-algorithms-section-4)
-  - [e. Random forest](#implement-algorithms-section-5)
-  - [f. SVM with kernels](#implement-algorithms-section-6)
-  - [g. Neural Network](#implement-algorithms-section-7)
-
+  - [c. Random forest](#implement-algorithms-section-3)
+  - [d. SVM with kernels](#implement-algorithms-section-4)
+  - [e. Neural Network](#implement-algorithms-section-5)
 - [6. Compare the performance of the five algorithms with respect to your problem, explain the results](#6-compare-performance)
 - [7. Implement boosting and bagging with your choice of base models and explain all the steps](#7-boosting-bagging)
 - [8. Implement one instance of transfer learning (find a related bigger dataset online) and explain all the steps](#8-transfer-learning)
-
   - [a. Explain the bigger dataset with visualization and summary statistics.](#transfer-learning-section-1)
 
 - [9. Compare the performance of the algorithms (basic VS boosting VS bagging VS transfer) with respect to your machine learning problem and explain the results](#7-compare-performance)
+
 
 <div style="page-break-after: always;"></div>
 
@@ -41,8 +32,6 @@ As the education sector becomes more data-driven, collected data can unlock subs
 
 **Machine Learning Problem** \
 With this in mind, we selected the Student Graduation dataset, which records students across multiple undergraduate programs and includes socio-economic factors, prior academic background, and performance at the end of the first and second semesters. Our goal is to train machine learning models that predict three outcomes: dropout, extended enrollment beyond the normal time, or successful completion of the first year. These predictions directly support the real-world problem by enabling early, targeted interventions for students at risk.
-
-
 
 
 <div style="page-break-after: always;"></div>
@@ -60,33 +49,63 @@ With this in mind, we selected the Student Graduation dataset, which records stu
 
 ## <a id="5-implement-algorithms"></a> 5. Implement five out of the following algorithms and justify the choice
 
-### <a id="implement-algorithms-section-1"></a> a. Regression (linear or polynomial)
+### <a id="implement-algorithms-section-1"></a> a. Logistic regression 
+
+**How it works**
+
+Multinomial logistic regression models the log odds of each class as a linear function of the inputs and uses a softmax layer to output class probabilities.
+
+**Why we chose it**
+
+It is a strong baseline for multiclass classification, works well with our one-hot encoded categorical features, and is easy to interpret through its coefficients. This makes it easy to evaluate the reliability of the model by confirming that it captures reasonable relationships between social-economic factors and the student's academic performance. A known limitation is the linearity assumption, which can miss non-linear socio-economic patterns.
 
 <div style="page-break-after: always;"></div>
 
 ### <a id="implement-algorithms-section-2"></a> b. Additive model
 
-<div style="page-break-after: always;"></div>
+**How it works**
 
-### <a id="implement-algorithms-section-3"></a> c. Decision trees
+A generalized additive model (GAM) represents the log odds as a sum of smooth functions of each feature, often via splines, which captures nonlinear shapes without manual feature engineering.
 
-<div style="page-break-after: always;"></div>
+**Why we chose it**
 
-### <a id="implement-algorithms-section-4"></a> d. Naïve Bayes
-
-<div style="page-break-after: always;"></div>
-
-### <a id="implement-algorithms-section-5"></a> e. Random forest
+Variables such as age at enrollment, admission grade, and approved units often have curved and thresholded effects. GAMs model these patterns directly while remaining interpretable, which improved our classification.
 
 <div style="page-break-after: always;"></div>
 
-### <a id="implement-algorithms-section-6"></a> f. SVM with kernels
+### <a id="implement-algorithms-section-3"></a> c. Random forest
+
+**How it works**
+
+A random forest builds many decision trees on bootstrap samples while randomly selecting subsets of features at each split. The final prediction is the majority vote across trees.
+
+**Why we chose it**
+
+It usually delivers higher accuracy than a single tree and handles many attributes well, including our one-hot encoded features and mixed numeric inputs. Although ensembles can be computationally heavier, our dataset is small enough that training is efficient, and we also gain useful feature importance signals.
 
 <div style="page-break-after: always;"></div>
 
-### <a id="implement-algorithms-section-7"></a> g. Neural Network
+### <a id="implement-algorithms-section-4"></a> d. SVM with kernels
+
+**How it works**
+
+A support vector machine (SVM) finds a maximum margin boundary. With kernels such as the radial basis function it implicitly maps data to a higher dimensional space to separate complex patterns, relying on support vectors at decision boundaries.
+
+**Why we chose it**
+
+It performs well in high dimensional spaces created by one hot encoding and often gives strong accuracy with good regularization. Prediction is fast compared to Naive Bayes and it use less memory since it only uses a subset of the training points in the decision phase. Training can be slow on very large data, but our dataset size makes it a good fit.
 
 <div style="page-break-after: always;"></div>
+
+### <a id="implement-algorithms-section-5"></a> e. Neural networks
+
+**How it works**
+
+A feed forward neural network stacks linear layers with nonlinear activations and learns parameters by backpropagation. For multi class outputs it ends with a softmax layer to produce probabilities.
+
+**Why we chose it**
+
+It can learn complex interactions among demographic, financial, and academic features that simpler linear models may miss. With proper scaling, regularization, and early stopping, it complements the other methods by offering a representation learning approach that can raise predictive performance on structured data.
 
 ## <a id="6-compare-performance"></a> 6. Compare the performance of the five algorithms with respect to your problem, explain the results
 
