@@ -130,10 +130,70 @@ The ***modified pipeline*** first prepares the dataset by applying a `SimpleImpu
 **Hyperparameter tuning** is performed using `GridSearchCV`, evaluating combinations such as learning rate, maximum depth, number of estimators, and sampling ratios across stratified cross-validation folds to ensure robust model comparison.\
 Each ensemble model is then refitted using the best-found parameters and evaluated using the test set through accuracy and balanced accuracy metrics.
 
+<div style="display: flex;">
+  <figure style="text-align: center; margin: 25 5px 25 0;">
+    <img src="img/confusion_matrix_bagging_dt.png" width="400"/>
+    <figcaption><em>Figure 2.a: Confusion matrix (Decision Trees)</em></figcaption>
+  </figure>
+  <figure style="text-align: center; margin: 25 5px 25 0;">
+    <img src="img/confusion_matrix_bagging_svm.png" width="400"/>
+    <figcaption><em>Figure 2.b: Confusion matrix (Support Vector Machines)</em></figcaption>
+  </figure>
+
+  <figure style="text-align: center; margin: 25 5px 25 0;">
+    <img src="img/confusion_matrix_boosting_adaboost.png" width="400"/>
+    <figcaption><em>Figure 2.c: Confusion matrix (AdaBoost)</em></figcaption>
+  </figure>
+  <figure style="text-align: center; margin: 25 5px 25 0;">
+    <img src="img/confusion_matrix_boosting_xgb.png" width="400"/>
+    <figcaption><em>Figure 2.d: Confusion matrix (XGBoost)</em></figcaption>
+  </figure>
+</div>
+
+As seen in the confusion matrices aboves, we have improved our prediction rate for classes 1 and 2 (Dropout and Graduate respectively).\
+However, the models are still biased towards class 2 (Graduate). In some cases, the models perfome worse when predicting class 1 (Enrolled).\
+This happens because enrolled students share characteristics with both dropouts and graduates, making them a “middle-ground” class, which is difficult for our models.
+
+<div style="display: flex;">
+  <figure style="text-align: center; margin: 25 10px 25 0;">
+    <img src="img/bagging_vs_boosting_accuracy.png" width="400"/>
+    <figcaption><em>Figure 3a: Bagging vs Boosting accuracy</em></figcaption>
+  </figure>
+  <figure style="text-align: center; margin: 25 10px 25 0;">
+    <img src="img/bagging_vs_boosting_balanced_accuracy.png" width="400"/>
+    <figcaption><em>Figure 3b: Bagging vs Boosting balanced accuracy</em></figcaption>
+  </figure>
+  <figure style="text-align: center; margin: 25 10px 25 0;">
+    <img src="img/bagging_vs_boosting_macro_precision.png" width="400"/>
+    <figcaption><em>Figure 3c: Bagging vs Boosting macro precisison accuracy</em></figcaption>
+  </figure>
+</div>
+
+By **Accuracy** we mean the percentage of all predictions that were correct.\
+From ***Figure 3a***, we notice that **accuracy** ranges from 0.729 to 0.777 across models. Based on this mean, the best model, `Bagging DT` (Bagging with Decision Trees), correctly predicts ~78% of students.
+
+However, accuracy can be misleading because the classes are unbalanced (many students are "graduates").\
+To resolve this, we have have also used **Balanced Accuracy**. This is the mean recall across all classes, which gives each class equal weight.\
+**Balanced accuracy** goes from 0.691 to 0.703 which is lower than raw accuracy.\
+This indicates that the models predict class 2 (Graduate) well, but  struggle with class 1 (Enrolled). Once again, `Bagging DT` again performs best with 0.703.
+
+Finally, **Macro precision** measures correctness per class, averaged equally. It goes from 0.68 up to 0.73. Once again, `Bagging DT` perfomed the best. This means that when the model predicts a class, it is correct roughly 73% of the time.\
+`AdaBoost` performed the worse, because its weak learners cannot model the complexity of our imbalanced dataset, causing more misclassifications and therefore more false positives in multiple classes.
+
 <p align="center">
-  <img src="img/bagging_vs_boosting.png" width="600"/><br>
-  <em>Figure 2: Bagging vs Boosting test accuracy</em>
+<img src="img/roc_comparison.png" width="1200"/><br>
+<em>Figure 4: ROC graphs for all models</em>
 </p>
+
+**ROC-AUC** measures how well the model separates classes. Our models go from 0.84 to 0.88 which is good.\
+`XGBoost` and `Bagging DT` show the best class separation.
+
+<u>To conclude:</u>
+- All models do very well at detecting graduates.
+- All models struggle with the Enrolled class.
+- `Bagging DT` and `XGBoost` are the strongest overall.
+- **ROC-AUC** shows the models have good separability.
+
 
 <div style="page-break-after: always;"></div>
 
