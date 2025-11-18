@@ -113,6 +113,23 @@ It can learn complex interactions among demographic, financial, and academic fea
 
 ## <a id="7-boosting-bagging"></a> 7. Implement boosting and bagging with your choice of base models and explain all the steps
 
+We have implemented four ensemble learning methods: **Bagging with Decision Trees**, **Bagging with SVM**, **AdaBoost**, and **XGBoost**, using a slightly ***modified pipeline*** than the one used previously.
+
+The **Bagging (Decision Tree)** model trains multiple `decision trees` on different bootstrap samples, where each `tree` learns independently using random subsets of both observations and features.\
+This parallel training reduces variance, stabilizes the predictions, and relies on majority voting to produce the final class output.
+
+The **Bagging (SVM)** model follows the same sampling strategy but uses `Support Vector Machines` as base learners, allowing each `SVM` to learn slightly different decision boundaries.\
+These independent `SVM` then vote to determine the ensemble prediction, improving robustness on noisy datasets.
+
+The **AdaBoost model**, using `decision trees` as weak learners, builds its ensemble sequentially by increasing the weight of misclassified samples after each iteration.\
+This causes later learners to focus on difficult cases, improving bias reduction through weighted voting.
+
+Finally, the **XGBoost model** constructs `boosted trees` using gradient-based optimization, where each new `tree` corrects residual errors from earlier ones while applying regularization, subsampling, and column sampling to control overfitting and enhance generalization.
+
+The ***modified pipeline*** first prepares the dataset by applying a `SimpleImputer` with a median strategy to handle missing values and by structuring all models within an integrated preprocessing–model pipeline.\
+**Hyperparameter tuning** is performed using `GridSearchCV`, evaluating combinations such as learning rate, maximum depth, number of estimators, and sampling ratios across stratified cross-validation folds to ensure robust model comparison.\
+Each ensemble model is then refitted using the best-found parameters and evaluated using the test set through accuracy and balanced accuracy metrics.
+
 <p align="center">
   <img src="img/bagging_vs_boosting.png" width="600"/><br>
   <em>Figure 2: Bagging vs Boosting test accuracy</em>
