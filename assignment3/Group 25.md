@@ -113,6 +113,33 @@ It can learn complex interactions among demographic, financial, and academic fea
 
 ## <a id="7-boosting-bagging"></a> 7. Implement boosting and bagging with your choice of base models and explain all the steps
 
+We have implemented two ensemble learning methods, **Bagging** and **Boosting**.\
+The **Bagging model** employs a `RandomForestClassifier` as its base estimator within a `BaggingClassifier`, where multiple decision trees are trained independently on random subsets of both samples and features.\
+This parallel training reduces variance, prevents overfitting and improves model stability.\
+The **Boosting model**, based on `XGBClassifier`, builds an ensemble of weak learners sequentially, where each new tree focuses on correcting the misclassifications made by previous ones.\
+This reduced bias and improves predictive performance.
+
+**Modified pipeline**\
+The data is first split into training and testing sets using stratified sampling to preserve class distribution. Missing values are handled using a `SimpleImputer` with a median strategy.\
+Next, a **`GridSearchCV`** is applied for hyperparameter tuning, testing combinations of parameters like the number of estimators, tree depth, learning rate, and subsampling ratios over multiple cross-validation folds.\
+Finally, the best-performing model is refit on the training set and evaluated on the test data using accuracy metrics.\
+Although computationally intensive, this approach provides a reliable comparison between Bagging and Boosting techniques.
+
+<p align="center">
+  <img src="img/bagging_boosting_workflow.png" width="500"/><br>
+  <em>Figure 1: Bagging and Boosting workflow</em>
+</p>
+
+The figure below shows that bagging gets an accuracy of **0.784** while boosting has an accuracy of **0.775**.\
+The Bagging model performed slightly better on this student-graduation dataset.\
+Bagging may benefit more from the diverse feature set, where independent trees capture variability in academic, demographic and socioeconomic factors.\
+Boosting performed similarly well, suggesting that sequential error-correction adds value, but not enough to outperform the more variance-robust Bagging approach for this dataset.
+
+<p align="center">
+  <img src="img/bagging_vs_boosting.png" width="500"/><br>
+  <em>Figure 2: Bagging vs Boosting test accuracy</em>
+</p>
+
 <div style="page-break-after: always;"></div>
 
 ## <a id="8-transfer-learning"></a> 8. Implement one instance of transfer learning (find a related bigger dataset online) and explain all the steps
