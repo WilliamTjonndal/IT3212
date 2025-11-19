@@ -113,87 +113,89 @@ It can learn complex interactions among demographic, financial, and academic fea
 
 ## <a id="7-boosting-bagging"></a> 7. Implement boosting and bagging with your choice of base models and explain all the steps
 
-We have implemented four ensemble learning methods: **Bagging with Decision Trees**, **Bagging with SVM**, **AdaBoost**, and **XGBoost**, using a slightly ***modified pipeline*** than the one used previously.
+We implemented several ensemble learning methods: **Bagging with Logistic Regression, MLPs, SVMs, and Decision Trees**, as well as **AdaBoost with Logistic Regression and Decision Trees**, using a slightly *modified pipeline*.
 
-The **Bagging (Decision Tree)** model trains multiple `decision trees` on different bootstrap samples, where each `tree` learns independently using random subsets of both observations and features.\
-This parallel training reduces variance, stabilizes the predictions, and relies on majority voting to produce the final class output.
+**Bagging models** train multiple independent base learners on bootstrap samples, each using random subsets of observations and features. The ensemble prediction is generated through majority voting, reducing variance and improving stability. Logistic Regression, MLPs, SVMs, and Decision Trees serve as base learners, with Decision Trees contributing flexible, non-linear decision boundaries that benefit strongly from variance reduction through bagging.
 
-The **Bagging (SVM)** model follows the same sampling strategy but uses `Support Vector Machines` as base learners, allowing each `SVM` to learn slightly different decision boundaries.\
-These independent `SVM` then vote to determine the ensemble prediction, improving robustness on noisy datasets.
+**AdaBoost models** build ensembles sequentially, reweighting misclassified samples so that later learners focus on harder cases. Using Logistic Regression and Decision Trees as weak learners, AdaBoost reduces bias by combining their weighted predictions.
 
-The **AdaBoost model**, using `decision trees` as weak learners, builds its ensemble sequentially by increasing the weight of misclassified samples after each iteration.\
-This causes later learners to focus on difficult cases, improving bias reduction through weighted voting.
-
-Finally, the **XGBoost model** constructs `boosted trees` using gradient-based optimization, where each new `tree` corrects residual errors from earlier ones while applying regularization, subsampling, and column sampling to control overfitting and enhance generalization.
-
-The ***modified pipeline*** first prepares the dataset by applying a `SimpleImputer` with a median strategy to handle missing values and by structuring all models within an integrated preprocessing–model pipeline.\
-**Hyperparameter tuning** is performed using `GridSearchCV`, evaluating combinations such as learning rate, maximum depth, number of estimators, and sampling ratios across stratified cross-validation folds to ensure robust model comparison.\
-Each ensemble model is then refitted using the best-found parameters and evaluated using the test set through accuracy and balanced accuracy metrics.
+The *modified pipeline* handles missing values with a median-based `SimpleImputer`, integrates preprocessing directly with model training, and tunes hyperparameters using `GridSearchCV` over settings such as learning rate, number of estimators, and sampling ratios. Each ensemble is refitted with optimal parameters and evaluated using accuracy and balanced accuracy on the test set.
 
 <div style="display: flex;">
   <figure style="text-align: center; margin: 25 5px 25 0;">
-    <img src="img/confusion_matrix_bagging_dt.png" width="400"/>
-    <figcaption><em>Figure 2.a: Confusion matrix (Decision Trees)</em></figcaption>
+    <img src="img/confusion_matrix_bagging_dt.png" width="500"/>
+    <figcaption><em>Figure 2.a: Confusion matrix (Bagging with Decision Trees)</em></figcaption>
   </figure>
   <figure style="text-align: center; margin: 25 5px 25 0;">
-    <img src="img/confusion_matrix_bagging_svm.png" width="400"/>
-    <figcaption><em>Figure 2.b: Confusion matrix (Support Vector Machines)</em></figcaption>
+    <img src="img/confusion_matrix_bagging_svm.png" width="500"/>
+    <figcaption><em>Figure 2.b: Confusion matrix (Bagging with Support Vector Machines)</em></figcaption>
   </figure>
-
-  <figure style="text-align: center; margin: 25 5px 25 0;">
-    <img src="img/confusion_matrix_boosting_adaboost.png" width="400"/>
-    <figcaption><em>Figure 2.c: Confusion matrix (AdaBoost)</em></figcaption>
-  </figure>
-  <figure style="text-align: center; margin: 25 5px 25 0;">
-    <img src="img/confusion_matrix_boosting_xgb.png" width="400"/>
-    <figcaption><em>Figure 2.d: Confusion matrix (XGBoost)</em></figcaption>
+   <figure style="text-align: center; margin: 25 5px 25 0;">
+    <img src="img/confusion_matrix_bagging_lr.png" width="500"/>
+    <figcaption><em>Figure 2.b: Confusion matrix (Bagging with Logistic Regression)</em></figcaption>
   </figure>
 </div>
-
-As seen in the confusion matrices aboves, we have improved our prediction rate for classes 1 and 2 (Dropout and Graduate respectively).\
-However, the models are still biased towards class 2 (Graduate). In some cases, the models perfome worse when predicting class 1 (Enrolled).\
-This happens because enrolled students share characteristics with both dropouts and graduates, making them a “middle-ground” class, which is difficult for our models.
 
 <div style="display: flex;">
-  <figure style="text-align: center; margin: 25 10px 25 0;">
-    <img src="img/bagging_vs_boosting_accuracy.png" width="400"/>
-    <figcaption><em>Figure 3a: Bagging vs Boosting accuracy</em></figcaption>
+  <figure style="text-align: center; margin: 25 5px 25 0;">
+    <img src="img/confusion_matrix_bagging_mlp.png" width="500"/>
+    <figcaption><em>Figure 2.a: Confusion matrix (Bagging with Multi-Layer Perceptrons)</em></figcaption>
   </figure>
-  <figure style="text-align: center; margin: 25 10px 25 0;">
-    <img src="img/bagging_vs_boosting_balanced_accuracy.png" width="400"/>
-    <figcaption><em>Figure 3b: Bagging vs Boosting balanced accuracy</em></figcaption>
+  <figure style="text-align: center; margin: 25 5px 25 0;">
+    <img src="img/confusion_matrix_boosting_adaboost_dt.png" width="500"/>
+    <figcaption><em>Figure 2.b: Confusion matrix (AdaBoost with Decision Trees)</em></figcaption>
   </figure>
-  <figure style="text-align: center; margin: 25 10px 25 0;">
-    <img src="img/bagging_vs_boosting_macro_precision.png" width="400"/>
-    <figcaption><em>Figure 3c: Bagging vs Boosting macro precisison accuracy</em></figcaption>
+    <figure style="text-align: center; margin: 25 5px 25 0;">
+    <img src="img/confusion_matrix_boosting_adaboost_lr.png" width="500"/>
+    <figcaption><em>Figure 2.b: Confusion matrix (AdaBoost with Logistic Regression)</em></figcaption>
   </figure>
 </div>
+
+As seen in the confusion matrices aboves, the number of correct predictions each model makes varies greatly with bagging and boosting.
+
+When it comes to bagging, using it on Decision Trees seems to work best. The other models perform relatively well as well.
+
+Boosting, on the other hand, performs overall worse than bagging. Decision Trees once again performed best. Boosting with Logistic Regression performed the worst.
+
+Bagging tends to outperform boosting on student data because these datasets are often noisy and moderately predictive, causing boosting to overfit misclassified or ambiguous cases. Bagging instead reduces variance by averaging multiple independent models, making it more robust and better suited to the structure and quality of student-related features.
+
+Despite the usage of boosting or bagging, the best performing models are still biased towards class 2 (Graduate).
+
+<p align="center">
+<img src="img/bagging_vs_boosting_accuracy.png" width="400"/><br>
+<em>Figure 3a: Bagging vs Boosting accuracy</em>
+</p>
+
+<p align="center">
+<img src="img/bagging_vs_boosting_balanced_accuracy.png" width="400"/><br>
+<em>Figure 3b: Bagging vs Boosting balanced accuracy</em>
+</p>
+
+<p align="center">
+<img src="img/bagging_vs_boosting_macro_precision.png" width="400"/><br>
+<em>Figure 3c: Bagging vs Boosting macro precision accuracy</em>
+</p>
 
 By **Accuracy** we mean the percentage of all predictions that were correct.\
-From ***Figure 3a***, we notice that **accuracy** ranges from 0.729 to 0.777 across models. Based on this mean, the best model, `Bagging DT` (Bagging with Decision Trees), correctly predicts ~78% of students.
+From ***Figure 3a***, we notice that **accuracy** ranges from 0.435 to 0.778 across al models. The best model, `Bagging DT` (Bagging with Decision Trees), correctly predicts ~78% of students. The worst model is `AdaBoost LR` with 0.727 accuracy.
 
 However, accuracy can be misleading because the classes are unbalanced (many students are "graduates").\
-To resolve this, we have have also used **Balanced Accuracy**. This is the mean recall across all classes, which gives each class equal weight.\
-**Balanced accuracy** goes from 0.691 to 0.703 which is lower than raw accuracy.\
-This indicates that the models predict class 2 (Graduate) well, but  struggle with class 1 (Enrolled). Once again, `Bagging DT` again performs best with 0.703.
+To resolve this, we have also used **Balanced Accuracy**. This is the mean recall across all classes, which gives each class equal weight.\
+**Balanced accuracy** goes from 0.702 to 0.718 which is lower than raw accuracy.\
+This indicates that the models predict class 2 (Graduate) well, but  struggle with class 1 (Enrolled). Interestingly, `AdaBoost LR` performed best here, despite being the worst in terms of **accuracy**. This is explained by the confusion matrix: AdaBoost with Logistic Regression focuses heavily on misclassified minority-class cases, which improves balanced accuracy but often reduces overall accuracy by causing more errors on the majority class.
 
-Finally, **Macro precision** measures correctness per class, averaged equally. It goes from 0.68 up to 0.73. Once again, `Bagging DT` perfomed the best. This means that when the model predicts a class, it is correct roughly 73% of the time.\
-`AdaBoost` performed the worse, because its weak learners cannot model the complexity of our imbalanced dataset, causing more misclassifications and therefore more false positives in multiple classes.
+Finally, **Macro precision** measures correctness per class, averaged equally. It goes from 0.7 up to 0.73. Once again, `Bagging DT` perfomed the best. This means that when the model predicts a class, it is correct roughly 73% of the time.\
+`AdaBoost DT` performed the worst, because its weak learners cannot model the complexity of our imbalanced dataset, causing more misclassifications and therefore more false positives in multiple classes.
 
 <p align="center">
 <img src="img/roc_comparison.png" width="1200"/><br>
 <em>Figure 4: ROC graphs for all models</em>
 </p>
 
-**ROC-AUC** measures how well the model separates classes. Our models go from 0.84 to 0.88 which is good.\
-`XGBoost` and `Bagging DT` show the best class separation.
+**ROC-AUC** measures how well the model separates classes. Our models go from 0.7995 to 0.9045 which is good.\
+`Bagging LR` show the best class separation with 0.9045. This is because it combines several logistic regression models trained on different subsets of students which reduces the impact of noisy or student records, stabilizing probability predictions for outcomes like pass/fail or performance categories.
 
-<u>To conclude:</u>
-- All models do very well at detecting graduates.
-- All models struggle with the Enrolled class.
-- `Bagging DT` and `XGBoost` are the strongest overall.
-- **ROC-AUC** shows the models have good separability.
-
+**Bagging Decision Trees** performs best overall, while Bagging MLPs and SVMs do well, and Bagging Logistic Regression excels in ROC-AUC. AdaBoost models overfit minority cases, with AdaBoost LR having low accuracy but high balanced accuracy. Bagging is generally more robust on noisy student data.
 
 <div style="page-break-after: always;"></div>
 
