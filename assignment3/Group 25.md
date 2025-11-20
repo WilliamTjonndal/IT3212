@@ -227,12 +227,37 @@ Our problem is a multi class classification problem with three target categories
 <em>Figure 13: Confusion matrix for logistic regression</em>
 </p>
 
-Accuracy 
+Accuracy: 75.7%
+
+In figure 13, we can se the confusion matric of our logistic regression model. It correctly predicted a majority of the students that Graduate. It performed worse in regards to predicting dropout, but was still accurate in most cases. However, when predicting students that would still be enrolled beyond normal completion time it misses 50% of the time.
 
 <p align="center">
 <img src="img/comparison_cm_dt.png" width="400"/><br>
-<em>Figure 13: Confusion matrix for decision tree</em>
+<em>Figure 14: Confusion matrix for decision tree</em>
 </p>
+
+Accuracy: 67.9%
+
+<p align="center">
+<img src="img/comparison_cm_rf.png" width="400"/><br>
+<em>Figure 15: Confusion matrix for random forest</em>
+</p>
+
+Accuracy: 78.8%
+
+<p align="center">
+<img src="img/comparison_cm_svm.png" width="400"/><br>
+<em>Figure 16: Confusion matrix for SVM with  RBF kernel</em>
+</p>
+
+Accuracy: 76.6%
+
+<p align="center">
+<img src="img/comparison_cm_mlp.png" width="400"/><br>
+<em>Figure 17: Confusion matrix for MLP</em>
+</p>
+
+Accuracy: 75.9%
 
 <div style="page-break-after: always;"></div>
 
