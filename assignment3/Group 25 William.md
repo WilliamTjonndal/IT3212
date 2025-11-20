@@ -269,6 +269,8 @@ We implemented several ensemble learning methods: **Bagging with Logistic Regres
 
 **AdaBoost models** build ensembles sequentially, reweighting misclassified samples so that later learners focus on harder cases. Using Logistic Regression and Decision Trees as weak learners, AdaBoost reduces bias by combining their weighted predictions.
 
+Note that **Random Forest** already uses bagging, so bagging it again is redundant.
+
 <div style="display: flex;">
   <figure style="text-align: center; margin: 25 5px 25 0;">
     <img src="img/confusion_matrix_bagging_dt.png" width="500"/>
@@ -324,7 +326,7 @@ Despite the usage of boosting or bagging, the best performing models are still b
 <em>Figure 3c: Bagging vs Boosting macro precision accuracy</em>
 </p>
 
-From ***Figure 3a***, we notice that **accuracy** ranges from 0.435 to 0.778 across al models. The best model, `Bagging DT` (Bagging with Decision Trees), correctly predicts about 78% of students. The worst model is `AdaBoost LR` with 0.727 accuracy.
+From ***Figure 3a***, we notice that **accuracy** ranges from 0.435 to 0.778 across all models. The best model, `Bagging DT` (Bagging with Decision Trees), correctly predicts about 78% of students, which is just as good as `Random Forest`. The worst model is `AdaBoost LR` with 0.727 accuracy.
 
 However, accuracy can be misleading because the classes are unbalanced since many students are "Graduates". To resolve this, we have also used **Balanced Accuracy**.\
 **Balanced accuracy** goes from 0.702 to 0.718 which is lower than raw accuracy.\
@@ -393,10 +395,23 @@ Finally, the "Grade" feature in the found dataset was chosen to become the "Targ
 | **Boosting Models**   | Medium       | `Highest` | Medium           | Medium      | Good for minority classes      | Overfits noise, unstable       |
 | **Transfer Learning** | Low   | Low             | Low           | Low       | Uses additional data           | Poor feature compatibility     |
 
-Basic models like SVM and MLP performed well, but they are biased towards the majority "Graduate" class despite oversampling and lacked the stability that bagging introduced.
+Basic models like `SVM` and `MLP` performed well, but they are biased towards the majority "Graduate" class despite oversampling.\
+The best overall model is `Random Forest`, with an accuracy of 78.8%. It is fast for our dataset, since our dataset is moderatly big (under 5000 rows) and does not have a lot of features (79 features). It is also robust to irrelevant features which is essential when dealing with educational and demographic predictors. Finally, it captures nonlinear relationships and interactions between factors that influence student persistence.\
+`Radial Basis Function Support Vector Machine` came in second with 76.6% accuracy. `RBF SVM` does not scale as well as `Random Forest` with the number of samples and features, so it does not fully explore complex interactions as efficiently as `Random Forest`.\
+`Multilayer perceptrons` come after with an accuracy of 75.9%. Neural networks need a lot of data to learn complex patterns, with only 4,425 rows, `MLP` cannot generalize very well.\
+`Logistic regression` comes after with 75.7% accuracy. We believe that dropout risk depends on nonlinear interactions, which linear models like `Logistic regression` cannot capture without manual feature engineering.\
+Finally, `Decision Trees` come in last place with an accuracy of 67.9%. A single `Decision Tree` performs worst because it easily overfits with 79 features. This causes noisy predictions.
 
-Bagging emerged as the strongest overall approach because the student-performance dataset contains noise, overlapping class boundaries and mixed feature types. All of this benefits from the variance reduction that comes from using bagging. Despite this, bagging did not completely resolve the bias models had towards "Graduate".
+Bagging emerged as the strongest overall approach because the student-performance dataset contains noise, overlapping class boundaries and mixed feature types. All of this benefits from the variance reduction that comes from using bagging. Despite this, bagging did not completely resolve the bias models had towards "Graduate".\
+Once again `Random Forest` performed best. `Random Forest` already implements bagging by design.\
+`Bagging with Decision Trees` come after, performing much better than before with an accuracy of 77.8%. It performs much better because it combines many trees, reducing overfitting and variance compared to a single tree.\
+`Bagging with Support Vector Machine` performed slightly better than before with 77.2% accuracy. Combining multiple `SVM` models on different bootstrap samples reduces variance and smooths out individual model errors.\
+`Bagging with Multilayer perceptrons` perfomed about the same, with an accuracy increase of about 0.03%. We get almost no improvement because neural networks like `MLP` are already high-variance and flexible models.
+Finally, `Bagging with Logistic regression` perfomed the same, with an accuracy increase of only 0.02%. `Logistic Regression` is a low-variance and linear model, so averaging multiple models doesn't do much.
 
-Boosting performed worse because its reweighting strategy forces models to focus on misclassified which leads to overfitting.
+Boosting performed worse because its reweighting strategy forces models to focus on misclassified which leads to overfitting.\
+`AdaBoost with Decision Trees` performed better than `AdaBoost with Logistic Regression`, with accuracies of 73.8% and 72.7% respectively.\
+`AdaBoost DT` outperforms `AdaBoost LR` because decision trees are flexible, high-variance base learners, while logistic regression is a low-variance and linear base model.\
+However, `AdaBoost LR` performed the best when predicting when trying to predict the middle label: Enrolled students. This comes at the cost of reducing the prediction rate for the Graduate label.
 
 Transfer learning performed the poorly because the new dataset was incompatible and required heavy feature dropping.
