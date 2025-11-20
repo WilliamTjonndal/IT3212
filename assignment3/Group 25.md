@@ -174,8 +174,6 @@ Multinomial logistic regression models the log odds of each class as a linear fu
 
 Multinomial logistic regression is a strong baseline for multiclass classification, it works well with our one-hot encoded categorical features. It fits well for target classification when the target classes are unordered, as they are in our dataset (The target can be viewed as having a intuitive order, but in our view it's not a scale of bad-good in the same way that low-medium-high could be viewed). A known limitation is the linearity assumption, which can miss non-linear patterns.
 
-<div style="page-break-after: always;"></div>
-
 ### <a id="implement-algorithms-section-2"></a> b. Decision trees
 
 **How it works**
@@ -185,8 +183,6 @@ A decision tree can be seen as a tree of different choices, with each leaf node 
 **Why we chose it**
 
 Decision trees are a good fit for classification tasks because they can capture both linear and non-linear relationships and splits the data in an intuitive way. They are also easy to understand the inner workings of, as they just go through the tree doing if/then checks. One problem with decision trees is that they can easily be overfitted if not given correct hyperparameters.
-
-<div style="page-break-after: always;"></div>
 
 ### <a id="implement-algorithms-section-3"></a> c. Random forest
 
@@ -209,8 +205,6 @@ A support vector machine (SVM) tries to draw a line/boundary that best separates
 **Why we chose it**
 
 Support vector machines performs well in the high-dimensional feature spaces created by one-hot encoding and often achieves strong accuracy when appropriately regularized. At prediction time it's efficient and reasonably memory-friendly, since the decision function only depends on a subset of the training points (the support vectors). Training can be slow on very large datasets, but for our dataset size this isn't a problem.
-
-<div style="page-break-after: always;"></div>
 
 ### <a id="implement-algorithms-section-5"></a> e. Neural network - MLP
 
