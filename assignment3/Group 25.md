@@ -228,34 +228,59 @@ Our problem is a multi class classification problem with three target categories
 <em>Figure 13: Confusion matrix for logistic regression</em>
 </p>
 
+<p align="center">
+<img src="img/comparison_fi_logreg.png" width="800"/><br>
+<em>Figure 14: Feature importances for logistic regression</em>
+</p>
+
 Accuracy: 75.7%
 
 In figure 13, we can se the confusion matric of our logistic regression model. It correctly predicted a majority of the students that Graduate. It performed worse in regards to predicting dropout, but was still accurate in most cases. However, when predicting students that would still be enrolled beyond normal completion time it misses 50% of the time.
 
 <p align="center">
 <img src="img/comparison_cm_dt.png" width="400"/><br>
-<em>Figure 14: Confusion matrix for decision tree</em>
+<em>Figure 15: Confusion matrix for decision tree</em>
+</p>
+
+<p align="center">
+<img src="img/comparison_fi_dt.png" width="800"/><br>
+<em>Figure 16: Feature importances for decision tree</em>
 </p>
 
 Accuracy: 67.9%
 
 <p align="center">
 <img src="img/comparison_cm_rf.png" width="400"/><br>
-<em>Figure 15: Confusion matrix for random forest</em>
+<em>Figure 17: Confusion matrix for random forest</em>
+</p>
+
+<p align="center">
+<img src="img/comparison_fi_rf.png" width="800"/><br>
+<em>Figure 18: Feature importances for random forest</em>
 </p>
 
 Accuracy: 78.8%
 
 <p align="center">
 <img src="img/comparison_cm_svm.png" width="400"/><br>
-<em>Figure 16: Confusion matrix for SVM with  RBF kernel</em>
+<em>Figure 19: Confusion matrix for SVM with  RBF kernel</em>
+</p>
+
+<p align="center">
+<img src="img/comparison_fi_svm.png" width="800"/><br>
+<em>Figure 20: Feature importances for SVM with RBF kernel</em>
 </p>
 
 Accuracy: 76.6%
 
 <p align="center">
 <img src="img/comparison_cm_mlp.png" width="400"/><br>
-<em>Figure 17: Confusion matrix for MLP</em>
+<em>Figure 21: Confusion matrix for MLP</em>
+</p>
+
+<p align="center">
+<img src="img/comparison_fi_mlp.png" width="800"/><br>
+<em>Figure 22: Feature importances for MLP</em>
 </p>
 
 Accuracy: 75.9%
@@ -273,30 +298,30 @@ We implemented several ensemble learning methods: **Bagging with Logistic Regres
 <div style="display: flex;">
   <figure style="text-align: center; margin: 25 5px 25 0;">
     <img src="img/confusion_matrix_bagging_dt.png" width="500"/>
-    <figcaption><em>Figure 2.a: Confusion matrix (Bagging with Decision Trees)</em></figcaption>
+    <figcaption><em>Figure 23.a: Confusion matrix (Bagging with Decision Trees)</em></figcaption>
   </figure>
   <figure style="text-align: center; margin: 25 5px 25 0;">
     <img src="img/confusion_matrix_bagging_svm.png" width="500"/>
-    <figcaption><em>Figure 2.b: Confusion matrix (Bagging with Support Vector Machines)</em></figcaption>
+    <figcaption><em>Figure 23.b: Confusion matrix (Bagging with Support Vector Machines)</em></figcaption>
   </figure>
    <figure style="text-align: center; margin: 25 5px 25 0;">
     <img src="img/confusion_matrix_bagging_lr.png" width="500"/>
-    <figcaption><em>Figure 2.b: Confusion matrix (Bagging with Logistic Regression)</em></figcaption>
+    <figcaption><em>Figure 23.b: Confusion matrix (Bagging with Logistic Regression)</em></figcaption>
   </figure>
 </div>
 
 <div style="display: flex;">
   <figure style="text-align: center; margin: 25 5px 25 0;">
     <img src="img/confusion_matrix_bagging_mlp.png" width="500"/>
-    <figcaption><em>Figure 2.a: Confusion matrix (Bagging with Multi-Layer Perceptrons)</em></figcaption>
+    <figcaption><em>Figure 23.a: Confusion matrix (Bagging with Multi-Layer Perceptrons)</em></figcaption>
   </figure>
   <figure style="text-align: center; margin: 25 5px 25 0;">
     <img src="img/confusion_matrix_boosting_adaboost_dt.png" width="500"/>
-    <figcaption><em>Figure 2.b: Confusion matrix (AdaBoost with Decision Trees)</em></figcaption>
+    <figcaption><em>Figure 23.b: Confusion matrix (AdaBoost with Decision Trees)</em></figcaption>
   </figure>
     <figure style="text-align: center; margin: 25 5px 25 0;">
     <img src="img/confusion_matrix_boosting_adaboost_lr.png" width="500"/>
-    <figcaption><em>Figure 2.b: Confusion matrix (AdaBoost with Logistic Regression)</em></figcaption>
+    <figcaption><em>Figure 23.b: Confusion matrix (AdaBoost with Logistic Regression)</em></figcaption>
   </figure>
 </div>
 
@@ -312,17 +337,17 @@ Despite the usage of boosting or bagging, the best performing models are still b
 
 <p align="center">
 <img src="img/bagging_vs_boosting_accuracy.png" width="400"/><br>
-<em>Figure 3a: Bagging vs Boosting accuracy</em>
+<em>Figure 24a: Bagging vs Boosting accuracy</em>
 </p>
 
 <p align="center">
 <img src="img/bagging_vs_boosting_balanced_accuracy.png" width="400"/><br>
-<em>Figure 3b: Bagging vs Boosting balanced accuracy</em>
+<em>Figure 24b: Bagging vs Boosting balanced accuracy</em>
 </p>
 
 <p align="center">
 <img src="img/bagging_vs_boosting_macro_precision.png" width="400"/><br>
-<em>Figure 3c: Bagging vs Boosting macro precision accuracy</em>
+<em>Figure 24c: Bagging vs Boosting macro precision accuracy</em>
 </p>
 
 From ***Figure 3a***, we notice that **accuracy** ranges from 0.435 to 0.778 across al models. The best model, `Bagging DT` (Bagging with Decision Trees), correctly predicts about 78% of students. The worst model is `AdaBoost LR` with 0.727 accuracy.
@@ -336,7 +361,7 @@ Finally, **Macro precision** goes from 0.7 up to 0.73. Once again, `Bagging DT` 
 
 <p align="center">
 <img src="img/roc_comparison.png" width="1200"/><br>
-<em>Figure 4: ROC graphs for all models</em>
+<em>Figure 25: ROC graphs for all models</em>
 </p>
 
 **ROC-AUC** measures how well the model separates classes. Our models go from 0.7995 to 0.9045 which is good.\
@@ -370,16 +395,16 @@ Finally, the "Grade" feature in the found dataset was chosen to become the "Targ
 
 <p align="center">
   <img src="new_dataset_vis/grade_dist.png" width="600"/><br>
-  <em>Figure 1: Distribution of grades</em>
+  <em>Figure 26: Distribution of grades</em>
 </p>
 <p align="center">
   <img src="new_dataset_vis/without_splitting.png" width="600"/><br>
-  <em>Figure 1: Distribution of target without splitting C grade</em>
+  <em>Figure 27: Distribution of target without splitting C grade</em>
 </p>
 
 <p align="center">
   <img src="new_dataset_vis/target_dist.png" width="600"/><br>
-  <em>Figure 1: Distribution of target with split of C grade</em>
+  <em>Figure 28: Distribution of target with split of C grade</em>
 </p>
 
 To further even out the target distributions we oversampled the graduate and enrolled classes to make them level in comparison to dropout. Without the splitting of the C grade into enrolled and graduate, the classes were so uneven that oversampling would definitely cause overfitting. 
@@ -388,14 +413,14 @@ With the features of the found dataset now mapped to the original dataset we pre
 
 <p align="center">
   <img src="confusion_matrix_student_performance8_64.png" width="600"/><br>
-  <em>Figure 1: Confusion matrix for pre trained model</em>
+  <em>Figure 29: Confusion matrix for pre trained model</em>
 </p>
 
 The pre-trained model resulted in the confusion matrix seen in figure "riktig nummer". This model had an accuracy of 51.1%. This is likely because we had to drop alot of features to make the two datasets compatible. 
 
 <p align="center">
   <img src="confusion_matrix_student_graduation_8_64.png" width="600"/><br>
-  <em>Figure 1: Confusion matrix for post trained model and base MLP model</em>
+  <em>Figure 30: Confusion matrix for post trained model and base MLP model</em>
 </p>
 The post-trained model achieved a low accuracy of 30.5% and was a clear step down in quality from the baseline model which had an accuracy of 60.7% when trained on the same subset of features. 
 
@@ -414,6 +439,12 @@ The post-trained model achieved a low accuracy of 30.5% and was a clear step dow
 | **Bagging Models**    | `Highest` | High     | Medium   | High | Best overall, stable, robust   | Computationally expensive |
 | **Boosting Models**   | Medium       | `Highest` | Medium           | Medium      | Good for minority classes      | Overfits noise, unstable       |
 | **Transfer Learning** | Low   | Low             | Low           | Low       | Uses additional data           | Poor feature compatibility     |
+
+<p align="center">
+<em>
+Figure 31: Table comparing the performance of the different models.
+</em>
+</p>
 
 Basic models like SVM and MLP performed well, but they are biased towards the majority "Graduate" class despite oversampling and lacked the stability that bagging introduced.
 
