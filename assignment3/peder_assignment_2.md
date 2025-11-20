@@ -108,7 +108,24 @@ A feed forward neural network stacks linear layers with nonlinear activations an
 
 Our probmlem is a multi class classification problem with three categories to categorize. As a result we chose to implement our neural network with a MLPClassifier from sklearn as they are designed for mulit class problems. Furthermore, neural nets can also learn complex interactions amone demographic, financial, and academic features that simpler linear models might miss. As a result we chose neural network to be among the machine learning models to implement.
 
+
+<div style="page-break-after: always;"></div>
+
 ## <a id="6-compare-performance"></a> 6. Compare the performance of the five algorithms with respect to your problem, explain the results
+
+<p align="center">
+<img src="img/comparison_cm_logreg.png" width="400"/><br>
+<em>Figure 13: Confusion matrix for logistic regression</em>
+</p>
+
+Accuracy 
+
+Here we can se the confusion matric of our logistic regression model. It correctly predicted a majority of the students that Graduate. It performed worse in regards to predicting dropout, but was still accurate in most cases. However, when predicting students that would still be enrolled beyond normal completion time it misses 50% of the time.
+
+<p align="center">
+<img src="img/comparison_cm_dt.png" width="400"/><br>
+<em>Figure 13: Confusion matrix for decision tree</em>
+</p>
 
 <div style="page-break-after: always;"></div>
 

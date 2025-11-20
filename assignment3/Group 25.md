@@ -2,23 +2,24 @@
 
 ## Table of Contents
 
-- [1. Develop a problem statement (real world and machine learning)](#1-problem-statement)
-  - [a. This is one of the most important skills that a Machine Learning Engineer Scientist should have. Select a dataset and frame a machine learning problem and then connect this machine learning problem to the real world scenario. ](#problem-statement-section-1)
-- [2. Implement the preprocessing and justify the preprocessing steps](#2-preprocessing)
-- [3. Extract features and justify the methods used](#3-extract-features)
-- [4. Select features and justify the methods used](#4-select-feactures)
-- [5. Implement five out of the following algorithms and justify the choice](#5-implement-algorithms)
-  - [a. Logistic regression](#implement-algorithms-section-1)
-  - [b. Additive model](#implement-algorithms-section-2)
-  - [c. Random forest](#implement-algorithms-section-3)
-  - [d. SVM with kernels](#implement-algorithms-section-4)
-  - [e. Neural Network](#implement-algorithms-section-5)
-- [6. Compare the performance of the five algorithms with respect to your problem, explain the results](#6-compare-performance)
-- [7. Implement boosting and bagging with your choice of base models and explain all the steps](#7-boosting-bagging)
-- [8. Implement one instance of transfer learning (find a related bigger dataset online) and explain all the steps](#8-transfer-learning)
-  - [a. Explain the bigger dataset with visualization and summary statistics.](#transfer-learning-section-1)
-
-- [9. Compare the performance of the algorithms (basic VS boosting VS bagging VS transfer) with respect to your machine learning problem and explain the results](#7-compare-performance)
+- [IT3212 Assignment 3: Basic modelling](#it3212-assignment-3-basic-modelling)
+  - [Table of Contents](#table-of-contents)
+  - [ 1. Develop a problem statement (real world and machine learning)](#-1-develop-a-problem-statement-real-world-and-machine-learning)
+    - [ a. This is one of the most important skills that a Machine Learning Engineer/Scientist should have. Select a dataset and frame a machine learning problem and then connect this machine learning problem to the real world scenario.](#-a-this-is-one-of-the-most-important-skills-that-a-machine-learning-engineerscientist-should-have-select-a-dataset-and-frame-a-machine-learning-problem-and-then-connect-this-machine-learning-problem-to-the-real-world-scenario)
+  - [ 2. Implement the preprocessing and justify the preprocessing steps](#-2-implement-the-preprocessing-and-justify-the-preprocessing-steps)
+  - [ 3. Extract features and justify the methods used](#-3-extract-features-and-justify-the-methods-used)
+  - [ 4. Select features and justify the methods used](#-4-select-features-and-justify-the-methods-used)
+  - [ 5. Implement five out of the following algorithms and justify the choice](#-5-implement-five-out-of-the-following-algorithms-and-justify-the-choice)
+    - [ a. Logistic regression](#-a-logistic-regression)
+    - [ b. Decision trees](#-b-decision-trees)
+    - [ c. Random forest](#-c-random-forest)
+    - [ d. SVM with kernels](#-d-svm-with-kernels)
+    - [ e. Neural network - MLP](#-e-neural-network---mlp)
+  - [ 6. Compare the performance of the five algorithms with respect to your problem, explain the results](#-6-compare-the-performance-of-the-five-algorithms-with-respect-to-your-problem-explain-the-results)
+  - [ 7. Implement boosting and bagging with your choice of base models and explain all the steps](#-7-implement-boosting-and-bagging-with-your-choice-of-base-models-and-explain-all-the-steps)
+  - [ 8. Implement one instance of transfer learning (find a related bigger dataset online) and explain all the steps](#-8-implement-one-instance-of-transfer-learning-find-a-related-bigger-dataset-online-and-explain-all-the-steps)
+    - [ a. Explain the bigger dataset with visualization and summary statistics.](#-a-explain-the-bigger-dataset-with-visualization-and-summary-statistics)
+  - [ 9. Compare the performance of the algorithms (basic VS boosting VS bagging VS transfer) with respect to your machine learning problem and explain the results](#-9-compare-the-performance-of-the-algorithms-basic-vs-boosting-vs-bagging-vs-transfer-with-respect-to-your-machine-learning-problem-and-explain-the-results)
 
 
 <div style="page-break-after: always;"></div>
@@ -365,7 +366,7 @@ We also chose to map the feature "Family_Income_Level" in our found dataset over
 
 Furthermore, we also mapped the feature "Family_Income_Level" == 'High' in the found dataset over to "Tuition fees up to date" in the original based on the assumption that if a student comes from a high erarning family they would have payed all tuition fees on time.
 
-Finally, the "Grade" feature in the found dataset was chosen to become the "Target" column where A & B grades where mapped to graduate, C to enrolled if the students stress level was above 5 and graduate if it was below, D & F to dropout. This was based on the assumption that the poorer(D & F) grades would be an accurate mapping of dropout students, and the best grades(A & B) would be an accurate mapping to graduate. We also made an assumption that a C grade would be graduate if they were adequatly calm as measured by the self reported lower stress levels. Cosequently, we also thought they would be enrolled if they had higher stress levels indecating they where struggeling to maintain a C grade. We do concede that these assumptions are flawed, but we thougth this to be the most sensible way split the data to maintain a reasonable distribution of the target classes. 
+Finally, the "Grade" feature in the found dataset was chosen to become the "Target" column where A & B grades where mapped to graduate, C to enrolled if the students stress level was above 5 and graduate if it was below, D & F to dropout. This was based on the assumption that the poorer(D & F) grades would be an accurate mapping of dropout students, and the best grades(A & B) would be an accurate mapping to graduate. We also made an assumption that a C grade would be graduate if they were adequatly calm as measured by the self reported lower stress levels. Cosequently, we also thought they would be enrolled if they had higher stress levels indecating they where struggeling to maintain a C grade. We do concede that these assumptions are flawed, but we thougth this to be the most sensible way split the data to maintain a reasonable distribution of the target classes.
 
 <p align="center">
   <img src="new_dataset_vis/grade_dist.png" width="600"/><br>
@@ -380,6 +381,27 @@ Finally, the "Grade" feature in the found dataset was chosen to become the "Targ
   <img src="new_dataset_vis/target_dist.png" width="600"/><br>
   <em>Figure 1: Distribution of target with split of C grade</em>
 </p>
+
+To further even out the target distributions we oversampled the graduate and enrolled classes to make them level in comparison to dropout. Without the splitting of the C grade into enrolled and graduate, the classes were so uneven that oversampling would definitely cause overfitting. 
+
+With the features of the found dataset now mapped to the original dataset we pretrained a MLP neural network model on the new dataset. 
+
+<p align="center">
+  <img src="confusion_matrix_student_performance8_64.png" width="600"/><br>
+  <em>Figure 1: Confusion matrix for pre trained model</em>
+</p>
+
+The pre-trained model resulted in the confusion matrix seen in figure "riktig nummer". This model had an accuracy of 51.1%. This is likely because we had to drop alot of features to make the two datasets compatible. 
+
+<p align="center">
+  <img src="confusion_matrix_student_graduation_8_64.png" width="600"/><br>
+  <em>Figure 1: Confusion matrix for post trained model and base MLP model</em>
+</p>
+The post-trained model achieved a low accuracy of 30.5% and was a clear step down in quality from the baseline model which had an accuracy of 60.7% when trained on the same subset of features. 
+
+
+
+
     
 
 <div style="page-break-after: always;"></div>
