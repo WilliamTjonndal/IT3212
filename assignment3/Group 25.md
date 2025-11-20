@@ -25,13 +25,13 @@
 
 ## <a id="1-problem-statement"></a> 1. Develop a problem statement (real world and machine learning)
 
-### <a id="#problem-statement-section-1"></a> a. This is one of the most important skills that a Machine Learning Engineer/Scientist should have. Select a dataset and frame a machine learning problem and then connect this machine learning problem to the real world scenario.
+### <a id="problem-statement-section-1"></a> a. This is one of the most important skills that a Machine Learning Engineer/Scientist should have. Select a dataset and frame a machine learning problem and then connect this machine learning problem to the real world scenario.
 
 **Real World Problem** \
-As the education sector becomes more data-driven, collected data can unlock substansial value. Universities want to reduce first-year dropout and capture students who are likely to still be enrolled beyond the normal time to degree, so insititutions can allocate extra resources proactively and help students gets back on track. This improves student success and workforce readiness, strengthens institutional outcomes, and generates insights useful for policymakers.
+As the education sector becomes more data-driven, collected data can unlock substansial value. Universities want to reduce course dropout and capture students who are likely to still be enrolled beyond the normal time to graduate, so insititutions can allocate extra resources proactively and help students gets back on track. This improves student success and workforce readiness, strengthens institutional outcomes, and generates insights useful for policymakers.
 
 **Machine Learning Problem** \
-With this in mind, we selected the Student Graduation dataset, which records students across multiple undergraduate programs and includes socio-economic factors, prior academic background, and performance at the end of the first and second semesters. Our goal is to train machine learning models that predict three outcomes: dropout, extended enrollment beyond the normal time, or successful completion of the first year. These predictions directly support the real-world problem by enabling early, targeted interventions for students at risk.
+With this in mind, we selected the Student Graduation dataset, which records students across multiple undergraduate programs and includes socio-economic factors, prior academic background, and performance at the end of the first and second semesters. Our goal is to train machine learning models that predict three outcomes: dropout, extended enrollment beyond the normal time, or successful completion of the course. These predictions directly support the real-world problem by enabling early, targeted interventions for students at risk of dropping out or in need of assistance.
 
 
 <div style="page-break-after: always;"></div>
@@ -39,6 +39,8 @@ With this in mind, we selected the Student Graduation dataset, which records stu
 ## <a id="2-preprocessing"></a> 2. Implement the preprocessing and justify the preprocessing steps
 
 We first looked at the data to try to find out what preprocessing steps were necessary. Since we had the source of the data, https://archive-beta.ics.uci.edu/dataset/697/predict+students+dropout+and+academic+success, we had a description available for every column.
+
+All categorical columns are label encoded, and has a mapping from number to category in the data description, but we found the numbers didn't match what was described in the data source. Assuming we were supposed to use the provided dataset over data directly from the source, we couldn't know what each class in the column meant.
 
 <p align="center">
 <img src="img/data_head.png" width="800"/><br>
@@ -50,9 +52,7 @@ We first looked at the data to try to find out what preprocessing steps were nec
 <em>Figure 2: Description of data columns</em>
 </p>
 
-All categorical columns are label encoded, and has a mapping from number to category in the data description, but we found the numbers didn't match what was described in the data source. Assuming we were supposed to use the provided dataset over data directly from the source, we couldn't know what each class in the column meant.
-
-From looking at the data source, we knew the dataset had been  performed rigorous data preprocessing on to handle data from anomalies, unexplainable outliers, and missing values. Still, we decided to see ourself if there were anomalies or outliers. 
+From looking at the data source, we knew the dataset had been undergone rigorous data preprocessing to handle data from anomalies, unexplainable outliers, and missing values. Still, we decided to see ourself if there were anomalies or outliers. 
 
 <p align="center">
 <img src="img/data_null.png" width="800"/><br>
@@ -109,7 +109,7 @@ PCA is also very useful for visualizing data, as it can show a lot of variance i
 
 ## <a id="4-select-feactures"></a> 4. Select features and justify the methods used
 
-For feature selection, we decided to use our preprocessed dataset and remove one hot encoded columns with a low frequency of rows containing `true`. There are 2 reasons for this. The first is that it should prevent overfitting, as one hot encoded columns with very few rows containing `true` could all be of one target category in the training data, leading to the feature being incorrectly correlated with a certain category. Doing this should improve model performance as they won't be overfitting on the one hot encoded columns.
+For feature selection, we decided to use our preprocessed dataset (before PCA) and remove one hot encoded columns with a low frequency of rows containing `true`. There are 2 reasons for this. The first is that it should prevent overfitting, as one hot encoded columns with very few rows containing `true` could all be of one target category in the training data, leading to the feature being incorrectly correlated with a certain category. Doing this should improve model performance as they won't be overfitting on the one hot encoded columns.
 
 Another reason to remove columns with a low frequency of `true` is that it will make the dataset less sparse by getting rid of the columns containing the least information. It will reduce the amount of columns in our dataset to something similar to our 95% threshold of explained variance in PCA. This will reduce training by removing a lot of our sparse columns.
 
@@ -143,7 +143,7 @@ Figure 10 shows the confusion matrix for SVM using the principal components from
 <em>Figure 11: Confusion matrix for SVM (all features)</em>
 </p>
 
-Figure 11 shows the confusion matrix for SVM using all features. It has an accuracy of 74.8%, taking 1 minute and 40 seconds to train.
+Figure 11 shows the confusion matrix for SVM using all preprocessed features (one hot encoded and scaled, not PCA). It has an accuracy of 74.8%, taking 1 minute and 40 seconds to train.
 
 <p align="center">
 <img src="img/confusion_matrix_svm_feature_selection.png" width="400"/><br>
@@ -152,7 +152,9 @@ Figure 11 shows the confusion matrix for SVM using all features. It has an accur
 
 Figure 12 shows the confusion matrix for SVM using features kept after feature selection. It has an accuracy of 76.8%, taking 41 seconds to train.
 
-As expected, feature selection has both better performance and takes less time to train than with all features, but we found it surprising how much better it performed than using PCA. After looking at the results, we decided to use feature selection over PCA, as it has much better performance and the features are more understandable.
+As expected, feature selection has both better performance and takes less time to train than with all features, but we found it surprising how much better it performed than using PCA. This might be a result of features with little variance being more important for the classification of our target class than the features with more variance. If this is the case, it would make sense that removing low-variance features from our PCA would decrease performance. It would also explain why the preprocessed dataset without PCA and the dataset with the all principal components had much more similar performance.
+
+After looking at the results, we decided to use feature selection over PCA, as it has much better performance and the features are more understandable.
 
 <div style="page-break-after: always;"></div>
 
@@ -162,23 +164,23 @@ As expected, feature selection has both better performance and takes less time t
 
 **How it works**
 
-Multinomial logistic regression models the log odds of each class as a linear function of the inputs and uses a softmax layer to output class probabilities.
+Multinomial logistic regression models the log odds of each class as a linear function of the inputs and uses a softmax function to output class probabilities.
 
 **Why we chose it**
 
-It is a strong baseline for multiclass classification, works well with our one-hot encoded categorical features, and is easy to interpret through its coefficients. This makes it easy to evaluate the reliability of the model by confirming that it captures reasonable relationships between social-economic factors and the student's academic performance. A known limitation is the linearity assumption, which can miss non-linear socio-economic patterns.
+Multinomal logistic regression is a strong baseline for multiclass classification, it works well with our one-hot encoded categorical features. It fits well for target classification when the target classes are unordered, as they are in our dataset (The target can be viewed as having a intuitive order, but in our view it's not a scale of bad-good in the same way that low-medium-high could be viewed). A known limitation is the linearity assumption, which can miss non-linear patterns.
 
 <div style="page-break-after: always;"></div>
 
-### <a id="implement-algorithms-section-2"></a> b. Additive model
+### <a id="implement-algorithms-section-2"></a> b. Decision trees
 
 **How it works**
 
-A generalized additive model (GAM) represents the log odds as a sum of smooth functions of each feature, often via splines, which captures nonlinear shapes without manual feature engineering.
+A decision tree can be seen as a tree of different choices, with each leaf node in the tree corresponding to a target class. Each node/choice in the tree will split the data that reaches it between the later nodes, which will then further seperate the data until it reaches a target class.
 
 **Why we chose it**
 
-Variables such as age at enrollment, admission grade, and approved units often have curved and thresholded effects. GAMs model these patterns directly while remaining interpretable, which improved our classification.
+Decision trees are a good fit for classification tasks because they can capture both linear and non-linear relationships and splits the data in an intuitive way. They are also easy to understand the inner workings of, as they just go through the tree doing if/then checks. One problem with decision trees is that they can easily be overfitted if not given correct hyperparameters.
 
 <div style="page-break-after: always;"></div>
 
@@ -186,11 +188,11 @@ Variables such as age at enrollment, admission grade, and approved units often h
 
 **How it works**
 
-A random forest builds many decision trees on bootstrap samples while randomly selecting subsets of features at each split. The final prediction is the majority vote across trees.
+A random forest builds many decision trees on bootstrap samples (samples of randomly selected data that include removing and duplicating data points) while randomly selecting subsets of features at each split. The final prediction is the majority vote across trees.
 
 **Why we chose it**
 
-It usually delivers higher accuracy than a single tree and handles many attributes well, including our one-hot encoded features and mixed numeric inputs. Although ensembles can be computationally heavier, our dataset is small enough that training is efficient, and we also gain useful feature importance signals.
+It usually delivers higher accuracy than a single decision tree and handles many attributes well, including our one-hot encoded features and mixed numeric inputs. Although ensembles can be computationally heavier, our dataset is small enough that training won't take too long. The ensemble voting and bootstrap samples make the majority vote of all the slightly overfitted decision trees less prone to overfitting and often more accurate.
 
 <div style="page-break-after: always;"></div>
 
@@ -198,25 +200,39 @@ It usually delivers higher accuracy than a single tree and handles many attribut
 
 **How it works**
 
-A support vector machine (SVM) finds a maximum margin boundary. With kernels such as the radial basis function it implicitly maps data to a higher dimensional space to separate complex patterns, relying on support vectors at decision boundaries.
+A support vector machine (SVM) tries to draw a line/boundary that best separates classes by keeping the distance to the closest points as large as possible. With kernels like the radial basis function, it implicitly maps data to a higher dimensional space to separate complex patterns. Only the support vectors, or the points closest to the boundary, determine its position.
 
 **Why we chose it**
 
-It performs well in high dimensional spaces created by one hot encoding and often gives strong accuracy with good regularization. Prediction is fast compared to Naive Bayes and it use less memory since it only uses a subset of the training points in the decision phase. Training can be slow on very large data, but our dataset size makes it a good fit.
+Support vector machines performs well in the high-dimensional feature spaces created by one-hot encoding and often achieves strong accuracy when appropriately regularized. At prediction time it's efficient and reasonably memory-friendly, since the decision function only depends on a subset of the training points (the support vectors). Training can be slow on very large datasets, but for our dataset size this isn't a problem.
 
 <div style="page-break-after: always;"></div>
 
-### <a id="implement-algorithms-section-5"></a> e. Neural networks
+### <a id="implement-algorithms-section-5"></a> e. Neural network - MLP
 
 **How it works**
 
-A feed forward neural network stacks linear layers with nonlinear activations and learns parameters by backpropagation. For multi class outputs it ends with a softmax layer to produce probabilities.
+MLP is a feedforward neural network that stacks linear layers, each node being a linear transformation of all nodes in the previous layer, with nonlinear activations that allow the model to recognize non-linear relationships. The model tweaks parameters by backpropagation. For multi class outputs it ends with a softmax layer that produces probabilities of each class.
 
 **Why we chose it**
 
-It can learn complex interactions among demographic, financial, and academic features that simpler linear models may miss. With proper scaling, regularization, and early stopping, it complements the other methods by offering a representation learning approach that can raise predictive performance on structured data.
+Our problem is a multi class classification problem with three target categories to classify. As a result we chose to implement our neural network with a MLP classifier as they are designed for multi class problems. Furthermore, neural nets can also learn complex interactions among our features that simpler linear models might miss.
+
+<div style="page-break-after: always;"></div>
 
 ## <a id="6-compare-performance"></a> 6. Compare the performance of the five algorithms with respect to your problem, explain the results
+
+<p align="center">
+<img src="img/comparison_cm_logreg.png" width="400"/><br>
+<em>Figure 13: Confusion matrix for logistic regression</em>
+</p>
+
+Accuracy 
+
+<p align="center">
+<img src="img/comparison_cm_dt.png" width="400"/><br>
+<em>Figure 13: Confusion matrix for decision tree</em>
+</p>
 
 <div style="page-break-after: always;"></div>
 
@@ -310,7 +326,40 @@ Finally, **Macro precision** measures correctness per class, averaged equally. I
 
 ## <a id="8-transfer-learning"></a> 8. Implement one instance of transfer learning (find a related bigger dataset online) and explain all the steps
 
+First we looked online to find a dataset related to our student-graduation dataset. We were only able to find a single larger dataset related to student graduation/performance. The dataset we found was Student Performance & Behavior Dataset found on Kaggle at https://www.kaggle.com/datasets/mahmoudelhemaly/students-grading-dataset. 
+
+Unfortunatly this dataset shares very few features with our dataset, but as previously stated it was the only somewhat related and larger dataset we could access. This meant we had to map seemingly correlated features between the dataset based on our own intuiton on what makes sense. The features where we could not make any sensible mappings had to be dropped so only the set of overlapping features between the dataset were used for this transfer learning. 
+
+Since we had to drop the non overlapping features from the new dataset, this meant the pretrained model was trained on a small fraction of the original data. As a result, not even this pretrained model reached a desirable accuraccy. When transfering this pretrained model over to our original dataset (with only overlapping features) the accuracy got even worse. This was probably because what we considered to be the most logical mappings between the dataset features were not very accurate. 
+
+Due to these limitations we consider tranfer learning to be an unsuitable training approach for a model predicting our dataset (given the other dataset we were able to find). 
+
 ### <a id="transfer-learning-section-1"></a> a. Explain the bigger dataset with visualization and summary statistics.
+
+Age and gender were features in both datasets so they were kept as they were.
+
+Our main dataset had two features named "Curricular units 1st sem (grade)" & "Curricular units 2nd sem (grade)". We chose to use the "Quizzes_Avg" feature in our found dataset to map to these features based on the intuition that higher average score on quizzes would correspond to higher grades in the student's semesters.  We transformed the value range of this feature from 0-100 to the range 0-20. 
+
+We also chose to map the feature "Family_Income_Level" in our found dataset over to the "Debtor" feature in our main dataset. Choosing families with low income as debtors.
+
+Furthermore, we also mapped the feature "Family_Income_Level" == 'High' in the found dataset over to "Tuition fees up to date" in the original based on the assumption that if a student comes from a high erarning family they would have payed all tuition fees on time.
+
+Finally, the "Grade" feature in the found dataset was chosen to become the "Target" column where A & B grades where mapped to graduate, C to enrolled if the students stress level was above 5 and graduate if it was below, D & F to dropout. This was based on the assumption that the poorer(D & F) grades would be an accurate mapping of dropout students, and the best grades(A & B) would be an accurate mapping to graduate. We also made an assumption that a C grade would be graduate if they were adequatly calm as measured by the self reported lower stress levels. Cosequently, we also thought they would be enrolled if they had higher stress levels indecating they where struggeling to maintain a C grade. We do concede that these assumptions are flawed, but we thougth this to be the most sensible way split the data to maintain a reasonable distribution of the target classes. 
+
+<p align="center">
+  <img src="new_dataset_vis/grade_dist.png" width="600"/><br>
+  <em>Figure 1: Distribution of grades</em>
+</p>
+<p align="center">
+  <img src="new_dataset_vis/without_splitting.png" width="600"/><br>
+  <em>Figure 1: Distribution of target without splitting C grade</em>
+</p>
+
+<p align="center">
+  <img src="new_dataset_vis/target_dist.png" width="600"/><br>
+  <em>Figure 1: Distribution of target with split of C grade</em>
+</p>
+    
 
 <div style="page-break-after: always;"></div>
 
