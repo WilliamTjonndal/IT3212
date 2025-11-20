@@ -4,22 +4,22 @@
 
 - [IT3212 Assignment 3: Basic modelling](#it3212-assignment-3-basic-modelling)
   - [Table of Contents](#table-of-contents)
-  - [ 1. Develop a problem statement (real world and machine learning)](#-1-develop-a-problem-statement-real-world-and-machine-learning)
-    - [ a. This is one of the most important skills that a Machine Learning Engineer/Scientist should have. Select a dataset and frame a machine learning problem and then connect this machine learning problem to the real world scenario.](#-a-this-is-one-of-the-most-important-skills-that-a-machine-learning-engineerscientist-should-have-select-a-dataset-and-frame-a-machine-learning-problem-and-then-connect-this-machine-learning-problem-to-the-real-world-scenario)
-  - [ 2. Implement the preprocessing and justify the preprocessing steps](#-2-implement-the-preprocessing-and-justify-the-preprocessing-steps)
-  - [ 3. Extract features and justify the methods used](#-3-extract-features-and-justify-the-methods-used)
-  - [ 4. Select features and justify the methods used](#-4-select-features-and-justify-the-methods-used)
-  - [ 5. Implement five out of the following algorithms and justify the choice](#-5-implement-five-out-of-the-following-algorithms-and-justify-the-choice)
-    - [ a. Logistic regression](#-a-logistic-regression)
-    - [ b. Decision trees](#-b-decision-trees)
-    - [ c. Random forest](#-c-random-forest)
-    - [ d. SVM with kernels](#-d-svm-with-kernels)
-    - [ e. Neural network - MLP](#-e-neural-network---mlp)
-  - [ 6. Compare the performance of the five algorithms with respect to your problem, explain the results](#-6-compare-the-performance-of-the-five-algorithms-with-respect-to-your-problem-explain-the-results)
-  - [ 7. Implement boosting and bagging with your choice of base models and explain all the steps](#-7-implement-boosting-and-bagging-with-your-choice-of-base-models-and-explain-all-the-steps)
-  - [ 8. Implement one instance of transfer learning (find a related bigger dataset online) and explain all the steps](#-8-implement-one-instance-of-transfer-learning-find-a-related-bigger-dataset-online-and-explain-all-the-steps)
-    - [ a. Explain the bigger dataset with visualization and summary statistics.](#-a-explain-the-bigger-dataset-with-visualization-and-summary-statistics)
-  - [ 9. Compare the performance of the algorithms (basic VS boosting VS bagging VS transfer) with respect to your machine learning problem and explain the results](#-9-compare-the-performance-of-the-algorithms-basic-vs-boosting-vs-bagging-vs-transfer-with-respect-to-your-machine-learning-problem-and-explain-the-results)
+  - [ 1. Develop a problem statement (real world and machine learning)](#1-develop-a-problem-statement-real-world-and-machine-learning)
+    - [ a. This is one of the most important skills that a Machine Learning Engineer/Scientist should have. Select a dataset and frame a machine learning problem and then connect this machine learning problem to the real world scenario.](#a-this-is-one-of-the-most-important-skills-that-a-machine-learning-engineerscientist-should-have-select-a-dataset-and-frame-a-machine-learning-problem-and-then-connect-this-machine-learning-problem-to-the-real-world-scenario)
+  - [ 2. Implement the preprocessing and justify the preprocessing steps](#2-implement-the-preprocessing-and-justify-the-preprocessing-steps)
+  - [ 3. Extract features and justify the methods used](#3-extract-features-and-justify-the-methods-used)
+  - [ 4. Select features and justify the methods used](#4-select-features-and-justify-the-methods-used)
+  - [ 5. Implement five out of the following algorithms and justify the choice](#5-implement-five-out-of-the-following-algorithms-and-justify-the-choice)
+    - [ a. Logistic regression](#a-logistic-regression)
+    - [ b. Decision trees](#b-decision-trees)
+    - [ c. Random forest](#c-random-forest)
+    - [ d. SVM with kernels](#d-svm-with-kernels)
+    - [ e. Neural network - MLP](#e-neural-network---mlp)
+  - [ 6. Compare the performance of the five algorithms with respect to your problem, explain the results](#6-compare-the-performance-of-the-five-algorithms-with-respect-to-your-problem-explain-the-results)
+  - [ 7. Implement boosting and bagging with your choice of base models and explain all the steps](#7-implement-boosting-and-bagging-with-your-choice-of-base-models-and-explain-all-the-steps)
+  - [ 8. Implement one instance of transfer learning (find a related bigger dataset online) and explain all the steps](#8-implement-one-instance-of-transfer-learning-find-a-related-bigger-dataset-online-and-explain-all-the-steps)
+    - [ a. Explain the bigger dataset with visualization and summary statistics.](#a-explain-the-bigger-dataset-with-visualization-and-summary-statistics)
+  - [ 9. Compare the performance of the algorithms (basic VS boosting VS bagging VS transfer) with respect to your machine learning problem and explain the results](#9-compare-the-performance-of-the-algorithms-basic-vs-boosting-vs-bagging-vs-transfer-with-respect-to-your-machine-learning-problem-and-explain-the-results)
 
 
 <div style="page-break-after: always;"></div>
@@ -454,7 +454,7 @@ The best overall model is `Random Forest`, with an accuracy of 78.8%. It is robu
 `Radial Basis Function Support Vector Machine` came in second with 76.6% accuracy. `RBF SVM` does not scale as well as `Random Forest` with the number of samples and features, so it does not fully explore complex interactions as efficiently as `Random Forest`.\
 `Multilayer perceptrons` come after with an accuracy of 75.9%. Neural networks need a lot of data to learn complex patterns, with only 4,425 rows, `MLP` cannot generalize as well.\
 The `Logistic regression` models comes in fourth place with an accuracy 75.7%. We believe that dropout risk depends not only on linear interactions, meaning linear models like `Logistic regression` cannot capture them as well.
-Finally, `Decision Trees` come in last place with an accuracy of 67.9%. A single `Decision Tree` performs the worst most likely because it cannot<h1 style="color:green;">TODO: finish paragraph</h1>
+Finally, `Decision Trees` come in last place with an accuracy of 67.9%. A single `Decision Tree` performs the worst most likely because it is a high-variance model, so even small changes in the training data can lead to very different trees which makes its predictions unstable and prone to overfitting.
 
 Bagging emerged as the strongest overall approach because the student-performance dataset contains noise and overlapping class boundaries (Dropout and Enrolled overlap in terms of features). All of this benefits from the variance reduction that comes from using bagging. Despite this, bagging did not completely resolve the bias models had towards "Graduate".\
 Once again `Random Forest` performed the best, because it already implements bagging in addition to bootstrap sampling by design.\
