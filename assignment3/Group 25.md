@@ -66,7 +66,8 @@ The first step in our preprocessing is one hot encoding on categorical columns. 
 
 One problem with using one hot encoding on our dataset is that our categorical columns have many categories, turning the dataset from having 35 to having 246 columns. This makes our dataset more sparse, making each column contain less information, which can be harmful to some models. We prioritized not creating a non-existent order, and will instead remove excess features later.
 
-We then split the dataset into a train and test set. This was done with a 75-25 split.
+We then split the dataset into a train and test set. This was done with a 75-25 split. Splitting the dataset as such enables the model to learn patterns from most of the data while keeping a suitable portion for unbiased evaluation.
+
 
 Then we min-max scaled the dataset, ensuring no feature is weighted too highly based on having higher values than the others.
 
@@ -124,6 +125,8 @@ We can also look at the distribution of our target categories using the columns 
 </p>
 
 To decide whether to use our dataset after feature extraction using PCA or after feature selection, we trained one of the models that don't take that long to train, SVM, with all the variations of our dataset.
+
+From this point on in this document, the following label numbers, $0$, $1$, $2$, displayed inside of figures represent `Dropout`, `Enrolled` and `Graduate` respectively.
 
 <p align="center">
 <img src="img/confusion_matrix_svm_all_pca.png" width="400"/><br>
@@ -295,6 +298,8 @@ We implemented several ensemble learning methods: **Bagging with Logistic Regres
 
 **AdaBoost models** build ensembles sequentially, reweighting misclassified samples so that later learners focus on harder cases. Using Logistic Regression and Decision Trees as weak learners, AdaBoost reduces bias by combining their weighted predictions.
 
+Note that **Random Forest** already uses bagging, so bagging it again is redundant.
+
 <div style="display: flex;">
   <figure style="text-align: center; margin: 25 5px 25 0;">
     <img src="img/confusion_matrix_bagging_dt.png" width="500"/>
@@ -304,24 +309,27 @@ We implemented several ensemble learning methods: **Bagging with Logistic Regres
     <img src="img/confusion_matrix_bagging_svm.png" width="500"/>
     <figcaption><em>Figure 23.b: Confusion matrix (Bagging with Support Vector Machines)</em></figcaption>
   </figure>
-   <figure style="text-align: center; margin: 25 5px 25 0;">
-    <img src="img/confusion_matrix_bagging_lr.png" width="500"/>
-    <figcaption><em>Figure 23.b: Confusion matrix (Bagging with Logistic Regression)</em></figcaption>
-  </figure>
 </div>
 
 <div style="display: flex;">
   <figure style="text-align: center; margin: 25 5px 25 0;">
     <img src="img/confusion_matrix_bagging_mlp.png" width="500"/>
-    <figcaption><em>Figure 23.a: Confusion matrix (Bagging with Multi-Layer Perceptrons)</em></figcaption>
+    <figcaption><em>Figure 23.d: Confusion matrix (Bagging with Multi-Layer Perceptrons)</em></figcaption>
   </figure>
+   <figure style="text-align: center; margin: 25 5px 25 0;">
+    <img src="img/confusion_matrix_bagging_lr.png" width="500"/>
+    <figcaption><em>Figure 23.c: Confusion matrix (Bagging with Logistic Regression)</em></figcaption>
+  </figure>
+</div>
+
+<div style="display: flex;">
   <figure style="text-align: center; margin: 25 5px 25 0;">
     <img src="img/confusion_matrix_boosting_adaboost_dt.png" width="500"/>
-    <figcaption><em>Figure 23.b: Confusion matrix (AdaBoost with Decision Trees)</em></figcaption>
+    <figcaption><em>Figure 23.e: Confusion matrix (AdaBoost with Decision Trees)</em></figcaption>
   </figure>
     <figure style="text-align: center; margin: 25 5px 25 0;">
     <img src="img/confusion_matrix_boosting_adaboost_lr.png" width="500"/>
-    <figcaption><em>Figure 23.b: Confusion matrix (AdaBoost with Logistic Regression)</em></figcaption>
+    <figcaption><em>Figure 23.f: Confusion matrix (AdaBoost with Logistic Regression)</em></figcaption>
   </figure>
 </div>
 
@@ -350,13 +358,13 @@ Despite the usage of boosting or bagging, the best performing models are still b
 <em>Figure 24c: Bagging vs Boosting macro precision accuracy</em>
 </p>
 
-From ***Figure 3a***, we notice that **accuracy** ranges from 0.435 to 0.778 across al models. The best model, `Bagging DT` (Bagging with Decision Trees), correctly predicts about 78% of students. The worst model is `AdaBoost LR` with 0.727 accuracy.
+From ***Figure 24a***, we notice that **accuracy** ranges from 0.435 to 0.778 across all models. The best model, `Bagging DT` (Bagging with Decision Trees), correctly predicts about 78% of students, which is just as good as `Random Forest`. The worst model is `AdaBoost LR` with 0.727 accuracy.
 
 However, accuracy can be misleading because the classes are unbalanced since many students are "Graduates". To resolve this, we have also used **Balanced Accuracy**.\
-**Balanced accuracy** goes from 0.702 to 0.718 which is lower than raw accuracy.\
+**Balanced accuracy** goes from 0.702 to 0.718 which is lower than raw accuracy (see ***Figure 24b***).\
 This indicates that the bagged and boosted models predict class 2 (Graduate) well, but  struggle with class 1 (Enrolled). Interestingly, `AdaBoost LR` performed best here, despite being the worst in terms of **accuracy**. This can be explained by the confusion matrix: AdaBoost with Logistic Regression focuses heavily on misclassified minority-class cases, which improves balanced accuracy but often reduces overall accuracy by causing more errors on the majority class.
 
-Finally, **Macro precision** goes from 0.7 up to 0.73. Once again, `Bagging DT` perfomed the best. This means that when the model predicts a class, it is correct roughly 73% of the time.\
+Finally, **Macro precision** goes from 0.7 up to 0.73 (see ***Figure 24c***). Once again, `Bagging DT` perfomed the best. This means that when the model predicts a class, it is correct roughly 73% of the time.\
 `AdaBoost DT` performed the worst, because its weak learners cannot model the complexity of our imbalanced dataset, causing more misclassifications and therefore more false positives in multiple classes.
 
 <p align="center">
@@ -377,7 +385,7 @@ First we looked online to find a dataset related to our student-graduation datas
 
 Unfortunatly this dataset shares very few features with our dataset, but as previously stated it was the only somewhat related and larger dataset we could access. This meant we had to map seemingly correlated features between the dataset based on our own intuiton on what makes sense. The features where we could not make any sensible mappings had to be dropped so only the set of overlapping features between the dataset were used for this transfer learning. 
 
-Since we had to drop the non overlapping features from the new dataset, this meant the pretrained model was trained on a small fraction of the original data. As a result, not even this pretrained model reached a desirable accuraccy. When transfering this pretrained model over to our original dataset (with only overlapping features) the accuracy got even worse. This was probably because what we considered to be the most logical mappings between the dataset features were not very accurate. 
+Since we had to drop the non overlapping features from the new dataset, this meant the pretrained model was trained on a small fraction of the original data. As a result, not even this pretrained model reached a desirable accuracy. When transfering this pretrained model over to our original dataset (with only overlapping features) the accuracy got even worse. This was probably because what we considered to be the most logical mappings between the dataset features were not very accurate. 
 
 Due to these limitations we consider tranfer learning to be an unsuitable training approach for a model predicting our dataset (given the other dataset we were able to find). 
 
@@ -413,21 +421,16 @@ With the features of the found dataset now mapped to the original dataset we pre
 
 <p align="center">
   <img src="confusion_matrix_student_performance8_64.png" width="600"/><br>
-  <em>Figure 29: Confusion matrix for pre trained model</em>
+  <em>Figure 29: Confusion matrix for pre-trained model</em>
 </p>
 
-The pre-trained model resulted in the confusion matrix seen in figure "riktig nummer". This model had an accuracy of 51.1%. This is likely because we had to drop alot of features to make the two datasets compatible. 
+The pre-trained model resulted in the confusion matrix seen in ***Figure 29***. This model had an accuracy of 51.1%. This is likely because we had to drop a lot of features to make the two datasets compatible. 
 
 <p align="center">
   <img src="confusion_matrix_student_graduation_8_64.png" width="600"/><br>
   <em>Figure 30: Confusion matrix for post trained model and base MLP model</em>
 </p>
 The post-trained model achieved a low accuracy of 30.5% and was a clear step down in quality from the baseline model which had an accuracy of 60.7% when trained on the same subset of features. 
-
-
-
-
-    
 
 <div style="page-break-after: always;"></div>
 
@@ -446,10 +449,23 @@ Figure 31: Table comparing the performance of the different models.
 </em>
 </p>
 
-Basic models like SVM and MLP performed well, but they are biased towards the majority "Graduate" class despite oversampling and lacked the stability that bagging introduced.
+Basic models like `SVM` and `MLP` performed well, but they are biased towards the majority "Graduate" class despite oversampling.\
+The best overall model is `Random Forest`, with an accuracy of 78.8%. It is fast for our dataset, since our dataset is moderatly big (under 5000 rows) and does not have a lot of features (79 features). It is also robust to irrelevant features which is essential when dealing with educational and demographic predictors. Finally, it captures nonlinear relationships and interactions between factors that influence student persistence.\
+`Radial Basis Function Support Vector Machine` came in second with 76.6% accuracy. `RBF SVM` does not scale as well as `Random Forest` with the number of samples and features, so it does not fully explore complex interactions as efficiently as `Random Forest`.\
+`Multilayer perceptrons` come after with an accuracy of 75.9%. Neural networks need a lot of data to learn complex patterns, with only 4,425 rows, `MLP` cannot generalize very well.\
+`Logistic regression` comes after with 75.7% accuracy. We believe that dropout risk depends on nonlinear interactions, which linear models like `Logistic regression` cannot capture without manual feature engineering.\
+Finally, `Decision Trees` come in last place with an accuracy of 67.9%. A single `Decision Tree` performs worst because it easily overfits with 79 features. This causes noisy predictions.
 
-Bagging emerged as the strongest overall approach because the student-performance dataset contains noise, overlapping class boundaries and mixed feature types. All of this benefits from the variance reduction that comes from using bagging. Despite this, bagging did not completely resolve the bias models had towards "Graduate".
+Bagging emerged as the strongest overall approach because the student-performance dataset contains noise, overlapping class boundaries and mixed feature types. All of this benefits from the variance reduction that comes from using bagging. Despite this, bagging did not completely resolve the bias models had towards "Graduate".\
+Once again `Random Forest` performed best. `Random Forest` already implements bagging by design.\
+`Bagging with Decision Trees` come after, performing much better than before with an accuracy of 77.8%. It performs much better because it combines many trees, reducing overfitting and variance compared to a single tree.\
+`Bagging with Support Vector Machine` performed slightly better than before with 77.2% accuracy. Combining multiple `SVM` models on different bootstrap samples reduces variance and smooths out individual model errors.\
+`Bagging with Multilayer perceptrons` perfomed about the same, with an accuracy increase of about 0.03%. We get almost no improvement because neural networks like `MLP` are already high-variance and flexible models.
+Finally, `Bagging with Logistic regression` perfomed the same, with an accuracy increase of only 0.02%. `Logistic Regression` is a low-variance and linear model, so averaging multiple models doesn't do much.
 
-Boosting performed worse because its reweighting strategy forces models to focus on misclassified which leads to overfitting.
+Boosting performed worse because its reweighting strategy forces models to focus on misclassified which leads to overfitting.\
+`AdaBoost with Decision Trees` performed better than `AdaBoost with Logistic Regression`, with accuracies of 73.8% and 72.7% respectively.\
+`AdaBoost DT` outperforms `AdaBoost LR` because decision trees are flexible, high-variance base learners, while logistic regression is a low-variance and linear base model.\
+However, `AdaBoost LR` performed the best when predicting when trying to predict the middle label: Enrolled students. This comes at the cost of reducing the prediction rate for the Graduate label.
 
 Transfer learning performed the poorly because the new dataset was incompatible and required heavy feature dropping.
