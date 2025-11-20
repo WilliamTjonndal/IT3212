@@ -244,8 +244,6 @@ We implemented several ensemble learning methods: **Bagging with Logistic Regres
 
 **AdaBoost models** build ensembles sequentially, reweighting misclassified samples so that later learners focus on harder cases. Using Logistic Regression and Decision Trees as weak learners, AdaBoost reduces bias by combining their weighted predictions.
 
-The *modified pipeline* handles missing values with a median-based `SimpleImputer`, integrates preprocessing directly with model training, and tunes hyperparameters using `GridSearchCV` over settings such as learning rate, number of estimators, and sampling ratios. Each ensemble is refitted with optimal parameters and evaluated using accuracy and balanced accuracy on the test set.
-
 <div style="display: flex;">
   <figure style="text-align: center; margin: 25 5px 25 0;">
     <img src="img/confusion_matrix_bagging_dt.png" width="500"/>
@@ -276,7 +274,7 @@ The *modified pipeline* handles missing values with a median-based `SimpleImpute
   </figure>
 </div>
 
-As seen in the confusion matrices aboves, the number of correct predictions each model makes varies greatly with bagging and boosting.
+As seen in the confusion matrices aboves, the number of correct predictions each model makes varies with bagging and boosting.
 
 When it comes to bagging, using it on Decision Trees seems to work best. The other models perform relatively well as well.
 
@@ -301,15 +299,13 @@ Despite the usage of boosting or bagging, the best performing models are still b
 <em>Figure 3c: Bagging vs Boosting macro precision accuracy</em>
 </p>
 
-By **Accuracy** we mean the percentage of all predictions that were correct.\
-From ***Figure 3a***, we notice that **accuracy** ranges from 0.435 to 0.778 across al models. The best model, `Bagging DT` (Bagging with Decision Trees), correctly predicts ~78% of students. The worst model is `AdaBoost LR` with 0.727 accuracy.
+From ***Figure 3a***, we notice that **accuracy** ranges from 0.435 to 0.778 across al models. The best model, `Bagging DT` (Bagging with Decision Trees), correctly predicts about 78% of students. The worst model is `AdaBoost LR` with 0.727 accuracy.
 
-However, accuracy can be misleading because the classes are unbalanced (many students are "graduates").\
-To resolve this, we have also used **Balanced Accuracy**. This is the mean recall across all classes, which gives each class equal weight.\
+However, accuracy can be misleading because the classes are unbalanced since many students are "Graduates". To resolve this, we have also used **Balanced Accuracy**.\
 **Balanced accuracy** goes from 0.702 to 0.718 which is lower than raw accuracy.\
-This indicates that the models predict class 2 (Graduate) well, but  struggle with class 1 (Enrolled). Interestingly, `AdaBoost LR` performed best here, despite being the worst in terms of **accuracy**. This is explained by the confusion matrix: AdaBoost with Logistic Regression focuses heavily on misclassified minority-class cases, which improves balanced accuracy but often reduces overall accuracy by causing more errors on the majority class.
+This indicates that the bagged and boosted models predict class 2 (Graduate) well, but  struggle with class 1 (Enrolled). Interestingly, `AdaBoost LR` performed best here, despite being the worst in terms of **accuracy**. This can be explained by the confusion matrix: AdaBoost with Logistic Regression focuses heavily on misclassified minority-class cases, which improves balanced accuracy but often reduces overall accuracy by causing more errors on the majority class.
 
-Finally, **Macro precision** measures correctness per class, averaged equally. It goes from 0.7 up to 0.73. Once again, `Bagging DT` perfomed the best. This means that when the model predicts a class, it is correct roughly 73% of the time.\
+Finally, **Macro precision** goes from 0.7 up to 0.73. Once again, `Bagging DT` perfomed the best. This means that when the model predicts a class, it is correct roughly 73% of the time.\
 `AdaBoost DT` performed the worst, because its weak learners cannot model the complexity of our imbalanced dataset, causing more misclassifications and therefore more false positives in multiple classes.
 
 <p align="center">
