@@ -118,7 +118,40 @@ Our probmlem is a multi class classification problem with three categories to ca
 
 ## <a id="8-transfer-learning"></a> 8. Implement one instance of transfer learning (find a related bigger dataset online) and explain all the steps
 
+First we looked online to find a dataset related to our student-graduation dataset. We were only able to find a single larger dataset related to student graduation/performance. The dataset we found was Student Performance & Behavior Dataset found on Kaggle at https://www.kaggle.com/datasets/mahmoudelhemaly/students-grading-dataset. 
+
+Unfortunatly this dataset shares very few features with our dataset, but as previously stated it was the only somewhat related and larger dataset we could access. This meant we had to map seemingly correlated features between the dataset based on our own intuiton on what makes sense. The features where we could not make any sensible mappings had to be dropped so only the set of overlapping features between the dataset were used for this transfer learning. 
+
+Since we had to drop the non overlapping features from the new dataset, this meant the pretrained model was trained on a small fraction of the original data. As a result, not even this pretrained model reached a desirable accuraccy. When transfering this pretrained model over to our original dataset (with only overlapping features) the accuracy got even worse. This was probably because what we considered to be the most logical mappings between the dataset features were not very accurate. 
+
+Due to these limitations we consider tranfer learning to be an unsuitable training approach for a model predicting our dataset (given the other dataset we were able to find). 
+
 ### <a id="transfer-learning-section-1"></a> a. Explain the bigger dataset with visualization and summary statistics.
+
+Age and gender were features in both datasets so they were kept as they were.
+
+Our main dataset had two features named "Curricular units 1st sem (grade)" & "Curricular units 2nd sem (grade)". We chose to use the "Quizzes_Avg" feature in our found dataset to map to these features based on the intuition that higher average score on quizzes would correspond to higher grades in the student's semesters.  We transformed the value range of this feature from 0-100 to the range 0-20. 
+
+We also chose to map the feature "Family_Income_Level" in our found dataset over to the "Debtor" feature in our main dataset. Choosing families with low income as debtors.
+
+Furthermore, we also mapped the feature "Family_Income_Level" == 'High' in the found dataset over to "Tuition fees up to date" in the original based on the assumption that if a student comes from a high erarning family they would have payed all tuition fees on time.
+
+Finally, the "Grade" feature in the found dataset was chosen to become the "Target" column where A & B grades where mapped to graduate, C to enrolled if the students stress level was above 5 and graduate if it was below, D & F to dropout. This was based on the assumption that the poorer(D & F) grades would be an accurate mapping of dropout students, and the best grades(A & B) would be an accurate mapping to graduate. We also made an assumption that a C grade would be graduate if they were adequatly calm as measured by the self reported lower stress levels. Cosequently, we also thought they would be enrolled if they had higher stress levels indecating they where struggeling to maintain a C grade. We do concede that these assumptions are flawed, but we thougth this to be the most sensible way split the data to maintain a reasonable distribution of the target classes. 
+
+<p align="center">
+  <img src="new_dataset_vis/grade_dist.png" width="600"/><br>
+  <em>Figure 1: Distribution of grades</em>
+</p>
+<p align="center">
+  <img src="new_dataset_vis/without_splitting.png" width="600"/><br>
+  <em>Figure 1: Distribution of target without splitting C grade</em>
+</p>
+
+<p align="center">
+  <img src="new_dataset_vis/target_dist.png" width="600"/><br>
+  <em>Figure 1: Distribution of target with split of C grade</em>
+</p>
+    
 
 <div style="page-break-after: always;"></div>
 
