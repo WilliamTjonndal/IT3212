@@ -56,7 +56,7 @@ All categorical columns are label encoded, and has a mapping from number to cate
 From looking at the data source, we knew the dataset had been undergone rigorous data preprocessing to handle data from anomalies, unexplainable outliers, and missing values. Still, we decided to see ourself if there were anomalies or outliers. 
 
 <p align="center">
-<img src="img/data_null.png" width="800"/><br>
+<img src="img/data_null.png" width="400"/><br>
 <em>Figure 3: Null values in dataset</em>
 </p>
 
@@ -362,7 +362,7 @@ From ***Figure 24a***, we notice that **accuracy** ranges from 0.435 to 0.778 ac
 
 However, accuracy can be misleading because the classes are unbalanced since many students are "Graduates". To resolve this, we have also used **Balanced Accuracy**.\
 **Balanced accuracy** goes from 0.702 to 0.718 which is lower than raw accuracy (see ***Figure 24b***).\
-This indicates that the bagged and boosted models predict class 2 (Graduate) well, but  struggle with class 1 (Enrolled). Interestingly, `AdaBoost LR` performed best here, despite being the worst in terms of **accuracy**. This can be explained by the confusion matrix: AdaBoost with Logistic Regression focuses heavily on misclassified minority-class cases, which improves balanced accuracy but often reduces overall accuracy by causing more errors on the majority class.
+This indicates that the bagged and boosted models predict class 2 (Graduate) well, but  struggle with class 1 (Enrolled). Interestingly, `Bagging LR` performed the best here. This is because it averages predictions across bootstrap samples which reduces sensitivity to class imbalance. This ensures that both dropout and non-dropout students are treated more equally, improving performance on the minority class.
 
 Finally, **Macro precision** goes from 0.7 up to 0.73 (see ***Figure 24c***). Once again, `Bagging DT` perfomed the best. This means that when the model predicts a class, it is correct roughly 73% of the time.\
 `AdaBoost DT` performed the worst, because its weak learners cannot model the complexity of our imbalanced dataset, causing more misclassifications and therefore more false positives in multiple classes.
@@ -450,22 +450,21 @@ Figure 31: Table comparing the performance of the different models.
 </p>
 
 Basic models like `SVM` and `MLP` performed well, but they are biased towards the majority "Graduate" class despite oversampling.\
-The best overall model is `Random Forest`, with an accuracy of 78.8%. It is fast for our dataset, since our dataset is moderatly big (under 5000 rows) and does not have a lot of features (79 features). It is also robust to irrelevant features which is essential when dealing with educational and demographic predictors. Finally, it captures nonlinear relationships and interactions between factors that influence student persistence.\
+The best overall model is `Random Forest`, with an accuracy of 78.8%. It is robust to less relevant features which turns out to be especially important for our dataset since several features turned out to be less relevant than expected for this model. Furthermore, it also captures nonlinear relationships and interactions between factors that influence student persistence.\
 `Radial Basis Function Support Vector Machine` came in second with 76.6% accuracy. `RBF SVM` does not scale as well as `Random Forest` with the number of samples and features, so it does not fully explore complex interactions as efficiently as `Random Forest`.\
-`Multilayer perceptrons` come after with an accuracy of 75.9%. Neural networks need a lot of data to learn complex patterns, with only 4,425 rows, `MLP` cannot generalize very well.\
-`Logistic regression` comes after with 75.7% accuracy. We believe that dropout risk depends on nonlinear interactions, which linear models like `Logistic regression` cannot capture without manual feature engineering.\
-Finally, `Decision Trees` come in last place with an accuracy of 67.9%. A single `Decision Tree` performs worst because it easily overfits with 79 features. This causes noisy predictions.
+`Multilayer perceptrons` come after with an accuracy of 75.9%. Neural networks need a lot of data to learn complex patterns, with only 4,425 rows, `MLP` cannot generalize as well.\
+The `Logistic regression` models comes in fourth place with an accuracy 75.7%. We believe that dropout risk depends not only on linear interactions, meaning linear models like `Logistic regression` cannot capture them as well.
+Finally, `Decision Trees` come in last place with an accuracy of 67.9%. A single `Decision Tree` performs the worst most likely because it cannot<h1 style="color:green;">TODO: finish paragraph</h1>
 
-Bagging emerged as the strongest overall approach because the student-performance dataset contains noise, overlapping class boundaries and mixed feature types. All of this benefits from the variance reduction that comes from using bagging. Despite this, bagging did not completely resolve the bias models had towards "Graduate".\
-Once again `Random Forest` performed best. `Random Forest` already implements bagging by design.\
-`Bagging with Decision Trees` come after, performing much better than before with an accuracy of 77.8%. It performs much better because it combines many trees, reducing overfitting and variance compared to a single tree.\
-`Bagging with Support Vector Machine` performed slightly better than before with 77.2% accuracy. Combining multiple `SVM` models on different bootstrap samples reduces variance and smooths out individual model errors.\
-`Bagging with Multilayer perceptrons` perfomed about the same, with an accuracy increase of about 0.03%. We get almost no improvement because neural networks like `MLP` are already high-variance and flexible models.
+Bagging emerged as the strongest overall approach because the student-performance dataset contains noise and overlapping class boundaries (Dropout and Enrolled overlap in terms of features). All of this benefits from the variance reduction that comes from using bagging. Despite this, bagging did not completely resolve the bias models had towards "Graduate".\
+Once again `Random Forest` performed the best, because it already implements bagging in addition to bootstrap sampling by design.\
+`Bagging with Decision Trees` comes after, performing much better than before with an accuracy of 77.8%. It performs much better because it combines many trees, reducing overfitting and variance compared to a single tree.\
+`Bagging with Support Vector Machines` performed slightly better than before with 77.2% accuracy. Combining multiple `SVM` models on different bootstrap samples reduces variance and smooths out individual model errors.\
+`Bagging with Multilayer perceptrons` perfomed about the same, with an accuracy increase of about 0.03%. We get almost no improvement because neural networks like `MLP` are already high-variance and flexible models. `Bagging with MLPs` is not considered a suitable method for improving the performance of the aforementioned method.
 Finally, `Bagging with Logistic regression` perfomed the same, with an accuracy increase of only 0.02%. `Logistic Regression` is a low-variance and linear model, so averaging multiple models doesn't do much.
 
-Boosting performed worse because its reweighting strategy forces models to focus on misclassified which leads to overfitting.\
+Boosting performed worse compared to bagging because its reweighting strategy forces models to focus on misclassified data which leads to overfitting.\
 `AdaBoost with Decision Trees` performed better than `AdaBoost with Logistic Regression`, with accuracies of 73.8% and 72.7% respectively.\
-`AdaBoost DT` outperforms `AdaBoost LR` because decision trees are flexible, high-variance base learners, while logistic regression is a low-variance and linear base model.\
-However, `AdaBoost LR` performed the best when predicting when trying to predict the middle label: Enrolled students. This comes at the cost of reducing the prediction rate for the Graduate label.
+`AdaBoost DT` outperforms `AdaBoost LR` because decision trees are flexible, high-variance base learners, while logistic regression is a low-variance and linear base model.
 
 Transfer learning performed the poorly because the new dataset was incompatible and required heavy feature dropping.
