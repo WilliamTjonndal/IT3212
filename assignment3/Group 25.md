@@ -361,4 +361,17 @@ Finally, the "Grade" feature in the found dataset was chosen to become the "Targ
 
 ## <a id="7-compare-performance"></a> 9. Compare the performance of the algorithms (basic VS boosting VS bagging VS transfer) with respect to your machine learning problem and explain the results
 
-<div style="page-break-after: always;"></div>
+| Model Type            | Accuracy    | Balanced Accuracy | Macro Precision | ROC-AUC     | Strengths                      | Weaknesses                     |
+| --------------------- | ----------- | ----------------- | --------------- | ----------- | ------------------------------ | ------------------------------ |
+| **Basic Models**      | High | Medium            | Medium          | High | Simple, fast, SVM & MLP strong | Class bias, overfitting (DT)   |
+| **Bagging Models**    | `Highest` | High     | Medium   | High | Best overall, stable, robust   | Computationally expensive |
+| **Boosting Models**   | Medium       | `Highest` | Medium           | Medium      | Good for minority classes      | Overfits noise, unstable       |
+| **Transfer Learning** | Low   | Low             | Low           | Low       | Uses additional data           | Poor feature compatibility     |
+
+Basic models like SVM and MLP performed well, but they are biased towards the majority "Graduate" class despite oversampling and lacked the stability that bagging introduced.
+
+Bagging emerged as the strongest overall approach because the student-performance dataset contains noise, overlapping class boundaries and mixed feature types. All of this benefits from the variance reduction that comes from using bagging. Despite this, bagging did not completely resolve the bias models had towards "Graduate".
+
+Boosting performed worse because its reweighting strategy forces models to focus on misclassified which leads to overfitting.
+
+Transfer learning performed the poorly because the new dataset was incompatible and required heavy feature dropping.
