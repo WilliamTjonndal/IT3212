@@ -4,22 +4,22 @@
 
 - [IT3212 Assignment 3: Basic modelling](#it3212-assignment-3-basic-modelling)
   - [Table of Contents](#table-of-contents)
-  - [ 1. Develop a problem statement (real world and machine learning)](#1-develop-a-problem-statement-real-world-and-machine-learning)
-    - [ a. This is one of the most important skills that a Machine Learning Engineer/Scientist should have. Select a dataset and frame a machine learning problem and then connect this machine learning problem to the real world scenario.](#a-this-is-one-of-the-most-important-skills-that-a-machine-learning-engineerscientist-should-have-select-a-dataset-and-frame-a-machine-learning-problem-and-then-connect-this-machine-learning-problem-to-the-real-world-scenario)
-  - [ 2. Implement the preprocessing and justify the preprocessing steps](#2-implement-the-preprocessing-and-justify-the-preprocessing-steps)
-  - [ 3. Extract features and justify the methods used](#3-extract-features-and-justify-the-methods-used)
-  - [ 4. Select features and justify the methods used](#4-select-features-and-justify-the-methods-used)
-  - [ 5. Implement five out of the following algorithms and justify the choice](#5-implement-five-out-of-the-following-algorithms-and-justify-the-choice)
-    - [ a. Logistic regression](#a-logistic-regression)
-    - [ b. Decision trees](#b-decision-trees)
-    - [ c. Random forest](#c-random-forest)
-    - [ d. SVM with kernels](#d-svm-with-kernels)
-    - [ e. Neural network - MLP](#e-neural-network---mlp)
-  - [ 6. Compare the performance of the five algorithms with respect to your problem, explain the results](#6-compare-the-performance-of-the-five-algorithms-with-respect-to-your-problem-explain-the-results)
-  - [ 7. Implement boosting and bagging with your choice of base models and explain all the steps](#7-implement-boosting-and-bagging-with-your-choice-of-base-models-and-explain-all-the-steps)
-  - [ 8. Implement one instance of transfer learning (find a related bigger dataset online) and explain all the steps](#8-implement-one-instance-of-transfer-learning-find-a-related-bigger-dataset-online-and-explain-all-the-steps)
-    - [ a. Explain the bigger dataset with visualization and summary statistics.](#a-explain-the-bigger-dataset-with-visualization-and-summary-statistics)
-  - [ 9. Compare the performance of the algorithms (basic VS boosting VS bagging VS transfer) with respect to your machine learning problem and explain the results](#9-compare-the-performance-of-the-algorithms-basic-vs-boosting-vs-bagging-vs-transfer-with-respect-to-your-machine-learning-problem-and-explain-the-results)
+  - [ 1. Develop a problem statement (real world and machine learning)](#1-problem-statement)
+    - [ a. This is one of the most important skills that a Machine Learning Engineer/Scientist should have. Select a dataset and frame a machine learning problem and then connect this machine learning problem to the real world scenario.](#problem-statement-section-1)
+  - [ 2. Implement the preprocessing and justify the preprocessing steps](#2-preprocessing)
+  - [ 3. Extract features and justify the methods used](#3-extract-features)
+  - [ 4. Select features and justify the methods used](#4-select-feactures)
+  - [ 5. Implement five out of the following algorithms and justify the choice](#5-implement-algorithms)
+    - [ a. Logistic regression](#implement-algorithms-section-1)
+    - [ b. Decision trees](#implement-algorithms-section-2)
+    - [ c. Random forest](#implement-algorithms-section-3)
+    - [ d. SVM with kernels](#implement-algorithms-section-4)
+    - [ e. Neural network - MLP](#implement-algorithms-section-5)
+  - [ 6. Compare the performance of the five algorithms with respect to your problem, explain the results](#6-compare-performance)
+  - [ 7. Implement boosting and bagging with your choice of base models and explain all the steps](#7-boosting-bagging)
+  - [ 8. Implement one instance of transfer learning (find a related bigger dataset online) and explain all the steps](#8-transfer-learning)
+    - [ a. Explain the bigger dataset with visualization and summary statistics.](#transfer-learning-section-1)
+  - [ 9. Compare the performance of the algorithms (basic VS boosting VS bagging VS transfer) with respect to your machine learning problem and explain the results](#9-compare-performance)
 
 
 <div style="page-break-after: always;"></div>
@@ -39,7 +39,7 @@ With this in mind, we selected the Student Graduation dataset, which records stu
 
 ## <a id="2-preprocessing"></a> 2. Implement the preprocessing and justify the preprocessing steps
 
-We first looked at the data to try to find out what preprocessing steps were necessary. Since we had the source of the data, https://archive-beta.ics.uci.edu/dataset/697/predict+students+dropout+and+academic+success, we had a description available for every column.
+We first looked at the data to try to find out what preprocessing steps were necessary. Since we had the [source of the data](https://archive-beta.ics.uci.edu/dataset/697/predict+students+dropout+and+academic+success), we had a description available for every column.
 
 All categorical columns are label encoded, and has a mapping from number to category in the data description, but we found the numbers didn't match what was described in the data source. Assuming we were supposed to use the provided dataset over data directly from the source, we couldn't know what each class in the column meant.
 
@@ -116,6 +116,8 @@ For feature selection, we decided to use our preprocessed dataset (before PCA) a
 Another reason to remove columns with a low frequency of `true` is that it will make the dataset less sparse by getting rid of the columns containing the least information. It will reduce the amount of columns in our dataset to something similar to our 95% threshold of explained variance in PCA. This will reduce training by removing a lot of our sparse columns.
 
 We decided to remove columns with a frequency of `true` less than 3%, as this requires ~100 rows containing it. This will definitely prevent overfitting on one hot encoded columns, while also removing a large chunk of our columns without much data.
+
+Removing columns with a threshold of 3% removed 167 columns from our dataset. This left us with 78 features, which is more than the dataset before one-hot-encoding, but has made the categories easier to understand for our models.
 
 We can also look at the distribution of our target categories using the columns chosen from our feature selection, even though the variance of the data can't be visualized as clearly as with PCA in figure 3. This visualization is shown in figure 8.
 
@@ -282,6 +284,14 @@ Accuracy: 76.6%
 
 Accuracy: 75.9%
 
+Because we see features like approved, enrolled, and graded curricular units repeating in each model's feature importances, we can confidently say they have a high correlation with the target in our dataset compared to the other features. We thought of this as an intuitive correlation, since we thought gettig many curricular units approved and achieving good grades would have a high correlaction to finishing your course within its normal span.
+
+We also noticed data from the second semester is more relevant than data from the first semester, which is also intuitively understood, as more up-to-date information would have a higher correlation with the results later in time.
+
+Socioeconomic factors like tuition fees, unemployment rate, debtor, and GDP also repeat in the feature importances of the models. This category of features seems to be the next most important factor after school performance for predicting our target. Even though we can't see how the target categories are influenced by these features in the feature importance graphs above, we think economically disadvantaged students are probably shifted more towards `Dropout` and `Enrolled` than the average. This leads us to think having an overview of the students' socioeconomic status would be important for figuring out which students likely need more help to get back on track in their academic trajectory.
+
+For figuring out which students likely need more academic help, the most important factor is of course thier academic performance, but as seen from the feature importances of the models above, other factors are also important to get the most accurate predictions, leading to the most accurate use of the institution's resources when helping students.
+
 <div style="page-break-after: always;"></div>
 
 ## <a id="7-boosting-bagging"></a> 7. Implement boosting and bagging with your choice of base models and explain all the steps
@@ -329,9 +339,9 @@ Note that **Random Forest** already uses bagging, so bagging it again is redunda
 
 As seen in the confusion matrices above, the number of correct predictions each model makes varies with bagging and boosting.
 
-When it comes to bagging, using it on Decision Trees seems to work best. The other models perform relatively well as well.
+When it comes to bagging, using it on `Decision Trees` seems to work best. The other models perform relatively well as well.
 
-Boosting, on the other hand, performs overall worse than bagging. Decision Trees once again performed best. Boosting with Logistic Regression performed the worst.
+Boosting, on the other hand, performs overall worse than bagging. `Decision Trees` once again performed best. `Boosting with Logistic Regression` performed the worst.
 
 Bagging tends to outperform boosting on student data because these datasets are often noisy and moderately predictive, causing boosting to overfit misclassified or ambiguous cases. Bagging instead reduces variance by averaging multiple independent models, making it more robust and better suited to the structure and quality of student-related features.
 
@@ -352,7 +362,7 @@ Despite the usage of boosting or bagging, the best performing models are still b
 <em>Figure 24c: Bagging vs Boosting macro precision accuracy</em>
 </p>
 
-From ***Figure 24a***, we notice that **accuracy** ranges from 0.435 to 0.778 across all models. The best model, `Bagging DT` (Bagging with Decision Trees), correctly predicts about 78% of students, which is just as good as `Random Forest`. The worst model is `AdaBoost LR` with 0.727 accuracy.
+From ***Figure 24a***, we notice that **accuracy** ranges from 0.435 to 0.778 across all models. The best model, `Bagging DT`, correctly predicts about 78% of students, which is just as good as `Random Forest`. The worst model is `AdaBoost LR` with 0.727 accuracy.
 
 However, accuracy can be misleading because the classes are unbalanced since many students are "Graduates". To resolve this, we have also used **Balanced Accuracy**.\
 **Balanced accuracy** goes from 0.702 to 0.718 which is lower than raw accuracy (see ***Figure 24b***).\
@@ -375,7 +385,7 @@ Finally, **Macro precision** goes from 0.7 up to 0.73 (see ***Figure 24c***). On
 
 ## <a id="8-transfer-learning"></a> 8. Implement one instance of transfer learning (find a related bigger dataset online) and explain all the steps
 
-First we looked online to find a dataset related to our student-graduation dataset. We were only able to find a single larger dataset related to student graduation/performance. The dataset we found was Student Performance & Behavior Dataset found on Kaggle at https://www.kaggle.com/datasets/mahmoudelhemaly/students-grading-dataset. 
+First we looked online to find a dataset related to our student-graduation dataset. We were only able to find a single larger dataset related to student graduation/performance. The dataset we found was Student Performance & Behavior Dataset found on [Kaggle](https://www.kaggle.com/datasets/mahmoudelhemaly/students-grading-dataset).
 
 Unfortunately this dataset shares very few features with our dataset, but as previously stated it was the only somewhat related and larger dataset we could access. This meant we had to map seemingly correlated features between the dataset based on our own intuition on what makes sense. The features where we could not make any sensible mappings had to be dropped so only the set of overlapping features between the dataset were used for this transfer learning. 
 
@@ -428,7 +438,7 @@ The post-trained model achieved a low accuracy of 30.5% and was a clear step dow
 
 <div style="page-break-after: always;"></div>
 
-## <a id="7-compare-performance"></a> 9. Compare the performance of the algorithms (basic VS boosting VS bagging VS transfer) with respect to your machine learning problem and explain the results
+## <a id="9-compare-performance"></a> 9. Compare the performance of the algorithms (basic VS boosting VS bagging VS transfer) with respect to your machine learning problem and explain the results
 
 | Model Type            | Accuracy    | Balanced Accuracy | Macro Precision | ROC-AUC     | Strengths                      | Weaknesses                     |
 | --------------------- | ----------- | ----------------- | --------------- | ----------- | ------------------------------ | ------------------------------ |
