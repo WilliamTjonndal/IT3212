@@ -117,6 +117,8 @@ Another reason to remove columns with a low frequency of `true` is that it will 
 
 We decided to remove columns with a frequency of `true` less than 3%, as this requires ~100 rows containing it. This will definitely prevent overfitting on one hot encoded columns, while also removing a large chunk of our columns without much data.
 
+Removing columns with a threshold of 3% removed 167 columns from our dataset. This left us with 78 features, which is more than the dataset before one-hot-encoding, but has made the categories easier to understand for our models.
+
 We can also look at the distribution of our target categories using the columns chosen from our feature selection, even though the variance of the data can't be visualized as clearly as with PCA in figure 3. This visualization is shown in figure 8.
 
 <p align="center">
