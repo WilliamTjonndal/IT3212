@@ -169,7 +169,9 @@ Additionally, when we analyze the the top then feature importances for our rando
 <em>Figure 20: Feature importances for SVM with RBF kernel</em>
 </p>
 
-Accuracy: 76.6%
+In figure 19 we can see the SVM model performes alsoms as well as random forest. It achieved an accuracy of 76.6% and predicts graduate correctly a majority of the time. Furthermore, it also performes well with regard to predicting drop out, but struggles to predict enrolled like most of the previous models.
+
+When we estimated feature importance it revealed that also SVM relies on mostly the same features to make it's predictions. The most important being the carricualar features. In figure 20 we also see, with comaprison to the previous models, the addition of debtor, gender, displaced, scholarchip holder, and a fathers qualification feature as a model's top feature importances.
 
 <p align="center">
 <img src="img/comparison_cm_mlp.png" width="400"/><br>
@@ -181,8 +183,9 @@ Accuracy: 76.6%
 <em>Figure 22: Feature importances for MLP</em>
 </p>
 
-Accuracy: 75.9%
+Lastly, we have our MLP neural network model. It achieved a 75.9% accuracy and performed well when predicting graduate and dropout. Silarly to previous models it also struggeled with predicting enrolled, as it missed about 50% of the time on this classification.
 
+In our estimated feature importances for our MLP model, we see in figure 22, that tuition fees up to date is the most important feature. Like the other models it also utilized the cerricular features to make predictions. Here we also noticed that it had two previously unseen features in it's top ten feature importances, these were a previous qualifications feature and an application mode feature.
 <div style="page-break-after: always;"></div>
 
 ## <a id="7-boosting-bagging"></a> 7. Implement boosting and bagging with your choice of base models and explain all the steps
