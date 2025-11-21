@@ -4,22 +4,22 @@
 
 - [IT3212 Assignment 3: Basic modelling](#it3212-assignment-3-basic-modelling)
   - [Table of Contents](#table-of-contents)
-  - [ 1. Develop a problem statement (real world and machine learning)](#-1-develop-a-problem-statement-real-world-and-machine-learning)
-    - [ a. This is one of the most important skills that a Machine Learning Engineer/Scientist should have. Select a dataset and frame a machine learning problem and then connect this machine learning problem to the real world scenario.](#-a-this-is-one-of-the-most-important-skills-that-a-machine-learning-engineerscientist-should-have-select-a-dataset-and-frame-a-machine-learning-problem-and-then-connect-this-machine-learning-problem-to-the-real-world-scenario)
-  - [ 2. Implement the preprocessing and justify the preprocessing steps](#-2-implement-the-preprocessing-and-justify-the-preprocessing-steps)
-  - [ 3. Extract features and justify the methods used](#-3-extract-features-and-justify-the-methods-used)
-  - [ 4. Select features and justify the methods used](#-4-select-features-and-justify-the-methods-used)
-  - [ 5. Implement five out of the following algorithms and justify the choice](#-5-implement-five-out-of-the-following-algorithms-and-justify-the-choice)
-    - [ a. Logistic regression](#-a-logistic-regression)
-    - [ b. Decision trees](#-b-decision-trees)
-    - [ c. Random forest](#-c-random-forest)
-    - [ d. SVM with kernels](#-d-svm-with-kernels)
-    - [ e. Neural network - MLP](#-e-neural-network---mlp)
-  - [ 6. Compare the performance of the five algorithms with respect to your problem, explain the results](#-6-compare-the-performance-of-the-five-algorithms-with-respect-to-your-problem-explain-the-results)
-  - [ 7. Implement boosting and bagging with your choice of base models and explain all the steps](#-7-implement-boosting-and-bagging-with-your-choice-of-base-models-and-explain-all-the-steps)
-  - [ 8. Implement one instance of transfer learning (find a related bigger dataset online) and explain all the steps](#-8-implement-one-instance-of-transfer-learning-find-a-related-bigger-dataset-online-and-explain-all-the-steps)
-    - [ a. Explain the bigger dataset with visualization and summary statistics.](#-a-explain-the-bigger-dataset-with-visualization-and-summary-statistics)
-  - [ 9. Compare the performance of the algorithms (basic VS boosting VS bagging VS transfer) with respect to your machine learning problem and explain the results](#-9-compare-the-performance-of-the-algorithms-basic-vs-boosting-vs-bagging-vs-transfer-with-respect-to-your-machine-learning-problem-and-explain-the-results)
+  - [ 1. Develop a problem statement (real world and machine learning)](#1-develop-a-problem-statement-real-world-and-machine-learning)
+    - [ a. This is one of the most important skills that a Machine Learning Engineer/Scientist should have. Select a dataset and frame a machine learning problem and then connect this machine learning problem to the real world scenario.](#a-this-is-one-of-the-most-important-skills-that-a-machine-learning-engineerscientist-should-have-select-a-dataset-and-frame-a-machine-learning-problem-and-then-connect-this-machine-learning-problem-to-the-real-world-scenario)
+  - [ 2. Implement the preprocessing and justify the preprocessing steps](#2-implement-the-preprocessing-and-justify-the-preprocessing-steps)
+  - [ 3. Extract features and justify the methods used](#3-extract-features-and-justify-the-methods-used)
+  - [ 4. Select features and justify the methods used](#4-select-features-and-justify-the-methods-used)
+  - [ 5. Implement five out of the following algorithms and justify the choice](#5-implement-five-out-of-the-following-algorithms-and-justify-the-choice)
+    - [ a. Logistic regression](#a-logistic-regression)
+    - [ b. Decision trees](#b-decision-trees)
+    - [ c. Random forest](#c-random-forest)
+    - [ d. SVM with kernels](#d-svm-with-kernels)
+    - [ e. Neural network - MLP](#e-neural-network---mlp)
+  - [ 6. Compare the performance of the five algorithms with respect to your problem, explain the results](#6-compare-the-performance-of-the-five-algorithms-with-respect-to-your-problem-explain-the-results)
+  - [ 7. Implement boosting and bagging with your choice of base models and explain all the steps](#7-implement-boosting-and-bagging-with-your-choice-of-base-models-and-explain-all-the-steps)
+  - [ 8. Implement one instance of transfer learning (find a related bigger dataset online) and explain all the steps](#8-implement-one-instance-of-transfer-learning-find-a-related-bigger-dataset-online-and-explain-all-the-steps)
+    - [ a. Explain the bigger dataset with visualization and summary statistics.](#a-explain-the-bigger-dataset-with-visualization-and-summary-statistics)
+  - [ 9. Compare the performance of the algorithms (basic VS boosting VS bagging VS transfer) with respect to your machine learning problem and explain the results](#9-compare-the-performance-of-the-algorithms-basic-vs-boosting-vs-bagging-vs-transfer-with-respect-to-your-machine-learning-problem-and-explain-the-results)
 
 
 <div style="page-break-after: always;"></div>
@@ -29,7 +29,7 @@
 ### <a id="problem-statement-section-1"></a> a. This is one of the most important skills that a Machine Learning Engineer/Scientist should have. Select a dataset and frame a machine learning problem and then connect this machine learning problem to the real world scenario.
 
 **Real World Problem** \
-As the education sector becomes more data-driven, collected data can unlock substansial value. Universities want to reduce course dropout and capture students who are likely to still be enrolled beyond the normal time to graduate, so insititutions can allocate extra resources proactively and help students gets back on track. This improves student success and workforce readiness, strengthens institutional outcomes, and generates insights useful for policymakers.
+As the education sector becomes more data-driven, collected data can unlock substantial value. Universities want to reduce course dropout and capture students who are likely to still be enrolled beyond the normal time to graduate, so institutions can allocate extra resources proactively and help students get back on track. This improves student success and workforce readiness, strengthens institutional outcomes, and generates insights useful for policymakers.
 
 **Machine Learning Problem** \
 With this in mind, we selected the Student Graduation dataset, which records students across multiple undergraduate programs and includes socio-economic factors, prior academic background, and performance at the end of the first and second semesters. Our goal is to train machine learning models that predict three outcomes: dropout, extended enrollment beyond the normal time, or successful completion of the course. These predictions directly support the real-world problem by enabling early, targeted interventions for students at risk of dropping out or in need of assistance.
@@ -53,20 +53,21 @@ All categorical columns are label encoded, and has a mapping from number to cate
 <em>Figure 2: Description of data columns</em>
 </p>
 
-From looking at the data source, we knew the dataset had been undergone rigorous data preprocessing to handle data from anomalies, unexplainable outliers, and missing values. Still, we decided to see ourself if there were anomalies or outliers. 
+From looking at the data source, we knew the dataset had been undergone rigorous data preprocessing to handle data from anomalies, unexplainable outliers, and missing values. Still, we decided to see ourselves if there were anomalies or outliers. 
 
 <p align="center">
-<img src="img/data_null.png" width="800"/><br>
+<img src="img/data_null.png" width="400"/><br>
 <em>Figure 3: Null values in dataset</em>
 </p>
 
-There were no null values in the dataset, as seen in figure 3. We also found that all cagegorical columns had as many values as expected, and all value columns, like age and curricular units, had expected values.
+There were no null values in the dataset, as seen in figure 3. We also found that all categorical columns had as many values as expected, and all value columns, like age and curricular units, had expected values.
 
 The first step in our preprocessing is one hot encoding on categorical columns. We use one hot encoding over label encoding for this dataset, because the categorical columns don't have any real order, meaning a higher or lower value when label encoded wouldn't mean anything, only the exact numbers. To prevent creating an order where there is none, we use one hot encoding.
 
 One problem with using one hot encoding on our dataset is that our categorical columns have many categories, turning the dataset from having 35 to having 246 columns. This makes our dataset more sparse, making each column contain less information, which can be harmful to some models. We prioritized not creating a non-existent order, and will instead remove excess features later.
 
-We then split the dataset into a train and test set. This was done with a 75-25 split.
+We then split the dataset into a train and test set. This was done with a 75-25 split. Splitting the dataset as such enables the model to learn patterns from most of the data while keeping a suitable portion for unbiased evaluation.
+
 
 Then we min-max scaled the dataset, ensuring no feature is weighted too highly based on having higher values than the others.
 
@@ -77,9 +78,9 @@ Then we min-max scaled the dataset, ensuring no feature is weighted too highly b
 
 As seen in figure 4, our dataset had very imbalanced target classes. With one class making up half the dataset, we had to modify it so the classes would be weighted fairly. To do this, we chose oversampling. We randomly selected rows in the training set of the underpopulated classes, and duplicated them until each class had the same number of rows.
 
-Oversampling will improve the performance of the models, especially for predicting students with `Enrolled` in the target column. This column made up less than a fifth of the dataset, making it vulnerable to being mostly ingored by models seeking accuracy by prioritizing the more populated `Graduate` class, since they also have very similar data distributions, as seen in figure 3 and #. 
+Oversampling will improve the performance of the models, especially for predicting students with `Enrolled` in the target column. This column made up less than a fifth of the dataset, making it vulnerable to being mostly ignored by models seeking accuracy by prioritizing the more populated `Graduate` class, since they also have very similar data distributions, as seen in figure 3 and #. 
 
-We chose oversampling instead undersampling because we thought our dataset wasn't large enought to justify removing almost half of it to balance the classes. We also thought it was more important to correclty predict graduate and dropout over enrolled, as our main goal with the model is to figure out which students are at risk of dropping out.
+We chose oversampling instead undersampling because we thought our dataset wasn't large enough to justify removing almost half of it to balance the classes. We also thought it was more important to correctly predict graduate and dropout over enrolled, as our main goal with the model is to figure out which students are at risk of dropping out.
 
 <div style="page-break-after: always;"></div>
 
@@ -125,6 +126,8 @@ We can also look at the distribution of our target categories using the columns 
 
 To decide whether to use our dataset after feature extraction using PCA or after feature selection, we trained one of the models that don't take that long to train, SVM, with all the variations of our dataset.
 
+From this point on in this document, the following label numbers, $0$, $1$, $2$, displayed inside of figures represent `Dropout`, `Enrolled` and `Graduate` respectively.
+
 <p align="center">
 <img src="img/confusion_matrix_svm_all_pca.png" width="400"/><br>
 <em>Figure 9: Confusion matrix for SVM (PCA, all principal components)</em>
@@ -169,21 +172,17 @@ Multinomial logistic regression models the log odds of each class as a linear fu
 
 **Why we chose it**
 
-Multinomal logistic regression is a strong baseline for multiclass classification, it works well with our one-hot encoded categorical features. It fits well for target classification when the target classes are unordered, as they are in our dataset (The target can be viewed as having a intuitive order, but in our view it's not a scale of bad-good in the same way that low-medium-high could be viewed). A known limitation is the linearity assumption, which can miss non-linear patterns.
-
-<div style="page-break-after: always;"></div>
+Multinomial logistic regression is a strong baseline for multiclass classification, it works well with our one-hot encoded categorical features. It fits well for target classification when the target classes are unordered, as they are in our dataset (The target can be viewed as having a intuitive order, but in our view it's not a scale of bad-good in the same way that low-medium-high could be viewed). A known limitation is the linearity assumption, which can miss non-linear patterns.
 
 ### <a id="implement-algorithms-section-2"></a> b. Decision trees
 
 **How it works**
 
-A decision tree can be seen as a tree of different choices, with each leaf node in the tree corresponding to a target class. Each node/choice in the tree will split the data that reaches it between the later nodes, which will then further seperate the data until it reaches a target class.
+A decision tree can be seen as a tree of different choices, with each leaf node in the tree corresponding to a target class. Each node/choice in the tree will split the data that reaches it between the later nodes, which will then further separate the data until it reaches a target class.
 
 **Why we chose it**
 
 Decision trees are a good fit for classification tasks because they can capture both linear and non-linear relationships and splits the data in an intuitive way. They are also easy to understand the inner workings of, as they just go through the tree doing if/then checks. One problem with decision trees is that they can easily be overfitted if not given correct hyperparameters.
-
-<div style="page-break-after: always;"></div>
 
 ### <a id="implement-algorithms-section-3"></a> c. Random forest
 
@@ -207,8 +206,6 @@ A support vector machine (SVM) tries to draw a line/boundary that best separates
 
 Support vector machines performs well in the high-dimensional feature spaces created by one-hot encoding and often achieves strong accuracy when appropriately regularized. At prediction time it's efficient and reasonably memory-friendly, since the decision function only depends on a subset of the training points (the support vectors). Training can be slow on very large datasets, but for our dataset size this isn't a problem.
 
-<div style="page-break-after: always;"></div>
-
 ### <a id="implement-algorithms-section-5"></a> e. Neural network - MLP
 
 **How it works**
@@ -230,12 +227,12 @@ Our problem is a multi class classification problem with three target categories
 
 <p align="center">
 <img src="img/comparison_fi_logreg.png" width="800"/><br>
-<em>Figure 14: Feature importances for logistic regression</em>
+<em>Figure 14: Features importance for logistic regression</em>
 </p>
 
 Accuracy: 75.7%
 
-In figure 13, we can se the confusion matric of our logistic regression model. It correctly predicted a majority of the students that Graduate. It performed worse in regards to predicting dropout, but was still accurate in most cases. However, when predicting students that would still be enrolled beyond normal completion time it misses 50% of the time.
+In figure 13, we can see the confusion metric of our logistic regression model. It correctly predicted a majority of the students that Graduate. It performed worse in regard to predicting dropout, but was still accurate in most cases. However, when predicting students that would still be enrolled beyond normal completion time it misses 50% of the time.
 
 <p align="center">
 <img src="img/comparison_cm_dt.png" width="400"/><br>
@@ -244,7 +241,7 @@ In figure 13, we can se the confusion matric of our logistic regression model. I
 
 <p align="center">
 <img src="img/comparison_fi_dt.png" width="800"/><br>
-<em>Figure 16: Feature importances for decision tree</em>
+<em>Figure 16: Features importance for decision tree</em>
 </p>
 
 Accuracy: 67.9%
@@ -256,7 +253,7 @@ Accuracy: 67.9%
 
 <p align="center">
 <img src="img/comparison_fi_rf.png" width="800"/><br>
-<em>Figure 18: Feature importances for random forest</em>
+<em>Figure 18: Features importance for random forest</em>
 </p>
 
 Accuracy: 78.8%
@@ -268,7 +265,7 @@ Accuracy: 78.8%
 
 <p align="center">
 <img src="img/comparison_fi_svm.png" width="800"/><br>
-<em>Figure 20: Feature importances for SVM with RBF kernel</em>
+<em>Figure 20: Features importance for SVM with RBF kernel</em>
 </p>
 
 Accuracy: 76.6%
@@ -295,6 +292,8 @@ We implemented several ensemble learning methods: **Bagging with Logistic Regres
 
 **AdaBoost models** build ensembles sequentially, reweighting misclassified samples so that later learners focus on harder cases. Using Logistic Regression and Decision Trees as weak learners, AdaBoost reduces bias by combining their weighted predictions.
 
+Note that **Random Forest** already uses bagging, so bagging it again is redundant.
+
 <div style="display: flex;">
   <figure style="text-align: center; margin: 25 5px 25 0;">
     <img src="img/confusion_matrix_bagging_dt.png" width="500"/>
@@ -304,28 +303,31 @@ We implemented several ensemble learning methods: **Bagging with Logistic Regres
     <img src="img/confusion_matrix_bagging_svm.png" width="500"/>
     <figcaption><em>Figure 23.b: Confusion matrix (Bagging with Support Vector Machines)</em></figcaption>
   </figure>
-   <figure style="text-align: center; margin: 25 5px 25 0;">
-    <img src="img/confusion_matrix_bagging_lr.png" width="500"/>
-    <figcaption><em>Figure 23.b: Confusion matrix (Bagging with Logistic Regression)</em></figcaption>
-  </figure>
 </div>
 
 <div style="display: flex;">
   <figure style="text-align: center; margin: 25 5px 25 0;">
     <img src="img/confusion_matrix_bagging_mlp.png" width="500"/>
-    <figcaption><em>Figure 23.a: Confusion matrix (Bagging with Multi-Layer Perceptrons)</em></figcaption>
+    <figcaption><em>Figure 23.d: Confusion matrix (Bagging with Multi-Layer Perceptrons)</em></figcaption>
   </figure>
-  <figure style="text-align: center; margin: 25 5px 25 0;">
-    <img src="img/confusion_matrix_boosting_adaboost_dt.png" width="500"/>
-    <figcaption><em>Figure 23.b: Confusion matrix (AdaBoost with Decision Trees)</em></figcaption>
-  </figure>
-    <figure style="text-align: center; margin: 25 5px 25 0;">
-    <img src="img/confusion_matrix_boosting_adaboost_lr.png" width="500"/>
-    <figcaption><em>Figure 23.b: Confusion matrix (AdaBoost with Logistic Regression)</em></figcaption>
+   <figure style="text-align: center; margin: 25 5px 25 0;">
+    <img src="img/confusion_matrix_bagging_lr.png" width="500"/>
+    <figcaption><em>Figure 23.c: Confusion matrix (Bagging with Logistic Regression)</em></figcaption>
   </figure>
 </div>
 
-As seen in the confusion matrices aboves, the number of correct predictions each model makes varies with bagging and boosting.
+<div style="display: flex;">
+  <figure style="text-align: center; margin: 25 5px 25 0;">
+    <img src="img/confusion_matrix_boosting_adaboost_dt.png" width="500"/>
+    <figcaption><em>Figure 23.e: Confusion matrix (AdaBoost with Decision Trees)</em></figcaption>
+  </figure>
+    <figure style="text-align: center; margin: 25 5px 25 0;">
+    <img src="img/confusion_matrix_boosting_adaboost_lr.png" width="500"/>
+    <figcaption><em>Figure 23.f: Confusion matrix (AdaBoost with Logistic Regression)</em></figcaption>
+  </figure>
+</div>
+
+As seen in the confusion matrices above, the number of correct predictions each model makes varies with bagging and boosting.
 
 When it comes to bagging, using it on Decision Trees seems to work best. The other models perform relatively well as well.
 
@@ -350,13 +352,13 @@ Despite the usage of boosting or bagging, the best performing models are still b
 <em>Figure 24c: Bagging vs Boosting macro precision accuracy</em>
 </p>
 
-From ***Figure 3a***, we notice that **accuracy** ranges from 0.435 to 0.778 across al models. The best model, `Bagging DT` (Bagging with Decision Trees), correctly predicts about 78% of students. The worst model is `AdaBoost LR` with 0.727 accuracy.
+From ***Figure 24a***, we notice that **accuracy** ranges from 0.435 to 0.778 across all models. The best model, `Bagging DT` (Bagging with Decision Trees), correctly predicts about 78% of students, which is just as good as `Random Forest`. The worst model is `AdaBoost LR` with 0.727 accuracy.
 
 However, accuracy can be misleading because the classes are unbalanced since many students are "Graduates". To resolve this, we have also used **Balanced Accuracy**.\
-**Balanced accuracy** goes from 0.702 to 0.718 which is lower than raw accuracy.\
-This indicates that the bagged and boosted models predict class 2 (Graduate) well, but  struggle with class 1 (Enrolled). Interestingly, `AdaBoost LR` performed best here, despite being the worst in terms of **accuracy**. This can be explained by the confusion matrix: AdaBoost with Logistic Regression focuses heavily on misclassified minority-class cases, which improves balanced accuracy but often reduces overall accuracy by causing more errors on the majority class.
+**Balanced accuracy** goes from 0.702 to 0.718 which is lower than raw accuracy (see ***Figure 24b***).\
+This indicates that the bagged and boosted models predict class 2 (Graduate) well, but  struggle with class 1 (Enrolled). Interestingly, `Bagging LR` performed the best here. This is because it averages predictions across bootstrap samples which reduces sensitivity to class imbalance. This ensures that both dropout and non-dropout students are treated more equally, improving performance on the minority class.
 
-Finally, **Macro precision** goes from 0.7 up to 0.73. Once again, `Bagging DT` perfomed the best. This means that when the model predicts a class, it is correct roughly 73% of the time.\
+Finally, **Macro precision** goes from 0.7 up to 0.73 (see ***Figure 24c***). Once again, `Bagging DT` performed the best. This means that when the model predicts a class, it is correct roughly 73% of the time.\
 `AdaBoost DT` performed the worst, because its weak learners cannot model the complexity of our imbalanced dataset, causing more misclassifications and therefore more false positives in multiple classes.
 
 <p align="center">
@@ -375,11 +377,11 @@ Finally, **Macro precision** goes from 0.7 up to 0.73. Once again, `Bagging DT` 
 
 First we looked online to find a dataset related to our student-graduation dataset. We were only able to find a single larger dataset related to student graduation/performance. The dataset we found was Student Performance & Behavior Dataset found on Kaggle at https://www.kaggle.com/datasets/mahmoudelhemaly/students-grading-dataset. 
 
-Unfortunatly this dataset shares very few features with our dataset, but as previously stated it was the only somewhat related and larger dataset we could access. This meant we had to map seemingly correlated features between the dataset based on our own intuiton on what makes sense. The features where we could not make any sensible mappings had to be dropped so only the set of overlapping features between the dataset were used for this transfer learning. 
+Unfortunately this dataset shares very few features with our dataset, but as previously stated it was the only somewhat related and larger dataset we could access. This meant we had to map seemingly correlated features between the dataset based on our own intuition on what makes sense. The features where we could not make any sensible mappings had to be dropped so only the set of overlapping features between the dataset were used for this transfer learning. 
 
-Since we had to drop the non overlapping features from the new dataset, this meant the pretrained model was trained on a small fraction of the original data. As a result, not even this pretrained model reached a desirable accuraccy. When transfering this pretrained model over to our original dataset (with only overlapping features) the accuracy got even worse. This was probably because what we considered to be the most logical mappings between the dataset features were not very accurate. 
+Since we had to drop the non overlapping features from the new dataset, this meant the pretrained model was trained on a small fraction of the original data. As a result, not even this pretrained model reached a desirable accuracy. When transferring this pretrained model over to our original dataset (with only overlapping features) the accuracy got even worse. This was probably because what we considered to be the most logical mappings between the dataset features were not very accurate. 
 
-Due to these limitations we consider tranfer learning to be an unsuitable training approach for a model predicting our dataset (given the other dataset we were able to find). 
+Due to these limitations we consider transfer learning to be an unsuitable training approach for a model predicting our dataset (given the other dataset we were able to find). 
 
 ### <a id="transfer-learning-section-1"></a> a. Explain the bigger dataset with visualization and summary statistics.
 
@@ -389,9 +391,9 @@ Our main dataset had two features named "Curricular units 1st sem (grade)" & "Cu
 
 We also chose to map the feature "Family_Income_Level" in our found dataset over to the "Debtor" feature in our main dataset. Choosing families with low income as debtors.
 
-Furthermore, we also mapped the feature "Family_Income_Level" == 'High' in the found dataset over to "Tuition fees up to date" in the original based on the assumption that if a student comes from a high erarning family they would have payed all tuition fees on time.
+Furthermore, we also mapped the feature "Family_Income_Level" == 'High' in the found dataset over to "Tuition fees up to date" in the original based on the assumption that if a student comes from a high earning family they would have paid all tuition fees on time.
 
-Finally, the "Grade" feature in the found dataset was chosen to become the "Target" column where A & B grades where mapped to graduate, C to enrolled if the students stress level was above 5 and graduate if it was below, D & F to dropout. This was based on the assumption that the poorer(D & F) grades would be an accurate mapping of dropout students, and the best grades(A & B) would be an accurate mapping to graduate. We also made an assumption that a C grade would be graduate if they were adequatly calm as measured by the self reported lower stress levels. Cosequently, we also thought they would be enrolled if they had higher stress levels indecating they where struggeling to maintain a C grade. We do concede that these assumptions are flawed, but we thougth this to be the most sensible way split the data to maintain a reasonable distribution of the target classes.
+Finally, the "Grade" feature in the found dataset was chosen to become the "Target" column where A & B grades where mapped to graduate, C to enrolled if the students stress level was above 5 and graduate if it was below, D & F to dropout. This was based on the assumption that the poorer(D & F) grades would be an accurate mapping of dropout students, and the best grades(A & B) would be an accurate mapping to graduate. We also made an assumption that a C grade would be graduate if they were adequately calm as measured by the self reported lower stress levels. Consequently, we also thought they would be enrolled if they had higher stress levels indecating they where struggling to maintain a C grade. We do concede that these assumptions are flawed, but we thought this to be the most sensible way split the data to maintain a reasonable distribution of the target classes.
 
 <p align="center">
   <img src="new_dataset_vis/grade_dist.png" width="600"/><br>
@@ -413,21 +415,16 @@ With the features of the found dataset now mapped to the original dataset we pre
 
 <p align="center">
   <img src="confusion_matrix_student_performance8_64.png" width="600"/><br>
-  <em>Figure 29: Confusion matrix for pre trained model</em>
+  <em>Figure 29: Confusion matrix for pre-trained model</em>
 </p>
 
-The pre-trained model resulted in the confusion matrix seen in figure "riktig nummer". This model had an accuracy of 51.1%. This is likely because we had to drop alot of features to make the two datasets compatible. 
+The pre-trained model resulted in the confusion matrix seen in ***Figure 29***. This model had an accuracy of 51.1%. This is likely because we had to drop a lot of features to make the two datasets compatible. 
 
 <p align="center">
   <img src="confusion_matrix_student_graduation_8_64.png" width="600"/><br>
   <em>Figure 30: Confusion matrix for post trained model and base MLP model</em>
 </p>
 The post-trained model achieved a low accuracy of 30.5% and was a clear step down in quality from the baseline model which had an accuracy of 60.7% when trained on the same subset of features. 
-
-
-
-
-    
 
 <div style="page-break-after: always;"></div>
 
@@ -446,10 +443,22 @@ Figure 31: Table comparing the performance of the different models.
 </em>
 </p>
 
-Basic models like SVM and MLP performed well, but they are biased towards the majority "Graduate" class despite oversampling and lacked the stability that bagging introduced.
+Basic models like `SVM` and `MLP` performed well, but they are biased towards the majority "Graduate" class despite oversampling.\
+The best overall model is `Random Forest`, with an accuracy of 78.8%. It is robust to less relevant features which turns out to be especially important for our dataset since several features turned out to be less relevant than expected for this model. Furthermore, it also captures nonlinear relationships and interactions between factors that influence student persistence.\
+`Radial Basis Function Support Vector Machine` came in second with 76.6% accuracy. `RBF SVM` does not scale as well as `Random Forest` with the number of samples and features, so it does not fully explore complex interactions as efficiently as `Random Forest`.\
+`Multilayer perceptrons` come after with an accuracy of 75.9%. Neural networks need a lot of data to learn complex patterns, with only 4,425 rows, `MLP` cannot generalize as well.\
+The `Logistic regression` models comes in fourth place with an accuracy 75.7%. We believe that dropout risk depends not only on linear interactions, meaning linear models like `Logistic regression` cannot capture them as well.
+Finally, `Decision Trees` come in last place with an accuracy of 67.9%. A single `Decision Tree` performs the worst most likely because it is a high-variance model, so even small changes in the training data can lead to very different trees which makes its predictions unstable and prone to overfitting.
 
-Bagging emerged as the strongest overall approach because the student-performance dataset contains noise, overlapping class boundaries and mixed feature types. All of this benefits from the variance reduction that comes from using bagging. Despite this, bagging did not completely resolve the bias models had towards "Graduate".
+Bagging emerged as the strongest overall approach because the student-performance dataset contains noise and overlapping class boundaries (Dropout and Enrolled overlap in terms of features). All of this benefits from the variance reduction that comes from using bagging. Despite this, bagging did not completely resolve the bias models had towards "Graduate".\
+Once again `Random Forest` performed the best, because it already implements bagging in addition to bootstrap sampling by design.\
+`Bagging with Decision Trees` comes after, performing much better than before with an accuracy of 77.8%. It performs much better because it combines many trees, reducing overfitting and variance compared to a single tree.\
+`Bagging with Support Vector Machines` performed slightly better than before with 77.2% accuracy. Combining multiple `SVM` models on different bootstrap samples reduces variance and smooths out individual model errors.\
+`Bagging with Multilayer perceptrons` perfoemed about the same, with an accuracy increase of about 0.03%. We get almost no improvement because neural networks like `MLP` are already high-variance and flexible models. `Bagging with MLPs` is not considered a suitable method for improving the performance of the aforementioned method.
+Finally, `Bagging with Logistic regression` performed the same, with an accuracy increase of only 0.02%. `Logistic Regression` is a low-variance and linear model, so averaging multiple models doesn't do much.
 
-Boosting performed worse because its reweighting strategy forces models to focus on misclassified which leads to overfitting.
+Boosting performed worse compared to bagging because its reweighting strategy forces models to focus on misclassified data which leads to overfitting.\
+`AdaBoost with Decision Trees` performed better than `AdaBoost with Logistic Regression`, with accuracies of 73.8% and 72.7% respectively.\
+`AdaBoost DT` outperforms `AdaBoost LR` because decision trees are flexible, high-variance base learners, while logistic regression is a low-variance and linear base model.
 
 Transfer learning performed the poorly because the new dataset was incompatible and required heavy feature dropping.
