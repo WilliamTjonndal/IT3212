@@ -118,14 +118,70 @@ Our probmlem is a multi class classification problem with three categories to ca
 <em>Figure 13: Confusion matrix for logistic regression</em>
 </p>
 
-Accuracy 
+<p align="center">
+<img src="img/comparison_fi_logreg.png" width="800"/><br>
+<em>Figure 14: Feature importances for logistic regression</em>
+</p>
 
-Here we can se the confusion matric of our logistic regression model. It correctly predicted a majority of the students that Graduate. It performed worse in regards to predicting dropout, but was still accurate in most cases. However, when predicting students that would still be enrolled beyond normal completion time it misses 50% of the time.
+In figure 13, we can se the confusion matric of our logistic regression model. It achieved a accuracy of 75.7% and it correctly predicted a majority of the students that Graduate. However, it performed worse in regards to predicting dropout, but was still accurate in most cases. When predicting students that would still be enrolled beyond normal completion time it misses 50% of the time. One important note for this model is that it is the most accurate of the basic models when predicting the enrolled category.
+
+As seen in figure 14 we can see that the most important feature for logistic regression in determining classifications were the different Cerricular features. How many cerriculars units a student has gotten approved, enrolled in and what grade was achieved, were more importnate for making predictions.
+
+Two course classes are also in the top ten feature importances, which is expected because different cources will have different dropout/enrolled/graduate ratios.
+
+
 
 <p align="center">
 <img src="img/comparison_cm_dt.png" width="400"/><br>
-<em>Figure 13: Confusion matrix for decision tree</em>
+<em>Figure 15: Confusion matrix for decision tree</em>
 </p>
+
+<p align="center">
+<img src="img/comparison_fi_dt.png" width="800"/><br>
+<em>Figure 16: Feature importances for decision tree</em>
+</p>
+
+Our decision tree model achieved a 67.9% accuracy and in figure 15 is the confusion matrix for the model. When predicting dropout it performed about the same as the logistic regression model, but performed slightly worse when predicting graduate. Lastly it also performed worse when predicting enrolled. 
+
+In figure 16 we can see that like logistic regression, the decision tree model relied mostly on the different cerricular features when making its predictions. It had the tuition fees up to date feature, and a course code feature in it's top ten features. Intrestingly it had age at enrollment in it's top ten features importanses.
+
+<p align="center">
+<img src="img/comparison_cm_rf.png" width="400"/><br>
+<em>Figure 17: Confusion matrix for random forest</em>
+</p>
+
+<p align="center">
+<img src="img/comparison_fi_rf.png" width="800"/><br>
+<em>Figure 18: Feature importances for random forest</em>
+</p>
+
+Our random forest model implementation achieved an accuracy of 78.8%, our best performing model. As seen in figure 17 it is very accurate in predicting students that graduate. However it performes fairly similarly to the previous models, albeit a bit better, when predicting dropouts. When predicting enrolled it performs similarly to the decision tree model, but worse than logistic regression.
+
+Additionally, when we analyze the the top then feature importances for our random forrest model we see similarities to the previous models. Cerricular and tuiton features also appear here, whit the interesting addition of GDP and unemployment rate.
+
+<p align="center">
+<img src="img/comparison_cm_svm.png" width="400"/><br>
+<em>Figure 19: Confusion matrix for SVM with  RBF kernel</em>
+</p>
+
+<p align="center">
+<img src="img/comparison_fi_svm.png" width="800"/><br>
+<em>Figure 20: Feature importances for SVM with RBF kernel</em>
+</p>
+
+Accuracy: 76.6%
+
+<p align="center">
+<img src="img/comparison_cm_mlp.png" width="400"/><br>
+<em>Figure 21: Confusion matrix for MLP</em>
+</p>
+
+<p align="center">
+<img src="img/comparison_fi_mlp.png" width="800"/><br>
+<em>Figure 22: Feature importances for MLP</em>
+</p>
+
+Accuracy: 75.9%
 
 <div style="page-break-after: always;"></div>
 
