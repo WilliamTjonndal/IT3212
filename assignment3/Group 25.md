@@ -282,6 +282,14 @@ Accuracy: 76.6%
 
 Accuracy: 75.9%
 
+Because we see features like approved, enrolled, and graded curricular units repeating in each model's feature importances, we can confidently say they have a high correlation with the target in our dataset compared to the other features. We thought of this as an intuitive correlation, since we thought gettig many curricular units approved and achieving good grades would have a high correlaction to finishing your course within its normal span.
+
+We also noticed data from the second semester is more relevant than data from the first semester, which is also intuitively understood, as more up-to-date information would have a higher correlation with the results later in time.
+
+Socioeconomic factors like tuition fees, unemployment rate, debtor, and GDP also repeat in the feature importances of the models. This category of features seems to be the next most important factor after school performance for predicting our target. Even though we can't see how the target categories are influenced by these features in the feature importance graphs above, we think economically disadvantaged students are probably shifted more towards `Dropout` and `Enrolled` than the average. This leads us to think having an overview of the students' socioeconomic status would be important for figuring out which students likely need more help to get back on track in their academic trajectory.
+
+For figuring out which students likely need more academic help, the most important factor is of course thier academic performance, but as seen from the feature importances of the models above, other factors are also important to get the most accurate predictions, leading to the most accurate use of the institution's resources when helping students.
+
 <div style="page-break-after: always;"></div>
 
 ## <a id="7-boosting-bagging"></a> 7. Implement boosting and bagging with your choice of base models and explain all the steps
