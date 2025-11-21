@@ -229,12 +229,14 @@ Our problem is a multi class classification problem with three target categories
 
 <p align="center">
 <img src="img/comparison_fi_logreg.png" width="800"/><br>
-<em>Figure 14: Features importance for logistic regression</em>
+<em>Figure 14: Feature importances for logistic regression</em>
 </p>
 
-Accuracy: 75.7%
+In figure 13, we can see the confusion matrix of our logistic regression model. It achieved an accuracy of 75.7% and it correctly predicted a majority of the students that have graduated. However, it performed worse in regards to predicting dropout, but was still accurate in most cases. When predicting students that would still be enrolled beyond normal completion time it misses 50% of the time. One important note for this model is that it is the most accurate of the basic models when predicting the enrolled category.
 
-In figure 13, we can see the confusion metric of our logistic regression model. It correctly predicted a majority of the students that Graduate. It performed worse in regard to predicting dropout, but was still accurate in most cases. However, when predicting students that would still be enrolled beyond normal completion time it misses 50% of the time.
+As seen in figure 14 we can see that the most important feature for logistic regression in determining classifications were the different curricular features. How many curriculars units a student has gotten approved, enrolled in and what grade was achieved, were more importante for making predictions.
+
+Two course classes are also in the top ten feature importances, which is expected because different courses will have different dropout/enrolled/graduate ratios.
 
 <p align="center">
 <img src="img/comparison_cm_dt.png" width="400"/><br>
@@ -243,10 +245,12 @@ In figure 13, we can see the confusion metric of our logistic regression model. 
 
 <p align="center">
 <img src="img/comparison_fi_dt.png" width="800"/><br>
-<em>Figure 16: Features importance for decision tree</em>
+<em>Figure 16: Feature importances for decision tree</em>
 </p>
 
-Accuracy: 67.9%
+Our decision tree model achieved a 67.9% accuracy and figure 15 displays the confusion matrix for the model. When predicting dropout it performed about the same as the logistic regression model, but performed slightly worse when predicting graduates and enrolled students.
+
+In figure 16 we can see that like logistic regression, the decision tree model relied mostly on the different curricular features when making its predictions. It had both tuition fees up to date and age at enrollment in its top ten features, showing that factors other than academic performance matter to the model even though this may not be inherently obvious.
 
 <p align="center">
 <img src="img/comparison_cm_rf.png" width="400"/><br>
@@ -255,10 +259,12 @@ Accuracy: 67.9%
 
 <p align="center">
 <img src="img/comparison_fi_rf.png" width="800"/><br>
-<em>Figure 18: Features importance for random forest</em>
+<em>Figure 18: Feature importances for random forest</em>
 </p>
 
-Accuracy: 78.8%
+Our random forest model implementation achieved an accuracy of 78.8%, our best performing model. As seen in figure 17 it is very accurate in predicting students that graduate. Random forest has a better overall accuracy than all other models although it performs worse at predicting enrolled compared to logistic regression.
+
+Additionally, when we analyze the top then feature importances for our random forest model we see similarities to the previous models. Interestingly, this marks the first instance of a model prioritizing GDP and unemployment rate, encoding for information outside of the student.
 
 <p align="center">
 <img src="img/comparison_cm_svm.png" width="400"/><br>
@@ -267,10 +273,12 @@ Accuracy: 78.8%
 
 <p align="center">
 <img src="img/comparison_fi_svm.png" width="800"/><br>
-<em>Figure 20: Features importance for SVM with RBF kernel</em>
+<em>Figure 20: Feature importances for SVM with RBF kernel</em>
 </p>
 
-Accuracy: 76.6%
+In figure 19 we can see that the SVM model performes almost as well as random forest. It achieved an accuracy of 76.6% and predicts graduate and dropout correctly a majority of the time, but struggles to predict enrolled like most of the previous models.
+
+When we estimated feature importance it revealed that also SVM relies on mostly the same features to make its predictions. The most important being the curricular features. In figure 20 we also see, with comparison to the previous models, the addition of debtor, gender, displaced, scholarship holder, and a father's qualification feature as a model's top feature importances. Here we notice that features not related to academic performances, albeit not as important, do contribute to model's predictions.
 
 <p align="center">
 <img src="img/comparison_cm_mlp.png" width="400"/><br>
@@ -282,25 +290,29 @@ Accuracy: 76.6%
 <em>Figure 22: Feature importances for MLP</em>
 </p>
 
-Accuracy: 75.9%
+Lastly, we have our MLP neural network model. It achieved a 75.9% accuracy and performed well when predicting graduate and dropout. Similarly to previous models it also struggled with predicting enrolled, as it missed about 50% of the time on this classification.
 
-Because we see features like approved, enrolled, and graded curricular units repeating in each model's feature importances, we can confidently say they have a high correlation with the target in our dataset compared to the other features. We thought of this as an intuitive correlation, since we thought gettig many curricular units approved and achieving good grades would have a high correlaction to finishing your course within its normal span.
+In our estimated feature importances for our MLP model, we see in figure 22, that tuition fees up to date is the most important feature. Like the other models it also utilized the curricular features to make predictions. Here we also noticed that it had two previously unseen features in its top ten feature importances, these were a previous qualifications feature and an application mode feature. It is interesting to note that factors other than academic performance not only contribute more than in previous models, but are actually more important. Note that these are estimated feature importances based on permutation importance, and might not match the actual importance.
+
+### Overall comparison
+
+Because we see features like approved, enrolled, and graded curricular units repeating in each model's feature importances, we can confidently say they have a high correlation with the target in our dataset compared to the other features. We thought of this as an intuitive correlation, since we thought getting many curricular units approved and achieving good grades would have a high correlation to finishing your course within its normal span.
 
 We also noticed data from the second semester is more relevant than data from the first semester, which is also intuitively understood, as more up-to-date information would have a higher correlation with the results later in time.
 
-Socioeconomic factors like tuition fees, unemployment rate, debtor, and GDP also repeat in the feature importances of the models. This category of features seems to be the next most important factor after school performance for predicting our target. Even though we can't see how the target categories are influenced by these features in the feature importance graphs above, we think economically disadvantaged students are probably shifted more towards `Dropout` and `Enrolled` than the average. This leads us to think having an overview of the students' socioeconomic status would be important for figuring out which students likely need more help to get back on track in their academic trajectory.
+Socioeconomic factors like tuition fees, unemployment rate, debtor, and GDP also repeat in the feature importances of the models. This category of features seems to be the next most important factor after school performance for predicting our target. Even though we can't see how the target categories are influenced by these features in the feature importance graphs above, we think economically disadvantaged students are probably shifted more towards `Dropout` and `Enrolled` than the average. This leads us to think that having an overview of the students' socioeconomic status would be important for figuring out which students likely need more help to get back on track in their academic trajectory.
 
-For figuring out which students likely need more academic help, the most important factor is of course thier academic performance, but as seen from the feature importances of the models above, other factors are also important to get the most accurate predictions, leading to the most accurate use of the institution's resources when helping students.
+For figuring out which students likely need more academic help or other interventions, the most important factor is of course their academic performance, but as seen from the feature importances of the models above, other factors are also important to get the most accurate predictions. Consequently, this could lead to a more appropriate use of the institution's resources when helping students.
 
 <div style="page-break-after: always;"></div>
 
 ## <a id="7-boosting-bagging"></a> 7. Implement boosting and bagging with your choice of base models and explain all the steps
 
-We implemented several ensemble learning methods: **Bagging with Logistic Regression, MLPs, SVMs, and Decision Trees**, as well as **AdaBoost with Logistic Regression and Decision Trees**, using a slightly *modified pipeline*.
+We implemented several ensemble learning methods: **Bagging with Logistic Regression, MLPs, SVMs, and Decision Trees**, as well as **AdaBoost with Logistic Regression and Decision Trees**.
 
-**Bagging models** train multiple independent base learners on bootstrap samples, each using random subsets of observations and features. The ensemble prediction is generated through majority voting, reducing variance and improving stability. Logistic Regression, MLPs, SVMs, and Decision Trees serve as base learners, with Decision Trees contributing flexible, non-linear decision boundaries that benefit strongly from variance reduction through bagging.
+**Bagging models** train multiple independent base learners on bootstrap samples, meaning each use random subsets of observations and features. The ensemble prediction is generated through majority voting, reducing variance and improving stability. Logistic Regression, MLPs, SVMs, and Decision Trees serve as base learners.
 
-**AdaBoost models** build ensembles sequentially, reweighting misclassified samples so that later learners focus on harder cases. Using Logistic Regression and Decision Trees as weak learners, AdaBoost reduces bias by combining their weighted predictions.
+**AdaBoost models** build ensembles sequentially, reweighting misclassified samples so that later learners focus on harder cases. Using Logistic Regression and Decision Trees as base learners, AdaBoost reduces bias by combining their weighted predictions.
 
 Note that **Random Forest** already uses bagging, so bagging it again is redundant.
 
@@ -339,13 +351,13 @@ Note that **Random Forest** already uses bagging, so bagging it again is redunda
 
 As seen in the confusion matrices above, the number of correct predictions each model makes varies with bagging and boosting.
 
-When it comes to bagging, using it on `Decision Trees` seems to work best. The other models perform relatively well as well.
+When it comes to bagging, using it on `Decision Trees` seems to work best. The other models also perform relatively well.
 
 Boosting, on the other hand, performs overall worse than bagging. `Decision Trees` once again performed best. `Boosting with Logistic Regression` performed the worst.
 
-Bagging tends to outperform boosting on student data because these datasets are often noisy and moderately predictive, causing boosting to overfit misclassified or ambiguous cases. Bagging instead reduces variance by averaging multiple independent models, making it more robust and better suited to the structure and quality of student-related features.
+Bagging tends to outperform boosting on our dataset because these it contains several less relevant features, causing boosting to overfit misclassified or ambiguous cases. Bagging instead reduces variance by averaging multiple independent models, making it more robust and better suited to the structure and quality of our features.
 
-Despite the usage of boosting or bagging, the best performing models are still biased towards class 2 (Graduate).
+Despite the usage of boosting or bagging, the best performing models are still biased towards graduates.
 
 <p align="center">
 <img src="img/bagging_vs_boosting_accuracy.png" width="400"/><br>
@@ -362,24 +374,23 @@ Despite the usage of boosting or bagging, the best performing models are still b
 <em>Figure 24c: Bagging vs Boosting macro precision accuracy</em>
 </p>
 
-From ***Figure 24a***, we notice that **accuracy** ranges from 0.435 to 0.778 across all models. The best model, `Bagging DT`, correctly predicts about 78% of students, which is just as good as `Random Forest`. The worst model is `AdaBoost LR` with 0.727 accuracy.
+From ***Figure 24a***, we notice that **accuracy** ranges from 0.727 to 0.778 across all models. The best model, `Bagging DT`, correctly predicts about 78% of students, which is just as good as `Random Forest`, which is expected since the structure of `Bagging DT` is very similar to `Random Forest`. The worst model is `AdaBoost LR` with 0.727 accuracy.
 
-However, accuracy can be misleading because the classes are unbalanced since many students are "Graduates". To resolve this, we have also used **Balanced Accuracy**.\
-**Balanced accuracy** goes from 0.702 to 0.718 which is lower than raw accuracy (see ***Figure 24b***).\
-This indicates that the bagged and boosted models predict class 2 (Graduate) well, but  struggle with class 1 (Enrolled). Interestingly, `Bagging LR` performed the best here. This is because it averages predictions across bootstrap samples which reduces sensitivity to class imbalance. This ensures that both dropout and non-dropout students are treated more equally, improving performance on the minority class.
+However, accuracy can be misleading because the classes are unbalanced since many students are graduates. To resolve this, we have also used **Balanced Accuracy**.\
+**Balanced accuracy** goes from 0.702 to 0.729 which is lower than the raw accuracy (see ***Figure 24b***).\
+This indicates that the bagged and boosted models predict graduates and dropouts well, but struggle to predict enrolled students. Interestingly, `Bagging LR` performed the best here. This is explained from the fact base Logistic Regression outperformed all other base models when predicting enrolled students.
 
 Finally, **Macro precision** goes from 0.7 up to 0.73 (see ***Figure 24c***). Once again, `Bagging DT` performed the best. This means that when the model predicts a class, it is correct roughly 73% of the time.\
-`AdaBoost DT` performed the worst, because its weak learners cannot model the complexity of our imbalanced dataset, causing more misclassifications and therefore more false positives in multiple classes.
+`AdaBoost DT` performed the worst, because its base learners cannot model the complexity of our imbalanced dataset, causing more misclassifications and therefore more false positives in multiple classes.
 
 <p align="center">
 <img src="img/roc_comparison.png" width="1200"/><br>
 <em>Figure 25: ROC graphs for all models</em>
 </p>
 
-**ROC-AUC** measures how well the model separates classes. Our models go from 0.7995 to 0.9045 which is good.\
-`Bagging LR` show the best class separation with 0.9045. This is because it combines several logistic regression models trained on different subsets of students which reduces the impact of noisy or student records, stabilizing probability predictions for outcomes like pass/fail or performance categories.
+**ROC-AUC** measures how well each model separates classes. Our models range from 0.867 to 0.933 when predicting dropout and graduates which is a very good result. When predicting enrolled students, the models range from 0.761 to 0.847, which is significantly worse, explained by the fact that enrolled students have overlapping features with the other classes. This overlap is observed in ***figure 7***, which uses PCA to visualize features which is still useful in this case even though we don't use the PCA dataset.
 
-**Bagging Decision Trees** performs best overall, while Bagging MLPs and SVMs do well, and Bagging Logistic Regression excels in ROC-AUC. AdaBoost models overfit minority cases, with AdaBoost LR having low accuracy but high balanced accuracy. Bagging is generally more robust on noisy student data.
+**Bagging Decision Trees** performs best overall, while Bagging MLPs and SVMs do well, and Bagging Logistic Regression excels in ROC-AUC, due to its more equally distributed classifcation curves.
 
 <div style="page-break-after: always;"></div>
 
@@ -442,10 +453,10 @@ The post-trained model achieved a low accuracy of 30.5% and was a clear step dow
 
 | Model Type            | Accuracy    | Balanced Accuracy | Macro Precision | ROC-AUC     | Strengths                      | Weaknesses                     |
 | --------------------- | ----------- | ----------------- | --------------- | ----------- | ------------------------------ | ------------------------------ |
-| **Basic Models**      | High | Medium            | Medium          | High | Simple, fast, SVM & MLP strong | Class bias, overfitting (DT)   |
+| **Basic Models**      | High | N/A            | N/A          | High | Simple, fast, SVM & MLP strong | Class bias, overfitting (DT)   |
 | **Bagging Models**    | `Highest` | High     | Medium   | High | Best overall, stable, robust   | Computationally expensive |
 | **Boosting Models**   | Medium       | `Highest` | Medium           | Medium      | Good for minority classes      | Overfits noise, unstable       |
-| **Transfer Learning** | Low   | Low             | Low           | Low       | Uses additional data           | Poor feature compatibility     |
+| **Transfer Learning** | Low   | N/A             | Low           | Low       | Uses additional data           | Poor feature compatibility     |
 
 <p align="center">
 <em>
@@ -453,22 +464,25 @@ Figure 31: Table comparing the performance of the different models.
 </em>
 </p>
 
-Basic models like `SVM` and `MLP` performed well, but they are biased towards the majority "Graduate" class despite oversampling.\
+Basic models like `SVM` and `MLP` performed well, but they are biased towards the majority **Graduate** class despite oversampling.\
 The best overall model is `Random Forest`, with an accuracy of 78.8%. It is robust to less relevant features which turns out to be especially important for our dataset since several features turned out to be less relevant than expected for this model. Furthermore, it also captures nonlinear relationships and interactions between factors that influence student persistence.\
 `Radial Basis Function Support Vector Machine` came in second with 76.6% accuracy. `RBF SVM` does not scale as well as `Random Forest` with the number of samples and features, so it does not fully explore complex interactions as efficiently as `Random Forest`.\
-`Multilayer perceptrons` come after with an accuracy of 75.9%. Neural networks need a lot of data to learn complex patterns, with only 4,425 rows, `MLP` cannot generalize as well.\
+`Multilayer perceptrons` come after with an accuracy of 75.9%. Neural networks need a lot of data to learn complex patterns, with only 4,425 rows, `MLP` cannot generalize as well as the better performing models.\
 The `Logistic regression` models comes in fourth place with an accuracy 75.7%. We believe that dropout risk depends not only on linear interactions, meaning linear models like `Logistic regression` cannot capture them as well.
 Finally, `Decision Trees` come in last place with an accuracy of 67.9%. A single `Decision Tree` performs the worst most likely because it is a high-variance model, so even small changes in the training data can lead to very different trees which makes its predictions unstable and prone to overfitting.
 
-Bagging emerged as the strongest overall approach because the student-performance dataset contains noise and overlapping class boundaries (Dropout and Enrolled overlap in terms of features). All of this benefits from the variance reduction that comes from using bagging. Despite this, bagging did not completely resolve the bias models had towards "Graduate".\
+Bagging emerged as the strongest overall approach because the student-performance dataset contains overlapping class boundaries (Graduate and Enrolled overlap in terms of features) and features that the models consider less relevant. All of this benefits from the variance reduction that comes from using bagging. Despite this, bagging did not completely resolve the bias most models had towards graduates.\
 Once again `Random Forest` performed the best, because it already implements bagging in addition to bootstrap sampling by design.\
 `Bagging with Decision Trees` comes after, performing much better than before with an accuracy of 77.8%. It performs much better because it combines many trees, reducing overfitting and variance compared to a single tree.\
 `Bagging with Support Vector Machines` performed slightly better than before with 77.2% accuracy. Combining multiple `SVM` models on different bootstrap samples reduces variance and smooths out individual model errors.\
-`Bagging with Multilayer perceptrons` perfoemed about the same, with an accuracy increase of about 0.03%. We get almost no improvement because neural networks like `MLP` are already high-variance and flexible models. `Bagging with MLPs` is not considered a suitable method for improving the performance of the aforementioned method.
-Finally, `Bagging with Logistic regression` performed the same, with an accuracy increase of only 0.02%. `Logistic Regression` is a low-variance and linear model, so averaging multiple models doesn't do much.
+`Bagging with Multilayer perceptrons` performed about the same, with an accuracy increase of about 0.03%. We get almost no improvement because neural networks like `MLP` are already high-variance and flexible models. `Bagging with MLPs` is not considered a suitable method for improving the performance of the aforementioned method.
+Finally, `Bagging with Logistic regression` performed the same, with an accuracy increase of only 0.02%. `Logistic Regression` is a low-variance and linear model, so averaging multiple models doesn't do much. This model performed the best when it comes to balanced accuracy, as it is better at predicting enrolled than the other models.
 
 Boosting performed worse compared to bagging because its reweighting strategy forces models to focus on misclassified data which leads to overfitting.\
 `AdaBoost with Decision Trees` performed better than `AdaBoost with Logistic Regression`, with accuracies of 73.8% and 72.7% respectively.\
 `AdaBoost DT` outperforms `AdaBoost LR` because decision trees are flexible, high-variance base learners, while logistic regression is a low-variance and linear base model.
 
-Transfer learning performed the poorly because the new dataset was incompatible and required heavy feature dropping.
+As mentioned earlier, transfer learning performed poorly because the new dataset was incompatible and required heavy feature dropping. We tried our best a relevant dataset and apply transfer learning on it. Despite this, we didn't find a good dataset, and the model only got an accuracy of 30.5%.
+
+With regards to our problem to our real world problem, we believe that using the `Random Forest` model on this dataset to make predictions for student interventions, such as preventing dropout or prolonging enrollment.\
+However, should a university institution rather prioritize checking on students that are at risk of not graduating on time (enrolled), the `Logistic Regression with Bagging` model would be better at accuractly predicting those students.
