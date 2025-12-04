@@ -191,25 +191,27 @@ The Structural Similarity Index (SSIM) is a metric used to measure the similarit
   <em>Figure 8: Original images</em>
 </p>
 
-We loaded the original images in grayscale with a size of 128x128 pixels, then normalized all pixel values between 0 and 1.
+We loaded the original images in grayscale with a size of 128x128 pixels, then normalized all pixel values between 0 and 1 (see figure 8).
 
 The images were converted into a 2D matrix with image as row and pixel value as column.
 
-A covariance matrix was calculated for the image matrix, and it was used to calculate eigenvalues and eigenvectors, sorted in descending order.
+A covariance matrix was calculated for the image matrix and it was used to calculate eigenvalues and eigenvectors. The eigenvectors were sorted in descending order according to their eigenvalues to give us the directions of maximal variance in the dataset. This helps us understand which visual patterns are most responsible for variance in the dataset.
 
 <p align="center">
   <img src="results/pca/components.png" width="800"/><br>
-  <em>Figure 9: Principal Components</em>
+  <em>Figure 9: Eigen Faces (Principal Components)</em>
 </p>
 
-We selected the top k = 6 eigenvectors to start with, and will experiment with the amount later. These were used to create our principal components, as seen in figure 9.
+The images in figure 9 are the eigenfaces obtained from the PCA eigenvectors. We selected the top k = 6 eigenvectors to start with, and will experiment with the amount later. These were used to create our principal components, as seen in figure 9.\
+These components are called eigenfaces since each eigenvector represents a direction of variation in the dataset.
 
 <p align="center">
   <img src="results/pca/2d.png" width="400"/><br>
   <em>Figure 10: Images visualized as PC1 vs PC2</em>
 </p>
 
-We visualized all 8 images in the 2-dimensional subspace defined by PC1 and PC2, shown in figure 10.
+We visualized all 8 images in the 2-dimensional subspace defined by PC1 and PC2, shown in figure 10.\
+PC1 captures the overall lighting and smooth intensity variation across the faces, while PC2 captures mid-frequency facial structure such as nose shadow, brow shape, and the mouth region.
 
 <div style="page-break-after: always;"></div>
 
@@ -222,11 +224,16 @@ We visualized all 8 images in the 2-dimensional subspace defined by PC1 and PC2,
   <em>Figure 11: Images reconstructed with k = 6</em>
 </p>
 
+Using the top k = 6 eigenfaces, we projected each image into the PCA subspace and reconstructed it (see figure 11).
+
 #### <a id="PCA-section-2b"></a>b. Compare the reconstructed images with the original images to observe the effects of dimensionality reduction.
 <p align="center">
   <img src="results/pca/originalvsk6.png" width="800"/><br>
   <em>Figure 12: Original images vs reconstructed images with k = 6</em>
 </p>
+
+Figure 12 compares the original images and the reconstructions with k = 6. Most images are reconstructed normally.
+However, the fourth image from the left appears blurrier.
 
 <div style="page-break-after: always;"></div>
 
@@ -249,7 +256,7 @@ We experimented with different k values for the reconstruction of the original i
   <em>Figure 14: Plot for cumulative variance and individual variance per component </em>
 </p>
 
-With a threshold of 90% we see that six prinicple components would be needed to reach this level. As seen in figure 13 the images reconstructed with less than six components are considerably more blurry. Given that our dataset is a facial emotions dataset would mean that blurry images are detrimental to the intended purpose of the dataset. However, using all seven components would aproximate a full reconstruction of the original images and would constitute little compression. It can therefore be argued that in our case, if we want to compress our images we could only use six priniciple componets before it would make the subjects emotions difficult to recognize.
+With a threshold of 90% we see that six prinicple components would be needed to reach this level. As seen in figure 13 the images reconstructed with less than six components are considerably more blurry. Given that our dataset is a facial emotions dataset would mean that blurry images are detrimental to the intended purpose of the dataset. However, using all seven components would aproximate a full reconstruction of the original images and would constitute little compression. It can therefore be argued that in our case, if we want to compress our images we could only use six principle componets before it would make the subjects emotions difficult to recognize.
 
 <div style="page-break-after: always;"></div>
 
@@ -257,13 +264,16 @@ With a threshold of 90% we see that six prinicple components would be needed to 
 
 #### <a id="PCA-section-4a"></a>a. Display the original images alongside the reconstructed images for different values of k.
 
-The original images alongside the reconstructed images for different values of k is shown if figure 13. 
+The original images alongside the reconstructed images for different values of k is shown in figure 13. 
 
 #### <a id="PCA-section-4b"></a>b. Comment on the visual quality of the images and how much information is lost during compression.
 
-As seen in figure 12, the reconstructed images are very similar to the originals, with the exeption of the fourth image from the left which is very blurry. You can still make out the expression in the image, but it's much harder than with the rest.
+As seen in figure 12, the reconstructed images are very similar to the originals, with the exception of the fourth image from the left which is very blurry. You can still make out the expression in the image, but it's much harder than the rest.
 
 This problem can also be seen in figure 13, where reconstructions with lower values for k are more blurry than those with higher values.
+
+This happens because PCA minimizes average reconstruction error across the dataset, not the error of each individual image. Images that differ more from the global patterns captured by the first few principal components will reconstruct poorly.\
+The fourth image has higher-frequency features like sharp edges especially around the mouth and eyes. The expression is also different from the dataset's dominant variance. Since higher-frequency components are stored in later eigenfaces and since we discard these components for compression, these details are lost thus resulting in the blur.
 
 You can also see a representation of the quality of the reconstruction using MSE in figure 15, and it will be discussed further in the next section.
 
