@@ -94,7 +94,7 @@ A cutoff radius of 60 results in a moderate blurred image where edges are visibl
 A cutoff radius of 120 results in a mildy blurred image which retains the most structure. It resembles slight denoising. This reconstructed image is essentially the same as the original.
 
 Essentially, increasing the cutoff radius preserves more high-frequency detail and reduces the amount of blur.\
-This shows how LPF behavior depends strongly on the cutoff radius when using LPF for either denoising or smoothing.
+This shows how LPF behavior depends strongly on the cutoff radius when using LPF for either denoising or smoothing. In our case a value of either 30 or 60 seems appropriate.
 
 <div style="page-break-after: always;"></div>
 
@@ -107,30 +107,30 @@ A DFT high-pass filter preserves the high-frequency components toward the spectr
   <em>Figure 3a: High-pass filter with radius r = 10</em>
 </p>
 
-A cutoff radius of 10 results in a very sharp image.
+A cutoff radius of 10 results in a very sharp image. The High-Pass filtered component looks nearly like an outline map. There seems to be a lot of noise too, which is why the original image looks so sharp.
 
 <p align="center">
   <img src="results/dft/hpf_r30.png" width="700"/><br>
   <em>Figure 3b: High-pass filter with radius r = 30</em>
 </p>
 
-A cutoff radius of 30 results in a image with moderately sharpened image.
+A cutoff radius of 30 results in a moderately sharpened image. The High-Pass filtered component looks like an edge detector output. A lot of minor edges are still visible here.
 
 <p align="center">
   <img src="results/dft/hpf_r60.png" width="700"/><br>
   <em>Figure 3d: High-pass filter with radius r = 60</em>
 </p>
 
-A cutoff radius of 60 results in a slightly sharper image.
+A cutoff radius of 60 results in a slightly sharper image. The High-Pass filtered component only has the main edges of the dog.
 
 <p align="center">
   <img src="results/dft/hpf_r120.png" width="700"/><br>
   <em>Figure 3c: High-pass filter with radius r = 120</em>
 </p>
 
-A cutoff radius of 120 results in a image that is barely sharper than the original.
+A cutoff radius of 120 results in a image that is barely sharper than the original. Here, the High-Pass filtered component is flat, which explains why the image is barely different from the original.
 
-Essentially, this shows that HPF intensity is controlled directly by the cutoff radius for sharpening.
+Essentially, this shows that HPF intensity is controlled directly by the cutoff radius for sharpening. In our case a radius of 60 seems to be optimal.
 
 <div style="page-break-after: always;"></div>
 
