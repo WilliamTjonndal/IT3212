@@ -307,7 +307,7 @@ In figure 16, we can see that the MSE is continually decreasing from 0.028 (k = 
 
 ### <a id="hog-section-1"></a>1. Write a Python script to compute the HOG features of a given image using a library such as OpenCV or scikit-image. Apply your implementation to at least three different images, including both simple and complex scenes.
 
-Histogram of Oriented Gradients (HOG) features capture local shape by counting how often edges point in each direction within small regions, then normalizing and concatenating them into a feature vector. The x and y gradients are the horizontal and vertical changes in pixel intensity, revealing edge direction. The gradient magnitude is the overall edge strength at each pixel, used as the weight when voting into orientation bins. HOG is a feature descriptor used for object detection.
+We implemented HOG using scikit-image and applied it to four images with varying complexity: a human figure, a car, a strawberry and a tiger. For each image, we computed the gradients, magnitude, and orientation, and then finally extracted the final HOG descriptor.
 
 ### <a id="hog-section-2"></a>2. Visualize the original image, the gradient image, and the HOG feature image. Compare the HOG features extracted from different images.
 
@@ -317,6 +317,20 @@ Histogram of Oriented Gradients (HOG) features capture local shape by counting h
 </p>
 
 As shown in figure 17, HOG is better at capturing sharp edges and overall shape/contour than fine textures. Consequently, it renders the human and car contour more clearly since the original images contain fewer details and has well-defined edges. The strawberry and tiger are harder to recognize from HOG features because their appearances are dominated by fine textures as seeds and fur. 
+
+| Image      | Resolution  | HOG Length | % Non-Zero (Sparsity) |
+| ---------- | ----------- | ---------- | --------------------- |
+| Tiger      | 755×860     | 352,836    | 52.1%                 |
+| Fruit      | same size   | 352,836    | 55.3%                 |
+| Person     | similar     | 354,888    | 55.6%                 |
+| Car        | much larger | 1,456,380  | 38.8%                 |
+
+These results highlight two important observations:
+- Feature vector length scales strongly with image size. The car image being larger produces a feature vector over four times longer.
+
+- Texture level influences sparsity. Highly textured images (tiger, fruit, person) activate many orientation bins in each cell, which produces less sparse feature vectors (≈55% non-zero). In contrast, the car image contains larger smooth regions (sky, road, uniform surfaces), so many gradient bins remain near zero, leading to greater sparsity (≈39%).
+
+Overall, the numerical values reinforce what is visible in the HOG visualizations: HOG excels at representing strong, coherent edges but becomes dense and less distinctive for texture-heavy images.
 
 <div style="page-break-after: always;"></div>
 
@@ -333,11 +347,26 @@ As shown in figure 17, HOG is better at capturing sharp edges and overall shape/
 </p>
 
 
-As shown in figure 18, using smaller cells (4×4) makes the HOG more sensitive to fine textures and details. This is most visible on the image of the strawberry, where individual seeds are much more recognizable compared to HOG features with other parameters. Smaller cells also improves the tiger image, revealing more fine fur detail. Larger cells (16×16) smooth local gradients and emphasize only the rough shape of the image.
+As shown in figure 18, using smaller cells (4×4) makes the cells produce longer feature vectors and less sparsity. HOG also becomes more sensitive to fine textures and details. This is most visible on the image of the strawberry, where individual seeds are much more recognizable compared to HOG features with other parameters. Smaller cells also improves the tiger image, revealing more fine fur detail. Larger cells (16×16) smooth local gradients and emphasize only the rough shape of the image. 
 
 Block size has less impact than cell size, but tiny blocks (1×1) preserve more local contrast and are less robust to illumination/contrast changes, while large blocks (4×4 cells) normalize gradients across a wider area, improving robustness to illumination/contrast changes, but slightly smooths local variation.
 
 The amount of orientation also does not have the same impact as cell size, but fewer orientation bins (6) give more compact, coarse angle coding that highlights major contours, while many bins (18) capture subtle angle changes but can add redundancy/noise.
+
+| Parameters (cell × block × bins) | Feature Length | Sparsity (% non-zero) | Notes                                                                            |
+| -------------------------------- | -------------- | --------------------- | -------------------------------------------------------------------------------- |
+| 8×8 – 2×2 – 9                    | 354,888        | 55.6%                 | Baseline: balanced detail & robustness                                           |
+| 4×4 – 2×2 – 9                    | 1,440,648      | 39.9%                 | Smaller cells capture fine textures; feature vector grows significantly          |
+| 16×16 – 2×2 – 9                  | 86,112         | 71.0%                 | Larger cells capture only rough shapes; higher sparsity                          |
+| 8×8 – 1×1 – 9                    | 90,522         | 54.6%                 | Single-cell blocks reduce robustness to illumination but preserve local contrast |
+| 8×8 – 2×2 – 18                   | 709,776        | 45.7%                 | More orientation bins capture finer angle detail; lower sparsity                 |
+
+From the parameter sweep:
+- Cell size: Smaller cells (4×4) produce longer feature vectors and are more sensitive to fine textures while larger cells (16×16) produce shorter vectors and emphasize only coarse shapes.
+
+- Block size: Smaller blocks (1×1) preserve local contrast but are less robust to illumination changes while standard blocks (2×2) normalize gradients over a larger area, improving robustness.
+
+- Number of bins: Increasing orientation bins (9 to 18) captures subtler angle changes but slightly reduces sparsity.
 
 <div style="page-break-after: always;"></div>
 
