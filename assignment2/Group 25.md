@@ -52,7 +52,7 @@
 
 ## <a id="1-fourier-transformation"></a> Fourier Transformation
 
-### <a id="DFT-section-1"></a> 1. Load a grayscale image and apply the 2D Discrete Fourier Transform (DFT) to it Visualize the original image and its frequency spectrum (magnitude). Submit the images, and explanation.
+### <a id="DFT-section-1"></a> 1. Load a grayscale image and apply the 2D Discrete Fourier Transform (DFT) to it. Visualize the original image and its frequency spectrum (magnitude). Submit the images, and explanation.
 
 <p align="center">
   <img src="results/dft/dft.png" width="700"/><br>
@@ -63,23 +63,74 @@ The 2D Discrete Fourier Transform (DFT) converts an image from the spatial domai
 
 ### <a id="DFT-section-2"></a> 2. Implement a low-pass filter in the frequency domain to remove high-frequency noise from an image. Compare the filtered image with the original image. Submit images, and analysis of the results
 
+A low-pass filter on the DFT keeps the low-frequency components near the spectrum’s center and suppresses high-frequency components toward the edges. After applying the inverse DFT, the loss of high-frequency details like edges and fine textures produces a blurred image, as seen in the figures below.
+
 <p align="center">
-  <img src="results/dft/lpf.png" width="700"/><br>
-  <em>Figure 2: Low-pass filter</em>
+  <img src="results/dft/lpf_r10.png" width="700"/><br>
+  <em>Figure 2a: Low-pass filter with radius r = 10</em>
 </p>
 
-A low-pass filter on the DFT keeps the low-frequency components near the spectrum’s center and suppresses high-frequency components toward the edges. After applying the inverse DFT, the loss of high-frequency detail like edges and fine textures produces a blurred image, as seen in figure 2.
+A cutoff radius of 10 results in a extremely blurry image since only the largest shapes remain. We can barely recognize the dog from the original image.
+
+<p align="center">
+  <img src="results/dft/lpf_r30.png" width="700"/><br>
+  <em>Figure 2b: Low-pass filter with radius r = 30</em>
+</p>
+
+A cutoff radius of 30 results in a strongly blurred image where only the main edges are barely visible. All textures are completely removed. We can, however, recognize the dog from the original image.
+
+<p align="center">
+  <img src="results/dft/lpf_r60.png" width="700"/><br>
+  <em>Figure 2d: Low-pass filter with radius r = 60</em>
+</p>
+
+A cutoff radius of 60 results in a moderate blurred image where edges are visible but softened and small textures are filtered out. This reconstructed image is very similar compared to the original image. 
+
+<p align="center">
+  <img src="results/dft/lpf_r120.png" width="700"/><br>
+  <em>Figure 2c: Low-pass filter with radius r = 120</em>
+</p>
+
+A cutoff radius of 120 results in a mildy blurred image which retains the most structure. It resembles slight denoising. This reconstructed image is essentially the same as the original.
+
+Essentially, increasing the cutoff radius preserves more high-frequency detail and reduces the amount of blur.\
+This shows how LPF behavior depends strongly on the cutoff radius when using LPF for either denoising or smoothing.
 
 <div style="page-break-after: always;"></div>
 
 ### <a id="DFT-section-3"></a> 3. Implement a high-pass filter to enhance the edges in an image. Visualize the filtered image and discuss the effects observed. Submit images, and explanation.
 
+A DFT high-pass filter preserves the high-frequency components toward the spectrum’s edges while suppressing the low-frequency components near the center. After the inverse DFT, the retained high-frequency detail emphasizes edges and fine textures, yielding a sharper image, as shown in the figures below.
+
 <p align="center">
-  <img src="results/dft/hpf.png" width="700"/><br>
-  <em>Figure 3: High-pass filter</em>
+  <img src="results/dft/hpf_r10.png" width="700"/><br>
+  <em>Figure 3a: High-pass filter with radius r = 10</em>
 </p>
 
-A DFT high-pass filter preserves the high-frequency components toward the spectrum’s edges while suppressing the low-frequency components near the center. After the inverse DFT, the retained high-frequency detail emphasizes edges and fine textures, yielding a sharper image, as shown in figure 3.
+A cutoff radius of 10 results in a very sharp image.
+
+<p align="center">
+  <img src="results/dft/hpf_r30.png" width="700"/><br>
+  <em>Figure 3b: High-pass filter with radius r = 30</em>
+</p>
+
+A cutoff radius of 30 results in a image with moderately sharpened image.
+
+<p align="center">
+  <img src="results/dft/hpf_r60.png" width="700"/><br>
+  <em>Figure 3d: High-pass filter with radius r = 60</em>
+</p>
+
+A cutoff radius of 60 results in a slightly sharper image.
+
+<p align="center">
+  <img src="results/dft/hpf_r120.png" width="700"/><br>
+  <em>Figure 3c: High-pass filter with radius r = 120</em>
+</p>
+
+A cutoff radius of 120 results in a image that is barely sharper than the original.
+
+Essentially, this shows that HPF intensity is controlled directly by the cutoff radius for sharpening.
 
 <div style="page-break-after: always;"></div>
 
@@ -567,3 +618,8 @@ In contrast, contour detection is ideal when precise object boundaries and shape
 
 <div style="page-break-after: always;"></div>
 
+# Changelog
+
+Fourier transform
+- Updated LPF and HPF to use multiple cutoff values.
+- Updated LPF and HPF with improved with parameter sweeps, showing how behavior changes.
