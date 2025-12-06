@@ -534,18 +534,45 @@ The 2D heatmaps of blob positions show where blobs tend to occur spatially, reve
 
 ### <a id="blob-section-3"></a> 3. Evaluate and discuss the effect of different parameters in the algorithms on the detection of different blobs.
 
-The `max_sigma` parameter defines the maximum standard deviation for the Gaussian kernel and essentially sets the upper limit for the size of blobs that can be detected. We have set this to 30, which allows detection of relatively large blobs.
+The `max_sigma` parameter defines the maximum standard deviation for the Gaussian kernel and essentially sets the upper limit for the size of blobs that can be detected.
 
 If `max_sigma` is set too low, larger blobs will not be detected at all. On the other hand, a high value can lead to the detection of large, low-contrast regions that may not correspond to meaningful features.
 
-The `num_sigma` parameter defines how many intermediate scales are tested between $0$ and `max_sigma`. We set a value value of $10$ so to check $10$ different scales. Increasing this number can improve the precision of blob detection, especially for blobs that do not fall neatly into one of the predefined scales. However this can also greatly increases computational complexity.
+The `num_sigma` parameter defines how many intermediate scales are tested between 0 and `max_sigma`. Increasing this number can improve the precision of blob detection, especially for blobs that do not fall neatly into one of the predefined scales. However this can also greatly increases computational complexity.
+
+The `threshold` parameter determines the minimum intensity difference required for a region to be considered a blob. A low `threshold` like 0.05 makes the algorithm more sensitive, allowing it to detect faint or low-contrast blobs, but it may also detect noise, as seen in the leftmost image in figure 25. Conversely, a high `threshold` like 0.3 makes the detection stricter, potentially missing subtle features while reducing false positives, as seein in the rightmost image.
 
 <p align="center">
-  <img src="results/blob_analysis.png" width="800"/><br>
-  <em>Figure 25: Blob detection with different thresholds</em>
+  <img src="results/blob2/24212.jpg_param_sweep.png" width="800"/><br>
+  <em>Figure 25a: Blob detection with different parameters for image 1</em>
 </p>
 
-The `threshold` parameter determines the minimum intensity difference required for a region to be considered a blob. A low `threshold` like $0.05$ makes the algorithm more sensitive, allowing it to detect faint or low-contrast blobs, but it may also detect noise, as seen in the leftmost image in figure 25. Conversely, a high `threshold` like $0.3$ makes the detection stricter, potentially missing subtle features while reducing false positives, as seein in the rightmost image.
+<p align="center">
+  <img src="results/blob2/24221.jpg_param_sweep.png" width="800"/><br>
+  <em>Figure 25b: Blob detection with different parameters for image 2</em>
+</p>
+
+<p align="center">
+  <img src="results/blob2/24230.jpg_param_sweep.png" width="800"/><br>
+  <em>Figure 25c: Blob detection with different parameters for image 3</em>
+</p>
+
+<p align="center">
+  <img src="results/blob2/24231.jpg_param_sweep.png" width="800"/><br>
+  <em>Figure 25d: Blob detection with different parameters for image 4</em>
+</p>
+
+<p align="center">
+  <img src="results/blob2/24250.jpg_param_sweep.png" width="800"/><br>
+  <em>Figure 25e: Blob detection with different parameters for image 5</em>
+</p>
+
+The parameter sweep across multiple images demonstrates the effect of `threshold` and `max_sigma` on blob detection. Across all images, a `num_sigma` of 10 was used.\
+For **Image 1**, a `threshold` of 0.1 and a `max_sigma` value of 20 works best for general blob detection. Other `thresholds` give either too much noise or too little blob detection.\
+For **Image 2**, a `threshold` of 0.1 and a `max_sigma` value of 20 works best.\
+For **Image 3**, a `threshold` of 0.1 and a `max_sigma` value of 10 works best.\
+For **Image 4**, a `threshold` of 0.1 and a `max_sigma` value of 30 works best.\
+For **Image 5**, a `threshold` of 0.1 and a `max_sigma` value of 30 works best.\
 
 <div style="page-break-after: always;"></div>
 
@@ -705,4 +732,6 @@ HOG
 - Added numerical comparisons in tables of feature vector lengths and sparsity
 - Removed some generic statements
 LBP
-- 
+- Added rotation-invariant and uniform LBP
+- Added a paragraph discussing the differences in each method and which method works bests with which image
+- Added a paragraph comparing the histograms from the different LBP methods
