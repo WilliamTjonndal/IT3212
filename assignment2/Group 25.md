@@ -752,3 +752,5 @@ LBP
 - Added rotation-invariant and uniform LBP
 - Added a paragraph discussing the differences in each method and which method works bests with which image
 - Added a paragraph comparing the histograms from the different LBP methods
+Contour detection
+- Added an interpretation for the statistics of each figure
