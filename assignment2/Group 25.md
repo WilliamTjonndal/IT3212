@@ -397,20 +397,27 @@ From the parameter sweep:
   <em>Figure 19: LBP</em>
 </p>
 
-Local Binary Patterns (LBP) encodes local texture at each pixel by comparing the pixel's intensity to its eight immediate neighbors: 1 for each neighbor that is at least as bright as the center, otherwise 0. Reading these eight bits in a fixed order yields an 8-bit pattern that is converted to a decimal value in the range from 0 to 255, and the pixel in the LBP image is replaced by this value. Figure 19 presents the original image alongside its 8-neighbor LBP representation, looking at the pixels 1 radius (1 pixel) away from the center pixel.
+Local Binary Patterns (LBP) encodes local texture at each pixel by comparing the pixel's intensity to its eight immediate neighbors: 1 for each neighbor that is at least as bright as the center, otherwise 0. Reading these eight bits in a fixed order yields an 8-bit pattern that is converted to a decimal value in the range from 0 to 255, and the pixel in the LBP image is replaced by this value. Figure 19 show the original images alongside its basic 8-neighbour, rotation-invariant and uniform LBP representations.
+
+Two more variants are used for more robust texture analysis: rotation-invariant LBP circularly shifts each 8-bit pattern to its smallest binary rotation, ensuring that the same texture produces the same LBP code regardless of orientation, while uniform LBP further reduces complexity by keeping only patterns with at most two intensity transitions in the bit sequence; these represent fundamental edge and corner structures.
+
+The basic 8-neighbor and rotation-invariant LBPs look the same because the image has consistent textures and patterns that don't change a lot under rotation, so their codes appear visually similar.
 
 <div style="page-break-after: always;"></div>
 
 ### <a id="lbp-section-2"></a>2. Write a Python function to compute the histogram of the LBP image. Plot the histogram and explain what it represents in terms of the texture features of the image.
 
 <p align="center">
-  <img src="results/lbp/lbp_histogram.png" width="800"/><br>
+  <img src="results/lbp/lbp_three_panel.png" width="800"/><br>
   <em>Figure 20: LBP histogram</em>
 </p>
 
-An LBP histogram counts how many pixels in the LBP image have each code value from 0 to 255, and shows the texture distribution within the original image. The histogram is used to capture the frequency of occurrence of different texture patterns in the original image.
+An LBP histogram counts how many pixels in the LBP image have each code value, showing the distribution of local texture patterns in the original image.\
+For the basic 8-neighbour LBP, the histogram spans all 256 codes, capturing fine-grained variations.\
+Rotation-invariant LBP groups patterns that are identical up to rotation, producing a more compact histogram that is robust to orientation changes.\
+Uniform LBP further reduces the histogram to 59 bins by combining all non-uniform patterns, emphasizing fundamental edges and corners while ignoring rare, complex patterns.
 
-In figure 20, the LBP histogram shows tall peaks near the extreme codes (0 and 255), indicating many uniform patterns.
+In Figure 20, the histograms highlight texture structure: the basic LBP shows peaks across the full 0–255 range, rotation-invariant LBP, the histogram shows a few isolated peaks between 0 and 125, reflecting that many patterns differing only by rotation are mapped to the same code, and uniform LBP emphasizes common uniform patterns near 0 and 60.
 
 <div style="page-break-after: always;"></div>
 
@@ -418,7 +425,7 @@ In figure 20, the LBP histogram shows tall peaks near the extreme codes (0 and 2
 
 <p align="center">
   <img src="results/lbp/lbp_grid.png" width="600"/><br>
-  <em>Figure 21: LBP for several images</em>
+  <em>Figure 21a: LBP Basic for several images</em>
 </p>
 
 The LBP histograms differs among the three images. The image of Mona Lisa's histogram has a more uniform distribution of pixel values, with smaller spikes and large spikes at 0 and 255. For this LBP (figure 21), we increased the radius from 1 pixel to 4, and compared to the LBP in figure 19, the edges of the subject and the countours of the background are much more preserved.
@@ -426,6 +433,39 @@ The LBP histograms differs among the three images. The image of Mona Lisa's hist
 The image of the bricks wall's histogram has a slightly less uniform distribuiton, with more sparse spikes.
 
 The image of the landscape's histogram is much less uniformly distributed, with tall, sparse spikes and not much between them.
+
+<p align="center">
+  <img src="results/lbp/lbp_grid_rotation_invariant.png" width="600"/><br>
+  <em>Figure 21b: LBP RI for several images</em>
+</p>
+
+**Mona Lisa**\
+We notice the that texture edges of the face and hair are faintly visible, but overall the low contrast and sparse highlights dominate.\
+The histogram has a sparse distribution with prominent peaks around certain LBP codes, indicating a limited variety of texture patterns in the image.
+
+**Brick Wall**\
+We see a much more pronounced texture patterns which clearly highlight the brick outlines and mortar lines.\
+The histogram has several peaks which correspond to repetitive texture elements. This is explained by that fact that many codes are populated which reflects the structured nature of the bricks.
+
+**Landscape**\
+Strong texture edges emphasize the tree lines and landscape contours, showing dense texture variations.\
+The histogram has a broader spread with several dominant LBP codes, indicating diverse local textures across the image.
+
+<p align="center">
+  <img src="results/lbp/lbp_uniform_grid.png" width="600"/><br>
+  <em>Figure 21c: LBP Uniform for several images</em>
+</p>
+
+**Mona Lisa**\
+The uniform LBP image shows very subtle texture details; edges like the hairline and face contours appear but are faint and diffuse. This low contrast suggests mostly smooth regions with few sharp texture transitions. The histogram peaks around codes 2 to 9, indicating that uniform patterns related to smooth or slightly varying textures dominate.
+
+**Brick Wall**\
+The uniform LBP image reveals fairly visible repetitive texture corresponding to the brick edges. The histogram is spread out with multiple sharp peaks, showing the presence of common uniform patterns that reflect the repetitive structure.
+
+**Landscape**\
+The uniform LBP image captures a complex mixture of textures: tree outlines, ridges, and clouds produce intricate LBP patterns with higher contrast. The histogram is peaked in the middle, showing a more diverse set of uniform codes corresponding to the varied and irregular natural textures across the scene.
+
+Overall, it seems that LBP Basic seems to work best for our Mona Lisa image. The Mona Lisa Our images has a fixed rotation. The brick image could benefit from uniform LBP since many of the textures are repetitive and since brick could be placed in different ways. Finally, the nature scene works best with rotation-invariant LBP since the orientation of the images varies greatly, and we don't want to loose too many details on a complex scene.
 
 <div style="page-break-after: always;"></div>
 
@@ -455,16 +495,12 @@ We selected the parameters of the LBP function to improve the categorization for
 
 To receive better results, we would perform a discrete fourier transform on the images, reducing noise. We would also vary the parameters, the amount of neighbours and the radius, based on the dataset. This is so the LBP pixel value categories fit better for all images in the dataset instead of maximising quality for one of them.
 
+**Comparison of the histograms from Basic, Rotation-Invariant and Uniform LBP**
 
-
-
-
-
-
-
-
-
-
+Comparing the histograms for the three images, we see several differences.\
+For ``Basic LBP``, the histograms tend to be very spread out for complex or irregular textures (Mona Lisa and the landscape) because each orientation produces different codes, resulting in many rarely-populated bins; structured textures like the brick wall show more pronounced peaks since the repeating pattern produces similar codes.\
+``Rotation-invariant LBP`` consolidates codes that represent the same pattern at different rotations, which results in fewer peaks and a more concentrated histogram, especially noticeable in the landscape and brick wall images, highlighting the dominant texture motifs rather than their orientation.\
+``Uniform LBP`` further compresses the histogram by grouping all non-uniform patterns into a single bin, producing very compact histograms: the Mona Lisa shows mostly low-frequency codes corresponding to smooth facial textures, the brick wall exhibits peaks corresponding to repeating brick edges, and the landscape reveals a modestly wider distribution reflecting diverse natural textures but still more summarized than basic LBP.
 
 
 <div style="page-break-after: always;"></div>
@@ -662,3 +698,11 @@ In contrast, contour detection is ideal when precise object boundaries and shape
 Fourier transform
 - Updated LPF and HPF to use multiple cutoff values.
 - Updated LPF and HPF with improved with parameter sweeps, showing how behavior changes.
+PCA
+- Added eigenface label to Principal components figure
+- Added analysis of why the fourth image reconstructs worse
+HOG
+- Added numerical comparisons in tables of feature vector lengths and sparsity
+- Removed some generic statements
+LBP
+- 
