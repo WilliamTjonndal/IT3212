@@ -661,6 +661,23 @@ Contour detection algorithms aim to identify and extract the boundaries of objec
   <em>Figure 36: Bar plot of statistics for contour detection on image 5</em>
 </p>
 
+**Image 1:**\
+12 of 90 contours are significant, with a few large contours dominating area and perimeter, while most are small and simple, indicating a mix of prominent features and minor noise.
+
+**Image 2:**\
+16 of 120 contours stand out; large, irregular contours dominate the area, with smaller contours adding variability, showing both major and minor structures.
+
+**Image 3:**\
+19 of 136 contours are meaningful; a few large contours dominate, surrounded by smaller compact shapes, reflecting prominent features with scattered minor elements.
+
+**Image 4:**\
+22 of 145 contours exceed thresholds; area is skewed by a few large contours, while most are small and simple, indicating mostly minor features with some dominant shapes.
+
+**Image 5:**\
+9 of 78 contours are significant; one very large contour dominates area, with smaller, compact contours contributing little, showing mostly a single dominant feature with minor details.
+
+Most contours are small, with only a few large ones dominating area and perimeter. Each image shows a few prominent features surrounded by minor, less significant contours, with Image 5 dominated by a single large contour. Overall, the images contain a mix of major structures and minor details.
+
 <div style="page-break-after: always;"></div>
 
 ### <a id="contour-section-3"></a> 3. Compare the results of blob detection and contour detection for the chosen dataset.
