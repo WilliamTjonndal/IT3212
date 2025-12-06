@@ -1,4 +1,6 @@
-# IT3212 Assignment 2: Image Preprocessing
+# IT3212 Assignment 2: Image Preprocessing (Second delivery)
+
+[Changelog](#changelog)
 
 ## Table of Contents
 
