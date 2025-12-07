@@ -741,18 +741,32 @@ In contrast, contour detection is ideal when precise object boundaries and shape
 
 # Changelog
 
-Fourier transform
-- Updated LPF and HPF to use multiple cutoff values.
-- Updated LPF and HPF with improved with parameter sweeps, showing how behavior changes.
-PCA
-- Added eigenface label to Principal components figure
-- Added analysis of why the fourth image reconstructs worse
-HOG
-- Added numerical comparisons in tables of feature vector lengths and sparsity
-- Removed some generic statements
-LBP
-- Added rotation-invariant and uniform LBP
-- Added a paragraph discussing the differences in each method and which method works bests with which image
+[Fourier Transform](#1-fourier-transformation)
+- Updated LPF and HPF to use multiple cutoff values\
+Under section [2.](#DFT-section-2) and [3.](#DFT-section-3), we have added many new figures with different radius cutoff values.
+- Updated LPF and HPF with improved with parameter sweeps, showing how behavior changes\
+Added a discussion over how the images changes whith different cutoff radii under [2.](#DFT-section-2) and [3.](#DFT-section-3)
+
+[PCA](#2-principal-component-analysis)
+- Added eigenface label to Principal components figure\
+Added that **Figure 9** describes eigenfaces and explained what they are under [1.](#PCA-section-1)
+- Added analysis of why the fourth image reconstructs worse\
+Addded an explanation under [4b.](#PCA-section-4b)
+
+[HOG](#3-histogram-of-oriented-gradients)
+- Added numerical comparisons in tables of feature vector lengths and sparsity\
+Added a discussion around these different parameters under [2.](#hog-section-2)
+- Removed some generic statements\
+Rewrote section [1.](#hog-section-1)
+
+[LBP](#4-local-binary-patterns)
+- Added rotation-invariant and uniform LBP\
+Changed **Figure 19** with new LBP variants under section [1.](#lbp-section-1), and updated their respective histograms under **Figure 20** in section  [2.](#lbp-section-2)
+- Added a paragraph discussing the differences in each method and which method works bests with which image\
+Updated **Figure 21** and split it into 3 figures in section [3.](#lbp-section-3)
 - Added a paragraph comparing the histograms from the different LBP methods
-Contour detection
-- Added an interpretation for the statistics of each figure
+Added a discussion comparing the histograms under section [4.](#lbp-section-4)
+
+[Contour detection](#6-contour-detection)
+- Added an interpretation for the statistics of each figure\
+The interpretation is available under section [2.](#contour-section-2)
