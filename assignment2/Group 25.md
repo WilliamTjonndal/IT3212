@@ -60,7 +60,7 @@
   <img src="results/dft/dft.png" width="700"/>
   <img src="results/dft/dft1.png" width="700"/>
   <img src="results/dft/dft2.png" width="700"/>
-  <img src="results/dft/dft4.png" width="700"/><br>
+  <img src="results/dft/dft3.png" width="700"/><br>
   <em>Figure 1: Discrete fourier transformation</em>
 </p>
 
@@ -73,7 +73,7 @@ A low-pass filter on the DFT keeps the low-frequency components near the spectru
   <img src="results/dft/lpf_r10.png" width="500"/>
   <img src="results/dft/lpf_1_10.png" width="500"/>
   <img src="results/dft/lpf_2_10.png" width="500"/>
-  <img src="results/dft/lpf_4_10.png" width="500"/>
+  <img src="results/dft/lpf_3_10.png" width="500"/>
 </div>
 <p align="center">
   <em>Figure 2a: Low-pass filter with radius r = 10</em>
@@ -84,7 +84,7 @@ A cutoff radius of 10 results in a extremely blurry image since only the largest
   <img src="results/dft/lpf_r30.png" width="500"/>
   <img src="results/dft/lpf_1_30.png" width="500"/>
   <img src="results/dft/lpf_2_30.png" width="500"/>
-  <img src="results/dft/lpf_4_30.png" width="500"/>
+  <img src="results/dft/lpf_3_30.png" width="500"/>
 </div>
 <p align="center">
   <em>Figure 2b: Low-pass filter with radius r = 30</em>
@@ -98,7 +98,7 @@ A cutoff radius of 30 results in strongly blurred images where only the main edg
   <img src="results/dft/lpf_r60.png" width="500"/>
   <img src="results/dft/lpf_1_60.png" width="500"/>
   <img src="results/dft/lpf_2_60.png" width="500"/>
-  <img src="results/dft/lpf_4_60.png" width="500"/>
+  <img src="results/dft/lpf_3_60.png" width="500"/>
 </div>
 <p align="center">
   <em>Figure 2d: Low-pass filter with radius r = 60</em>
@@ -110,7 +110,7 @@ A cutoff radius of 60 results in moderately blurred images where edges are visib
   <img src="results/dft/lpf_r120.png" width="500"/>
   <img src="results/dft/lpf_1_120.png" width="500"/>
   <img src="results/dft/lpf_2_120.png" width="500"/>
-  <img src="results/dft/lpf_4_120.png" width="500"/>
+  <img src="results/dft/lpf_3_120.png" width="500"/>
 </div>
 <p align="center">
   <em>Figure 2c: Low-pass filter with radius r = 120</em>
@@ -133,7 +133,7 @@ A DFT high-pass filter preserves the high-frequency components toward the spectr
   <img src="results/dft/hpf_r10.png" width="500"/>
   <img src="results/dft/hpf_1_10.png" width="500"/>
   <img src="results/dft/hpf_2_10.png" width="500"/>
-  <img src="results/dft/hpf_4_10.png" width="500"/>
+  <img src="results/dft/hpf_3_10.png" width="500"/>
 </div>
 <p align="center">
   <em>Figure 3a: High-pass filter with radius r = 10</em>
@@ -147,7 +147,7 @@ A cutoff radius of 10 results in very sharp images. The High-Pass filtered compo
   <img src="results/dft/hpf_r30.png" width="500"/>
   <img src="results/dft/hpf_1_30.png" width="500"/>
   <img src="results/dft/hpf_2_30.png" width="500"/>
-  <img src="results/dft/hpf_4_30.png" width="500"/>
+  <img src="results/dft/hpf_3_30.png" width="500"/>
 </div>
 <p align="center">
   <em>Figure 3b: High-pass filter with radius r = 30</em>
@@ -161,7 +161,7 @@ A cutoff radius of 30 results in moderately sharpened images. The High-Pass filt
   <img src="results/dft/hpf_r60.png" width="500"/>
   <img src="results/dft/hpf_1_60.png" width="500"/>
   <img src="results/dft/hpf_2_60.png" width="500"/>
-  <img src="results/dft/hpf_4_60.png" width="500"/>
+  <img src="results/dft/hpf_3_60.png" width="500"/>
 </div>
 <p align="center">
   <em>Figure 3d: High-pass filter with radius r = 60</em>
@@ -175,7 +175,7 @@ A cutoff radius of 60 results in slightly sharper images. The High-Pass filtered
   <img src="results/dft/hpf_r120.png" width="500"/>
   <img src="results/dft/hpf_1_120.png" width="500"/>
   <img src="results/dft/hpf_2_120.png" width="500"/>
-  <img src="results/dft/hpf_4_120.png" width="500"/>
+  <img src="results/dft/hpf_3_120.png" width="500"/>
 </div>
 <p align="center">
   <em>Figure 3c: High-pass filter with radius r = 120</em>
