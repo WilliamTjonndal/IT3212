@@ -57,7 +57,10 @@
 ### <a id="DFT-section-1"></a> 1. Load a grayscale image and apply the 2D Discrete Fourier Transform (DFT) to it. Visualize the original image and its frequency spectrum (magnitude). Submit the images, and explanation.
 
 <p align="center">
-  <img src="results/dft/dft.png" width="700"/><br>
+  <img src="results/dft/dft.png" width="700"/>
+  <img src="results/dft/dft1.png" width="700"/>
+  <img src="results/dft/dft2.png" width="700"/>
+  <img src="results/dft/dft4.png" width="700"/><br>
   <em>Figure 1: Discrete fourier transformation</em>
 </p>
 
@@ -66,37 +69,57 @@ The 2D Discrete Fourier Transform (DFT) converts an image from the spatial domai
 ### <a id="DFT-section-2"></a> 2. Implement a low-pass filter in the frequency domain to remove high-frequency noise from an image. Compare the filtered image with the original image. Submit images, and analysis of the results
 
 A low-pass filter on the DFT keeps the low-frequency components near the spectrum’s center and suppresses high-frequency components toward the edges. After applying the inverse DFT, the loss of high-frequency details like edges and fine textures produces a blurred image, as seen in the figures below.
-
+<div style="display: grid; grid-template-columns: 1fr 1fr; grid-auto-rows: 1fr; gap: 10px;">
+  <img src="results/dft/lpf_r10.png" width="500"/>
+  <img src="results/dft/lpf_1_10.png" width="500"/>
+  <img src="results/dft/lpf_2_10.png" width="500"/>
+  <img src="results/dft/lpf_4_10.png" width="500"/>
+</div>
 <p align="center">
-  <img src="results/dft/lpf_r10.png" width="700"/><br>
   <em>Figure 2a: Low-pass filter with radius r = 10</em>
 </p>
+A cutoff radius of 10 results in a extremely blurry image since only the largest shapes remain. We can barely recognize these images are supposed to represent.
 
-A cutoff radius of 10 results in a extremely blurry image since only the largest shapes remain. We can barely recognize the dog from the original image.
-
+<div style="display: grid; grid-template-columns: 1fr 1fr; grid-auto-rows: 1fr; gap: 10px;">
+  <img src="results/dft/lpf_r30.png" width="500"/>
+  <img src="results/dft/lpf_1_30.png" width="500"/>
+  <img src="results/dft/lpf_2_30.png" width="500"/>
+  <img src="results/dft/lpf_4_30.png" width="500"/>
+</div>
 <p align="center">
-  <img src="results/dft/lpf_r30.png" width="700"/><br>
   <em>Figure 2b: Low-pass filter with radius r = 30</em>
 </p>
 
-A cutoff radius of 30 results in a strongly blurred image where only the main edges are barely visible. All textures are completely removed. We can, however, recognize the dog from the original image.
+A cutoff radius of 30 results in strongly blurred images where only the main edges are visible. All textures are completely removed. We can, however, recognize what the images are supposed to represent, with the exception of the forest image.
 
+<div style="page-break-after: always;"></div>
+
+<div style="display: grid; grid-template-columns: 1fr 1fr; grid-auto-rows: 1fr; gap: 10px;">
+  <img src="results/dft/lpf_r60.png" width="500"/>
+  <img src="results/dft/lpf_1_60.png" width="500"/>
+  <img src="results/dft/lpf_2_60.png" width="500"/>
+  <img src="results/dft/lpf_4_60.png" width="500"/>
+</div>
 <p align="center">
-  <img src="results/dft/lpf_r60.png" width="700"/><br>
   <em>Figure 2d: Low-pass filter with radius r = 60</em>
 </p>
 
-A cutoff radius of 60 results in a moderate blurred image where edges are visible but softened and small textures are filtered out. This reconstructed image is very similar compared to the original image. 
+A cutoff radius of 60 results in moderately blurred images where edges are visible but softened and small textures are filtered out. These reconstructed image are very similar compared to the original images. 
 
+<div style="display: grid; grid-template-columns: 1fr 1fr; grid-auto-rows: 1fr; gap: 10px;">
+  <img src="results/dft/lpf_r120.png" width="500"/>
+  <img src="results/dft/lpf_1_120.png" width="500"/>
+  <img src="results/dft/lpf_2_120.png" width="500"/>
+  <img src="results/dft/lpf_4_120.png" width="500"/>
+</div>
 <p align="center">
-  <img src="results/dft/lpf_r120.png" width="700"/><br>
   <em>Figure 2c: Low-pass filter with radius r = 120</em>
 </p>
 
-A cutoff radius of 120 results in a mildy blurred image which retains the most structure. It resembles slight denoising. This reconstructed image is essentially the same as the original.
+A cutoff radius of 120 results in essentially the same images with slight denoising. These reconstructed images are very similar to the way they were before.
 
 Essentially, increasing the cutoff radius preserves more high-frequency detail and reduces the amount of blur.\
-This shows how LPF behavior depends strongly on the cutoff radius when using LPF for either denoising or smoothing. In our case a value of either 30 or 60 seems appropriate.
+This shows how LPF behavior depends strongly on the cutoff radius when using LPF for either denoising or smoothing. In our case a value of either 30 (or 60 for the forest image) seems appropriate.
 
 <div style="page-break-after: always;"></div>
 
@@ -104,35 +127,65 @@ This shows how LPF behavior depends strongly on the cutoff radius when using LPF
 
 A DFT high-pass filter preserves the high-frequency components toward the spectrum’s edges while suppressing the low-frequency components near the center. After the inverse DFT, the retained high-frequency detail emphasizes edges and fine textures, yielding a sharper image, as shown in the figures below.
 
+<br>
+
+<div style="display: grid; grid-template-columns: 1fr 1fr; grid-auto-rows: 1fr; gap: 10px;">
+  <img src="results/dft/hpf_r10.png" width="500"/>
+  <img src="results/dft/hpf_1_10.png" width="500"/>
+  <img src="results/dft/hpf_2_10.png" width="500"/>
+  <img src="results/dft/hpf_4_10.png" width="500"/>
+</div>
 <p align="center">
-  <img src="results/dft/hpf_r10.png" width="700"/><br>
   <em>Figure 3a: High-pass filter with radius r = 10</em>
 </p>
 
-A cutoff radius of 10 results in a very sharp image. The High-Pass filtered component looks nearly like an outline map. There seems to be a lot of noise too, which is why the original image looks so sharp.
+A cutoff radius of 10 results in very sharp images. The High-Pass filtered components look nearly like an outline map. There seems to be a lot of noise too, which is why the sharpened images looks so sharp.
 
+<br>
+
+<div style="display: grid; grid-template-columns: 1fr 1fr; grid-auto-rows: 1fr; gap: 10px;">
+  <img src="results/dft/hpf_r30.png" width="500"/>
+  <img src="results/dft/hpf_1_30.png" width="500"/>
+  <img src="results/dft/hpf_2_30.png" width="500"/>
+  <img src="results/dft/hpf_4_30.png" width="500"/>
+</div>
 <p align="center">
-  <img src="results/dft/hpf_r30.png" width="700"/><br>
   <em>Figure 3b: High-pass filter with radius r = 30</em>
 </p>
 
-A cutoff radius of 30 results in a moderately sharpened image. The High-Pass filtered component looks like an edge detector output. A lot of minor edges are still visible here.
+A cutoff radius of 30 results in moderately sharpened images. The High-Pass filtered components look like edge detector outputs. A lot of minor edges are still visible.
 
+<br>
+
+<div style="display: grid; grid-template-columns: 1fr 1fr; grid-auto-rows: 1fr; gap: 10px;">
+  <img src="results/dft/hpf_r60.png" width="500"/>
+  <img src="results/dft/hpf_1_60.png" width="500"/>
+  <img src="results/dft/hpf_2_60.png" width="500"/>
+  <img src="results/dft/hpf_4_60.png" width="500"/>
+</div>
 <p align="center">
-  <img src="results/dft/hpf_r60.png" width="700"/><br>
   <em>Figure 3d: High-pass filter with radius r = 60</em>
 </p>
 
-A cutoff radius of 60 results in a slightly sharper image. The High-Pass filtered component only has the main edges of the dog.
+A cutoff radius of 60 results in slightly sharper images. The High-Pass filtered components only have the main edges of the original images.
 
+<br>
+
+<div style="display: grid; grid-template-columns: 1fr 1fr; grid-auto-rows: 1fr; gap: 10px;">
+  <img src="results/dft/hpf_r120.png" width="500"/>
+  <img src="results/dft/hpf_1_120.png" width="500"/>
+  <img src="results/dft/hpf_2_120.png" width="500"/>
+  <img src="results/dft/hpf_4_120.png" width="500"/>
+</div>
 <p align="center">
-  <img src="results/dft/hpf_r120.png" width="700"/><br>
   <em>Figure 3c: High-pass filter with radius r = 120</em>
 </p>
 
-A cutoff radius of 120 results in a image that is barely sharper than the original. Here, the High-Pass filtered component is flat, which explains why the image is barely different from the original.
+A cutoff radius of 120 results in images that are barely sharper than the originals. Here, the High-Pass filtered components are flat, which explains why the sharpened images are barely different from the originals.
 
-Essentially, this shows that HPF intensity is controlled directly by the cutoff radius for sharpening. In our case a radius of 60 seems to be optimal.
+<br>
+
+Essentially, this shows that HPF intensity is controlled directly by the cutoff radius for sharpening. In our case a radius of 60 seems to be optimal for the dog, house and city images, while a radius of 30 works better for the forest image.
 
 <div style="page-break-after: always;"></div>
 
@@ -574,7 +627,7 @@ For **Image 1**, a `threshold` of 0.1 and a `max_sigma` value of 20 works best f
 For **Image 2**, a `threshold` of 0.1 and a `max_sigma` value of 20 works best.\
 For **Image 3**, a `threshold` of 0.1 and a `max_sigma` value of 10 works best.\
 For **Image 4**, a `threshold` of 0.1 and a `max_sigma` value of 30 works best.\
-For **Image 5**, a `threshold` of 0.1 and a `max_sigma` value of 30 works best.\
+For **Image 5**, a `threshold` of 0.1 and a `max_sigma` value of 30 works best.
 
 <div style="page-break-after: always;"></div>
 
@@ -742,10 +795,13 @@ In contrast, contour detection is ideal when precise object boundaries and shape
 # Changelog
 
 [Fourier Transform](#1-fourier-transformation)
+- Updated the entire section to use new images\
+The new images are used in every subsection.
 - Updated LPF and HPF to use multiple cutoff values\
 Under section [2.](#DFT-section-2) and [3.](#DFT-section-3), we have added many new figures with different radius cutoff values.
 - Updated LPF and HPF with improved with parameter sweeps, showing how behavior changes\
-Added a discussion over how the images changes whith different cutoff radii under [2.](#DFT-section-2) and [3.](#DFT-section-3)
+Added a discussion over how the images changes whith different cutoff radii under [2.](#DFT-section-2) and [3.](#DFT-section-3)\
+Applied LPF and HPF to different images
 
 [PCA](#2-principal-component-analysis)
 - Added eigenface label to Principal components figure\
