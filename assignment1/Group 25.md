@@ -411,7 +411,21 @@ Figure 40a shows that the raw features had very different ranges, with some extr
 
 We split the dataset into a training and testing dataset using an 80-20 split.
 
-We sorted the preprocessed data by date and split chronologically, the earliest 80% for training and the most recent 20% for testing. This preserves the time distribution of the data and ensures the test set reflects the most recent period. We split on the whole dataset rather than per stock to prevent data leakage. Without this approach, recently listed stocks would have been tested on periods where older stocks still provide data in the training set. This approach would leak future information and produce overly optimistic results, making the models less reliable.
+We sorted the preprocessed data by date and split chronologically, the earliest 80% for training and the most recent 20% for testing. This preserves the time distribution of the data and ensures the test set reflects the most recent period. We split on the whole dataset rather than per stock to prevent data leakage. Without this approach, some older stocks would have been tested on periods where some recently listed stocks still provide information about market movement in the training set. This approach would leak future information and produce overly optimistic results, making the models less reliable for new information. 
+
+This issue is illustrated in Figure 46, where the training set of a newer stock overlaps with the test set of an older stock, causing data leakage in the yellow highlighted region. This is particularly problematic around major events such as the 2008 financial crisis. Figure 47 shows how using a single global split date avoids this problem: no stock is tested in periods where other stocks still provide information, and the time distribution of the data is preserved. This is the splitting strategy we use for the stock data.
+
+<p align="center">
+  <img src="img/perstock.png" width="500"/><br>
+  <em>Figure 46: Datasplitting on per stock</em>
+</p>
+
+<p align="center">
+  <img src="img/wholedataset.png" width="500"/><br>
+  <em>Figure 47: Datasplitting on whole dataset</em>
+</p>
+
+This shows the number of data points in the training and test sets after applying the splitting method described above.
 
 ```
 Training set shape: (12634695, 7)
@@ -435,35 +449,35 @@ A validation set is often used during training to tune hyperparameters and monit
 
 Applying Principal Component Analysis (PCA) to our stock dataset reduces dimensionality by turning the original, correlated features into a smaller set of uncorrelated components. This lets us keep the most informative parts of the data while dropping redundant features, which can speed up model training, reduce multicollinearity, and make the data easier to visualize. The trade-off is that the new features (principal components) are linear combinations of the original ones, so they’re less interpretable, and some information is inevitably lost when lower-variance components are discarded. 
 
-We applied PCA to the Open, High, Low, Close, and Volume features and retained the first two components. Figures 46 and 47 show these two components for the training and test sets, respectively. The reason for choosing two components will be described shortly.
+We applied PCA to the Open, High, Low, Close, and Volume features and retained the first two components. Figures 48 and 49 show these two components for the training and test sets, respectively. The reason for choosing two components will be described shortly.
 
 <p align="center">
   <img src="img/PCA_Train_Head.png" width="400"/><br>
-  <em>Figure 46: First few lines from the PCA train set</em>
+  <em>Figure 48: First few lines from the PCA train set</em>
 </p>
 
 <p align="center">
   <img src="img/PCA_Test_Head.png" width="400"/><br>
-  <em>Figure 47: First few lines from the PCA test set</em>
+  <em>Figure 49: First few lines from the PCA test set</em>
 </p>
 
 Since stock prices (Open, High, Low, Close) and Volume tend to move together, PCA captures most of their shared variance in the first few components. The explained variance of each component shows how much of the original information it retains. Components with higher variance keep more of the data’s structure. 
 
-Figure 48 and 49 show this clearly. The first PCA component (PC1) explains 96.09% of the variance and the second PLA component (PC2) adds 3.53%, so the first two components together capture about 99.6% of the orginal information, while the remaining components add very little.
+Figure 50 and 51 show this clearly. The first PCA component (PC1) explains 96.09% of the variance and the second PLA component (PC2) adds 3.53%, so the first two components together capture about 99.6% of the orginal information, while the remaining components add very little.
 
 <p align="center">
   <img src="img/pca_components.png" width="400"/><br>
-  <em>Figure 48: Variance for each PCA components</em>
+  <em>Figure 50: Variance for each PCA components</em>
 </p>
 
 <p align="center">
   <img src="img/pca_graph.png" width="500"/><br>
-  <em>Figure 49: Individual and cumulative variance for each PCA component</em>
+  <em>Figure 51: Individual and cumulative variance for each PCA component</em>
 </p>
 
 <p align="center">
   <img src="img/PCA_vuisualized.png" width="500"/><br>
-  <em>Figure 50: A random sample from the first two PCA components</em>
+  <em>Figure 52: A random sample from the first two PCA components</em>
 </p>
 
 
