@@ -12,3 +12,13 @@ We chose `stacking` because it lets us combine models that capture different asp
 
 We selected ``SVM (Support Vector Machines)`` because it's a method that we're familiar with and it performs reliably on high-dimensional features like HOG and LBP. Its ability to create strong separating margins—and, with kernels, capture subtle nonlinear differences—makes it effective for visually overlapping scene categories such as *mountain* vs. *glacier* or *street* vs. *buildings*. This combination of technical suitability and practical familiarity allows us to tune and interpret the model confidently while achieving strong performance on diverse image classes.
 
+
+feature extraction methods:
+- HOG and LBP histogram
+why, what how
+code: see peder.ipynb
+
+
+feature selection methods:
+random forest for itself, svm and stacking to select most important features
+xgboost for itself

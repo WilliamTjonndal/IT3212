@@ -138,7 +138,11 @@ Figure 7 shows the number of misplaced images detected by the algorithm for all 
   <em>Figure 13: Potentially misplaced images in street category</em>
 </p>
 
-### Feature extraction and selection
+### Feature extraction
+
+We have used the following feature extraction methodes: HOG and LBP.
+
+### Feature selection
 
 <h2 style="color: green;">TODO: 
 - legg til intro
