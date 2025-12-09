@@ -1,34 +1,4 @@
-# IT3212 Assignment 4: Deep learning and unsupervised learning
-
-## Table of Contents
-
-- [Task 1](#task-1)
-  - [Pick any image based dataset from the list, implement the preprocessing and justify the preprocessing steps, extract features and justify the methods used, select features and justify the methods used. Some of this is done already in one of the previous assignments. You can reuse things](#task-1-a)
-  - [Implement (using the selected features) one basic machine learning algorithm for classification and justify your choice.](#task-1-b)
-  - [Implement (using the selected features) one advanced machine learning algorithm for classification and justify your choice.](#task-1-c)
-  - [Implement a CNN with hyperparameter tuning (for this you can directly use the data after the preprocessing) (30)](#task-1-d)
-  - [Compare and Explain the results in terms of both the computation time and the performance of the classification algorithms.](#task-1-e)
-- [Task 2](#task-2)
-  - [Pick any dataset from the list, implement the preprocessing and justify the preprocessing steps,extract features and justify the methods used, select features and justify the methods used. Some of this is done already in one of the previous assignments. You can reuse things.](#task-2-a)
-  - [Implement three clustering methods out of the following and justify your choices](#task-2-b)
-    - [K-means](#k-means)
-    - [Hierarchical clustering](#hierarchical-clustering)
-    - [Fuzzy C-means](#fuzzy-c-means)
-    - [DBSCAN](#dbscan)
-    - [Gaussian mixture models](#gaussian-mixture-models)
-    - [Self-organizing maps](#self-organizing-maps)
-  - [Compare and Explain the results](#task-2-c)
-
-
-<div style="page-break-after: always;"></div>
-
-## <a id="task-1"></a> Task 1
-
-### <a id="task-1-a"></a> Pick any image based dataset from the list, implement the preprocessing and justify the preprocessing steps, extract features and justify the methods used, select features and justify the methods used. Some of this is done already in one of the previous assignments. You can reuse things
-
-### <a id="task-1-b"></a> Implement (using the selected features) one basic machine learning algorithm for classification and justify your choice.
-
-### RandomForest
+# RandomForest
 
 <p align="center">
     <img src="task1/results/randomforest feature sweep.png" width="700"/>
@@ -47,8 +17,6 @@ The parameter sweep and resulting accuracy plot clearly show that **HOG features
 LBP on its own underperforms because RandomForests tend to benefit from moderately high-dimensional, discriminative features that capture variation at different spatial scales, whereas LBP produces relatively coarse binary patterns that emphasize uniform local texture. Even with different P values (8 vs. 10 sampling points), the performance remains tightly clustered around 0.54–0.55, indicating that changing the radius or number of neighbors does not significantly increase discriminative power for this dataset. This suggests that the dataset’s class boundaries are not strongly explained by micro-textures alone, and LBP’s invariance properties may also reduce useful variation that the classifier could exploit.
 
 The combined **HOG+LBP** features perform between the individual methods: better than LBP alone, but not always exceeding HOG alone. Their accuracies cluster around **0.60–0.65**, with the best combination (HOG-9 + LBP-8) reaching the highest overall accuracy of roughly **0.647**. This indicates that LBP contributes some complementary information, but not enough to consistently improve upon HOG alone. RandomForests may also struggle with the increased dimensionality when HOG and LBP are concatenated, especially if some dimensions are redundant or noisy. Overall, the results show that HOG is the most useful individual descriptor, while combining it with LBP can offer moderate improvements but is not uniformly beneficial across parameter settings.
-
-### <a id="task-1-c"></a> Implement (using the selected features) one advanced machine learning algorithm for classification and justify your choice.
 
 # XGBoost
 
@@ -81,29 +49,6 @@ Combining HOG and LBP features consistently improves accuracy over either method
 
 This analysis highlights how tuning feature extraction parameters impacts model accuracy, balancing complexity and representational richness for optimal image classification.
 
-### <a id="task-1-d"></a> Implement a CNN with hyperparameter tuning (for this you can directly use the data after the preprocessing)
+# Stacking
 
-### <a id="task-1-e"></a> Compare and Explain the results in terms of both the computation time and the performance of the classification algorithms.
-
-
-<div style="page-break-after: always;"></div>
-
-## <a id="task-2"></a> Task 2
-
-### <a id="task-2-a"></a> Pick any dataset from the list, implement the preprocessing and justify the preprocessing steps,extract features and justify the methods used, select features and justify the methods used. Some of this is done already in one of the previous assignments. You can reuse things.
-
-### <a id="task-2-b"></a> Implement three clustering methods out of the following and justify your choices
-
-
-#### <a id="hierarchical-clustering"></a> Hierarchical clustering
-
-#### <a id="fuzzy-c-means"></a> Fuzzy C-means
-
-#### <a id="dbscan"></a> DBSCAN
-
-#### <a id="gaussian-mixture-models"></a> Gaussian mixture models
-
-#### <a id="self-organizing-maps"></a> Self-organizing maps
-
-
-### <a id="task-2-c"></a> Compare and Explain the results
+# SVM
