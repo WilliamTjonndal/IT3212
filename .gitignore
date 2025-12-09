@@ -1,1 +1,5 @@
 .vscode
+.DS_Store
+
+# Ignore .pdf files since they are too big for Github
+*.pdf

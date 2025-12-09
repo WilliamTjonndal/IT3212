@@ -1,4 +1,6 @@
-# IT3212 Assignment 2: Image Preprocessing
+# IT3212 Assignment 2: Image Preprocessing (Second delivery)
+
+[Changelog](#changelog)
 
 ## Table of Contents
 
@@ -55,7 +57,10 @@
 ### <a id="DFT-section-1"></a> 1. Load a grayscale image and apply the 2D Discrete Fourier Transform (DFT) to it. Visualize the original image and its frequency spectrum (magnitude). Submit the images, and explanation.
 
 <p align="center">
-  <img src="results/dft/dft.png" width="700"/><br>
+  <img src="results/dft/dft.png" width="700"/>
+  <img src="results/dft/dft1.png" width="700"/>
+  <img src="results/dft/dft2.png" width="700"/>
+  <img src="results/dft/dft3.png" width="700"/><br>
   <em>Figure 1: Discrete fourier transformation</em>
 </p>
 
@@ -64,37 +69,57 @@ The 2D Discrete Fourier Transform (DFT) converts an image from the spatial domai
 ### <a id="DFT-section-2"></a> 2. Implement a low-pass filter in the frequency domain to remove high-frequency noise from an image. Compare the filtered image with the original image. Submit images, and analysis of the results
 
 A low-pass filter on the DFT keeps the low-frequency components near the spectrum’s center and suppresses high-frequency components toward the edges. After applying the inverse DFT, the loss of high-frequency details like edges and fine textures produces a blurred image, as seen in the figures below.
-
+<div style="display: grid; grid-template-columns: 1fr 1fr; grid-auto-rows: 1fr; gap: 10px;">
+  <img src="results/dft/lpf_r10.png" width="500"/>
+  <img src="results/dft/lpf_1_10.png" width="500"/>
+  <img src="results/dft/lpf_2_10.png" width="500"/>
+  <img src="results/dft/lpf_3_10.png" width="500"/>
+</div>
 <p align="center">
-  <img src="results/dft/lpf_r10.png" width="700"/><br>
   <em>Figure 2a: Low-pass filter with radius r = 10</em>
 </p>
+A cutoff radius of 10 results in a extremely blurry image since only the largest shapes remain. We can barely recognize these images are supposed to represent.
 
-A cutoff radius of 10 results in a extremely blurry image since only the largest shapes remain. We can barely recognize the dog from the original image.
-
+<div style="display: grid; grid-template-columns: 1fr 1fr; grid-auto-rows: 1fr; gap: 10px;">
+  <img src="results/dft/lpf_r30.png" width="500"/>
+  <img src="results/dft/lpf_1_30.png" width="500"/>
+  <img src="results/dft/lpf_2_30.png" width="500"/>
+  <img src="results/dft/lpf_3_30.png" width="500"/>
+</div>
 <p align="center">
-  <img src="results/dft/lpf_r30.png" width="700"/><br>
   <em>Figure 2b: Low-pass filter with radius r = 30</em>
 </p>
 
-A cutoff radius of 30 results in a strongly blurred image where only the main edges are barely visible. All textures are completely removed. We can, however, recognize the dog from the original image.
+A cutoff radius of 30 results in strongly blurred images where only the main edges are visible. All textures are completely removed. We can, however, recognize what the images are supposed to represent, with the exception of the forest image.
 
+<div style="page-break-after: always;"></div>
+
+<div style="display: grid; grid-template-columns: 1fr 1fr; grid-auto-rows: 1fr; gap: 10px;">
+  <img src="results/dft/lpf_r60.png" width="500"/>
+  <img src="results/dft/lpf_1_60.png" width="500"/>
+  <img src="results/dft/lpf_2_60.png" width="500"/>
+  <img src="results/dft/lpf_3_60.png" width="500"/>
+</div>
 <p align="center">
-  <img src="results/dft/lpf_r60.png" width="700"/><br>
   <em>Figure 2d: Low-pass filter with radius r = 60</em>
 </p>
 
-A cutoff radius of 60 results in a moderate blurred image where edges are visible but softened and small textures are filtered out. This reconstructed image is very similar compared to the original image. 
+A cutoff radius of 60 results in moderately blurred images where edges are visible but softened and small textures are filtered out. These reconstructed image are very similar compared to the original images. 
 
+<div style="display: grid; grid-template-columns: 1fr 1fr; grid-auto-rows: 1fr; gap: 10px;">
+  <img src="results/dft/lpf_r120.png" width="500"/>
+  <img src="results/dft/lpf_1_120.png" width="500"/>
+  <img src="results/dft/lpf_2_120.png" width="500"/>
+  <img src="results/dft/lpf_3_120.png" width="500"/>
+</div>
 <p align="center">
-  <img src="results/dft/lpf_r120.png" width="700"/><br>
   <em>Figure 2c: Low-pass filter with radius r = 120</em>
 </p>
 
-A cutoff radius of 120 results in a mildy blurred image which retains the most structure. It resembles slight denoising. This reconstructed image is essentially the same as the original.
+A cutoff radius of 120 results in essentially the same images with slight denoising. These reconstructed images are very similar to the way they were before.
 
 Essentially, increasing the cutoff radius preserves more high-frequency detail and reduces the amount of blur.\
-This shows how LPF behavior depends strongly on the cutoff radius when using LPF for either denoising or smoothing. In our case a value of either 30 or 60 seems appropriate.
+This shows how LPF behavior depends strongly on the cutoff radius when using LPF for either denoising or smoothing. In our case a value of either 30 (or 60 for the forest image) seems appropriate.
 
 <div style="page-break-after: always;"></div>
 
@@ -102,35 +127,65 @@ This shows how LPF behavior depends strongly on the cutoff radius when using LPF
 
 A DFT high-pass filter preserves the high-frequency components toward the spectrum’s edges while suppressing the low-frequency components near the center. After the inverse DFT, the retained high-frequency detail emphasizes edges and fine textures, yielding a sharper image, as shown in the figures below.
 
+<br>
+
+<div style="display: grid; grid-template-columns: 1fr 1fr; grid-auto-rows: 1fr; gap: 10px;">
+  <img src="results/dft/hpf_r10.png" width="500"/>
+  <img src="results/dft/hpf_1_10.png" width="500"/>
+  <img src="results/dft/hpf_2_10.png" width="500"/>
+  <img src="results/dft/hpf_3_10.png" width="500"/>
+</div>
 <p align="center">
-  <img src="results/dft/hpf_r10.png" width="700"/><br>
   <em>Figure 3a: High-pass filter with radius r = 10</em>
 </p>
 
-A cutoff radius of 10 results in a very sharp image. The High-Pass filtered component looks nearly like an outline map. There seems to be a lot of noise too, which is why the original image looks so sharp.
+A cutoff radius of 10 results in very sharp images. The High-Pass filtered components look nearly like an outline map. There seems to be a lot of noise too, which is why the sharpened images looks so sharp.
 
+<br>
+
+<div style="display: grid; grid-template-columns: 1fr 1fr; grid-auto-rows: 1fr; gap: 10px;">
+  <img src="results/dft/hpf_r30.png" width="500"/>
+  <img src="results/dft/hpf_1_30.png" width="500"/>
+  <img src="results/dft/hpf_2_30.png" width="500"/>
+  <img src="results/dft/hpf_3_30.png" width="500"/>
+</div>
 <p align="center">
-  <img src="results/dft/hpf_r30.png" width="700"/><br>
   <em>Figure 3b: High-pass filter with radius r = 30</em>
 </p>
 
-A cutoff radius of 30 results in a moderately sharpened image. The High-Pass filtered component looks like an edge detector output. A lot of minor edges are still visible here.
+A cutoff radius of 30 results in moderately sharpened images. The High-Pass filtered components look like edge detector outputs. A lot of minor edges are still visible.
 
+<br>
+
+<div style="display: grid; grid-template-columns: 1fr 1fr; grid-auto-rows: 1fr; gap: 10px;">
+  <img src="results/dft/hpf_r60.png" width="500"/>
+  <img src="results/dft/hpf_1_60.png" width="500"/>
+  <img src="results/dft/hpf_2_60.png" width="500"/>
+  <img src="results/dft/hpf_3_60.png" width="500"/>
+</div>
 <p align="center">
-  <img src="results/dft/hpf_r60.png" width="700"/><br>
   <em>Figure 3d: High-pass filter with radius r = 60</em>
 </p>
 
-A cutoff radius of 60 results in a slightly sharper image. The High-Pass filtered component only has the main edges of the dog.
+A cutoff radius of 60 results in slightly sharper images. The High-Pass filtered components only have the main edges of the original images.
 
+<br>
+
+<div style="display: grid; grid-template-columns: 1fr 1fr; grid-auto-rows: 1fr; gap: 10px;">
+  <img src="results/dft/hpf_r120.png" width="500"/>
+  <img src="results/dft/hpf_1_120.png" width="500"/>
+  <img src="results/dft/hpf_2_120.png" width="500"/>
+  <img src="results/dft/hpf_3_120.png" width="500"/>
+</div>
 <p align="center">
-  <img src="results/dft/hpf_r120.png" width="700"/><br>
   <em>Figure 3c: High-pass filter with radius r = 120</em>
 </p>
 
-A cutoff radius of 120 results in a image that is barely sharper than the original. Here, the High-Pass filtered component is flat, which explains why the image is barely different from the original.
+A cutoff radius of 120 results in images that are barely sharper than the originals. Here, the High-Pass filtered components are flat, which explains why the sharpened images are barely different from the originals.
 
-Essentially, this shows that HPF intensity is controlled directly by the cutoff radius for sharpening. In our case a radius of 60 seems to be optimal.
+<br>
+
+Essentially, this shows that HPF intensity is controlled directly by the cutoff radius for sharpening. In our case a radius of 60 seems to be optimal for the dog, house and city images, while a radius of 30 works better for the forest image.
 
 <div style="page-break-after: always;"></div>
 
@@ -397,20 +452,27 @@ From the parameter sweep:
   <em>Figure 19: LBP</em>
 </p>
 
-Local Binary Patterns (LBP) encodes local texture at each pixel by comparing the pixel's intensity to its eight immediate neighbors: 1 for each neighbor that is at least as bright as the center, otherwise 0. Reading these eight bits in a fixed order yields an 8-bit pattern that is converted to a decimal value in the range from 0 to 255, and the pixel in the LBP image is replaced by this value. Figure 19 presents the original image alongside its 8-neighbor LBP representation, looking at the pixels 1 radius (1 pixel) away from the center pixel.
+Local Binary Patterns (LBP) encodes local texture at each pixel by comparing the pixel's intensity to its eight immediate neighbors: 1 for each neighbor that is at least as bright as the center, otherwise 0. Reading these eight bits in a fixed order yields an 8-bit pattern that is converted to a decimal value in the range from 0 to 255, and the pixel in the LBP image is replaced by this value. Figure 19 show the original images alongside its basic 8-neighbour, rotation-invariant and uniform LBP representations.
+
+Two more variants are used for more robust texture analysis: rotation-invariant LBP circularly shifts each 8-bit pattern to its smallest binary rotation, ensuring that the same texture produces the same LBP code regardless of orientation, while uniform LBP further reduces complexity by keeping only patterns with at most two intensity transitions in the bit sequence; these represent fundamental edge and corner structures.
+
+The basic 8-neighbor and rotation-invariant LBPs look the same because the image has consistent textures and patterns that don't change a lot under rotation, so their codes appear visually similar.
 
 <div style="page-break-after: always;"></div>
 
 ### <a id="lbp-section-2"></a>2. Write a Python function to compute the histogram of the LBP image. Plot the histogram and explain what it represents in terms of the texture features of the image.
 
 <p align="center">
-  <img src="results/lbp/lbp_histogram.png" width="800"/><br>
+  <img src="results/lbp/lbp_three_panel.png" width="800"/><br>
   <em>Figure 20: LBP histogram</em>
 </p>
 
-An LBP histogram counts how many pixels in the LBP image have each code value from 0 to 255, and shows the texture distribution within the original image. The histogram is used to capture the frequency of occurrence of different texture patterns in the original image.
+An LBP histogram counts how many pixels in the LBP image have each code value, showing the distribution of local texture patterns in the original image.\
+For the basic 8-neighbour LBP, the histogram spans all 256 codes, capturing fine-grained variations.\
+Rotation-invariant LBP groups patterns that are identical up to rotation, producing a more compact histogram that is robust to orientation changes.\
+Uniform LBP further reduces the histogram to 59 bins by combining all non-uniform patterns, emphasizing fundamental edges and corners while ignoring rare, complex patterns.
 
-In figure 20, the LBP histogram shows tall peaks near the extreme codes (0 and 255), indicating many uniform patterns.
+In Figure 20, the histograms highlight texture structure: the basic LBP shows peaks across the full 0–255 range, rotation-invariant LBP, the histogram shows a few isolated peaks between 0 and 125, reflecting that many patterns differing only by rotation are mapped to the same code, and uniform LBP emphasizes common uniform patterns near 0 and 60.
 
 <div style="page-break-after: always;"></div>
 
@@ -418,7 +480,7 @@ In figure 20, the LBP histogram shows tall peaks near the extreme codes (0 and 2
 
 <p align="center">
   <img src="results/lbp/lbp_grid.png" width="600"/><br>
-  <em>Figure 21: LBP for several images</em>
+  <em>Figure 21a: LBP Basic for several images</em>
 </p>
 
 The LBP histograms differs among the three images. The image of Mona Lisa's histogram has a more uniform distribution of pixel values, with smaller spikes and large spikes at 0 and 255. For this LBP (figure 21), we increased the radius from 1 pixel to 4, and compared to the LBP in figure 19, the edges of the subject and the countours of the background are much more preserved.
@@ -426,6 +488,39 @@ The LBP histograms differs among the three images. The image of Mona Lisa's hist
 The image of the bricks wall's histogram has a slightly less uniform distribuiton, with more sparse spikes.
 
 The image of the landscape's histogram is much less uniformly distributed, with tall, sparse spikes and not much between them.
+
+<p align="center">
+  <img src="results/lbp/lbp_grid_rotation_invariant.png" width="600"/><br>
+  <em>Figure 21b: LBP RI for several images</em>
+</p>
+
+**Mona Lisa**\
+We notice the that texture edges of the face and hair are faintly visible, but overall the low contrast and sparse highlights dominate.\
+The histogram has a sparse distribution with prominent peaks around certain LBP codes, indicating a limited variety of texture patterns in the image.
+
+**Brick Wall**\
+We see a much more pronounced texture patterns which clearly highlight the brick outlines and mortar lines.\
+The histogram has several peaks which correspond to repetitive texture elements. This is explained by that fact that many codes are populated which reflects the structured nature of the bricks.
+
+**Landscape**\
+Strong texture edges emphasize the tree lines and landscape contours, showing dense texture variations.\
+The histogram has a broader spread with several dominant LBP codes, indicating diverse local textures across the image.
+
+<p align="center">
+  <img src="results/lbp/lbp_uniform_grid.png" width="600"/><br>
+  <em>Figure 21c: LBP Uniform for several images</em>
+</p>
+
+**Mona Lisa**\
+The uniform LBP image shows very subtle texture details; edges like the hairline and face contours appear but are faint and diffuse. This low contrast suggests mostly smooth regions with few sharp texture transitions. The histogram peaks around codes 2 to 9, indicating that uniform patterns related to smooth or slightly varying textures dominate.
+
+**Brick Wall**\
+The uniform LBP image reveals fairly visible repetitive texture corresponding to the brick edges. The histogram is spread out with multiple sharp peaks, showing the presence of common uniform patterns that reflect the repetitive structure.
+
+**Landscape**\
+The uniform LBP image captures a complex mixture of textures: tree outlines, ridges, and clouds produce intricate LBP patterns with higher contrast. The histogram is peaked in the middle, showing a more diverse set of uniform codes corresponding to the varied and irregular natural textures across the scene.
+
+Overall, it seems that LBP Basic seems to work best for our Mona Lisa image. The Mona Lisa Our images has a fixed rotation. The brick image could benefit from uniform LBP since many of the textures are repetitive and since brick could be placed in different ways. Finally, the nature scene works best with rotation-invariant LBP since the orientation of the images varies greatly, and we don't want to loose too many details on a complex scene.
 
 <div style="page-break-after: always;"></div>
 
@@ -455,16 +550,12 @@ We selected the parameters of the LBP function to improve the categorization for
 
 To receive better results, we would perform a discrete fourier transform on the images, reducing noise. We would also vary the parameters, the amount of neighbours and the radius, based on the dataset. This is so the LBP pixel value categories fit better for all images in the dataset instead of maximising quality for one of them.
 
+**Comparison of the histograms from Basic, Rotation-Invariant and Uniform LBP**
 
-
-
-
-
-
-
-
-
-
+Comparing the histograms for the three images, we see several differences.\
+For ``Basic LBP``, the histograms tend to be very spread out for complex or irregular textures (Mona Lisa and the landscape) because each orientation produces different codes, resulting in many rarely-populated bins; structured textures like the brick wall show more pronounced peaks since the repeating pattern produces similar codes.\
+``Rotation-invariant LBP`` consolidates codes that represent the same pattern at different rotations, which results in fewer peaks and a more concentrated histogram, especially noticeable in the landscape and brick wall images, highlighting the dominant texture motifs rather than their orientation.\
+``Uniform LBP`` further compresses the histogram by grouping all non-uniform patterns into a single bin, producing very compact histograms: the Mona Lisa shows mostly low-frequency codes corresponding to smooth facial textures, the brick wall exhibits peaks corresponding to repeating brick edges, and the landscape reveals a modestly wider distribution reflecting diverse natural textures but still more summarized than basic LBP.
 
 
 <div style="page-break-after: always;"></div>
@@ -498,18 +589,45 @@ The 2D heatmaps of blob positions show where blobs tend to occur spatially, reve
 
 ### <a id="blob-section-3"></a> 3. Evaluate and discuss the effect of different parameters in the algorithms on the detection of different blobs.
 
-The `max_sigma` parameter defines the maximum standard deviation for the Gaussian kernel and essentially sets the upper limit for the size of blobs that can be detected. We have set this to 30, which allows detection of relatively large blobs.
+The `max_sigma` parameter defines the maximum standard deviation for the Gaussian kernel and essentially sets the upper limit for the size of blobs that can be detected.
 
 If `max_sigma` is set too low, larger blobs will not be detected at all. On the other hand, a high value can lead to the detection of large, low-contrast regions that may not correspond to meaningful features.
 
-The `num_sigma` parameter defines how many intermediate scales are tested between $0$ and `max_sigma`. We set a value value of $10$ so to check $10$ different scales. Increasing this number can improve the precision of blob detection, especially for blobs that do not fall neatly into one of the predefined scales. However this can also greatly increases computational complexity.
+The `num_sigma` parameter defines how many intermediate scales are tested between 0 and `max_sigma`. Increasing this number can improve the precision of blob detection, especially for blobs that do not fall neatly into one of the predefined scales. However this can also greatly increases computational complexity.
+
+The `threshold` parameter determines the minimum intensity difference required for a region to be considered a blob. A low `threshold` like 0.05 makes the algorithm more sensitive, allowing it to detect faint or low-contrast blobs, but it may also detect noise, as seen in the leftmost image in figure 25. Conversely, a high `threshold` like 0.3 makes the detection stricter, potentially missing subtle features while reducing false positives, as seein in the rightmost image.
 
 <p align="center">
-  <img src="results/blob_analysis.png" width="800"/><br>
-  <em>Figure 25: Blob detection with different thresholds</em>
+  <img src="results/blob2/24212.jpg_param_sweep.png" width="800"/><br>
+  <em>Figure 25a: Blob detection with different parameters for image 1</em>
 </p>
 
-The `threshold` parameter determines the minimum intensity difference required for a region to be considered a blob. A low `threshold` like $0.05$ makes the algorithm more sensitive, allowing it to detect faint or low-contrast blobs, but it may also detect noise, as seen in the leftmost image in figure 25. Conversely, a high `threshold` like $0.3$ makes the detection stricter, potentially missing subtle features while reducing false positives, as seein in the rightmost image.
+<p align="center">
+  <img src="results/blob2/24221.jpg_param_sweep.png" width="800"/><br>
+  <em>Figure 25b: Blob detection with different parameters for image 2</em>
+</p>
+
+<p align="center">
+  <img src="results/blob2/24230.jpg_param_sweep.png" width="800"/><br>
+  <em>Figure 25c: Blob detection with different parameters for image 3</em>
+</p>
+
+<p align="center">
+  <img src="results/blob2/24231.jpg_param_sweep.png" width="800"/><br>
+  <em>Figure 25d: Blob detection with different parameters for image 4</em>
+</p>
+
+<p align="center">
+  <img src="results/blob2/24250.jpg_param_sweep.png" width="800"/><br>
+  <em>Figure 25e: Blob detection with different parameters for image 5</em>
+</p>
+
+The parameter sweep across multiple images demonstrates the effect of `threshold` and `max_sigma` on blob detection. Across all images, a `num_sigma` of 10 was used.\
+For **Image 1**, a `threshold` of 0.1 and a `max_sigma` value of 20 works best for general blob detection. Other `thresholds` give either too much noise or too little blob detection.\
+For **Image 2**, a `threshold` of 0.1 and a `max_sigma` value of 20 works best.\
+For **Image 3**, a `threshold` of 0.1 and a `max_sigma` value of 10 works best.\
+For **Image 4**, a `threshold` of 0.1 and a `max_sigma` value of 30 works best.\
+For **Image 5**, a `threshold` of 0.1 and a `max_sigma` value of 30 works best.
 
 <div style="page-break-after: always;"></div>
 
@@ -598,6 +716,23 @@ Contour detection algorithms aim to identify and extract the boundaries of objec
   <em>Figure 36: Bar plot of statistics for contour detection on image 5</em>
 </p>
 
+**Image 1:**\
+12 of 90 contours are significant, with a few large contours dominating area and perimeter, while most are small and simple, indicating a mix of prominent features and minor noise.
+
+**Image 2:**\
+16 of 120 contours stand out; large, irregular contours dominate the area, with smaller contours adding variability, showing both major and minor structures.
+
+**Image 3:**\
+19 of 136 contours are meaningful; a few large contours dominate, surrounded by smaller compact shapes, reflecting prominent features with scattered minor elements.
+
+**Image 4:**\
+22 of 145 contours exceed thresholds; area is skewed by a few large contours, while most are small and simple, indicating mostly minor features with some dominant shapes.
+
+**Image 5:**\
+9 of 78 contours are significant; one very large contour dominates area, with smaller, compact contours contributing little, showing mostly a single dominant feature with minor details.
+
+Most contours are small, with only a few large ones dominating area and perimeter. Each image shows a few prominent features surrounded by minor, less significant contours, with Image 5 dominated by a single large contour. Overall, the images contain a mix of major structures and minor details.
+
 <div style="page-break-after: always;"></div>
 
 ### <a id="contour-section-3"></a> 3. Compare the results of blob detection and contour detection for the chosen dataset.
@@ -659,6 +794,35 @@ In contrast, contour detection is ideal when precise object boundaries and shape
 
 # Changelog
 
-Fourier transform
-- Updated LPF and HPF to use multiple cutoff values.
-- Updated LPF and HPF with improved with parameter sweeps, showing how behavior changes.
+[Fourier Transform](#1-fourier-transformation)
+- Updated the entire section to use new images\
+The new images are used in every subsection.
+- Updated LPF and HPF to use multiple cutoff values\
+Under section [2.](#DFT-section-2) and [3.](#DFT-section-3), we have added many new figures with different radius cutoff values.
+- Updated LPF and HPF with improved with parameter sweeps, showing how behavior changes\
+Added a discussion over how the images changes whith different cutoff radii under [2.](#DFT-section-2) and [3.](#DFT-section-3)\
+Applied LPF and HPF to different images
+
+[PCA](#2-principal-component-analysis)
+- Added eigenface label to Principal components figure\
+Added that **Figure 9** describes eigenfaces and explained what they are under [1.](#PCA-section-1)
+- Added analysis of why the fourth image reconstructs worse\
+Addded an explanation under [4b.](#PCA-section-4b)
+
+[HOG](#3-histogram-of-oriented-gradients)
+- Added numerical comparisons in tables of feature vector lengths and sparsity\
+Added a discussion around these different parameters under [2.](#hog-section-2)
+- Removed some generic statements\
+Rewrote section [1.](#hog-section-1)
+
+[LBP](#4-local-binary-patterns)
+- Added rotation-invariant and uniform LBP\
+Changed **Figure 19** with new LBP variants under section [1.](#lbp-section-1), and updated their respective histograms under **Figure 20** in section  [2.](#lbp-section-2)
+- Added a paragraph discussing the differences in each method and which method works bests with which image\
+Updated **Figure 21** and split it into 3 figures in section [3.](#lbp-section-3)
+- Added a paragraph comparing the histograms from the different LBP methods
+Added a discussion comparing the histograms under section [4.](#lbp-section-4)
+
+[Contour detection](#6-contour-detection)
+- Added an interpretation for the statistics of each figure\
+The interpretation is available under section [2.](#contour-section-2)

@@ -1,4 +1,6 @@
-# IT3212 Assignment 1: Data Preprocessing
+# IT3212 Assignment 1: Data Preprocessing (Second delivery)
+
+[Changelog](#changelog)
 
 ## Table of Contents
 
@@ -23,27 +25,6 @@
   - [a. Split the preprocessed dataset into training and testing sets. Typically, an 80-20 or 70-30 split is used.](#5-data-splitting-section-a)
   - [b. Explain the importance of splitting the data and how it prevents overfitting.](#5-data-splitting-section-b)
 - [6. Apply dimensionality reduction techniques such as Principal Component Analysis (PCA) and discuss how it affects the dataset.](#6-PCA)
-
-<div style="page-break-after: always;"></div>
-
-## Changes
-- Added numerical count and percentage of days with missing stock data in section [1b.](#1-data-exploration-section-b) to improve: 
-  - While graphs provided are informative, there’s limited statistical summary (e.g., no numerical count or percentage of missing values/outliers).
-- Used the NYSE stock calendar to forward fill data in section [2](#2-data-cleaning)
-- Added a quantative check with number and percentage of rows forward-filled in section to handle days with missing stock data [2a.](#2-data-cleaning-section-a) to improve:
-  - You could add a quantitative check (e.g., percent of missing data replaced, number of rows dropped)
-- Added before/after distributions for companies with the most rolling z-score outliers for each column: Open, High, Low, Close, and Volume,  in section [3a. ](#3-handling-outliers-section-a) to improve:
-  - You could have visualized before/after distributions or volatility metrics to strengthen discussion of impact.
-- Mentioned mitigation strategies which are less sensitive to label bias to justify our label encoding choice in section [4a. ii)](#4-data-transformation-section-a-ii) to improve:
-  - You could have mentioned mitigation strategies if used in ML (e.g., tree-based models less sensitive to label bias).
-- Included numeric evidence in terms of mean and variance before and after applying Min-max normalization in section [4b. ii)](#4-data-transformation-section-b-ii) to improve:
-  - You could have included numerical evidence (e.g., mean, variance before/after) or rationale for not choosing standardization (beyond intuition).
-- Briefly noted how our split maintains time distribution to avoid data leakage in section [5a.](#5-data-splitting-section-a) to improve:
-  - You could have briefly noted how this split maintains class/time distribution
-- Included variance explained by first PCA components and justified retaining two components in section [6](#6-PCA) to improve:
-  - You could have included quantitative detail (e.g., variance explained by first components, number of components retained).
-
-
 
 <div style="page-break-after: always;"></div>
 
@@ -486,3 +467,21 @@ Figure 48 and 49 show this clearly. The first PCA component (PC1) explains 96.09
 </p>
 
 
+<div style="page-break-after: always;"></div>
+
+# Changelog
+- Added numerical count and percentage of days with missing stock data in section [1b.](#1-data-exploration-section-b) to improve: 
+  - While graphs provided are informative, there’s limited statistical summary (e.g., no numerical count or percentage of missing values/outliers).
+- Used the NYSE stock calendar to forward fill data in section [2](#2-data-cleaning)
+- Added a quantative check with number and percentage of rows forward-filled in section to handle days with missing stock data [2a.](#2-data-cleaning-section-a) to improve:
+  - You could add a quantitative check (e.g., percent of missing data replaced, number of rows dropped)
+- Added before/after distributions for companies with the most rolling z-score outliers for each column: Open, High, Low, Close, and Volume,  in section [3a. ](#3-handling-outliers-section-a) to improve:
+  - You could have visualized before/after distributions or volatility metrics to strengthen discussion of impact.
+- Mentioned mitigation strategies which are less sensitive to label bias to justify our label encoding choice in section [4a. ii)](#4-data-transformation-section-a-ii) to improve:
+  - You could have mentioned mitigation strategies if used in ML (e.g., tree-based models less sensitive to label bias).
+- Included numeric evidence in terms of mean and variance before and after applying Min-max normalization in section [4b. ii)](#4-data-transformation-section-b-ii) to improve:
+  - You could have included numerical evidence (e.g., mean, variance before/after) or rationale for not choosing standardization (beyond intuition).
+- Briefly noted how our split maintains time distribution to avoid data leakage in section [5a.](#5-data-splitting-section-a) to improve:
+  - You could have briefly noted how this split maintains class/time distribution
+- Included variance explained by first PCA components and justified retaining two components in section [6](#6-PCA) to improve:
+  - You could have included quantitative detail (e.g., variance explained by first components, number of components retained).
