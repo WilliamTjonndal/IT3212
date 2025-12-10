@@ -375,15 +375,40 @@ As shown in figure 17, HOG is better at capturing sharp edges and overall shape/
 
 <div style="page-break-after: always;"></div>
 
-<div align="center">
-
-| Image      | Resolution  | HOG Length | % Non-Zero (Sparsity) |
-| ---------- | ----------- | ---------- | --------------------- |
-| Tiger      | 755×860     | 352,836    | 52.1%                 |
-| Fruit      | same size   | 352,836    | 55.3%                 |
-| Person     | similar     | 354,888    | 55.6%                 |
-| Car        | much larger | 1,456,380  | 38.8%                 |
-
+<div style="text-align: center">
+  <table style="margin-left:auto; margin-right:auto; border-collapse: collapse;" border="1" cellpadding="5">
+    <tr>
+      <th>Image</th>
+      <th>Resolution</th>
+      <th>HOG Length</th>
+      <th>% Non-Zero (Sparsity)</th>
+    </tr>
+    <tr>
+      <td>Tiger</td>
+      <td>755×860</td>
+      <td>352,836</td>
+      <td>52.1%</td>
+    </tr>
+    <tr>
+      <td>Fruit</td>
+      <td>same size</td>
+      <td>352,836</td>
+      <td>55.3%</td>
+    </tr>
+    <tr>
+      <td>Person</td>
+      <td>similar</td>
+      <td>354,888</td>
+      <td>55.6%</td>
+    </tr>
+    <tr>
+      <td>Car</td>
+      <td>much larger</td>
+      <td>1,456,380</td>
+      <td>38.8%</td>
+    </tr>
+  </table>
+  <br><br>
 </div>
 
 These results highlight two important observations:
@@ -414,16 +439,46 @@ Block size has less impact than cell size, but tiny blocks (1×1) preserve more 
 
 The amount of orientation also does not have the same impact as cell size, but fewer orientation bins (6) give more compact, coarse angle coding that highlights major contours, while many bins (18) capture subtle angle changes but can add redundancy/noise.
 
-<div align="center">
-
-| Parameters (cell × block × bins) | Feature Length | Sparsity (% non-zero) | Notes                                                                            |
-| -------------------------------- | -------------- | --------------------- | -------------------------------------------------------------------------------- |
-| 8×8 – 2×2 – 9                    | 354,888        | 55.6%                 | Baseline: balanced detail & robustness                                           |
-| 4×4 – 2×2 – 9                    | 1,440,648      | 39.9%                 | Smaller cells capture fine textures; feature vector grows significantly          |
-| 16×16 – 2×2 – 9                  | 86,112         | 71.0%                 | Larger cells capture only rough shapes; higher sparsity                          |
-| 8×8 – 1×1 – 9                    | 90,522         | 54.6%                 | Single-cell blocks reduce robustness to illumination but preserve local contrast |
-| 8×8 – 2×2 – 18                   | 709,776        | 45.7%                 | More orientation bins capture finer angle detail; lower sparsity                 |
-
+<div style="text-align: center">
+  <table style="margin-left:auto; margin-right:auto; border-collapse: collapse;" border="1" cellpadding="5">
+    <tr>
+      <th>Parameters (cell × block × bins)</th>
+      <th>Feature Length</th>
+      <th>Sparsity (% non-zero)</th>
+      <th style="text-align: center">Notes</th>
+    </tr>
+    <tr>
+      <td>8×8 – 2×2 – 9</td>
+      <td>354,888</td>
+      <td>55.6%</td>
+      <td>Baseline: balanced detail & robustness</td>
+    </tr>
+    <tr>
+      <td>4×4 – 2×2 – 9</td>
+      <td>1,440,648</td>
+      <td>39.9%</td>
+      <td>Smaller cells capture fine textures; feature vector grows significantly</td>
+    </tr>
+    <tr>
+      <td>16×16 – 2×2 – 9</td>
+      <td>86,112</td>
+      <td>71.0%</td>
+      <td>Larger cells capture only rough shapes; higher sparsity</td>
+    </tr>
+    <tr>
+      <td>8×8 – 1×1 – 9</td>
+      <td>90,522</td>
+      <td>54.6%</td>
+      <td>Single-cell blocks reduce robustness to illumination but preserve local contrast</td>
+    </tr>
+    <tr>
+      <td>8×8 – 2×2 – 18</td>
+      <td>709,776</td>
+      <td>45.7%</td>
+      <td>More orientation bins capture finer angle detail; lower sparsity</td>
+    </tr>
+  </table>
+  <br><br>
 </div>
 
 From the parameter sweep:
