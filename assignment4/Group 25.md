@@ -257,9 +257,32 @@ Figure 9 shows how the KNN-based method flagged a potentially miscategorized ima
 
 The neighbors used to detect the mislabeled image in Figure 10 and their HSV histograms are shown in Figure 11. These are joint 3D HSV histograms, where each bin counts pixels for a specific combination of hue, saturation, and value; once flattened, the x-axis therefore indexes bins rather than separate hue, saturation, or value channels. The forest images exhibit strong peaks around bin index 100, indicating many pixels share similar greenish HSV values characteristic of dense foliage. The HSV histogram of the miscategorized image in Figure 10 closely matches this distribution, which explains why the forest images in Figure 11 were selected as its nearest neighbors.
 
+<div style="page-break-after: always;"></div>
+
 <p align="center">
-  <img src="task1/results/knn_suspicious/forest_neighbor_histograms.png" width="500"/><br>
-  <em>Figure 11: HSV histograms of forest images</em>
+  <img src="task1/results/knn_suspicious/forest_neighbor_histograms-1.png" width="500"/><br>
+  <em>Figure 11a: HSV histograms of forest images</em>
+</p>
+
+<div style="page-break-after: always;"></div>
+
+<p align="center">
+  <img src="task1/results/knn_suspicious/forest_neighbor_histograms-2.png" width="500"/><br>
+  <em>Figure 11b: HSV histograms of forest images</em>
+</p>
+
+<div style="page-break-after: always;"></div>
+
+<p align="center">
+  <img src="task1/results/knn_suspicious/forest_neighbor_histograms-3.png" width="500"/><br>
+  <em>Figure 11c: HSV histograms of forest images</em>
+</p>
+
+<div style="page-break-after: always;"></div>
+
+<p align="center">
+  <img src="task1/results/knn_suspicious/forest_neighbor_histograms-4.png" width="500"/><br>
+  <em>Figure 11d: HSV histograms of forest images</em>
 </p>
 
 Table 4 shows how many potentially miscategorized images the algorithm detected in each category. Figures 12–17 show, for each category, the 40 images whose labels disagree most with their neighbors according to the KNN-based neigbor difference threshold explained earlier. This means that those images are most likely to differ from their assigned class label. These are the images most likely to be mislabeled relative to their assigned class. Despite KNN flagging 149 suspicious images in the mountain category, closer inspection revealed that these were not actually miscategorized. However, as shown in Figure 12 the glacier class did actually have many misclassified images. We therefore manually inspected the glacier folder and removed 63 images from this category. 
@@ -267,6 +290,8 @@ Table 4 shows how many potentially miscategorized images the algorithm detected 
 We could have experimented with other parameter settings to detect more suspicious images, but we chose not to, since this method was only intended as a tool to highlight candidates for manual inspection. Our goal was to identify which types of miscategorized images appeared most frequently, not to develop a fully optimized automatic detector, so further tuning of the algorithm would have been unnecessarily demanding. The method suggested that miscategorized images were most prevalent in the glacier category.
 
 In total, we removed 63 miscategorized images from the glacier category, most of which were images of flowers, animals, forest scenes, indoor environments, or lakes, and some are shown in figure 12. We acknowledge that some noisy or mislabeled data may still remain in the dataset, but we consider this acceptable given that the KNN results suggest only a few additional suspicious cases in the other categories, and that further cleaning would require substantial manual effort. We also chose not to reassign the removed glacier images to other categories, since many did not clearly belong to any of the predefined classes and they represent only a very small fraction of the overall dataset.
+
+<div style="page-break-after: always;"></div>
 
 <div style="text-align: center">
   <table style="margin-left:auto; margin-right:auto; border-collapse: collapse;" border="1" cellpadding="5">
@@ -427,6 +452,8 @@ The workflow can be summarized as follows:
 
 This method offers several benefits for the Intel dataset: it reduces noise from less informative features, which can speed up training for high-dimensional classifiers, and provides insight into which visual patterns are most relevant for each class. By manually selecting features based on model-driven importance, we select the best features to improve model performance.
 
+<div style="page-break-after: always;"></div>
+
 ### Implement (using the selected features) one basic machine learning algorithm for classification and justify your choice.
 
 We have chosen to use two basic models, as described in the lecture slides: SVM and Random forest.
@@ -454,6 +481,8 @@ However, tree splits can miss subtle continuous gradients in texture and appeara
 
 `Random forest` achieved an accuracy of 66.2%. From the confusion matrix in figure 23, we notice that `Random forest` struggles with predicting the same classes as `SVM`.
 
+<div style="page-break-after: always;"></div>
+
 ### Implement (using the selected features) one advanced machine learning algorithm for classification and justify your choice.
 
 We chose two advanced models: XGBoost and Stacking.
@@ -479,6 +508,8 @@ We chose `stacking` because it lets us combine models that capture different asp
 </p>
 
 `Stacking (LR on RF & SVM)` achieved an accuracy of 66.9%. From the confusion matrix in figure 25, we notice that `Stacking` struggles with the same classes as the other models.
+
+<div style="page-break-after: always;"></div>
 
 ### Feature Parameter Sweep
 
@@ -854,6 +885,8 @@ LBP alone again performs noticeably worse than any HOG-based configuration, thou
 
 The combined HOG+LBP results reveal that **adding LBP to HOG-9 improves performance**, raising accuracy from 0.667 to **0.673**, the highest score in the sweep. However, combinations using HOG-16 underperform relative to HOG-9, again showing that richer HOG features do not necessarily benefit the stacking framework. These results suggest that the stacking classifier leverages complementary texture information only when the gradient features are not overly complex. When HOG is high-dimensional (16 orientations, 2×2 blocks), adding LBP is either redundant or destabilizing, but when HOG is simpler (9 orientations), LBP adds modest but consistent benefit.
 
+<div style="page-break-after: always;"></div>
+
 ### Implement a CNN with hyperparameter tuning
 
 Convolutional Neural Networks (CNNs) are a class of deep learning models specifically designed to exploit the spatial structure in image data. Instead of treating each pixel as an independent feature (as in traditional machine learning models), CNNs use convolutional filters and pooling operations to learn hierarchical feature representations directly from the raw image. This makes them particularly well suited for image classification, compared to models such as Random forests, XGBoost, or stacking ensembles which typically rely on hand-crafted and/or pre-computed features.
@@ -920,6 +953,8 @@ However, when we trained our CNN model with the best hyperparameters from the gr
 <em>Figure 30: Confusion matrix for convolutional neural network</em>
 </p>
 As seen in figure 30 the CNN classifies most of the categories correctly. Still it struggles with misclassifying glaciers as mountains, and distinguishing between street and buildings. We suspect this is because, as mentioned in our preprocessing section, these categories sometimes contain the same or very similar subjects and some labels are not always mutually exclusive categories (e.g. some mountain pictures contain glacier and vice versa). As a result, some erroneous classifications are to be expected between these classes.
+
+<div style="page-break-after: always;"></div>
 
 ### Compare and Explain the results in terms of both the computation time and the performance of the classification algorithms
 
@@ -1095,60 +1130,60 @@ After removing some columns, we are left with the features showing in figure 40,
 
 <div style="text-align: center">
   <table style="margin-left:auto; margin-right:auto">
-    <tr>
+    <tr style="line-height: 0.9;">
       <th>Feature</th><th>Count</th><th>Mean</th><th>Std</th><th>Min</th><th>25%</th><th>50%</th><th>75%</th><th>Max</th>
     </tr>
-    <tr><td>n_tokens_title</td><td>39644</td><td>10.398749</td><td>2.114037</td><td>2</td><td>9</td><td>10</td><td>12</td><td>23</td></tr>
-    <tr><td>n_tokens_content</td><td>39644</td><td>546.514731</td><td>471.107508</td><td>0</td><td>246</td><td>409</td><td>716</td><td>8474</td></tr>
-    <tr><td>n_unique_tokens</td><td>39644</td><td>0.548216</td><td>3.520708</td><td>0</td><td>0.470870</td><td>0.539226</td><td>0.608696</td><td>701</td></tr>
-    <tr><td>n_non_stop_words</td><td>39644</td><td>0.996469</td><td>5.231231</td><td>0</td><td>1</td><td>1</td><td>1</td><td>1042</td></tr>
-    <tr><td>n_non_stop_unique_tokens</td><td>39644</td><td>0.689175</td><td>3.264816</td><td>0</td><td>0.625739</td><td>0.690476</td><td>0.754630</td><td>650</td></tr>
-    <tr><td>num_hrefs</td><td>39644</td><td>10.883690</td><td>11.332017</td><td>0</td><td>4</td><td>8</td><td>14</td><td>304</td></tr>
-    <tr><td>num_self_hrefs</td><td>39644</td><td>3.293638</td><td>3.855141</td><td>0</td><td>1</td><td>3</td><td>4</td><td>116</td></tr>
-    <tr><td>num_imgs</td><td>39644</td><td>4.544143</td><td>8.309434</td><td>0</td><td>1</td><td>1</td><td>4</td><td>128</td></tr>
-    <tr><td>num_videos</td><td>39644</td><td>1.249874</td><td>4.107855</td><td>0</td><td>0</td><td>0</td><td>1</td><td>91</td></tr>
-    <tr><td>average_token_length</td><td>39644</td><td>4.548239</td><td>0.844406</td><td>0</td><td>4.478404</td><td>4.664082</td><td>4.854839</td><td>8.041534</td></tr>
-    <tr><td>num_keywords</td><td>39644</td><td>7.223767</td><td>1.909130</td><td>1</td><td>6</td><td>7</td><td>9</td><td>10</td></tr>
-    <tr><td>data_channel_is_lifestyle</td><td>39644</td><td>0.052946</td><td>0.223929</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td></tr>
-    <tr><td>data_channel_is_entertainment</td><td>39644</td><td>0.178009</td><td>0.382525</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td></tr>
-    <tr><td>data_channel_is_bus</td><td>39644</td><td>0.157855</td><td>0.364610</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td></tr>
-    <tr><td>data_channel_is_socmed</td><td>39644</td><td>0.058597</td><td>0.234871</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td></tr>
-    <tr><td>data_channel_is_tech</td><td>39644</td><td>0.185299</td><td>0.388545</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td></tr>
-    <tr><td>data_channel_is_world</td><td>39644</td><td>0.212567</td><td>0.409129</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td></tr>
-    <tr><td>kw_min_min</td><td>39644</td><td>26.106801</td><td>69.633215</td><td>-1</td><td>-1</td><td>-1</td><td>4</td><td>377</td></tr>
-    <tr><td>kw_max_min</td><td>39644</td><td>1153.951682</td><td>3857.990877</td><td>0</td><td>445</td><td>660</td><td>1000</td><td>298400</td></tr>
-    <tr><td>kw_avg_min</td><td>39644</td><td>312.366967</td><td>620.783887</td><td>-1</td><td>141.750000</td><td>235.500000</td><td>357</td><td>42827.857143</td></tr>
-    <tr><td>kw_min_max</td><td>39644</td><td>13612.354102</td><td>57986.029357</td><td>0</td><td>0</td><td>1400</td><td>7900</td><td>843300</td></tr>
-    <tr><td>kw_max_max</td><td>39644</td><td>752324.066694</td><td>214502.129573</td><td>0</td><td>843300</td><td>843300</td><td>843300</td><td>843300</td></tr>
-    <tr><td>kw_avg_max</td><td>39644</td><td>259281.938083</td><td>135102.247285</td><td>0</td><td>172846.875</td><td>244572.222</td><td>330980</td><td>843300</td></tr>
-    <tr><td>kw_min_avg</td><td>39644</td><td>1117.146610</td><td>1137.456951</td><td>-1</td><td>0</td><td>1023.635611</td><td>2056.781032</td><td>3613.039819</td></tr>
-    <tr><td>kw_max_avg</td><td>39644</td><td>5657.211151</td><td>6098.871957</td><td>0</td><td>3562.101631</td><td>4355.688836</td><td>6019.953968</td><td>298400</td></tr>
-    <tr><td>kw_avg_avg</td><td>39644</td><td>3135.858639</td><td>1318.150397</td><td>0</td><td>2382.448566</td><td>2870.074878</td><td>3600.229564</td><td>43567.659946</td></tr>
-    <tr><td>self_reference_min_shares</td><td>39644</td><td>3998.755396</td><td>19738.670516</td><td>0</td><td>639</td><td>1200</td><td>2600</td><td>843300</td></tr>
-    <tr><td>self_reference_max_shares</td><td>39644</td><td>10329.212662</td><td>41027.576613</td><td>0</td><td>1100</td><td>2800</td><td>8000</td><td>843300</td></tr>
-    <tr><td>self_reference_avg_sharess</td><td>39644</td><td>6401.697580</td><td>24211.332231</td><td>0</td><td>981.1875</td><td>2200</td><td>5200</td><td>843300</td></tr>
-    <tr><td>LDA_00</td><td>39644</td><td>0.184599</td><td>0.262975</td><td>0</td><td>0.025051</td><td>0.033387</td><td>0.240958</td><td>0.926994</td></tr>
-    <tr><td>LDA_01</td><td>39644</td><td>0.141256</td><td>0.219707</td><td>0</td><td>0.025012</td><td>0.033345</td><td>0.150831</td><td>0.925947</td></tr>
-    <tr><td>LDA_02</td><td>39644</td><td>0.216321</td><td>0.282145</td><td>0</td><td>0.028571</td><td>0.040004</td><td>0.334218</td><td>0.919999</td></tr>
-    <tr><td>LDA_03</td><td>39644</td><td>0.223770</td><td>0.295191</td><td>0</td><td>0.028571</td><td>0.040001</td><td>0.375763</td><td>0.926534</td></tr>
-    <tr><td>LDA_04</td><td>39644</td><td>0.234029</td><td>0.289183</td><td>0</td><td>0.028574</td><td>0.040727</td><td>0.399986</td><td>0.927191</td></tr>
-    <tr><td>global_subjectivity</td><td>39644</td><td>0.443370</td><td>0.116685</td><td>0</td><td>0.396167</td><td>0.453457</td><td>0.508333</td><td>1</td></tr>
-    <tr><td>global_sentiment_polarity</td><td>39644</td><td>0.119309</td><td>0.096931</td><td>-0.39375</td><td>0.057757</td><td>0.119117</td><td>0.177832</td><td>0.727841</td></tr>
-    <tr><td>global_rate_positive_words</td><td>39644</td><td>0.039625</td><td>0.017429</td><td>0</td><td>0.028384</td><td>0.039023</td><td>0.050279</td><td>0.155488</td></tr>
-    <tr><td>global_rate_negative_words</td><td>39644</td><td>0.016612</td><td>0.010828</td><td>0</td><td>0.009615</td><td>0.015337</td><td>0.021739</td><td>0.184932</td></tr>
-    <tr><td>rate_positive_words</td><td>39644</td><td>0.682150</td><td>0.190206</td><td>0</td><td>0.600000</td><td>0.710526</td><td>0.800000</td><td>1</td></tr>
-    <tr><td>rate_negative_words</td><td>39644</td><td>0.287934</td><td>0.156156</td><td>0</td><td>0.185185</td><td>0.280000</td><td>0.384615</td><td>1</td></tr>
-    <tr><td>avg_positive_polarity</td><td>39644</td><td>0.353825</td><td>0.104542</td><td>0</td><td>0.306244</td><td>0.358755</td><td>0.411428</td><td>1</td></tr>
-    <tr><td>min_positive_polarity</td><td>39644</td><td>0.095446</td><td>0.071315</td><td>0</td><td>0.050</td><td>0.100</td><td>0.100</td><td>1</td></tr>
-    <tr><td>max_positive_polarity</td><td>39644</td><td>0.756728</td><td>0.247786</td><td>0</td><td>0.600</td><td>0.800</td><td>1.000</td><td>1</td></tr>
-    <tr><td>avg_negative_polarity</td><td>39644</td><td>-0.259524</td><td>0.127726</td><td>-1</td><td>-0.328383</td><td>-0.253333</td><td>-0.186905</td><td>0</td></tr>
-    <tr><td>min_negative_polarity</td><td>39644</td><td>-0.521944</td><td>0.290290</td><td>-1</td><td>-0.700000</td><td>-0.500000</td><td>-0.300000</td><td>0</td></tr>
-    <tr><td>max_negative_polarity</td><td>39644</td><td>-0.107500</td><td>0.095373</td><td>-1</td><td>-0.125000</td><td>-0.100000</td><td>-0.050000</td><td>0</td></tr>
-    <tr><td>title_subjectivity</td><td>39644</td><td>0.282353</td><td>0.324247</td><td>0</td><td>0.000000</td><td>0.150000</td><td>0.500000</td><td>1</td></tr>
-    <tr><td>title_sentiment_polarity</td><td>39644</td><td>0.071425</td><td>0.265450</td><td>-1</td><td>0.000000</td><td>0.000000</td><td>0.150000</td><td>1</td></tr>
-    <tr><td>abs_title_subjectivity</td><td>39644</td><td>0.341843</td><td>0.188791</td><td>0</td><td>0.166667</td><td>0.500000</td><td>0.500000</td><td>0.5</td></tr>
-    <tr><td>abs_title_sentiment_polarity</td><td>39644</td><td>0.156064</td><td>0.226294</td><td>0</td><td>0.000000</td><td>0.000000</td><td>0.250000</td><td>1</td></tr>
-    <tr><td>shares</td><td>39644</td><td>3395.380184</td><td>11626.950749</td><td>1</td><td>946</td><td>1400</td><td>2800</td><td>843300</td></tr>
+    <tr style="line-height: 0.9;"><td>n_tokens_title</td><td>39644</td><td>10.398749</td><td>2.114037</td><td>2</td><td>9</td><td>10</td><td>12</td><td>23</td></tr>
+    <tr style="line-height: 0.9;"><td>n_tokens_content</td><td>39644</td><td>546.514731</td><td>471.107508</td><td>0</td><td>246</td><td>409</td><td>716</td><td>8474</td></tr>
+    <tr style="line-height: 0.9;"><td>n_unique_tokens</td><td>39644</td><td>0.548216</td><td>3.520708</td><td>0</td><td>0.470870</td><td>0.539226</td><td>0.608696</td><td>701</td></tr>
+    <tr style="line-height: 0.9;"><td>n_non_stop_words</td><td>39644</td><td>0.996469</td><td>5.231231</td><td>0</td><td>1</td><td>1</td><td>1</td><td>1042</td></tr>
+    <tr style="line-height: 0.9;"><td>n_non_stop_unique_tokens</td><td>39644</td><td>0.689175</td><td>3.264816</td><td>0</td><td>0.625739</td><td>0.690476</td><td>0.754630</td><td>650</td></tr>
+    <tr style="line-height: 0.9;"><td>num_hrefs</td><td>39644</td><td>10.883690</td><td>11.332017</td><td>0</td><td>4</td><td>8</td><td>14</td><td>304</td></tr>
+    <tr style="line-height: 0.9;"><td>num_self_hrefs</td><td>39644</td><td>3.293638</td><td>3.855141</td><td>0</td><td>1</td><td>3</td><td>4</td><td>116</td></tr>
+    <tr style="line-height: 0.9;"><td>num_imgs</td><td>39644</td><td>4.544143</td><td>8.309434</td><td>0</td><td>1</td><td>1</td><td>4</td><td>128</td></tr>
+    <tr style="line-height: 0.9;"><td>num_videos</td><td>39644</td><td>1.249874</td><td>4.107855</td><td>0</td><td>0</td><td>0</td><td>1</td><td>91</td></tr>
+    <tr style="line-height: 0.9;"><td>average_token_length</td><td>39644</td><td>4.548239</td><td>0.844406</td><td>0</td><td>4.478404</td><td>4.664082</td><td>4.854839</td><td>8.041534</td></tr>
+    <tr style="line-height: 0.9;"><td>num_keywords</td><td>39644</td><td>7.223767</td><td>1.909130</td><td>1</td><td>6</td><td>7</td><td>9</td><td>10</td></tr>
+    <tr style="line-height: 0.9;"><td>data_channel_is_lifestyle</td><td>39644</td><td>0.052946</td><td>0.223929</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td></tr>
+    <tr style="line-height: 0.9;"><td>data_channel_is_entertainment</td><td>39644</td><td>0.178009</td><td>0.382525</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td></tr>
+    <tr style="line-height: 0.9;"><td>data_channel_is_bus</td><td>39644</td><td>0.157855</td><td>0.364610</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td></tr>
+    <tr style="line-height: 0.9;"><td>data_channel_is_socmed</td><td>39644</td><td>0.058597</td><td>0.234871</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td></tr>
+    <tr style="line-height: 0.9;"><td>data_channel_is_tech</td><td>39644</td><td>0.185299</td><td>0.388545</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td></tr>
+    <tr style="line-height: 0.9;"><td>data_channel_is_world</td><td>39644</td><td>0.212567</td><td>0.409129</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td></tr>
+    <tr style="line-height: 0.9;"><td>kw_min_min</td><td>39644</td><td>26.106801</td><td>69.633215</td><td>-1</td><td>-1</td><td>-1</td><td>4</td><td>377</td></tr>
+    <tr style="line-height: 0.9;"><td>kw_max_min</td><td>39644</td><td>1153.951682</td><td>3857.990877</td><td>0</td><td>445</td><td>660</td><td>1000</td><td>298400</td></tr>
+    <tr style="line-height: 0.9;"><td>kw_avg_min</td><td>39644</td><td>312.366967</td><td>620.783887</td><td>-1</td><td>141.750000</td><td>235.500000</td><td>357</td><td>42827.857143</td></tr>
+    <tr style="line-height: 0.9;"><td>kw_min_max</td><td>39644</td><td>13612.354102</td><td>57986.029357</td><td>0</td><td>0</td><td>1400</td><td>7900</td><td>843300</td></tr>
+    <tr style="line-height: 0.9;"><td>kw_max_max</td><td>39644</td><td>752324.066694</td><td>214502.129573</td><td>0</td><td>843300</td><td>843300</td><td>843300</td><td>843300</td></tr>
+    <tr style="line-height: 0.9;"><td>kw_avg_max</td><td>39644</td><td>259281.938083</td><td>135102.247285</td><td>0</td><td>172846.875</td><td>244572.222</td><td>330980</td><td>843300</td></tr>
+    <tr style="line-height: 0.9;"><td>kw_min_avg</td><td>39644</td><td>1117.146610</td><td>1137.456951</td><td>-1</td><td>0</td><td>1023.635611</td><td>2056.781032</td><td>3613.039819</td></tr>
+    <tr style="line-height: 0.9;"><td>kw_max_avg</td><td>39644</td><td>5657.211151</td><td>6098.871957</td><td>0</td><td>3562.101631</td><td>4355.688836</td><td>6019.953968</td><td>298400</td></tr>
+    <tr style="line-height: 0.9;"><td>kw_avg_avg</td><td>39644</td><td>3135.858639</td><td>1318.150397</td><td>0</td><td>2382.448566</td><td>2870.074878</td><td>3600.229564</td><td>43567.659946</td></tr>
+    <tr style="line-height: 0.9;"><td>self_reference_min_shares</td><td>39644</td><td>3998.755396</td><td>19738.670516</td><td>0</td><td>639</td><td>1200</td><td>2600</td><td>843300</td></tr>
+    <tr style="line-height: 0.9;"><td>self_reference_max_shares</td><td>39644</td><td>10329.212662</td><td>41027.576613</td><td>0</td><td>1100</td><td>2800</td><td>8000</td><td>843300</td></tr>
+    <tr style="line-height: 0.9;"><td>self_reference_avg_sharess</td><td>39644</td><td>6401.697580</td><td>24211.332231</td><td>0</td><td>981.1875</td><td>2200</td><td>5200</td><td>843300</td></tr>
+    <tr style="line-height: 0.9;"><td>LDA_00</td><td>39644</td><td>0.184599</td><td>0.262975</td><td>0</td><td>0.025051</td><td>0.033387</td><td>0.240958</td><td>0.926994</td></tr>
+    <tr style="line-height: 0.9;"><td>LDA_01</td><td>39644</td><td>0.141256</td><td>0.219707</td><td>0</td><td>0.025012</td><td>0.033345</td><td>0.150831</td><td>0.925947</td></tr>
+    <tr style="line-height: 0.9;"><td>LDA_02</td><td>39644</td><td>0.216321</td><td>0.282145</td><td>0</td><td>0.028571</td><td>0.040004</td><td>0.334218</td><td>0.919999</td></tr>
+    <tr style="line-height: 0.9;"><td>LDA_03</td><td>39644</td><td>0.223770</td><td>0.295191</td><td>0</td><td>0.028571</td><td>0.040001</td><td>0.375763</td><td>0.926534</td></tr>
+    <tr style="line-height: 0.9;"><td>LDA_04</td><td>39644</td><td>0.234029</td><td>0.289183</td><td>0</td><td>0.028574</td><td>0.040727</td><td>0.399986</td><td>0.927191</td></tr>
+    <tr style="line-height: 0.9;"><td>global_subjectivity</td><td>39644</td><td>0.443370</td><td>0.116685</td><td>0</td><td>0.396167</td><td>0.453457</td><td>0.508333</td><td>1</td></tr>
+    <tr style="line-height: 0.9;"><td>global_sentiment_polarity</td><td>39644</td><td>0.119309</td><td>0.096931</td><td>-0.39375</td><td>0.057757</td><td>0.119117</td><td>0.177832</td><td>0.727841</td></tr>
+    <tr style="line-height: 0.9;"><td>global_rate_positive_words</td><td>39644</td><td>0.039625</td><td>0.017429</td><td>0</td><td>0.028384</td><td>0.039023</td><td>0.050279</td><td>0.155488</td></tr>
+    <tr style="line-height: 0.9;"><td>global_rate_negative_words</td><td>39644</td><td>0.016612</td><td>0.010828</td><td>0</td><td>0.009615</td><td>0.015337</td><td>0.021739</td><td>0.184932</td></tr>
+    <tr style="line-height: 0.9;"><td>rate_positive_words</td><td>39644</td><td>0.682150</td><td>0.190206</td><td>0</td><td>0.600000</td><td>0.710526</td><td>0.800000</td><td>1</td></tr>
+    <tr style="line-height: 0.9;"><td>rate_negative_words</td><td>39644</td><td>0.287934</td><td>0.156156</td><td>0</td><td>0.185185</td><td>0.280000</td><td>0.384615</td><td>1</td></tr>
+    <tr style="line-height: 0.9;"><td>avg_positive_polarity</td><td>39644</td><td>0.353825</td><td>0.104542</td><td>0</td><td>0.306244</td><td>0.358755</td><td>0.411428</td><td>1</td></tr>
+    <tr style="line-height: 0.9;"><td>min_positive_polarity</td><td>39644</td><td>0.095446</td><td>0.071315</td><td>0</td><td>0.050</td><td>0.100</td><td>0.100</td><td>1</td></tr>
+    <tr style="line-height: 0.9;"><td>max_positive_polarity</td><td>39644</td><td>0.756728</td><td>0.247786</td><td>0</td><td>0.600</td><td>0.800</td><td>1.000</td><td>1</td></tr>
+    <tr style="line-height: 0.9;"><td>avg_negative_polarity</td><td>39644</td><td>-0.259524</td><td>0.127726</td><td>-1</td><td>-0.328383</td><td>-0.253333</td><td>-0.186905</td><td>0</td></tr>
+    <tr style="line-height: 0.9;"><td>min_negative_polarity</td><td>39644</td><td>-0.521944</td><td>0.290290</td><td>-1</td><td>-0.700000</td><td>-0.500000</td><td>-0.300000</td><td>0</td></tr>
+    <tr style="line-height: 0.9;"><td>max_negative_polarity</td><td>39644</td><td>-0.107500</td><td>0.095373</td><td>-1</td><td>-0.125000</td><td>-0.100000</td><td>-0.050000</td><td>0</td></tr>
+    <tr style="line-height: 0.9;"><td>title_subjectivity</td><td>39644</td><td>0.282353</td><td>0.324247</td><td>0</td><td>0.000000</td><td>0.150000</td><td>0.500000</td><td>1</td></tr>
+    <tr style="line-height: 0.9;"><td>title_sentiment_polarity</td><td>39644</td><td>0.071425</td><td>0.265450</td><td>-1</td><td>0.000000</td><td>0.000000</td><td>0.150000</td><td>1</td></tr>
+    <tr style="line-height: 0.9;"><td>abs_title_subjectivity</td><td>39644</td><td>0.341843</td><td>0.188791</td><td>0</td><td>0.166667</td><td>0.500000</td><td>0.500000</td><td>0.5</td></tr>
+    <tr style="line-height: 0.9;"><td>abs_title_sentiment_polarity</td><td>39644</td><td>0.156064</td><td>0.226294</td><td>0</td><td>0.000000</td><td>0.000000</td><td>0.250000</td><td>1</td></tr>
+    <tr style="line-height: 0.9;"><td>shares</td><td>39644</td><td>3395.380184</td><td>11626.950749</td><td>1</td><td>946</td><td>1400</td><td>2800</td><td>843300</td></tr>
   </table>
   <br>
   <em>Figure 40: Distribution statistics for all used features</em>
@@ -1230,6 +1265,8 @@ The other advantage of PCA is being useful for visualizing data. We can see the 
 <img src="task2/img/pca_3d.png" width="600"/><br>
 <em>Figure 49: 3D plot of first 3 principal components</em>
 </p>
+
+<div style="page-break-after: always;"></div>
 
 ### Implement three clustering methods out of the following: (K-means, Hierarchical Clustering, Fuzzy-C-means, DBSCAN, Gaussian mixture models, Self-organizing maps) and justify your choices
 
