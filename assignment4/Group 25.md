@@ -1,31 +1,49 @@
 # IT3212 Assignment 4: Deep learning and unsupervised learning
 
-# Table of Contents
+## Table of Contents
 
-- [ Task 1](#task-1)
-  - [ Pick any image based dataset from the list, implement the preprocessing and justify the preprocessing steps, extract features and justify the methods used, select features and justify the methods used](#pick-any-image-based-dataset-from-the-list-implement-the-preprocessing-and-justify-the-preprocessing-steps-extract-features-and-justify-the-methods-used-select-features-and-justify-the-methods-used)
+- [Task 1](#task-1)
+  - [Pick any image based dataset from the list, implement the preprocessing and justify the preprocessing steps, extract features and justify the methods used, select features and justify the methods used](#pick-any-image-based-dataset-from-the-list-implement-the-preprocessing-and-justify-the-preprocessing-steps-extract-features-and-justify-the-methods-used-select-features-and-justify-the-methods-used)
     - [Preprocessing](#preprocessing)
-      - #### Duplicate Images
-    - [Features](#extract-and-select-features)
-  - [ Implement (using the selected features) one basic machine learning algorithm for classification and justify your choice](#-implement-using-the-selected-features-one-basic-machine-learning-algorithm-for-classification-and-justify-your-choice)
-  - [RandomForest](#randomforest)
-  - [ Implement (using the selected features) one advanced machine learning algorithm for classification and justify your choice.](#-implement-using-the-selected-features-one-advanced-machine-learning-algorithm-for-classification-and-justify-your-choice)
-- [XGBoost](#xgboost)
-  - [ Implement a CNN with hyperparameter tuning (for this you can directly use the data after the preprocessing)](#-implement-a-cnn-with-hyperparameter-tuning-for-this-you-can-directly-use-the-data-after-the-preprocessing)
-  - [ Compare and Explain the results in terms of both the computation time and the performance of the classification algorithms.](#-compare-and-explain-the-results-in-terms-of-both-the-computation-time-and-the-performance-of-the-classification-algorithms)
-- [ Task 2](#-task-2)
-  - [ Pick any dataset from the list, implement the preprocessing and justify the preprocessing steps, extract features and justify the methods used, select features and justify the methods used.](#-pick-any-dataset-from-the-list-implement-the-preprocessing-and-justify-the-preprocessing-steps-extract-features-and-justify-the-methods-used-select-features-and-justify-the-methods-used)
+      - [Duplicate Images](#duplicate-images)
+      - [Unrecognizable Images](#unrecognizable-images)
+      - [Misplaced Images](#misplaced-images)
+      - [Data Augmentation](#data-augmentation)
+      - [Resizing Images](#resizing-images)
+      - [Normalizing Images](#normalizing-images)
+    - [Feature Extraction](#feature-extraction)
+      - [Histogram of Oriented Gradients](#histogram-of-oriented-gradients)
+      - [Local Binary Patterns](#local-binary-pattern)
+      - [Combined HOG + LBP Features](#combined-hog--lbp-features)
+    - [Feature Selection](#feature-selection)
+  - [Implement (using the selected features) one basic machine learning algorithm for classification and justify your choice](#implement-using-the-selected-features-one-basic-machine-learning-algorithm-for-classification-and-justify-your-choice)
+    - [SVM](#svm)
+    - [RandomForest](#randomforest)
+  - [Implement (using the selected features) one advanced machine learning algorithm for classification and justify your choice](#implement-using-the-selected-features-one-advanced-machine-learning-algorithm-for-classification-and-justify-your-choice)
+    - [XGBoost](#xgboost)
+    - [Stacking](#stacking)
+  - [Feature Parameter Sweep](#feature-parameter-sweep)
+      - [SVM](#svm-1)
+      - [RandomForest](#randomforest-1)
+      - [XGBoost](#xgboost-1)
+      - [Stacking](#stacking-1)
+  - [Implement a CNN with hyperparameter tuning](#implement-a-cnn-with-hyperparameter-tuning)
+  - [Compare and Explain the results in terms of both the computation time and the performance of the classification algorithms](#compare-and-explain-the-results-in-terms-of-both-the-computation-time-and-the-performance-of-the-classification-algorithms)
+    - [Reasons For Differences In Model Computation Performance](#reasons-for-differences-in-model-computation-performance)
+    - [Misclassifications](#extra-preprocessing-cost)
+- [Task 2](#task-2)
+  - [Pick any dataset from the list, implement the preprocessing and justify the preprocessing steps, extract features and justify the methods used, select features and justify the methods used](#pick-any-dataset-from-the-list-implement-the-preprocessing-and-justify-the-preprocessing-steps-extract-features-and-justify-the-methods-used-select-features-and-justify-the-methods-used)
     - [Scaling](#scaling)
-    - [Outlier detection](#outlier-detection)
-    - [Dimensionality reduction](#dimensionality-reduction)
-  - [ Implement three clustering methods out of the following and justify your choices](#-implement-three-clustering-methods-out-of-the-following-and-justify-your-choices)
-    - [ K-means](#-k-means)
-    - [ Fuzzy C-means](#-fuzzy-c-means)
-    - [ Gaussian mixture models](#-gaussian-mixture-models)
-  - [ Compare and Explain the results](#-compare-and-explain-the-results)
-    - [ K-means](#-k-means-1)
-    - [ Fuzzy C-means](#-fuzzy-c-means-1)
-    - [ Gaussian mixture models](#-gaussian-mixture-models-1)
+    - [Outlier Detection](#outlier-detection)
+    - [Dimensionality Reduction](#dimensionality-reduction)
+  - [Implement three clustering methods out of the following: (K-means, Hierarchical Clustering, Fuzzy-C-means, DBSCAN, Gaussian mixture models, Self-organizing maps) and justify your choices](#implement-three-clustering-methods-out-of-the-following-k-means-hierarchical-clustering-fuzzy-c-means-dbscan-gaussian-mixture-models-self-organizing-maps-and-justify-your-choices)
+    - [K-means](#k-means)
+    - [Fuzzy C-means](#fuzzy-c-means)
+    - [Gaussian Mixture Models](#gaussian-mixture-models)
+  - [Compare and Explain the results](#compare-and-explain-the-results)
+    - [K-means](#k-means-1)
+    - [Fuzzy C-means](#fuzzy-c-means-1)
+    - [Gaussian Mixture Models](#gaussian-mixture-models-1)
 
 
 <div style="page-break-after: always;"></div>
@@ -255,7 +273,7 @@ After resizing, we normalized all images by scaling pixel values from the origin
 
 We have used the following feature extraction methods: HOG, LBP Histogram and a combination of both. As the task mentioned, we did not perform feature extraction for CNNs.
 
-**Histogram of Oriented Gradients (HOG)**
+#### Histogram of Oriented Gradients
 
 Histogram of Oriented Gradients (HOG) was chosen because it captures edges, contours, and global shape structure, key cues for classes such as buildings, mountains, and streets. We implemented HOG by converting images to grayscale and computing gradient-orientation histograms across spatial cells, normalized over blocks for lighting robustness. We tested multiple orientation and block configurations to evaluate how much structural detail benefits the classifiers, and HOG consistently produced the most informative standalone features.
 
@@ -264,16 +282,16 @@ Histogram of Oriented Gradients (HOG) was chosen because it captures edges, cont
   <em>Figure 20: HOG Feature extraction applied on different images</em>
 </p>
 
-**Local Binary Pattern (LBP) Histogram**
+#### Local Binary Pattern
 
-Local Binary Patterns (LBP) was included to capture fine-grained texture information that HOG does not explicitly model. After converting each image to grayscale, we computed uniform LBP patterns and summarized them into normalized histograms that reflect the image’s texture distribution. We varied parameters such as the number of sampling points and radius. Although LBP alone performed weaker than HOG, it contributed valuable texture cues for classes like forest, glacier, and sea.
+Local Binary Patterns (LBP) were included to capture fine-grained texture information that HOG does not explicitly model. After converting each image to grayscale, we computed uniform LBP patterns and summarized them into normalized histograms that reflect the image’s texture distribution. We varied parameters such as the number of sampling points and radius. Although LBP alone performed weaker than HOG, it contributed valuable texture cues for classes like forest, glacier, and sea.
 
 <p align="center">
   <img src="task1/results/feature_extraction/LBP.png" width="500"/><br>
   <em>Figure 21: LBP Feature extraction applied on different images</em>
 </p>
 
-**Combined HOG + LBP Features**
+#### Combined HOG + LBP Features
 
 The combined HOG+LBP descriptor merges global structure from HOG with localized texture information from LBP. We implemented this by computing both descriptors separately and concatenating them into a single feature vector. This hybrid approach aims to support classes requiring both shape and texture cues, such as distinguishing built environments from natural ones. In practice, HOG+LBP often matched or slightly exceeded HOG alone, showing that LBP adds complementary information even if it is not strong as a standalone feature extractor.
 
@@ -352,13 +370,13 @@ We chose `stacking` because it lets us combine models that capture different asp
 
 <h1 style="color:green">TODO: ADD PICTURES TO EXPLAIN WHY WE GET MISCLASSIFICATIONS</h1>
 
-### Feature parameter sweep
+### Feature Parameter Sweep
 
 We performed a parameter sweep to systematically identify which feature configurations produce the highest classification accuracy for our models.
 
 We performed this sweep using only 25% of the dataset to keep extraction and training times manageable. This smaller subset allowed us to compare configurations efficiently without the sweep taking an impractical amount of time. This can cause the models below the achieve higher accuracies due to overfitting. 
 
-**SVM**
+#### <a id="svm-f"></a> SVM
 
 <p align="center">
     <img src="task1/img/svm.png" width="700"/><br>
@@ -387,7 +405,7 @@ In contrast, **LBP alone performs considerably worse**, with accuracy dropping f
 
 For the combined HOG+LBP approach, the results show **incremental improvement over standalone HOG when base HOG accuracy is low**, but **no improvement when HOG is already strong**. When the 9-orientation HOG is used, adding LBP nudges accuracy upward (0.573 to ~0.587). However, when the 16-orientation HOG configuration is used, the LBP addition produces no gain (0.627 remains unchanged). This suggests redundancy: the stronger HOG configuration already captures most of the discriminative structure, so LBP adds little new information. Overall, the sweep supports the conclusion that HOG orientation resolution is the dominant factor driving SVM accuracy in this experiment.
 
-**RandomForest**
+#### <a id="rf-f"></a> RandomForest
 
 <p align="center">
     <img src="task1/img/randomforest.png" width="700"/><br>
@@ -412,7 +430,7 @@ LBP histogram performance also changes very little with different **P values**, 
 
 The combined **HOG plus LBP histogram** features perform between the two individual methods, consistently better than LBP alone but only occasionally exceeding HOG by itself. Accuracies fall around **0.60 to 0.65**, with the best combination reaching **0.647**, indicating that LBP contributes some complementary texture information, but HOG remains the main driver of accuracy.
 
-**XGBoost**
+#### <a id="xgb-f"></a> XGBoost
 
 <p align="center">
     <img src="task1/img/xgboost.png" width="1000"/><br>
@@ -440,7 +458,7 @@ The LBP-only features yield lower accuracy overall compared to HOG, with 8 sampl
 
 Combining HOG and LBP features consistently improves accuracy over either method alone. The highest accuracy (71.3%) is achieved with HOG-9 orientations combined with LBP-10 points, demonstrating complementary benefits of capturing both shape and texture information. Interestingly, increasing HOG orientations to 16 while combining with LBP yields slightly lower accuracy, reflecting the previous trend that higher HOG complexity is less helpful. Overall, feature fusion provides richer information for XGBoost to leverage, significantly boosting classification performance across the diverse image classes.
 
-**Stacking**
+#### <a id="stacking-f"></a> Stacking
 
 <p align="center">
     <img src="task1/img/stacking.png" width="700"/><br>
@@ -467,7 +485,7 @@ LBP alone again performs noticeably worse than any HOG-based configuration, thou
 
 The combined HOG+LBP results reveal that **adding LBP to HOG-9 improves performance**, raising accuracy from 0.667 to **0.673**, the highest score in the sweep. However, combinations using HOG-16 underperform relative to HOG-9, again showing that richer HOG features do not necessarily benefit the stacking framework. These results suggest that the stacking classifier leverages complementary texture information only when the gradient features are not overly complex. When HOG is high-dimensional (16 orientations, 2×2 blocks), adding LBP is either redundant or destabilizing, but when HOG is simpler (9 orientations), LBP adds modest but consistent benefit.
 
-### <a id="task-1-d"></a> Implement a CNN with hyperparameter tuning (for this you can directly use the data after the preprocessing)
+### <a id="task-1-d"></a> Implement a CNN with hyperparameter tuning
 
 Convolutional Neural Networks (CNNs) are a class of deep learning models specifically designed to exploit the spatial structure in image data. Instead of treating each pixel as an independent feature (as in traditional machine learning models), CNNs use convolutional filters and pooling operations to learn hierarchical feature representations directly from the raw image. This makes them particularly well suited for image classification, compared to models such as Random Forests, XGBoost, or stacking ensembles which typically rely on hand-crafted and/or pre-computed features.
 
@@ -498,11 +516,13 @@ However, when we trained our CNN model with the best hyperparameters from the gr
 </p>
 As seen in figure number "riktig nummer" the CNN classifies most of the categories correctly. Still it struggles with misclassifying glaciers as mountains, and distinguishing between street and buildings. We suspect this is because, as mentioned in our preprocessing section, these categories sometimes contain the same or very similar subjects and some labels are not always mutually exclusive categories (e.g. some mountain pictures contain glacier and vice-versa). As a result, some erroneous classifications are to be expected between these classes.
 
-### <a id="task-1-e"></a> Compare and Explain the results in terms of both the computation time and the performance of the classification algorithms.
+### <a id="task-1-e"></a> Compare and Explain the results in terms of both the computation time and the performance of the classification algorithms
 
 When comparing the different classification algorithms, both computation time and predictive performance showed clear differences between the CNN and the traditional machine learning models (Random Forest, XGBoost, and the stacking ensemble).
 
 For the basic and advanced models, we did not feed raw images directly. Instead, we first computed feature representations for each image. This feature extraction pipeline took roughly 30 minutes to run. On top of this, training the advanced models significantly exceeded the total training time of the CNN (23 minutes). The XGBoost took about 40 minutes to train and the stacking ensemble took about 1 hour. Random forest required 10 minutes to train, and SVM needed half an hour.
+
+#### Reasons For Differences In Model Computation Performance
 
 There are several plausable reasons for the differences in model computation time and performance.
 
@@ -532,7 +552,9 @@ In terms of classification performance, the CNN clearly outperformed both Random
 
 Overall, the results show that despite the common perception that deep learning models are always slower and more resource-intensive, a reasonably sized CNN can be competitive or even faster than traditional methods when using a GPU. This is especially the case when traditional methods depend on expensive feature extraction pipelines. At the same time, the CNN achieved clearly superior classification performance on this image dataset, which is consistent with its architectural advantages for image-based tasks.
 
-**Misclassifications**
+<div style="page-break-after: always;"></div>
+
+#### Misclassifications
 
 All models, based on their confusion matrices, struggle to distinguish between mountain and glacier and vice-versa. As mentioned earlier, this is explained by the fact that such images share many common features. Concrete examples of these misclassifications are shown in figure x and y.
 
@@ -592,7 +614,7 @@ The acceptable level of misclassification depends on the use case of the algorit
 
 ## <a id="task-2"></a> Task 2
 
-### <a id="task-2-a"></a> Pick any dataset from the list, implement the preprocessing and justify the preprocessing steps, extract features and justify the methods used, select features and justify the methods used.
+### <a id="task-2-a"></a> Pick any dataset from the list, implement the preprocessing and justify the preprocessing steps, extract features and justify the methods used, select features and justify the methods used
 
 We picked the social media dataset for clustering. The dataset contains data about online news, such as categories they fit into, sentiment analysis, and their popularity. 
 
@@ -652,7 +674,6 @@ An actual use case for clustering on this dataset is to group online news togeth
   <br>
   <em>Figure 39: All columns in the dataset</em>
 </div>
-
 
 To start off with preprocessing the dataset, we looked at all the columns to get an understanding of what the data represents. The columns are show in in figure 39. Features with names starting with `kw_` represent the amount of shares gained by articles assigned each keyword, looking at the min, average, and max shares for the best, average, and worst keywords associated with the article. Features starting with `LDA_` represent closeness to a given LDA topic (abstract topics/themes decided by another machine learning algorithm). Many of the features, such as `global_sentiment_polarity` and `title_subjectivity` are based on sentiment analysis.
 
@@ -728,6 +749,7 @@ After removing some columns, we are left with the features showing in figure #, 
 </div>
 
 #### Scaling
+
 After removing the columns we don't want to include in clustering, it's time to scale the data. It's important to scale our data so the features with a larger range of values won't be preferred over those with smaller ranges based only on their larger range. Looking at the distribution of the data in figure #, we can see columns referring to shares, like `shares` and `kw_avg_max` have a much larger range than the rest, meaning they would be likely to overpower the other features. Scaling the data will make all our features have the same scale so each feature's importance will be decided fairly.
 
 We chose to use min-max scaling, mostly because its results are easier to understand for columns like `shares` and `num_imgs`, and it preserves the distribution of our data. The results being easier to understand is not really the case for columns representing sentiment analysis, like `global_sentiment_polarity` and `title_subjectivity`, as we don't have an intuitive understanding of what a specific value means, other than in relation to other values. We still chose to use min-max scaling here to keep the same scaling method for all our features, and again to preserve the distribution of all our features. Looking at the distribution of the scaled data in figure #, we can see the distributions now look much more even than before scaling in figure #, which should give better results when clustering.
@@ -745,7 +767,8 @@ We chose to use min-max scaling, mostly because its results are easier to unders
   </tr>
 </table>
 
-#### Outlier detection
+#### Outlier Detection
+
 The first outliers we checked for were values outside the possible range for each feature. We found negative values in `kw_min_min`, `kw_avg_min`, and `kw_min_avg`, as seen in figure #. This is not possible as each of these columns refer to an amount of shares articles with a given keyword have received. Since shares can't be negative, we decided to cap the lower value of these columns to 0.
 
 When removing outliers based on distribution from our data, we chose between using z-score and IQR. We decided to use IQR as we can see in figure # that the distribution of almost every column is not normally distributed, but skewed. After some testing, we noticed removing outliers using IQR on all non-categorical columns would remove way more rows than expected. To keep a larger portion of the dataset, we had to select which features to use for outlier detection and removal.
@@ -779,7 +802,8 @@ In figure #, you can see the distribution of our features after removing outlier
 <em>Figure 46: Numerical distribution of data after removing outliers</em>
 </p>
 
-#### Dimensionality reduction
+#### Dimensionality Reduction
+
 We decided to reduce the dimensions of our dataset, as we think it will improve the performance of our clustering methods, as well as giving us a better visualization of our data. Our biggest reason for thinking reducing dimensions will give better performance when clustering is that distance between points becomes less useful when more dimensions are used. Due to how euclidian distance is calculated, the distance between every point converges as dimensions increase, meaning the more dimensions there are in the dataset, the less variation there is in the distance between each point. If every point is almost the same distance from each other, it becomes very hard to separate them into meaningful clusters. This problem is a bit exaggerated as it has a much more noticable impact with 100+ dimensions, but it's still better to reduce the dimensions to minimize this effect.
 
 For dimensionality reduction, we thought about using PCA and t-SNE. PCA focuses on keeping as much of the variance in the data as possible, while t-SNE tries to keep higher-dimensional neighbors close even in lower dimensions. While t-SNE sounds like a good fit for our dataset, it has a problem which makes it unsuitable for our selected use case. t-SNE finds similarities between all points in the dataset, which works well for preserving neighborhoods, but makes no mapping function that can be used for future data points. This means that if we want to add a new data point (such as a new article being created), we would have to redo our dimensionality reduction on all our data. Due to this, we chose to use PCA for dimensionality reduction, keeping enough principal components to preserve 95% of the variance of the data. This leaves us with 22 out of the 51 original features remaining, as seen in figure #.
@@ -801,7 +825,7 @@ The other advantage of PCA is being useful for visualizing data. We can see the 
 <em>Figure 49: 3D plot of first 3 principal components</em>
 </p>
 
-### <a id="task-2-b"></a> Implement three clustering methods out of the following and justify your choices
+### <a id="task-2-b"></a> Implement three clustering methods out of the following: (K-means, Hierarchical Clustering, Fuzzy-C-means, DBSCAN, Gaussian mixture models, Self-organizing maps) and justify your choices
 
 There are several types of clustering algorithms to choose from, but we mainly looked at centroid-based, density-based and distribution-based clustering algorithms.
 
