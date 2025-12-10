@@ -160,6 +160,22 @@ We used data augmentation only for the CNN models because they learn visual patt
 
 ### Feature selection
 
+For the Intel Image Classification dataset, each image is represented by **high-dimensional feature vectors** extracted from HOG (Histogram of Oriented Gradients) and LBP (Local Binary Pattern) descriptors. Specifically, HOG features are computed with 16 orientations, 8×8 pixels per cell, and 2×2 cells per block, while LBP uses P=10 and R=3 with a uniform pattern. Concatenating these descriptors produces several hundred features per image, capturing complementary information about edge orientations and local texture patterns.
+
+Although this rich representation improves the expressiveness of the data, it also introduces redundancy: some features may be irrelevant or contribute little to class discrimination. To address this, **manual feature selection** can be applied after initial model training to reduce dimensionality, improve interpretability, and potentially enhance classification performance.
+
+The recommended approach involves using a **RandomForest or XGBoost model** trained on the full set of features to compute **feature importances**. A threshold-based selection is then applied: features whose importance exceeds the **median value** are retained, while less informative features are discarded. This strategy balances dimensionality reduction with preservation of meaningful descriptors, ensuring that both HOG and LBP contribute to the final representation.
+
+The workflow can be summarized as follows:
+
+1. **Feature extraction:** Compute HOG + LBP descriptors for all images.
+2. **Initial model training:** Train a RandomForest or XGBoost on the extracted features.
+3. **Compute feature importances:** Identify which features contribute most to class separation.
+4. **Select informative features:** Keep features above the median importance threshold.
+5. **Final classification:** Train the main classifier (RandomForest, XGBoost, SVM, or Stacking) using the reduced feature set.
+
+This method offers several benefits for the Intel dataset: it reduces noise from less informative HOG/LBP bins, can speed up training for high-dimensional classifiers, mitigates the risk of overfitting, and provides insight into which visual patterns are most relevant for each class (e.g., buildings, forest, glacier, mountain, sea, street). By manually selecting features based on model-driven importances, the pipeline leverages both domain knowledge and data-driven evidence to improve classification performance while maintaining interpretability.
+
 <h2 style="color: green;">TODO: 
 - legg til intro
 - forklaring på hva, hvorfor, hvordan for alle feature extraction methodene
