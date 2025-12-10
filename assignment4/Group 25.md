@@ -88,7 +88,7 @@ The preprocessing stage combined algorithms for detecting corrupted or low-quali
 
 We detected exact duplicates by computing an MD5 hash (a short, fixed-length “fingerprint” of the image data) of each image’s raw pixel values and grouped images with identical hashes. The resulting duplicates pairs are shown in figure 3 and 4.
 
-On closer inspection, some duplicate images appear in different categories (e.g., mountain/glacier and building/street), as shown in Figure 4. We treat these as intentional overlaps, since mountains can naturally contain glaciers and buildings often appear in street scenes, so these duplicates were kept. However, duplicates within the same category folder (e.g., forest, sea, street), as shown in Figure 3, are clearly redundant and were removed. There were only five such duplicates in the entire training set, which is a negligible fraction of the dataset, so removing them is unlikely to affect the results.
+On closer inspection, some duplicate images appear in different categories (e.g., mountain/glacier and building/street), as shown in Figure 4. We treat these as intentional overlaps, since mountains can naturally contain glaciers and buildings often appear in street scenes, so these duplicates were kept. However, duplicates within the same category folder (e.g., forest, sea, street), as shown in Figure 3, are clearly redundant and were removed. There were only five such duplicates in the entire training set, which is  small proportion of the dataset, so removing them is unlikely to affect the results.
 
 <p align="center">
   <img src="task1/results/exact_duplicates_same_label/exact_duplicates_same_label_pairs.png" width="500"/><br>
@@ -114,29 +114,34 @@ This method identified some of the same images as the exact-duplicate search, bu
   <em>Figure 6: Perceptual duplicates with different categories detected in the training set</em>
 </p>
 
-<h2 style="color: green;">TODO: Nevne at vi fjerner perceptual duplicates, fordi vi ønsker å kontrollere data augmentation selv
-- Refere til bilder og ta med eksakte tall.
-</h2>
+**Unrecognizable images**
 
-**Not recognizable images**
+We also examined whether the dataset contained blurry, empty/low-edge, almost uniform, or overly noisy images. Empty or low-edge images were detected using edge detectors to flag cases with very few visible structures, almost uniform images were identified by measuring how little the pixel intensities vary, blurry images were found by checking for a lack of fine detail using a Laplacian-based sharpness measure, and overly noisy images were characterized by excessively strong high-frequency responses.
 
-We also examined whether the dataset contained blurry, empty/low-edge, almost constant, or overly noisy images. Empty or low-edge images were detected using edge detectors to flag cases with very few visible structures, almost constant images were identified by measuring how little the pixel intensities vary, blurry images were found by checking for a lack of fine detail using a Laplacian-based sharpness measure, and overly noisy images were characterized by excessively strong high-frequency responses.
+We applied these checks to identify foggy, grainy, blurry, and otherwise unrepresentative images that would be difficult to classify and could introduce noise into the model. In practice, we found only a small number of blurry and empty/low-edge images shown in figure 7 and 8, and visual inspection showed that they are still sufficiently clear and structured to represent their categories, so we decided to keep them in the training set. We found no other potentially unrecongnizable images, as shown in table 3.
 
-We applied these checks to identify foggy, grainy, blurry, and otherwise unrepresentative images that would be difficult to classify and could introduce noise into the model. In practice, we found only a small number of blurry and empty/low-edge images shown in figure 7 and 8, and visual inspection showed that they are still sufficiently clear and structured to represent their categories, so we decided to keep them in the training set. 
+<div align="center">
+
+| Type                    | Detected images  | Share      |
+|---------------------------|-----------------|------------|
+| Empty/Low edge      | 5               | 0.04%      |
+| Almost uniform      | 0              | 0%      |
+| Too noisy |  0              | 0%       |
+| Blurry                 | 1              | 0.007%       |
+| Total                 | 6              | 0.05%       |
+</div>
+
+<p align="center"><em>Table 3: Number of unrecongnizable images detected in the dataset.</em></p>
 
 <p align="center">
   <img src="task1/results/blurry_examples/blurry_examples.png" width="500"/><br>
-  <em>Figure 5: Blurry images detected in the training set</em>
+  <em>Figure 7: Blurry images detected in the training set</em>
 </p>
 
 <p align="center">
   <img src="task1/results/empty_low_edge_examples/empty_low_edge_examples.png" width="500"/><br>
-  <em>Figure 6: Empty/Low edge images detected in the training set</em>
+  <em>Figure 8: Empty/Low edge images detected in the training set</em>
 </p>
-
-<h2 style="color: green;">TODO: nevne at vi ønsker å se etter bilder som er blurry, har få edges, noisy etc og hvorfor vi gjorde? hva vi hadde ønsket å finne
-- bildene er tåkete
-</h2>
 
 **Misplaced Images**
 
@@ -145,10 +150,10 @@ We also used a modified K-nearest-neighbors algorithm (KNN) with Euclidean dista
 In detail, each image was represented using an HSV color histogram, where each pixel is defined by its hue (dominant color), saturation (color intensity), and value (brightness), and the histogram captures the number of pixels falling into discrete bins across these three components. This was chosen over RGB because HSV separates color from lighting, making color comparisons more robust to the substantial illumination differences in our data and thus more effective for detecting mislabeled images across the categories. We used the following parameters:
 
 - **K (k)**: Number of nearest neighbors to examine for each image (excluding the image itself). We set this to 20 to obtain a neighborhood that is both local and statistically stable.
-- **Neigboor difference threshold (neighbor_diff_threshold)**: Minimum fraction of neighbors that must have a different label than the image to flag it as suspicious. We set this to 80% so that only cases with strong disagreement are flagged.
+- **Neighbor difference threshold (neighbor_diff_threshold)**: Minimum fraction of neighbors that must have a different label than the image to flag it as suspicious. We set this to 80% so that only cases with strong disagreement are flagged.
 - **Minimum alternative fraction (min_alt_frac)**: Among the disagreeing neighbors, the minimum fraction that must agree on the same alternative class. We set this to 60% to avoid scattered disagreements and only flag images when there is a clear consensus on a different label.
 
-Figure 9 shows how the KNN-based method flagged a potentially miscategorized image, specifically a flower that had been mislabeled as a glacier (glacier/15039.jpg). In the 3D PCA projection of the HSV feature space, the image labeled as glacier (red star) appears among neighbors consistently labeled as forest (green markers). Figure 10 shows the HSV histogram for this image. This illustrates our procedure of identifying images the algorithm marks as potentially miscategorized and manually inspecting them to verify their labels. 
+Figure 9 shows how the KNN-based method flagged a potentially miscategorized image, specifically a flower that had been mislabeled as a glacier (glacier/15039.jpg). In the 3D PCA projection of the HSV feature space, the image labeled as glacier (red star) appears among neighbors consistently labeled as forest (green markers). Figure 10 shows the HSV histogram for this image. We manually inspected this detected image to verify its class label, which is shown in figure 10.
 
 <p align="center">
   <img src="task1/results/knn_suspicious/HSV_PCA.png" width="500"/><br>
@@ -167,9 +172,9 @@ The neighbors used to detect the mislabeled image in Figure 10 and their HSV his
   <em>Figure 11: HSV histograms of forest images</em>
 </p>
 
-Table 3 shows how many potentially miscategorized images the algorithm detected in each category. Figures 12–17 show, for each category, the 40 images whose labels disagree most with their neighbors according to the KNN-based neigboor difference threshold explained earlier. This means that those images are most likely to differ from their assigned class label. These are the images most likely to be mislabeled relative to their assigned class. Despite KNN flagging 149 suspicious images in the mountains category, closer inspection revealed an even larger number of truly miscategorized images in the glacier class, as shown in Figure 12. We therefore manually inspected the glacier folder and removed 63 images from this category. 
+Table 4 shows how many potentially miscategorized images the algorithm detected in each category. Figures 12–17 show, for each category, the 40 images whose labels disagree most with their neighbors according to the KNN-based neigboor difference threshold explained earlier. This means that those images are most likely to differ from their assigned class label. These are the images most likely to be mislabeled relative to their assigned class. Despite KNN flagging 149 suspicious images in the mountains category, closer inspection revealed that these were not actually miscategorized. However, as shown in Figure 12 the glacier class did actually have many misclassified images. We therefore manually inspected the glacier folder and removed 63 images from this category. 
 
-We could have experimented with other parameter setting to detect more suspicious images, but we chose not to, since this method was only intended as a tool to highlight candidates for manual inspection. Our goal was to identify which types of miscategorized images appeared most frequently, not to develop a fully optimized automatic detector, so further tuning of the algorithm would have been unnecessarily demanding. The method suggested that miscategorized images were most prevalent in the glacier category.
+We could have experimented with other parameter settings to detect more suspicious images, but we chose not to, since this method was only intended as a tool to highlight candidates for manual inspection. Our goal was to identify which types of miscategorized images appeared most frequently, not to develop a fully optimized automatic detector, so further tuning of the algorithm would have been unnecessarily demanding. The method suggested that miscategorized images were most prevalent in the glacier category.
 
 In total, we removed 63 miscategorized images from the glacier category, most of which were images of flowers, animals, forest scenes, indoor environments, or lakes, and some are shown in figure 12. We acknowledge that some noisy or mislabeled data may still remain in the dataset, but we consider this acceptable given that the KNN results suggest only a small number of additional suspicious cases in the other categories, and that further cleaning would require substantial manual effort. We also chose not to reassign the removed glacier images to other categories, since many did not clearly belong to any of the predefined classes and they represent only a very small fraction of the overall dataset.
 
@@ -187,7 +192,7 @@ In total, we removed 63 miscategorized images from the glacier category, most of
 
 </div>
 
-<p align="center"><em>Table 3: Potentially miscategorized images detected by K-Nearest-Neighboor.</em></p>
+<p align="center"><em>Table 4: Potentially miscategorized images detected by K-Nearest-Neighboor.</em></p>
 
 <p align="center">
   <img src="task1/results/knn_suspicious/buildings_suspicious.png" width="500"/><br>
@@ -220,19 +225,13 @@ In total, we removed 63 miscategorized images from the glacier category, most of
   <em>Figure 17: Potentially miscategorized images in street category</em>
 </p>
 
-<h2 style="color: green;">TODO: 
-- kommenterer bildene
-- nevn valgte hyperparametere
-- forklar hvorfor vi ikke valgte prøvde flere hyperparametere
-</h2>
-
 **Data Augmentation**
 
-To increase robustness and expand the effective training set, we applied three forms of data augmentation to the training images: horizontal flipping, affine skewing, and central cropping followed by resizing. These augmentations are particularly relevant for our scene-classification task involving the categories buildings, forest, glacier, mountain, sea, and street, since natural scene images often appear with variations in viewpoint, framing, and orientation. Some examples of augmented images are shown in figure 18.
+To increase robustness and expand the effective training set, we applied three forms of data augmentation to the training images: horizontal flipping, skewing, and central cropping followed by resizing. These augmentations are particularly relevant for our scene-classification task involving the categories buildings, forest, glacier, mountain, sea, and street, since natural scene images often appear with variations in viewpoint, framing, and orientation. Some examples of augmented images are shown in figure 18.
 
-- **Horizontal flipping** helps the model become invariant to left–right orientation, which is common in landscapes and urban environments (e.g., coastlines, tree lines, or streets viewed from opposite angles).
-- **Affine skewing** simulates changes in camera angle or perspective, which frequently occur in scenes such as buildings, mountains, and forests where the viewer's position can vary widely.
-- **Central cropping** encourages the model to remain robust to shifts in zoom or framing, reflecting real-world variation in how scenes are captured.
+We chose these methods for data augmentations because from our data perprosessing we saw that pictures were taken at mostly "normal" angles, and were oriented right side up. As a result we chose our augmentation methods because we thought they would increase model robustness while still being representative of the overall training and test data. For example, we thought applying a slight skew to all images could help the model better recognize images with slight tilts. Horisontal flips was chosen as it doubles the dataset while preserving image features such as horizons, and boundaries between the upper and lower parts of the images. Central cropping was done with the assumption that most images are taken with the subject in center frame. Therefore the cropping would likely highlight the most important part of the image to the model.
+
+When performing both data augmentation and feature extraction (HOG and LBP), we noticed that this used too much RAM. We have therefore only used data augmentation for CNNs, and only feature extraction for the advanced and basic models.
 
 <p align="center">
   <img src="task1/results/data_augmentation_examples.png" width="500"/><br>
@@ -241,74 +240,65 @@ To increase robustness and expand the effective training set, we applied three f
 
 **Resizing Images**
 
-All images were originally 150×150 pixels but were resized to 128×128 during preprocessing. A fixed input size is required for the CNN and greatly simplifies feature extraction for the Random Forest, XGBoost, and stacking ensemble models. The 128×128 resolution offers a good balance between preserving visual detail and keeping the computational cost low, enabling efficient training while maintaining sufficient image quality for all models. Figure 19 shows that the clear structure and overall quality of each image are preserved at this lower resolution, indicating that 128×128 is sufficient for subsequent modelling.
-
-<p align="center">
-  <img src="task1/results/before_after_resizing.png" width="500"/><br>
-  <em>Figure 19: Images before and after resizing.</em>
-</p>
+After noticing that all images were originally 150×150 pixels we decided to keep the images as they were. We have done this to behold all the original information of the images.
 
 **Normalizing Images**
 
-After resizing, we normalized all images by scaling pixel values from the original 0–255 range to 0–1. This keeps the overall pixel distribution intact as shown in figure 20 but puts all inputs on a common scale, which stabilizes training for the CNN and makes the features more comparable for the Random Forest, XGBoost, and stacking ensemble models.
+After resizing, we normalized all images by scaling pixel values from the original 0–255 range to 0–1. This keeps the overall pixel distribution intact as shown in figure 19 but puts all inputs on a common scale, which stabilizes training for the CNN and makes the features more comparable for the Random Forest, XGBoost, and stacking ensemble models.
 
 <p align="center">
   <img src="task1/results/pixel_normalization_hist.png" width="500"/><br>
-  <em>Figure 20: Images before and after resizing.</em>
+  <em>Figure 19: Pixel distribution before and after normalization</em>
 </p>
 
 
-### Feature extraction
+### Feature Extraction
 
-We have used the following feature extraction methodes: HOG, LBP Histogram and a combination of both. As the task mentioned, we did not perform feature extraction for CNNs.
+We have used the following feature extraction methods: HOG, LBP Histogram and a combination of both. As the task mentioned, we did not perform feature extraction for CNNs.
 
 **Histogram of Oriented Gradients (HOG)**
 
 Histogram of Oriented Gradients (HOG) was chosen because it captures edges, contours, and global shape structure, key cues for classes such as buildings, mountains, and streets. We implemented HOG by converting images to grayscale and computing gradient-orientation histograms across spatial cells, normalized over blocks for lighting robustness. We tested multiple orientation and block configurations to evaluate how much structural detail benefits the classifiers, and HOG consistently produced the most informative standalone features.
 
+<p align="center">
+  <img src="task1/results/feature_extraction/HOG.png" width="500"/><br>
+  <em>Figure 20: HOG Feature extraction applied on different images</em>
+</p>
+
 **Local Binary Pattern (LBP) Histogram**
 
 Local Binary Patterns (LBP) was included to capture fine-grained texture information that HOG does not explicitly model. After converting each image to grayscale, we computed uniform LBP patterns and summarized them into normalized histograms that reflect the image’s texture distribution. We varied parameters such as the number of sampling points and radius. Although LBP alone performed weaker than HOG, it contributed valuable texture cues for classes like forest, glacier, and sea.
+
+<p align="center">
+  <img src="task1/results/feature_extraction/LBP.png" width="500"/><br>
+  <em>Figure 21: LBP Feature extraction applied on different images</em>
+</p>
 
 **Combined HOG + LBP Features**
 
 The combined HOG+LBP descriptor merges global structure from HOG with localized texture information from LBP. We implemented this by computing both descriptors separately and concatenating them into a single feature vector. This hybrid approach aims to support classes requiring both shape and texture cues, such as distinguishing built environments from natural ones. In practice, HOG+LBP often matched or slightly exceeded HOG alone, showing that LBP adds complementary information even if it is not strong as a standalone feature extractor.
 
-**Data augmentation**
-
-We used data augmentation only for the CNN models because performing data augmentation with HOG and LBP consumed too much memory.
-
 ### Feature selection
 
-For the Intel Image Classification dataset, each image is represented by **high-dimensional feature vectors** extracted from HOG and LBP descriptors. Specifically, HOG features are computed with 16 orientations, 8×8 pixels per cell, and 2×2 cells per block, while LBP uses P=10 and R=3 with a uniform pattern. Concatenating these descriptors produces several hundred features per image, capturing complementary information about edge orientations and local texture patterns.
+For the Intel Image Classification dataset, each image is represented by high-dimensional feature vectors extracted from HOG and LBP descriptors. Specifically, HOG features are computed with 16 orientations, 8×8 pixels per cell, and 2×2 cells per block, while LBP uses P=10 and R=3 with a uniform pattern. Concatenating these descriptors produces several hundred features per image, capturing complementary information about edge orientations and local texture patterns.
 
-Although this rich representation improves the expressiveness of the data, it also introduces redundancy: some features may be irrelevant or contribute little to class discrimination. To address this, **manual feature selection** can be applied after initial model training to reduce dimensionality, improve interpretability, and potentially enhance classification performance.
+This representation should retain the expressiveness of the data, it may also introduce redundancy: some features may be irrelevant or contribute little to class discrimination. To address this, manual feature selection was applied after initial model training to reduce dimensionality, improve interpretability, and potentially enhance classification performance.
 
-The recommended approach involves using a **RandomForest or XGBoost model** trained on the full set of features to compute **feature importances**. A threshold-based selection is then applied: features whose importance exceeds the **median value** are retained, while less informative features are discarded. This strategy balances dimensionality reduction with preservation of meaningful descriptors, ensuring that both HOG and LBP contribute to the final representation.
+The approach we used included a `RandomForest` model trained on the full set of features to compute feature importances. A threshold-based selection is then applied: features whose importance exceeds the median value are retained, while less informative features are discarded.\
+We initially included `Edge detection` as a feature, but noticed that this barely impacted the models' accuracy and thus have decided not to use the features extracted from this method.\
+This strategy balances dimensionality reduction with preservation of meaningful descriptors, ensuring that both HOG and LBP contribute to the final representation.
 
 The workflow can be summarized as follows:
 
 1. **Feature extraction:** Compute HOG + LBP descriptors for all images.
-2. **Initial model training:** Train a RandomForest or XGBoost on the extracted features.
+2. **Initial model training:** Train `RandomForest` on the extracted features.
 3. **Compute feature importances:** Identify which features contribute most to class separation.
 4. **Select informative features:** Keep features above the median importance threshold.
-5. **Final classification:** Train the main classifier (RandomForest, XGBoost, SVM, or Stacking) using the selected feature set.
+5. **Final classification:** Training our selected models (RandomForest, XGBoost, SVM, and Stacking) using the selected feature set.
 
-This method offers several benefits for the Intel dataset: it reduces noise from less informative HOG/LBP bins, can speed up training for high-dimensional classifiers, and provides insight into which visual patterns are most relevant for each class (buildings, forest, glacier, mountain, sea, street). By manually selecting features based on model-driven importances, we select the best features to improve model performance.
-
-<h2 style="color: green;">TODO: 
-- legg til intro
-- forklaring på hva, hvorfor, hvordan for alle feature extraction methodene
-- only data aug for CNN, not for HOG, LBP
-- eller velge vi features manuelt? står i oppgaven: "select features and justify the methods used"
-</h2>
+This method offers several benefits for the Intel dataset: it reduces noise from less informative features, which can speed up training for high-dimensional classifiers, and provides insight into which visual patterns are most relevant for each class. By manually selecting features based on model-driven importances, we select the best features to improve model performance.
 
 ### <a id="task-1-b"></a> Implement (using the selected features) one basic machine learning algorithm for classification and justify your choice.
-
-<h2 style="color: green;">TODO: 
-- legg til intro
-- forklaring på hva, hvorfor, hvordan randomforest, svm
-</h2>
 
 We have chosen to use two basic models, as described in the lecture slides: SVM and RandomForest.
 
@@ -318,8 +308,10 @@ We selected `SVM (Support Vector Machines)` with a linear kernel because it's a 
 
 <p align="center">
   <img src="task1/img/svc_cm.png" width="500"/><br>
-  <em>Figure x: Confusion matrix for SVM</em>
+  <em>Figure 22: Confusion matrix for SVM</em>
 </p>
+
+`SVM` achieved an accuracy of 62.0%. From the confusion matrix in figure 22, we notice that `SVM` struggles with predicting glacer vs mountain and buildings vs street.
 
 #### RandomForest
 
@@ -328,15 +320,12 @@ However, tree splits can miss subtle continuous gradients in texture and appeara
 
 <p align="center">
   <img src="task1/img/rf_cm.png" width="500"/><br>
-  <em>Figure x: Confusion matrix for RandomForest</em>
+  <em>Figure 23: Confusion matrix for RandomForest</em>
 </p>
 
-### <a id="task-1-c"></a> Implement (using the selected features) one advanced machine learning algorithm for classification and justify your choice.
+`RandomForest` achieved an accuracy of 66.2%. From the confusion matrix in figure 23, we notice that `RandomForest` struggles with predicting the same classes as `SVM`.
 
-<h2 style="color: green;">TODO: 
-- legg til intro
-- forklaring på hva, hvorfor, hvordan for xgboost og stacking
-</h2>
+### <a id="task-1-c"></a> Implement (using the selected features) one advanced machine learning algorithm for classification and justify your choice.
 
 We chose two advanced models: XGBoost and Stacking.
 
@@ -346,8 +335,10 @@ We chose two advanced models: XGBoost and Stacking.
 
 <p align="center">
   <img src="task1/img/xgboost_cm.png" width="500"/><br>
-  <em>Figure x: Confusion matrix for XGBoost</em>
+  <em>Figure 24: Confusion matrix for XGBoost</em>
 </p>
+
+`XGBoost` achieved an accuracy of 69.1%. From the confusion matrix in figure 24, we notice that `XGBoost` struggles with predicting the same classes as the models above.
 
 #### Stacking
 
@@ -355,44 +346,48 @@ We chose `stacking` because it lets us combine models that capture different asp
 
 <p align="center">
   <img src="task1/img/stacking_cm.png" width="500"/><br>
-  <em>Figure x: Confusion matrix for Stacking (LR, RF and SVM)</em>
+  <em>Figure 25: Confusion matrix for Stacking (LR on RF and SVM)</em>
 </p>
 
-<h2 style="color: yellow">TODO: add a paragraph about each confusion matrix, with runtime. DO NOT COMPARE<h2>
+`Stacking (LR on RF & SVM)` achieved an accuracy of 66.9%. From the confusion matrix in figure 25, we notice that `Stacking` struggles with the same classes as the other models.
+
+<h1 style="color:green">TODO: ADD PICTURES TO EXPLAIN WHY WE GET MISCLASSIFICATIONS</h1>
 
 ### Feature parameter sweep
 
 We performed a parameter sweep to systematically identify which feature configurations produce the highest classification accuracy for our models.
 
-We performed this sweep using only 10% of the dataset to keep extraction and training times manageable. This smaller subset allowed us to compare configurations efficiently without the sweep taking an impractical amount of time.
+We performed this sweep using only 25% of the dataset to keep extraction and training times manageable. This smaller subset allowed us to compare configurations efficiently without the sweep taking an impractical amount of time. This can cause the models below the achieve higher accuracies due to overfitting. 
 
 **SVM**
 
 <p align="center">
-    <img src="task1/img/svm.png" width="700"/>
+    <img src="task1/img/svm.png" width="700"/><br>
+    <em>Figure 26: SVM Feature Extraction Parameter Sweep</em>
 </p>
 
-| Method  | HOG Orientations | HOG Pixels/Cell | HOG Cells/Block | LBP P | LBP R | LBP Method | Test Accuracy |
-| ------- | ---------------- | --------------- | --------------- | ----- | ----- | ---------- | ------------- |
-| HOG     | 9                | (8, 8)          | (3, 3)          | –     | –     | –          | **0.573**     |
-| HOG     | 16               | (8, 8)          | (2, 2)          | –     | –     | –          | **0.627**     |
-| LBP     | –                | –               | –               | 8     | 1     | uniform    | **0.460**     |
-| LBP     | –                | –               | –               | 10    | 3     | uniform    | **0.413**     |
-| HOG+LBP | 9                | (8, 8)          | (3, 3)          | 8     | 1     | uniform    | **0.587**     |
-| HOG+LBP | 9                | (8, 8)          | (3, 3)          | 10    | 3     | uniform    | **0.587**     |
-| HOG+LBP | 16               | (8, 8)          | (2, 2)          | 8     | 1     | uniform    | **0.627**     |
-| HOG+LBP | 16               | (8, 8)          | (2, 2)          | 10    | 3     | uniform    | **0.627**     |
+| Method  | HOG Orientations | HOG Pixels/Cell | HOG Cells/Block | LBP P | LBP R | Test Accuracy |
+| ------- | ---------------- | --------------- | --------------- | ----- | ----- | ------------- |
+| HOG     | 9                | (8, 8)          | (3, 3)          | –     | –     | **0.573**     |
+| HOG     | 16               | (8, 8)          | (2, 2)          | –     | –     | **0.627**     |
+| LBP     | –                | –               | –               | 8     | 1         | **0.460**     |
+| LBP     | –                | –               | –               | 10    | 3         | **0.413**     |
+| HOG+LBP | 9                | (8, 8)          | (3, 3)          | 8     | 1         | **0.587**     |
+| HOG+LBP | 9                | (8, 8)          | (3, 3)          | 10    | 3         | **0.587**     |
+| HOG+LBP | 16               | (8, 8)          | (2, 2)          | 8     | 1         | **0.627**     |
+| HOG+LBP | 16               | (8, 8)          | (2, 2)          | 10    | 3         | **0.627**     |
 
-The parameter sweep shows that **HOG parameters have the strongest impact on SVM performance**. Increasing the number of orientations from 9 to 16 notably improves accuracy (0.573 → 0.627), suggesting that for this dataset, capturing finer gradient direction detail helps the classifier better distinguish class-relevant shape structures. The smaller HOG cell-block size (2×2 instead of 3×3) may also contribute by producing more localized contrast-sensitive features, which appear beneficial for the SVM’s linear decision boundaries.
+The parameter sweep shows that **HOG parameters have the strongest impact on SVM performance**. Increasing the number of orientations from 9 to 16 notably improves accuracy (from 0.573 to 0.627), suggesting that for this dataset, capturing finer gradient direction detail helps the classifier better distinguish class-relevant shape structures. The smaller HOG cell-block size (2×2 instead of 3×3) may also contribute by producing more localized contrast-sensitive features, which appear beneficial for the SVM’s linear decision boundaries.
 
-In contrast, **LBP alone performs considerably worse**, with accuracy dropping from 0.460 to 0.413 as P and R increase. This indicates that LBP’s texture patterns—especially with higher-radius neighborhoods—do not capture discriminative information as effectively for this task. High-radius LBP can dilute fine local texture cues, and uniform LBP reduces dimensionality but may also remove meaningful micro-patterns needed for classification.
+In contrast, **LBP alone performs considerably worse**, with accuracy dropping from 0.460 to 0.413 as P and R increase. This indicates that LBP’s texture patterns, especially with higher-radius neighborhoods, do not capture discriminative information as effectively for this task. High-radius LBP can dilute fine local texture cues, and uniform LBP reduces dimensionality but may also remove meaningful micro-patterns needed for classification.
 
-For the combined HOG+LBP approach, the results show **incremental improvement over standalone HOG when base HOG accuracy is low**, but **no improvement when HOG is already strong**. When the 9-orientation HOG is used, adding LBP nudges accuracy upward (0.573 → ~0.587). However, when the 16-orientation HOG configuration is used, the LBP addition produces no gain (0.627 remains unchanged). This suggests redundancy: the stronger HOG configuration already captures most of the discriminative structure, so LBP adds little new information. Overall, the sweep supports the conclusion that HOG orientation resolution is the dominant factor driving SVM accuracy in this experiment.
+For the combined HOG+LBP approach, the results show **incremental improvement over standalone HOG when base HOG accuracy is low**, but **no improvement when HOG is already strong**. When the 9-orientation HOG is used, adding LBP nudges accuracy upward (0.573 to ~0.587). However, when the 16-orientation HOG configuration is used, the LBP addition produces no gain (0.627 remains unchanged). This suggests redundancy: the stronger HOG configuration already captures most of the discriminative structure, so LBP adds little new information. Overall, the sweep supports the conclusion that HOG orientation resolution is the dominant factor driving SVM accuracy in this experiment.
 
 **RandomForest**
 
 <p align="center">
-    <img src="task1/img/randomforest.png" width="700"/>
+    <img src="task1/img/randomforest.png" width="700"/><br>
+    <em>Figure 27: Random Forest Feature Extraction Parameter Sweep</em>
 </p>
 
 | Label example      | Meaning                              |
@@ -409,15 +404,11 @@ LBP histogram performance also changes very little with different **P values**, 
 
 The combined **HOG plus LBP histogram** features perform between the two individual methods, consistently better than LBP alone but only occasionally exceeding HOG by itself. Accuracies fall around **0.60 to 0.65**, with the best combination reaching **0.647**, indicating that LBP contributes some complementary texture information, but HOG remains the main driver of accuracy.
 
-<h2 style="color: green;">TODO: 
-- forklar hva p values er
-- nevn at vi bruker LBP Histogram, i stedet for LBP
-</h2>
-
 **XGBoost**
 
 <p align="center">
-    <img src="task1/img/xgboost.png" width="1000"/>
+    <img src="task1/img/xgboost.png" width="1000"/><br>
+    <em>Figure 28: XGBoost Feature Extraction Parameter Sweep</em>
 </p>
 
 | Method    | HOG Orientations | LBP Points (P) | Test Accuracy |
@@ -437,15 +428,11 @@ The LBP-only features yield lower accuracy overall compared to HOG, with 8 sampl
 
 Combining HOG and LBP features consistently improves accuracy over either method alone. The highest accuracy (71.3%) is achieved with HOG-9 orientations combined with LBP-10 points, demonstrating complementary benefits of capturing both shape and texture information. Interestingly, increasing HOG orientations to 16 while combining with LBP yields slightly lower accuracy, reflecting the previous trend that higher HOG complexity is less helpful. Overall, feature fusion provides richer information for XGBoost to leverage, significantly boosting classification performance across the diverse image classes.
 
-<h2 style="color: green;">TODO: 
-- nevn at vi bruker mye enklere versjoner av modelene på 10% av data slik at feature parameter sweep ikke tar uendelig mye tid.
-- nevn at vi har brukt hyperparameter tuning på randomforest
-</h2>
-
 **Stacking**
 
 <p align="center">
-    <img src="task1/img/stacking.png" width="700"/>
+    <img src="task1/img/stacking.png" width="700"/><br>
+    <em>Figure 29: Stacking Feature Extraction Parameter Sweep</em>
 </p>
 
 | Method  | HOG Orientations | HOG Pixels/Cell | HOG Cells/Block | LBP P | LBP R | LBP Method | Test Accuracy |
@@ -469,37 +456,52 @@ The combined HOG+LBP results reveal that **adding LBP to HOG-9 improves performa
 
 Convolutional Neural Networks (CNNs) are a class of deep learning models specifically designed to exploit the spatial structure in image data. Instead of treating each pixel as an independent feature (as in traditional machine learning models), CNNs use convolutional filters and pooling operations to learn hierarchical feature representations directly from the raw image. This makes them particularly well suited for image classification, compared to models such as Random Forests, XGBoost, or stacking ensembles which typically rely on hand-crafted and/or pre-computed features.
 
-In our experiments, we implemented a CNN in TensorFlow/Keras and trained it on the preprocessed image data before feature extraction. The model consisted of several convolutional and max-pooling layers followed by fully connected layers and a final softmax output over the six classes. To increase robustness and enlarge the effective training set, we applied data augmentation to the training images (horizontal flipping, affine “skewing”, and central cropping followed by resizing). Importantly, this augmentation step was the only additional preprocessing performed for the CNN; we did not perform separate feature extraction as we did for the basic and advance models.
+We implemented a CNN with TensorFlow/Keras and trained it on the preprocessed image data before feature extraction. The model consisted of several convolutional and max-pooling layers followed by fully connected layers and a final softmax output over the six classes. Importantly, data augmentation was the only additional preprocessing performed for the CNN; we did not perform separate feature extraction as we did for the basic and advance models.
 
-The baseline CNN (with a fixed architecture and reasonable default hyperparameters) trained on the full augmented dataset in approximately 15 minutes on CPU. To investigate the effect of hyperparameters, we then performed a grid search over multiple CNN configurations. This hyperparameter tuning was substantially more expensive: even when using only 10% of the training data, the grid search took more than two hours to complete. The tuned model also showed clear signs of overfitting: it achieved a validation accuracy of 67.8%, while the final test accuracy dropped to 61%. This suggests that the hyperparameter search found a configuration that fit the validation split too closely, without improving generalization to unseen data.
+We first implemented a CNN with a fixed architecture in regards to filter options and internal dense layer units. This model was trained on the augmented dataset, and took in approximately 23 minutes to train with GPU. To investigate the effect of hyperparameters, we then performed a grid search over multiple CNN configurations. This hyperparameter tuning was substantially more time consuming. As a result we had to limit the tuning to only 50% of the training data and it still took several hours to complete. With this grid search we tuned learning rate, dropout, batch size, kernel size, padding options, filter size options and stride length. This grid search resulted in a CNN model with both a validation and test accuracy of 76%.
 
-By contrast, when we trained our “standard” CNN model (without the heavy grid search) on 100% of the available data, we obtained a substantially higher test accuracy of 83%. This underlines two important points: (i) CNNs can leverage larger amounts of raw image data effectively thanks to their ability to learn features end-to-end, and (ii) hyperparameter tuning must be done carefully to avoid overfitting to a particular validation set, especially when the tuning budget is large compared to the size of the dataset.
-
-<h2 style="color: green;">TODO: 
-- 3. avsnitt: skriv om det vi først satt opp en CNN med default hyperparametere, og fikk 83% accuracy som tok ca. 23 min
-- så gjorde vi en GridSearch og tok beste resultat
-- nevn hvilke parametere de blir gjort gridsearch på
-- forklar hvorfor vi valgte hver metode i data augmentation
-</h2>
-
-### <a id="task-1-e"></a> Compare and Explain the results in terms of both the computation time and the performance of the classification algorithms.
-
-<h2 style="color: yellow">TODO: add a paragraph about that all models (including CNNs) struggled with mountain vs glacer and street vs building<h2>
-
-Convolutional Neural Networks (CNNs) are a class of deep learning models specifically designed to exploit the spatial structure in image data. Instead of treating each pixel as an independent feature (as in traditional machine learning models), CNNs use convolutional filters and pooling operations to learn hierarchical feature representations directly from the raw image. This makes them particularly well suited for image classification, compared to models such as Random Forests, XGBoost, or stacking ensembles which typically rely on hand-crafted and/or pre-computed features.
-
-In our experiments, we implemented a CNN with TensorFlow/Keras and trained it on the preprocessed image data before feature extraction. The model consisted of several convolutional and max-pooling layers followed by fully connected layers and a final softmax output over the six classes. To increase robustness and enlarge the effective training set, we applied data augmentation to the training images by horizontal flipping, skewing, and central cropping followed by resizing. We chose these methods for data augmentations because from our data perprosessing we saw that pictures were taken at mostly "normal" angles, and were oriented right side up. As a result we chose our augmentation methods because we thought they would increase model robustness while still being representative of the overall training and test data. For example, we thought applying a slight skew to all images culd help the model better recognize images with slight tilts. Horisontal flips was chosen as it doubles the dataset while perserving image features such as horizons, and bounderies between the upper and lower parts of the images. Central cropping was done with the assumption that most images are taken with the subject in center frame. Therefore the cropping would likely highlight the most important part of the image to the model. Importantly, this augmentation step was the only additional preprocessing performed for the CNN; we did not perform separate feature extraction as we did for the basic and advance models.
-
-We first implemented a CNN with a fixed architecture in regards to filter options and internal dense layer units. This model was trained on the augmented dataset, and took in approximately 22 minutes to train with GPU. To investigate the effect of hyperparameters, we then performed a grid search over multiple CNN configurations. This hyperparameter tuning was substantially more time consuming. As a result we had to limit the tuning to only 10% of the training data and it still took more than two hours to complete. With this grid search we tuned, learning rate, dropout, batch size, kernel size, padding options, and stride length. This grid search resulted in a cnn model with a validation accuracy of 79%, and test accuracy of 76%. This could indicate that some overfitting is occuring and might suggest that the hyperparameter search found a configuration that fit the validation split too closely, without improving generalization to unseen data.
-This underlines two important points: (i) CNNs can leverage larger amounts of raw image data effectively thanks to their ability to learn features end-to-end, and (ii) hyperparameter tuning must be done carefully to avoid overfitting to a particular validation set.
+<h1 style="color:green">add table of chosen parameters</h1>
 
 However, when we trained our CNN model with the best hyperparameters from the grid search on 100% of the available data, we obtained a substantially higher test accuracy of 85.7% and a total training time of 23 minutes.
-
 <p align="center">
 <img src="task1/img/cnn_cm.png" width="600"/><br>
 <em>Figure #:Confusion matrix for convolutional neural network</em>
 </p>
-As seen in figure number "riktig nummer" the cnn classifies most of the categories correctly. Still it struggles with misclassifying glaciers as mountains, and distinguishing between street and buildings. We suspect this is because, as mentioned in our preprosessing section, these categories sometimes contains the same pictures and some labels are not always mutually exclusive categories(eg. glacier, mountain, sea, and streat vs building). As a result, some erroneous classifications are to be expected between these classes.
+As seen in figure number "riktig nummer" the CNN classifies most of the categories correctly. Still it struggles with misclassifying glaciers as mountains, and distinguishing between street and buildings. We suspect this is because, as mentioned in our preprocessing section, these categories sometimes contain the same or very similar subjects and some labels are not always mutually exclusive categories (e.g. some mountain pictures contain glacier and vice-versa). As a result, some erroneous classifications are to be expected between these classes.
+
+### <a id="task-1-e"></a> Compare and Explain the results in terms of both the computation time and the performance of the classification algorithms.
+
+When comparing the different classification algorithms, both computation time and predictive performance showed clear differences between the CNN and the traditional machine learning models (Random Forest, XGBoost, and the stacking ensemble).
+
+For the basic and advanced models, we did not feed raw images directly. Instead, we first computed feature representations for each image. This feature extraction pipeline took roughly 30 minutes to run. On top of this, training the advanced models significantly exceeded the total training time of the CNN (23 minutes). The XGBoost took about 40 minutes to train and the stacking ensemble took about 1 hour. Random forest required 10 minutes to train, and SVM needed half an hour.
+
+There are several plausable reasons for the differences in model computation time and performance.
+
+**Extra preprocessing cost:**\
+The feature extraction step for Random forest, SVM, XGBoost and the stacking ensemble is a separate stage that must be applied to every image before training. In contrast, the CNN learns features directly from the raw pixels, and the only additional preprocessing, data augmentation, is done before its given to the model. If we are considering the entire time of running the pipeline for each model, the CNN performes best on both prediction accuracy and computation time.
+
+**Model complexity over multiple models (stacking):**\
+The stacking model combines predictions from several base learners, in our case Random Forest and SVM, into a meta-model (we used logistic regression). This effectively multiplies the training cost: each base model must be trained, predictions must be computed, and then the meta-model must be fitted. As a result this model was always going to be slower to train than our Random forest and SVM models. This multi-stage training procedure also turned out to be more time-consuming than training our CNN.
+
+However in regards to accuracy it performed better than its base learners achieving a 66.9% accuracy compared to 66.2% for Random forest and 62.0% for SVM. Stacking can have the benefit of achieving better accuracy by learning from the predictions of its base learners, thereby making its predictions more reliable. Furthermore, stacking allows the meta model to make use of its base learners strengths, and recognize their mistakes. Furthermore, can also  be highly flexible to different problems as one can include multiple different models as base learners. However, as in our case, it was computationally heavy, even with only two base learners, and took a substantial amount of time to train. If a problem requires a quick solution and deployment, this strategy would not be adviced.
+
+**Hardware constraints:**\
+As mentioned earlier we managed to train our CNN by using a GPU. This significantly reduced the training time of our CNN model. However we did not manage to get the configurations right to run the other models on the GPU. This puts the models at a significant disadvantage in terms of computation time and illustrates the importance of leveraging available hardware when training machine learning models.
+
+This performance gap can be explained by how the models use information in the data:
+
+**Exploiting spatial structure:**\
+CNNs operate directly on 2D image grids with multiple channels and use convolutional filters to capture local patterns such as edges, textures, and shapes. Deeper layers combine these into higher-level concepts. This hierarchical feature learning is very effective for images. We think that maybe the features that the CNN extracts on its own might be better features compared to the ones we precomputed for our other models.
+
+**Information loss in feature extraction:**\
+Furthermore, for Random Forest, SVM, XGBoost and the stacking ensemble, we reduced each image to a small set of hand-crafted features. While this highlights what we thought to be important image features, it also loses spatial and textural information present in the original images. If the chosen features are not expressive enough, the models are simply not given sufficient information to match the CNN’s performance.
+
+**Model capacity and flexibility:**\
+The CNN has a high capacity to approximate complex decision boundaries directly in pixel space, while the basic and advanced models are constrained to operate on a small, fixed feature vector. Even powerful ensemble methods like XGBoost will be limited by the quality and richness of those features. In our experiments, this likely led to a situation where the CNN could capture more nuanced visual patterns and therefore generalize better on the test set.
+
+In terms of classification performance, the CNN clearly outperformed both Random Forest and XGBoost on this image classification task. Our CNN model reached 85.7% accuracy, which is substantially better compared even to our XGBoost model which was the fastest and most accurate of the advanced models. If we compare the CNN to our best performing basic model, random forest, it significantly out performed it in terms of accuracy, but required about 13 minutes more training time, excluding the feature extraction.
+
+Overall, the results show that despite the common perception that deep learning models are always slower and more resource-intensive, a reasonably sized CNN can be competitive or even faster than traditional methods when using a GPU. This is especially the case when traditional methods depend on expensive feature extraction pipelines. At the same time, the CNN achieved clearly superior classification performance on this image dataset, which is consistent with its architectural advantages for image-based tasks.
 
 <h2 style="color: green;">TODO: 
 - legg til SVM in sammenligningen
@@ -571,17 +573,17 @@ An actual use case for clustering on this dataset is to group online news togeth
 </div>
 
 
-To start off with preprocessing the dataset, we looked at all the columns to get an understanding of what the data represents. The columns are showin in figure #. Features with names starting with `kw_` represent the amount of shares gained by articles assigned each keyword, looking at the min, average, and max shares for the best, average, and worst keywords associated with the article. Features starting with `LDA_` represent closeness to a given LDA topic (abstract topics/themes decided by another machine learning algorithm). Many of the features, such as `global_sentiment_polarity` and `title_subjectivity` are based on sentiment analysis.
+To start off with preprocessing the dataset, we looked at all the columns to get an understanding of what the data represents. The columns are show in in figure #. Features with names starting with `kw_` represent the amount of shares gained by articles assigned each keyword, looking at the min, average, and max shares for the best, average, and worst keywords associated with the article. Features starting with `LDA_` represent closeness to a given LDA topic (abstract topics/themes decided by another machine learning algorithm). Many of the features, such as `global_sentiment_polarity` and `title_subjectivity` are based on sentiment analysis.
 
 The dataset contains several columns that are not useful for our selected use case. The first we removed was `url`, as it's useless for clustering. This is because it's unique and categorical, making it impossible to create clusters from.
 
-We also decided to remove all time-related columns, being `weekday_is_monday`, ..., `weekday_is_sunday`, `is_weekend`, and `timedelta`. The reason for deleting these columns even though they might be useful for clustering is that using clustering with them don't make much sense given our theoretical use case. When recommending similar online news to what you engage with, it wouldn't make sense to take into account which day the news were posted, as recommendations on online platforms should almost always prefer recent news. It doesn't matter what day something was posted if you're recommending something posted within ~2 days anyway.
+We also decided to remove all time-related columns, being `weekday_is_monday`, ..., `weekday_is_sunday`, `is_weekend`, and `timedelta`. The reason for deleting these columns even though they might be useful for clustering is that using clustering with them doesn't make much sense given our theoretical use case. When recommending similar online news to what you engage with, it wouldn't make sense to take into account which day the news were posted, as recommendations on online platforms should almost always prefer recent news. It doesn't matter what day something was posted if you're recommending something posted within ~2 days anyway.
 
 Using this logic, it might make sense to include `timedelta`, which refers to the days between the article publication and dataset aquisition. The reason we didn't include this column is because this value can range from a few days to several years, which is a much larger range than what would be expected when recommending online news. If we were to create a recommendation algorithm based on our clustering results, we would put an external limitation that would heavily prefer recent articles instead of including `timedelta` when clustering. 
 
-`timedelta` does have an effect on `shares`, as older articles have more time to accumulate shares, but we still chose to includes `shares` when clustering. This is because all data points have a `timedelta` of at least 8 days, so we think all articles have had some time to get a number of shares that would be highly correlated with the number of shares they would have after a few days (This assumes articles gain the most traction/shares when they are recently released, meaning even if older articles have much more time to gain shares, most shares are gained within the first few days of release).
+`timedelta` does have an effect on `shares`, as older articles have more time to accumulate shares, but we still chose to include `shares` when clustering. This is because all data points have a `timedelta` of at least 8 days, so we think all articles have had some time to get a number of shares that would be highly correlated with the number of shares they would have after a few days. This assumes articles gain the most traction/shares when they are recently released, meaning even if older articles have much more time to gain shares, most shares are gained within the first few days of release.
 
-After removing some columns, we are left with the features showin in figure #, along with their some data on their distributions. We can also see from this figure that there are no missing values, as each column contains the same count as the total number of rows.
+After removing some columns, we are left with the features showing in figure #, along with some data on their distributions. We can also see from this figure that there are no missing values, as each column contains the same count as the total number of rows.
 
 <div style="text-align: center">
   <table style="margin-left:auto; margin-right:auto">
@@ -647,7 +649,7 @@ After removing some columns, we are left with the features showin in figure #, a
 #### Scaling
 After removing the columns we don't want to include in clustering, it's time to scale the data. It's important to scale our data so the features with a larger range of values won't be preferred over those with smaller ranges based only on their larger range. Looking at the distribution of the data in figure #, we can see columns referring to shares, like `shares` and `kw_avg_max` have a much larger range than the rest, meaning they would be likely to overpower the other features. Scaling the data will make all our features have the same scale so each feature's importance will be decided fairly.
 
-We chose to use min-max scaling, mostly because it's results are easier to understand for columns like `shares` and `num_imgs`, and it preserves the distribution of our data. The results being easier to understand is not really the case for columns representing sentiment analysis, like `global_sentiment_polarity` and `title_subjectivity`, as we don't have an intuitive understanding of what a specific value means, other than in relation to other values. We still chose to use min-max scaling here to keep the same scaling method for all our features, and again to preserve the distribution of all our features. Looking at the distribution of the scaled data in figure #, we can see the distributions now look much more even than before scaling in figure #, which should give better results when clustering.
+We chose to use min-max scaling, mostly because its results are easier to understand for columns like `shares` and `num_imgs`, and it preserves the distribution of our data. The results being easier to understand is not really the case for columns representing sentiment analysis, like `global_sentiment_polarity` and `title_subjectivity`, as we don't have an intuitive understanding of what a specific value means, other than in relation to other values. We still chose to use min-max scaling here to keep the same scaling method for all our features, and again to preserve the distribution of all our features. Looking at the distribution of the scaled data in figure #, we can see the distributions now look much more even than before scaling in figure #, which should give better results when clustering.
 
 <table align="center">
   <tr>
@@ -663,13 +665,13 @@ We chose to use min-max scaling, mostly because it's results are easier to under
 </table>
 
 #### Outlier detection
-The first outliers we checked for were values outside the possible range for each feature. We found negative values in `kw_min_min`, `kw_avg_min`, and `kw_min_avg`, as seen in figure #. This is not possible as each of these columns refer to an amount of shares articles with a given keyword has received. Since shares can't be negative, we decided to cap the lower value of these columns to 0.
+The first outliers we checked for were values outside the possible range for each feature. We found negative values in `kw_min_min`, `kw_avg_min`, and `kw_min_avg`, as seen in figure #. This is not possible as each of these columns refer to an amount of shares articles with a given keyword have received. Since shares can't be negative, we decided to cap the lower value of these columns to 0.
 
 When removing outliers based on distribution from our data, we chose between using z-score and IQR. We decided to use IQR as we can see in figure # that the distribution of almost every column is not normally distributed, but skewed. After some testing, we noticed removing outliers using IQR on all non-categorical columns would remove way more rows than expected. To keep a larger portion of the dataset, we had to select which features to use for outlier detection and removal.
 
 We decided not to use outlier detection on columns referencing shares or sentiment analysis, as shares are more extremely skewed than other features in the dataset, which intuitively makes sense, since some articles become way more popular than others. Features referencing shares include `shares` and `kw_avg_max`. We also decided not to remove outliers using features based on sentiment analysis, as it would be very hard for us to tell if a very high or low value is actually outside the range of what's likely a real data point. Detecting outliers based on a column we don't know a real range of would not be a good idea, as the goal of handling outliers is removing or changing values not generated by the same method as the others.
 
-Performing outlier detection on the remaining columns (not categorical, referencing shares, or based on sentiment analysis), such as `n_tokens_title` and `num_videos`, we were able to find `5465` outliers. Looking at some of these outliers, they contain things like there being `91` videos or `116` images in an article. This is about 13.7% of our dataset, which has a total of `39644` rows. We decided to remove the data points containing the outliers, because even though it's a sizable portion of our dataset, our chosen clustering algorithms don't include outlier detection themselves, and using 86.3% of the data is still plenty for clustering.
+Performing outlier detection on the remaining columns, such as `n_tokens_title` and `num_videos`, we were able to find `5465` outliers. Looking at some of these outliers, they contain things like there being `91` videos or `128` images in an article. This is about 13.7% of our dataset, which has a total of `39644` rows. We decided to remove the data points containing the outliers, because even though it's a sizable portion of our dataset, our chosen clustering algorithms don't include outlier detection themselves, and using 86.3% of the data is still plenty for clustering.
 
 In figure #, you can see the distribution of our features after removing outliers, while figure # shows the distribution after re-scaling our dataset between 0 and 1. These figures show the scaled versions of our features for visualization only, and outliers were removed from the original unscaled dataset. The numerical distributions of the features used in outlier detection are also shown before in figure #, and after in figure #.
 
@@ -697,16 +699,16 @@ In figure #, you can see the distribution of our features after removing outlier
 </p>
 
 #### Dimensionality reduction
-We decided to reduce the dimensions of our dataset, as we think it will improve the performance of our clustering methods, as well as giving us a better visualization of our data. Our biggest reason for thinking reducing dimensions will give better performance when clustering is that distance between points becomes less useful the more dimensions are used. Due to how euclidian distance is calculated, the distance between every point converges as dimensions increase, meaning the more dimensions there are in the dataset, the less variation there is in the distance between each point. If every point is almost the same distance from eachother, it becomes very hard to seperate them into meaningful clusters. This problem is a bit exaggerated as it has a much more noticable impact with 100+ dimensions, but it's still better to reduce the dimensions to minimize this effect.
+We decided to reduce the dimensions of our dataset, as we think it will improve the performance of our clustering methods, as well as giving us a better visualization of our data. Our biggest reason for thinking reducing dimensions will give better performance when clustering is that distance between points becomes less useful when more dimensions are used. Due to how euclidian distance is calculated, the distance between every point converges as dimensions increase, meaning the more dimensions there are in the dataset, the less variation there is in the distance between each point. If every point is almost the same distance from each other, it becomes very hard to separate them into meaningful clusters. This problem is a bit exaggerated as it has a much more noticable impact with 100+ dimensions, but it's still better to reduce the dimensions to minimize this effect.
 
-For dimensionality reduction, we thought about using PCA and t-SNE. PCA focuses on keeping as much of the variance in the data as possible, while t-SNE tries to keep higher-dimensional neighbors close even in lower dimensions. While t-SNE sound like a good fit for our dataset, it has a problem which makes it unsuitable for our selected use case. t-SNE finds similarities between all points in the dataset, which works well for preserving neighborhoods, but makes no mapping function that can be used for future data points. This means that if we want to add a new data point (such as a new article being created), we would have to redo our dimensionality reduction on all our data. Due to this, we chose to use PCA for dimensionality reduction, keeping enough principal components to preserve 95% of the variance of the data. This leaves us with 22 out of the 51 original features remaining, as seen in figure #.
+For dimensionality reduction, we thought about using PCA and t-SNE. PCA focuses on keeping as much of the variance in the data as possible, while t-SNE tries to keep higher-dimensional neighbors close even in lower dimensions. While t-SNE sounds like a good fit for our dataset, it has a problem which makes it unsuitable for our selected use case. t-SNE finds similarities between all points in the dataset, which works well for preserving neighborhoods, but makes no mapping function that can be used for future data points. This means that if we want to add a new data point (such as a new article being created), we would have to redo our dimensionality reduction on all our data. Due to this, we chose to use PCA for dimensionality reduction, keeping enough principal components to preserve 95% of the variance of the data. This leaves us with 22 out of the 51 original features remaining, as seen in figure #.
 
 <p align="center">
 <img src="task2/img/pca_95.png" width="500"/><br>
 <em>Figure #: Explained variance by principal components</em>
 </p>
 
-The other advantage of PCA is being useful for visualizing data. We can see the visualization of the dataset using the first 3 principal components in both 2d, in figure #, and in 3d, in figure #.
+The other advantage of PCA is being useful for visualizing data. We can see the visualization of the dataset using the first 3 principal components in both 2D, in figure #, and in 3D, in figure #.
 
 <p align="center">
 <img src="task2/img/pca_pairplot.png" width="600"/><br>
@@ -720,32 +722,35 @@ The other advantage of PCA is being useful for visualizing data. We can see the 
 
 ### <a id="task-2-b"></a> Implement three clustering methods out of the following and justify your choices
 
-There are several different types of clustering algorithms to choose from, each with different properties. There are several types of clustering algorithms to choose from, but we mainly looked at centroid-based, density-based and distribution-based clustering algorithms.\
-The simplest are centroid-based algorithms that create cluster centers and assign data points to clusters based on their distance from the cluster centers. Examples of this are K-means and fuzzy C-means.\
-Density-based algorithms define clusters based on the density of data points. This fits well for finding clusters of different shapes, but won't work well for clusters with varying densities. DBSCAN is an example of a density-based clustering algorithm.\
-Distribution-based algorithms assume clusters are generated by probability distributions, which work well for clusters of different (but not too complicated) shapes and densities, but it does assume data is generated in a specific distribution. An example of distribution-based clustering algorithms is Gaussian Mixture Models.
+There are several types of clustering algorithms to choose from, but we mainly looked at centroid-based, density-based and distribution-based clustering algorithms.
+
+The simplest are centroid-based algorithms that create cluster centers and assign data points to clusters based on their distance from the cluster centers. Examples of this are K-means and fuzzy C-means.
+
+Density-based algorithms define clusters based on the density of data points. This fits well for finding clusters of different shapes, but won't work well for clusters with varying densities. DBSCAN is an example of a density-based clustering algorithm.
+
+Distribution-based algorithms assume clusters are generated by probability distributions, which work well for clusters of different (but not too complicated) shapes and densities, but it does assume that the data is generated in a specific distribution. An example of a distribution-based clustering algorithm is Gaussian Mixture Models.
 
 #### <a id="k-means"></a> K-means
 
-K-means was chosen mainly because it's the easiest clustering algorithm to understand. A problem with K-means and other centroid based algorithms is that it works best for clusters that are approximately spherical and similar in size, which is not the case for this dataset. This could have a negative impact on the performance of the clustering if the data points don't seperate well with centroid based clustering algorithms.
+K-means was chosen mainly because it's the easiest clustering algorithm to understand. A problem with K-means and other centroid based algorithms is that it works best for clusters that are approximately spherical and similar in size, which is not the case for this dataset. This could have a negative impact on the performance of clustering if the data points don't separate well with centroid based clustering algorithms.
 
 #### <a id="fuzzy-c-means"></a> Fuzzy C-means
 
-Fuzzy C-means works almost like an improved version of K-means for this dataset. The biggest difference between them is that fuzzy C-means assigns each data point a membership value for every cluster, meaning it would be better for our use case. Even though articles are seperated into clusters, we don't want to make it impossible for articles that fit better in another cluster to be recommended to users, just less likely. Using fuzzy C-means, we can assign how likely an article is to be recommended to users based on its membership value to each cluster. Aside from that, it works very similarly to K-means as both are centroid-based clustering algorithms.
+Fuzzy C-means works almost like an improved version of K-means for this dataset. The biggest difference between them is that fuzzy C-means assigns each data point a membership value for every cluster, meaning it would be better for our use case. Even though articles are separated into clusters, we don't want to make it impossible for articles that fit better in another cluster to be recommended to users, just less likely. Using fuzzy C-means, we can assign how likely an article is to be recommended to users based on its membership value to each cluster. Aside from that, it works very similarly to K-means as both are centroid-based clustering algorithms.
 
 #### <a id="gaussian-mixture-models"></a> Gaussian mixture models
 
-Gaussian Mixture Models were chosen because they offer a more flexible way to cluster the data. As opposed to centroid-based clustering algorithms which assume roughly spherical clusters of similar size, GMM is a distribution-based clustering algorithm that assumes each cluster has a shape and spread in the data, which means clusters don’t have to be perfectly round or all the same size. This fits better for our dataset, as we think it better matches the distribution of the clusters we can visualize from figure #. The reason we chose GMM over other clustering algorithms is that we thought a distribution-based clustering method would be best for our dataset, as clusters can have different shapes and densities, making it more suited to guess .
+Gaussian Mixture Models were chosen because they offer a more flexible way to cluster the data. As opposed to centroid-based clustering algorithms which assume roughly spherical clusters of similar size, GMM is a distribution-based clustering algorithm that assumes each cluster has a shape and spread in the data, which means clusters don’t have to be perfectly round or all the same size. This fits better for our dataset, as we think it better matches the distribution of the clusters we can visualize from figure #.
 
 Like fuzzy C-means, GMM assigns a probability to each article for belonging to every cluster. This way, this clustering algorithm doens't force articles that could belong to multiple clusters into just one.
 
-A problem shared between all our selected clustering algorithms is that you have to specify the amount of clusters created for each of them. While it would be nice to use a clustering method that doesn't depend on the amount of clusters, we think we were able to pick a good value for the by seeing how different values performed on certain metrics for each clustering algorithm.
+A problem shared between all our selected clustering algorithms is that you have to specify the amount of clusters created for each of them. While it would be nice to use a clustering method that doesn't depend on the amount of clusters, we think we were able to pick a good value by seeing how different values performed on certain metrics for each clustering algorithm.
 
 ### <a id="task-2-c"></a> Compare and Explain the results
 
 #### <a id="compare-k-means"></a> K-means
 
-To decide the amount of clusters to use for K-means, we found 2 common clusterings metrics to see their performance for each value of k in what we though was a reasonable range based on the visualization, 3-6. The metrics we chose to use were silhouette score and Davies-Bouldin index. Silhouette score measures how similar points within a cluster are to eachother, ranging from 1 to -1. Scores near 1 mean data points are very similar within a cluster compared to data points in other clusters, while scores near -1 are likely misclassified. David-Bouldin index measures how well defined clusters are, comparing their compactness and separation. A value close to 0 means clusters are well separated and compact, while high scores imply overlapping or scattered clusters.
+To decide the amount of clusters to use for K-means, we found 2 common clusterings metrics to see their performance for each value of k in what we thought was a reasonable range based on the visualization. We tested k values from 3 to 6. The metrics we chose to use were silhouette score and Davies-Bouldin index. Silhouette score measures how similar points within a cluster are to eachother, ranging from 1 to -1. Scores near 1 mean data points are very similar within a cluster compared to data points in other clusters, while scores near -1 are likely misclassified. Davies-Bouldin index measures how well defined clusters are, comparing their compactness and separation. A value close to 0 means clusters are well separated and compact, while values higher than 1 imply overlapping or scattered clusters. A value around 0.5 indicates well defined clusters of the data.
 
 <table align="center">
   <tr>
@@ -819,7 +824,7 @@ We can also tell which features from our dataset have the largest effect on plac
 <em>Figure #: Fuzzy C-means clustering scores with different amounts of clusters</em>
 </p>
 
-We also found 4 clusters to be the optimal amount for fuzzy C-means, as seen in figure #, which is to be expected since it works very similarly to K-means, both being centroid-based clustering algorithms. The visualization of the optimal fuzzy C-means clustering is seein in figure #.
+We also found 4 clusters to be the optimal amount for fuzzy C-means, as seen in figure #, which is to be expected since it works very similarly to K-means, both being centroid-based clustering algorithms. The visualization of the optimal fuzzy C-means clustering is seen in figure #.
 
 <p align="center">
 <img src="task2/img/fcm_4.png" width="650"/><br>
@@ -875,13 +880,13 @@ We also found 4 as the optimal number of clusters for GMM, seen in figure #. Aft
 
 All our chosen clustering algorithms had very similar visualizations, but the differences are more clear when looking at the clustering metrics. Fuzzy C-means had the best performance, reaching a silhouette score of 0.647 and a Davies-Bouldin index of 0.500. This is a slight performance increase from K-means, and a larger jump from GMM. Part of the reason for this result is likely that both silhouette score and Davies-Bouldin index favor centroid-based clustering, as they both rely on euclidian distance, favoring compact spherical clusters. Both metrics are still valid metrics for GMM and some of the easier to understand among clustering metrics. They also have the advantage of being possible to measure for all our chosen clustering algorihtms, which isn't the case for all metrics.
 
-It's also important to remember that fuzzy C-means and GMM has the additional advantage of giving points membership values instead of placing them only on one cluster, which we think make both of these algorightms a better fit for our use case than K-means, even if looking at the clustering metrics, it has better performance than GMM.
+It's also important to remember that fuzzy C-means and GMM has the additional advantage of giving points membership values instead of placing them only on one cluster, which we think make both of these algorithms a better fit for our use case than K-means.
 
-We can also see the top features contributing to the selection of clusters by each algorithm. The results here are very similar to eachother, mainly focusing on categories like `data_channel_is_world` and `LDA_00`. The weights for each feature is different between the algorithms, but there are no major changes.
+We can also see the top features contributing to the selection of clusters by each algorithm. The results here are very similar to each other, mainly focusing on categories like `data_channel_is_world` and `LDA_00`. The weights for each feature is different between the algorithms, but there are no major changes.
 
 A lot of the similarity here likely come from how the original features were translated into princial components when doing PCA, and you might see a more varied set of contributiong features if using the base data. Even if the results are very similar and mostly using the same few features to base a data point's cluster on, this actually fits very well for our use case. Splitting articles mainly by categories and topics makes the most sense to create a useful recommendation algorithm. Had our results been that clusters were mainly decided by `shares` and similar features, this would probably not show users articles they are as interested in as with our current main clustering factors.
 
-From looking at our performance metrics, we chose to select fuzzy C-means as our preferred clustering algorithm for this dataset. After selecting our preferred clustering algorithml, we took a look at some of the data points most confidentally placed in each cluster to see how similar they were. The top 10 contributing features for 5 points in each cluster can be seen in figure #. It's clear from the points that the clustering has worked well, placing data points in clusters along with other points that are very similar to them in multiple columns.
+From looking at our performance metrics, we chose to select fuzzy C-means as our preferred clustering algorithm for this dataset. After selecting our preferred clustering algorithm, we took a look at some of the data points most confidently placed in each cluster to see how similar they were. The top 10 contributing features for 5 points in each cluster can be seen in figure #. It's clear from the points that the clustering has worked well, placing data points in clusters along with other points that are very similar to them in multiple columns.
 
 <p align="center">
 <img src="task2/img/fcm_examples.png" width="800"/><br>
