@@ -1,39 +1,38 @@
 # IT3212 Assignment 4: Deep learning and unsupervised learning
 
-## Table of Contents
+# Table of Contents
 
-- [IT3212 Assignment 4: Deep learning and unsupervised learning](#it3212-assignment-4-deep-learning-and-unsupervised-learning)
-  - [Table of Contents](#table-of-contents)
-  - [ Task 1](#-task-1)
-    - [ Pick any image based dataset from the list, implement the preprocessing and justify the preprocessing steps, extract features and justify the methods used, select features and justify the methods used. Some of this is done already in one of the previous assignments. You can reuse things](#-pick-any-image-based-dataset-from-the-list-implement-the-preprocessing-and-justify-the-preprocessing-steps-extract-features-and-justify-the-methods-used-select-features-and-justify-the-methods-used-some-of-this-is-done-already-in-one-of-the-previous-assignments-you-can-reuse-things)
-      - [Preprocessing](#preprocessing)
-      - [Extract and Select Features](#extract-and-select-features)
-    - [ Implement (using the selected features) one basic machine learning algorithm for classification and justify your choice.](#-implement-using-the-selected-features-one-basic-machine-learning-algorithm-for-classification-and-justify-your-choice)
-    - [RandomForest](#randomforest)
-    - [ Implement (using the selected features) one advanced machine learning algorithm for classification and justify your choice.](#-implement-using-the-selected-features-one-advanced-machine-learning-algorithm-for-classification-and-justify-your-choice)
+- [ Task 1](#task-1)
+  - [ Pick any image based dataset from the list, implement the preprocessing and justify the preprocessing steps, extract features and justify the methods used, select features and justify the methods used](#pick-any-image-based-dataset-from-the-list-implement-the-preprocessing-and-justify-the-preprocessing-steps-extract-features-and-justify-the-methods-used-select-features-and-justify-the-methods-used)
+    - [Preprocessing](#preprocessing)
+      - #### Duplicate Images
+    - [Features](#extract-and-select-features)
+  - [ Implement (using the selected features) one basic machine learning algorithm for classification and justify your choice](#-implement-using-the-selected-features-one-basic-machine-learning-algorithm-for-classification-and-justify-your-choice)
+  - [RandomForest](#randomforest)
+  - [ Implement (using the selected features) one advanced machine learning algorithm for classification and justify your choice.](#-implement-using-the-selected-features-one-advanced-machine-learning-algorithm-for-classification-and-justify-your-choice)
 - [XGBoost](#xgboost)
-    - [ Implement a CNN with hyperparameter tuning (for this you can directly use the data after the preprocessing)](#-implement-a-cnn-with-hyperparameter-tuning-for-this-you-can-directly-use-the-data-after-the-preprocessing)
-    - [ Compare and Explain the results in terms of both the computation time and the performance of the classification algorithms.](#-compare-and-explain-the-results-in-terms-of-both-the-computation-time-and-the-performance-of-the-classification-algorithms)
-  - [ Task 2](#-task-2)
-    - [ Pick any dataset from the list, implement the preprocessing and justify the preprocessing steps, extract features and justify the methods used, select features and justify the methods used.](#-pick-any-dataset-from-the-list-implement-the-preprocessing-and-justify-the-preprocessing-steps-extract-features-and-justify-the-methods-used-select-features-and-justify-the-methods-used)
-      - [Scaling](#scaling)
-      - [Outlier detection](#outlier-detection)
-      - [Dimensionality reduction](#dimensionality-reduction)
-    - [ Implement three clustering methods out of the following and justify your choices](#-implement-three-clustering-methods-out-of-the-following-and-justify-your-choices)
-      - [ K-means](#-k-means)
-      - [ Fuzzy C-means](#-fuzzy-c-means)
-      - [ Gaussian mixture models](#-gaussian-mixture-models)
-    - [ Compare and Explain the results](#-compare-and-explain-the-results)
-      - [ K-means](#-k-means-1)
-      - [ Fuzzy C-means](#-fuzzy-c-means-1)
-      - [ Gaussian mixture models](#-gaussian-mixture-models-1)
+  - [ Implement a CNN with hyperparameter tuning (for this you can directly use the data after the preprocessing)](#-implement-a-cnn-with-hyperparameter-tuning-for-this-you-can-directly-use-the-data-after-the-preprocessing)
+  - [ Compare and Explain the results in terms of both the computation time and the performance of the classification algorithms.](#-compare-and-explain-the-results-in-terms-of-both-the-computation-time-and-the-performance-of-the-classification-algorithms)
+- [ Task 2](#-task-2)
+  - [ Pick any dataset from the list, implement the preprocessing and justify the preprocessing steps, extract features and justify the methods used, select features and justify the methods used.](#-pick-any-dataset-from-the-list-implement-the-preprocessing-and-justify-the-preprocessing-steps-extract-features-and-justify-the-methods-used-select-features-and-justify-the-methods-used)
+    - [Scaling](#scaling)
+    - [Outlier detection](#outlier-detection)
+    - [Dimensionality reduction](#dimensionality-reduction)
+  - [ Implement three clustering methods out of the following and justify your choices](#-implement-three-clustering-methods-out-of-the-following-and-justify-your-choices)
+    - [ K-means](#-k-means)
+    - [ Fuzzy C-means](#-fuzzy-c-means)
+    - [ Gaussian mixture models](#-gaussian-mixture-models)
+  - [ Compare and Explain the results](#-compare-and-explain-the-results)
+    - [ K-means](#-k-means-1)
+    - [ Fuzzy C-means](#-fuzzy-c-means-1)
+    - [ Gaussian mixture models](#-gaussian-mixture-models-1)
 
 
 <div style="page-break-after: always;"></div>
 
 ## <a id="task-1"></a> Task 1
 
-### <a id="task-1-a"></a> Pick any image based dataset from the list, implement the preprocessing and justify the preprocessing steps, extract features and justify the methods used, select features and justify the methods used. Some of this is done already in one of the previous assignments. You can reuse things
+### <a id="task-1-a"></a> Pick any image based dataset from the list, implement the preprocessing and justify the preprocessing steps, extract features and justify the methods used, select features and justify the methods used.
 
 We used the Intel Image Classification dataset for this task. It contains natural scene images labeled into six categories: buildings, forest, glacier, mountain, sea, and street. These category labels are the targets our models predict. The table below summarizes the number of images in the provided training and test sets. 
 
@@ -80,11 +79,11 @@ Figure 1 and 2 show some sample images from each category in the training and te
   <em>Figure 2: Sample images for the test set</em>
 </p>
 
-#### Preprocessing
+### Preprocessing
 
 The preprocessing stage combined algorithms for detecting corrupted or low-quality images with manual inspection to ensure data quality. This approach minimized the risk of incorrectly discarding valid training images.
 
-**Duplicate Images**
+#### Duplicate Images
 
 We detected exact duplicates by computing an MD5 hash (a short, fixed-length “fingerprint” of the image data) of each image’s raw pixel values and grouped images with identical hashes. The resulting duplicates pairs are shown in figure 3 and 4.
 
@@ -114,7 +113,7 @@ This method identified some of the same images as the exact-duplicate search, bu
   <em>Figure 6: Perceptual duplicates with different categories detected in the training set</em>
 </p>
 
-**Unrecognizable images**
+#### Unrecognizable images
 
 We also examined whether the dataset contained blurry, empty/low-edge, almost uniform, or overly noisy images. Empty or low-edge images were detected using edge detectors to flag cases with very few visible structures, almost uniform images were identified by measuring how little the pixel intensities vary, blurry images were found by checking for a lack of fine detail using a Laplacian-based sharpness measure, and overly noisy images were characterized by excessively strong high-frequency responses.
 
@@ -143,7 +142,7 @@ We applied these checks to identify foggy, grainy, blurry, and otherwise unrepre
   <em>Figure 8: Empty/Low edge images detected in the training set</em>
 </p>
 
-**Misplaced Images**
+#### Misplaced Images
 
 We also used a modified K-nearest-neighbors algorithm (KNN) with Euclidean distance to identify potentially miscategorized images, flagging those whose nearest neighbors mostly shared a different, but mutually consistent, class label. By miscategorized, we refer to training images that have been assigned the wrong class label. For example a building being labeled as a forest. By suspicious, we mean training images that the algorithm suggests may be incorrectly labeled, but which require manual inspection to confirm.
 
@@ -225,7 +224,7 @@ In total, we removed 63 miscategorized images from the glacier category, most of
   <em>Figure 17: Potentially miscategorized images in street category</em>
 </p>
 
-**Data Augmentation**
+#### Data Augmentation
 
 To increase robustness and expand the effective training set, we applied three forms of data augmentation to the training images: horizontal flipping, skewing, and central cropping followed by resizing. These augmentations are particularly relevant for our scene-classification task involving the categories buildings, forest, glacier, mountain, sea, and street, since natural scene images often appear with variations in viewpoint, framing, and orientation. Some examples of augmented images are shown in figure 18.
 
@@ -238,11 +237,11 @@ When performing both data augmentation and feature extraction (HOG and LBP), we 
   <em>Figure 18: Data augmented images</em>
 </p>
 
-**Resizing Images**
+#### Resizing Images
 
 After noticing that all images were originally 150×150 pixels we decided to keep the images as they were. We have done this to behold all the original information of the images.
 
-**Normalizing Images**
+#### Normalizing Images
 
 After resizing, we normalized all images by scaling pixel values from the original 0–255 range to 0–1. This keeps the overall pixel distribution intact as shown in figure 19 but puts all inputs on a common scale, which stabilizes training for the CNN and makes the features more comparable for the Random Forest, XGBoost, and stacking ensemble models.
 
@@ -460,7 +459,21 @@ We implemented a CNN with TensorFlow/Keras and trained it on the preprocessed im
 
 We first implemented a CNN with a fixed architecture in regards to filter options and internal dense layer units. This model was trained on the augmented dataset, and took in approximately 23 minutes to train with GPU. To investigate the effect of hyperparameters, we then performed a grid search over multiple CNN configurations. This hyperparameter tuning was substantially more time consuming. As a result we had to limit the tuning to only 50% of the training data and it still took several hours to complete. With this grid search we tuned learning rate, dropout, batch size, kernel size, padding options, filter size options and stride length. This grid search resulted in a CNN model with both a validation and test accuracy of 76%.
 
-<h1 style="color:green">add table of chosen parameters</h1>
+<div align="center">
+
+| Hyperparameter      | Value             | Explanation                                                                 |
+|---------------------|-------------------|-----------------------------------------------------------------------------|
+| Stride              | (1,1)             | Controls how far the filter moves across the image; smaller stride preserves more spatial detail. |
+| Filters             | 32, 64, 128       | Number of convolutional kernels per layer; more filters allow the network to learn more features. |
+| Padding             | valid             | No padding is added, causing spatial dimensions to shrink after convolution. |
+| Dense units         | 256               | Number of neurons in the fully connected layer, influencing model capacity. |
+| Learning rate       | 0.01              | Controls how quickly the model updates its weights during training.         |
+| Dropout             | 0.4               | Randomly disables 40 percent of neurons during training to reduce overfitting. |
+| Batch size          | 64                | Number of samples processed before updating model weights.                  |
+| Kernel size         | (3,3)             | Dimensions of the convolutional filter, determining the receptive field.   |
+<p align="center"><em>Table #: Overview of CNN hyperparameters and their functions</em></p>
+
+</div>
 
 However, when we trained our CNN model with the best hyperparameters from the grid search on 100% of the available data, we obtained a substantially higher test accuracy of 85.7% and a total training time of 23 minutes.
 <p align="center">
@@ -502,6 +515,58 @@ The CNN has a high capacity to approximate complex decision boundaries directly 
 In terms of classification performance, the CNN clearly outperformed both Random Forest and XGBoost on this image classification task. Our CNN model reached 85.7% accuracy, which is substantially better compared even to our XGBoost model which was the fastest and most accurate of the advanced models. If we compare the CNN to our best performing basic model, random forest, it significantly out performed it in terms of accuracy, but required about 13 minutes more training time, excluding the feature extraction.
 
 Overall, the results show that despite the common perception that deep learning models are always slower and more resource-intensive, a reasonably sized CNN can be competitive or even faster than traditional methods when using a GPU. This is especially the case when traditional methods depend on expensive feature extraction pipelines. At the same time, the CNN achieved clearly superior classification performance on this image dataset, which is consistent with its architectural advantages for image-based tasks.
+
+**Misclassifications**
+
+All models, based on their confusion matrices, struggle to distinguish between mountain and glacier and vice-versa. As mentioned earlier, this is explained by the fact that such images share many common features. Concrete examples of these misclassifications are shown in figure x and y.
+
+<p align="center">
+  <img src="task1/intel-image-classification/seg_test/seg_test/mountain/23838.jpg" width="300"/><br>
+  <em>Figure 5: Mountain detected as glacier by _</em>
+</p>
+
+<p align="center">
+  <img src="task1/intel-image-classification/seg_test/seg_test/glacier/20746.jpg" width="300"/><br>
+  <em>Figure 5: Glacier detected as mountain by _</em>
+</p>
+
+CNNs performed fewer misclassifications between mountain and sea, and between glacier and sea, which the other models struggled with. Examples are shown in figure x to y.
+
+<p align="center">
+  <img src="task1/intel-image-classification/seg_test/seg_test/mountain/22479.jpg" width="300"/><br>
+  <em>Figure 5: Mountain detected as sea by _</em>
+</p>
+
+<p align="center">
+  <img src="task1/intel-image-classification/seg_test/seg_test/sea/24187.jpg" width="300"/><br>
+  <em>Figure 5: Sea detected as mountain by _</em>
+</p>
+
+<p align="center">
+  <img src="task1/intel-image-classification/seg_test/seg_test/glacier/20603.jpg" width="300"/><br>
+  <em>Figure 5: Glacier detected as sea by _</em>
+</p>
+
+<p align="center">
+  <img src="task1/intel-image-classification/seg_test/seg_test/sea/23889.jpg" width="300"/><br>
+  <em>Figure 5: Sea detected as glacier by _</em>
+</p>
+
+Finally, all models struggled a little when classifying between buildings and street and vice versa. As said before, this is due to streets and buildings often appearing in the same scenes. See figure x and y for some examples.
+
+<p align="center">
+  <img src="task1/intel-image-classification/seg_test/seg_test/buildings/23733.jpg" width="300"/><br>
+  <em>Figure 5: Building detected as street by _</em>
+</p>
+
+<p align="center">
+  <img src="task1/intel-image-classification/seg_test/seg_test/street/24280.jpg" width="300"/><br>
+  <em>Figure 5: Street detecteintrod as building by _</em>
+</p>
+
+We could have manually refined the training set by drawing clearer boundaries between scenes and removing images that fit multiple categories, but this would require extensive manual effort and could drastically reduce the dataset.
+
+The acceptable level of misclassification depends on the use case of the algorithm. For separating urban from non urban environments, such errors may be tolerable. However, for applications like emergency planning, where accurately distinguishing buildings from streets is crucial, even minor errors could lead to faulty risk assessments and unsafe decisions.
 
 <h2 style="color: green;">TODO: 
 - legg til SVM in sammenligningen
