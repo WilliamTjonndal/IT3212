@@ -92,7 +92,7 @@ On closer inspection, some duplicate images appear in different categories (e.g.
 
 In addition, we identified perceptual duplicates by computing a perceptual hash for each image and grouping images with identical hashes. Unlike exact duplicates, which rely on MD5 and only catch bit-for-bit identical files, perceptual hashing groups images that look the same, even if they differ slightly in encoding or minor edits. The results are shown in figure 5 and 6, where many image pairs are nearly indistinguishable to the human eye, though some differ slightly in lighting or saturation.
 
-This method identified some of the same images as the exact-duplicate search, but also uncovered images that had been slightly modified. Perceptually duplicate images that appeared in multiple categories were retained for the same reasons as the exact duplicates, but those occurring within the same category folder were removed to eliminate redundant information. In total, we removed 10 perceptual duplicates. These duplicates with slight modifications could be seen as intented data augmentation, but we removed them so that we can control the augmentation process ourselves. This will be described further.
+This method identified some of the same images as the exact-duplicate search, but also uncovered images that had been slightly modified. Perceptually duplicate images that appeared in multiple categories were retained for the same reasons as the exact duplicates, but those occurring within the same category folder were removed to eliminate redundant information. In total, we removed 10 perceptual duplicates. These duplicates with slight modifications could be seen as intented data augmentation, but we removed them so that we can control the augmentation process ourselves. This will be described further in the next sections.
 
 <p align="center">
   <img src="task1/results/perceptual_duplicates_same_label/perceptual_duplicates_same_label_pairs.png" width="500"/><br>
@@ -121,7 +121,7 @@ We applied these checks to identify foggy, grainy, blurry, and otherwise unrepre
 
 **Miscategorized Images**
 
-We also used a modified K-nearest-neighbors algorithm (KNN) with Euclidean distance to identify potentially miscategorized images, flagging those whose nearest neighbors mostly shared a different, but mutually consistent, class label. By miscategorized, we refer to training images that have been assigned the wrong class label. For example a building being labeled as a forest.
+We also used a modified K-nearest-neighbors algorithm (KNN) with Euclidean distance to identify potentially miscategorized images, flagging those whose nearest neighbors mostly shared a different, but mutually consistent, class label. By miscategorized, we refer to training images that have been assigned the wrong class label. For example a building being labeled as a forest. By suspicious, we mean training images that the algorithm suggests may be incorrectly labeled, but which require manual inspection to confirm.
 
 In detail, each image was represented using an HSV color histogram, where each pixel is defined by its hue (dominant color), saturation (color intensity), and value (brightness), and the histogram captures the number of pixels falling into discrete bins across these three components. This was chosen over RGB because HSV separates color from lighting, making color comparisons more robust to the substantial illumination differences in our data and thus more effective for detecting mislabeled images across the categories. We used the following parameters:
 
@@ -129,7 +129,7 @@ In detail, each image was represented using an HSV color histogram, where each p
 - **Neigboor difference threshold (neighbor_diff_threshold)**: Minimum fraction of neighbors that must have a different label than the image to flag it as suspicious. We set this to 80% so that only cases with strong disagreement are flagged.
 - **Minimum alternative fraction (min_alt_frac)**: Among the disagreeing neighbors, the minimum fraction that must agree on the same alternative class. We set this to 60% to avoid scattered disagreements and only flag images when there is a clear consensus on a different label.
 
-Figure 9 shows how the KNN-based method flagged a potentially miscategorized image, specifically a flower that had been mislabeled as a glacier (glacier/15039.jpg). In the 3D PCA projection of the HSV feature space, the image labeled as glacier (red star) appears among neighbors consistently labeled as forest (green markers). Figure 10 shows the HSV histogram for this image. This illustrates our procedure of identifying images the algorithm marks as potentially misplaced and manually inspecting them to verify their labels. 
+Figure 9 shows how the KNN-based method flagged a potentially miscategorized image, specifically a flower that had been mislabeled as a glacier (glacier/15039.jpg). In the 3D PCA projection of the HSV feature space, the image labeled as glacier (red star) appears among neighbors consistently labeled as forest (green markers). Figure 10 shows the HSV histogram for this image. This illustrates our procedure of identifying images the algorithm marks as potentially miscategorized and manually inspecting them to verify their labels. 
 
 <p align="center">
   <img src="task1/results/knn_suspicious/HSV_PCA.png" width="500"/><br>
@@ -148,11 +148,11 @@ The neighbors used to detect the mislabeled image in Figure 10 and their HSV his
   <em>Figure 11: HSV histograms of forest images</em>
 </p>
 
-Table 3 shows how many potentially misplaced images the algorithm detected in each category. Figures 12–17 show, for each category, the 40 images whose labels disagree most with their neighbors according to the KNN-based neigboor difference threshold explained earlier. This means that those images are most likely to differ from their assigned class label. These are the images most likely to be mislabeled relative to their assigned class. Despite KNN flagging 149 suspicious images in the mountains category, closer inspection revealed an even larger number of truly miscategorized images in the glacier class, as shown in Figure 12. We therefore manually inspected the glacier folder and removed 63 images from this category. 
+Table 3 shows how many potentially miscategorized images the algorithm detected in each category. Figures 12–17 show, for each category, the 40 images whose labels disagree most with their neighbors according to the KNN-based neigboor difference threshold explained earlier. This means that those images are most likely to differ from their assigned class label. These are the images most likely to be mislabeled relative to their assigned class. Despite KNN flagging 149 suspicious images in the mountains category, closer inspection revealed an even larger number of truly miscategorized images in the glacier class, as shown in Figure 12. We therefore manually inspected the glacier folder and removed 63 images from this category. 
 
 We could have experimented with other parameter setting to detect more suspicious images, but we chose not to, since this method was only intended as a tool to highlight candidates for manual inspection. Our goal was to identify which types of miscategorized images appeared most frequently, not to develop a fully optimized automatic detector, so further tuning of the algorithm would have been unnecessarily demanding. The method suggested that miscategorized images were most prevalent in the glacier category.
 
-In total, we removed 63 misplaced images from the glacier category, most of which were images of flowers, animals, forest scenes, indoor environments, or lakes, and some are shown in figure 12. We acknowledge that some noisy or mislabeled data may still remain in the dataset, but we consider this acceptable given that the KNN results suggest only a small number of additional suspicious cases in the other categories, and that further cleaning would require substantial manual effort. We also chose not to reassign the removed glacier images to other categories, since many did not clearly belong to any of the predefined classes and they represent only a very small fraction of the overall dataset.
+In total, we removed 63 miscategorized images from the glacier category, most of which were images of flowers, animals, forest scenes, indoor environments, or lakes, and some are shown in figure 12. We acknowledge that some noisy or mislabeled data may still remain in the dataset, but we consider this acceptable given that the KNN results suggest only a small number of additional suspicious cases in the other categories, and that further cleaning would require substantial manual effort. We also chose not to reassign the removed glacier images to other categories, since many did not clearly belong to any of the predefined classes and they represent only a very small fraction of the overall dataset.
 
 <div align="center">
 
@@ -169,55 +169,68 @@ In total, we removed 63 misplaced images from the glacier category, most of whic
 
 </div>
 
-<p align="center"><em>Table 3: Potentially misplaced images detected by K-Nearest-Neighboor.</em></p>
+<p align="center"><em>Table 3: Potentially miscategorized images detected by K-Nearest-Neighboor.</em></p>
 
 <p align="center">
   <img src="task1/results/knn_suspicious/buildings_suspicious.png" width="500"/><br>
-  <em>Figure 12: Potentially misplaced images in buildings category</em>
+  <em>Figure 12: Potentially miscategorized images in buildings category</em>
 </p>
 
 <p align="center">
   <img src="task1/results/knn_suspicious/forest_suspicious.png" width="500"/><br>
-  <em>Figure 13: Potentially misplaced images in forest category
+  <em>Figure 13: Potentially miscategorized images in forest category
   </em>
 </p>
 
 <p align="center">
   <img src="task1/results/knn_suspicious/glacier_suspicious.png" width="500"/><br>
-  <em>Figure 14: Potentially misplaced images in glacier category</em>
+  <em>Figure 14: Potentially miscategorized images in glacier category</em>
 </p>
 
 <p align="center">
   <img src="task1/results/knn_suspicious/mountain_suspicious.png" width="500"/><br>
-  <em>Figure 15: Potentially misplaced images in mountain category</em>
+  <em>Figure 15: Potentially miscategorized images in mountain category</em>
 </p>
 
 <p align="center">
   <img src="task1/results/knn_suspicious/sea_suspicious.png" width="500"/><br>
-  <em>Figure 16: Potentially misplaced images in sea category</em>
+  <em>Figure 16: Potentially miscategorized images in sea category</em>
 </p>
 
 <p align="center">
   <img src="task1/results/knn_suspicious/street_suspicious.png" width="500"/><br>
-  <em>Figure 17: Potentially misplaced images in street category</em>
+  <em>Figure 17: Potentially miscategorized images in street category</em>
+</p>
+
+**Data Augmentation**
+
+To increase robustness and expand the effective training set, we applied three forms of data augmentation to the training images: horizontal flipping, affine skewing, and central cropping followed by resizing. These augmentations are particularly relevant for our scene-classification task involving the categories buildings, forest, glacier, mountain, sea, and street, since natural scene images often appear with variations in viewpoint, framing, and orientation. Some examples of augmented images are shown in figure 18.
+
+- **Horizontal flipping** helps the model become invariant to left–right orientation, which is common in landscapes and urban environments (e.g., coastlines, tree lines, or streets viewed from opposite angles).
+- **Affine skewing** simulates changes in camera angle or perspective, which frequently occur in scenes such as buildings, mountains, and forests where the viewer's position can vary widely.
+- **Central cropping** encourages the model to remain robust to shifts in zoom or framing, reflecting real-world variation in how scenes are captured.
+
+<p align="center">
+  <img src="task1/results/data_augmentation_examples.png" width="500"/><br>
+  <em>Figure 18: Data augmented images</em>
 </p>
 
 **Resizing Images**
 
-All images were originally 150×150 pixels but were resized to 128×128 during preprocessing. A fixed input size is required for the CNN and greatly simplifies feature extraction for the Random Forest, XGBoost, and stacking ensemble models. The 128×128 resolution offers a good balance between preserving visual detail and keeping the computational cost low, enabling efficient training while maintaining sufficient image quality for all models. Figure 18 shows that the clear structure and overall quality of each image are preserved at this lower resolution, indicating that 128×128 is sufficient for subsequent modelling.
+All images were originally 150×150 pixels but were resized to 128×128 during preprocessing. A fixed input size is required for the CNN and greatly simplifies feature extraction for the Random Forest, XGBoost, and stacking ensemble models. The 128×128 resolution offers a good balance between preserving visual detail and keeping the computational cost low, enabling efficient training while maintaining sufficient image quality for all models. Figure 19 shows that the clear structure and overall quality of each image are preserved at this lower resolution, indicating that 128×128 is sufficient for subsequent modelling.
 
 <p align="center">
   <img src="task1/results/before_after_resizing.png" width="500"/><br>
-  <em>Figure 18: Images before and after resizing.</em>
+  <em>Figure 19: Images before and after resizing.</em>
 </p>
 
 **Normalizing Images**
 
-After resizing, we normalized all images by scaling pixel values from the original 0–255 range to 0–1. This keeps the overall pixel distribution intact as shown in figure 19 but puts all inputs on a common scale, which stabilizes training for the CNN and makes the features more comparable for the Random Forest, XGBoost, and stacking ensemble models.
+After resizing, we normalized all images by scaling pixel values from the original 0–255 range to 0–1. This keeps the overall pixel distribution intact as shown in figure 20 but puts all inputs on a common scale, which stabilizes training for the CNN and makes the features more comparable for the Random Forest, XGBoost, and stacking ensemble models.
 
 <p align="center">
   <img src="task1/results/pixel_normalization_hist.png" width="500"/><br>
-  <em>Figure 18: Images before and after resizing.</em>
+  <em>Figure 20: Images before and after resizing.</em>
 </p>
 
 #### Extract and Select Features
