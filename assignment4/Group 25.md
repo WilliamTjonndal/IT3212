@@ -374,7 +374,7 @@ We chose `stacking` because it lets us combine models that capture different asp
 
 We performed a parameter sweep to systematically identify which feature configurations produce the highest classification accuracy for our models.
 
-We performed this sweep using only 25% of the dataset to keep extraction and training times manageable. This smaller subset allowed us to compare configurations efficiently without the sweep taking an impractical amount of time. This can cause the models below the achieve higher accuracies due to overfitting. 
+We performed this sweep using only 25% of the dataset to keep extraction and training times manageable. This smaller subset allowed us to compare configurations efficiently without the sweep taking an impractical amount of time. This can cause the models below the achieve higher-than-usual accuracies due to overfitting. 
 
 #### <a id="svm-f"></a> SVM
 
@@ -385,25 +385,25 @@ We performed this sweep using only 25% of the dataset to keep extraction and tra
 
 <div align="center">
 
-| Method  | HOG Orientations | HOG Pixels/Cell | HOG Cells/Block | LBP P | LBP R | Test Accuracy |
-| ------- | ---------------- | --------------- | --------------- | ----- | ----- | ------------- |
-| HOG     | 9                | (8, 8)          | (3, 3)          | –     | –     | **0.573**     |
-| HOG     | 16               | (8, 8)          | (2, 2)          | –     | –     | **0.627**     |
-| LBP     | –                | –               | –               | 8     | 1         | **0.460**     |
-| LBP     | –                | –               | –               | 10    | 3         | **0.413**     |
-| HOG+LBP | 9                | (8, 8)          | (3, 3)          | 8     | 1         | **0.587**     |
-| HOG+LBP | 9                | (8, 8)          | (3, 3)          | 10    | 3         | **0.587**     |
-| HOG+LBP | 16               | (8, 8)          | (2, 2)          | 8     | 1         | **0.627**     |
-| HOG+LBP | 16               | (8, 8)          | (2, 2)          | 10    | 3         | **0.627**     |
+| Method         | HOG Orientations | HOG Cells/Block | LBP P | LBP R | Test Accuracy |
+|----------------|------------------|------------------|-------|-------|----------------|
+| HOG-9          | 9                | (3, 3)           | –     | –     | 0.573          |
+| HOG-16         | 16               | (2, 2)           | –     | –     | 0.627          |
+| LBP-8          | –                | –                | 8     | 1     | 0.460          |
+| LBP-10         | –                | –                | 10    | 3     | 0.413          |
+| HOG-9+LBP-8    | 9                | (3, 3)           | 8     | 1     | 0.587          |
+| HOG-9+LBP-10   | 9                | (3, 3)           | 10    | 3     | 0.587          |
+| HOG-16+LBP-8   | 16               | (2, 2)           | 8     | 1     | 0.627          |
+| HOG-16+LBP-10  | 16               | (2, 2)           | 10    | 3     | 0.627          |
 <p align="center"><em>Table 5: Comparison of SVM Test Accuracy with Different Feature Extraction Parameters</em></p>
 
 </div>
 
 The parameter sweep shows that **HOG parameters have the strongest impact on SVM performance**. Increasing the number of orientations from 9 to 16 notably improves accuracy (from 0.573 to 0.627), suggesting that for this dataset, capturing finer gradient direction detail helps the classifier better distinguish class-relevant shape structures. The smaller HOG cell-block size (2×2 instead of 3×3) may also contribute by producing more localized contrast-sensitive features, which appear beneficial for the SVM’s linear decision boundaries.
 
-In contrast, **LBP alone performs considerably worse**, with accuracy dropping from 0.460 to 0.413 as P and R increase. This indicates that LBP’s texture patterns, especially with higher-radius neighborhoods, do not capture discriminative information as effectively for this task. High-radius LBP can dilute fine local texture cues, and uniform LBP reduces dimensionality but may also remove meaningful micro-patterns needed for classification.
+In contrast, **LBP alone performs considerably worse**, with accuracy dropping from 0.460 to 0.413 as P and R increase. P represents the number of sampling points used to form each binary texture pattern, while R represents the radius of the circular neighborhood around each pixel used to compute the local binary pattern. This indicates that LBP's texture patterns, especially with higher-radius neighborhoods, do not capture discriminative information as effectively for this task. High-radius LBP can dilute fine local texture cues, and uniform LBP reduces dimensionality but may also remove meaningful micro-patterns needed for classification.
 
-For the combined HOG+LBP approach, the results show **incremental improvement over standalone HOG when base HOG accuracy is low**, but **no improvement when HOG is already strong**. When the 9-orientation HOG is used, adding LBP nudges accuracy upward (0.573 to ~0.587). However, when the 16-orientation HOG configuration is used, the LBP addition produces no gain (0.627 remains unchanged). This suggests redundancy: the stronger HOG configuration already captures most of the discriminative structure, so LBP adds little new information. Overall, the sweep supports the conclusion that HOG orientation resolution is the dominant factor driving SVM accuracy in this experiment.
+For the combined HOG+LBP approach, the results show **incremental improvement over standalone HOG when base HOG accuracy is low**, but **no improvement when HOG is already strong**. When the 9-orientation HOG is used, adding LBP nudges accuracy upward (0.573 to ~0.587). However, when the 16-orientation HOG configuration is used, the LBP addition produces no gain (0.627 remains unchanged). This suggests redundancy: the stronger HOG configuration already captures most of the discriminative structure, so LBP adds little new information. Overall, the sweep supports the conclusion that HOG orientation resolution is the dominant factor driving SVM accuracy.
 
 #### <a id="rf-f"></a> RandomForest
 
@@ -413,22 +413,26 @@ For the combined HOG+LBP approach, the results show **incremental improvement ov
 </p>
 
 <div align="center">
-| Label example      | Meaning                              |
-| ------------------ | ------------------------------------ |
-| **HOG-9**      | HOG with 9 orientations   |
-| **HOG-16**     | HOG with 16 orientations  |
-| **LBP-8**      | LBP with 8 points              |
-| **LBP-10**     | LBP with 10 points             |
-| **HOG-9 + LBP-8** | HOG with 16 bins + LBP with 8 points |
+
+| Method         | HOG Orientations | HOG Cells/Block | LBP P | LBP R | Test Accuracy |
+|----------------|------------------|------------------|-------|-------|----------------|
+| HOG-9          | 9                | (3, 3)           | –     | –     | 0.633          |
+| HOG-16         | 16               | (2, 2)           | –     | –     | 0.620          |
+| LBP-8          | –                | –                | 8     | 1     | 0.540          |
+| LBP-10         | –                | –                | 10    | 3     | 0.547          |
+| HOG-9+LBP-8    | 9                | (3, 3)           | 8     | 1     | 0.647          |
+| HOG-9+LBP-10   | 9                | (3, 3)           | 10    | 3     | 0.607          |
+| HOG-16+LBP-8   | 16               | (2, 2)           | 8     | 1     | 0.600          |
+| HOG-16+LBP-10  | 16               | (2, 2)           | 10    | 3     | 0.600          |
 <p align="center"><em>Table 6: Comparison of Random Forest Test Accuracy with Different Feature Extraction Parameters</em></p>
 
 </div>
 
-The parameter sweep shows that **HOG features clearly outperform LBP histograms** when used with a RandomForest classifier. HOG configurations reach **0.62 to 0.63** accuracy because they capture strong gradient structure such as edges, contours, and overall shape, which aligns well with differences between scene classes. In contrast, LBP histograms stay around **0.54 to 0.55**, since they focus only on small local textures and lose spatial information when converted into global histograms.
+The parameter sweep shows that **HOG features clearly outperform LBP histograms** when used with a RandomForest classifier. HOG configurations reach 0.620 to 0.633 accuracy because they capture strong gradient structure such as edges, contours, and overall shape, which aligns well with differences between scene classes. In contrast, LBP histograms stay around 0.540 to 0.547, since they focus only on small local textures and lose spatial information when converted into global histograms.
 
-LBP histogram performance also changes very little with different **P values**, where P represents the number of sampling points used to form each binary texture pattern. Whether P is 8 or 10, the resulting histograms still emphasize micro-textures rather than larger spatial structure. Because RandomForest models benefit from richer and more descriptive features, the compact texture-only representation of LBP histograms limits their effectiveness for this dataset.
+**LBP histogram performance also changes very little with different P values**. Whether P is 8 or 10, the resulting histograms still emphasize micro-textures rather than larger spatial structure. Because RandomForest models benefit from richer and more descriptive features, the compact texture-only representation of LBP histograms limits their effectiveness for this dataset.
 
-The combined **HOG plus LBP histogram** features perform between the two individual methods, consistently better than LBP alone but only occasionally exceeding HOG by itself. Accuracies fall around **0.60 to 0.65**, with the best combination reaching **0.647**, indicating that LBP contributes some complementary texture information, but HOG remains the main driver of accuracy.
+The combined **HOG plus LBP histogram features perform between the two individual methods**, consistently better than LBP alone but only occasionally exceeding HOG by itself. Accuracies fall from 0.600 to 0.647, indicating that LBP contributes some complementary texture information, but HOG remains the main driver of accuracy.
 
 #### <a id="xgb-f"></a> XGBoost
 
@@ -438,25 +442,26 @@ The combined **HOG plus LBP histogram** features perform between the two individ
 </p>
 
 <div align="center">
-| Method    | HOG Orientations | LBP Points (P) | Test Accuracy |
-| --------- | ---------------- | -------------- | ------------- |
-| HOG       | 9                | -              | 0.653         |
-| HOG       | 16               | -              | 0.620         |
-| LBP       | -                | 8              | 0.520         |
-| LBP       | -                | 10             | 0.487         |
-| HOG + LBP | 9                | 8              | 0.707         |
-| HOG + LBP | 9                | 10             | 0.713         |
-| HOG + LBP | 16               | 8              | 0.687         |
-| HOG + LBP | 16               | 10             | 0.627         |
+
+| Method         | HOG Orientations | HOG Cells/Block | LBP P | LBP R | Test Accuracy |
+|----------------|------------------|------------------|-------|-------|----------------|
+| HOG-9          | 9                | (3, 3)           | –     | –     | 0.653          |
+| HOG-16         | 16               | (2, 2)           | –     | –     | 0.620          |
+| LBP-8          | –                | –                | 8     | 1     | 0.520          |
+| LBP-10         | –                | –                | 10    | 3     | 0.487          |
+| HOG-9+LBP-8    | 9                | (3, 3)           | 8     | 1     | 0.707          |
+| HOG-9+LBP-10   | 9                | (3, 3)           | 10    | 3     | 0.713          |
+| HOG-16+LBP-8   | 16               | (2, 2)           | 8     | 1     | 0.687          |
+| HOG-16+LBP-10  | 16               | (2, 2)           | 10    | 3     | 0.627          |
 <p align="center"><em>Table 7: Comparison of XGBoost Test Accuracy with Different Feature Extraction Parameters</em></p>
 
 </div>
 
-The HOG-only feature extraction results show that using 9 orientations outperforms 16 orientations (65.3% vs. 62.0%). This suggests that increasing the number of orientations beyond a certain point might add noise to our features, reducing model generalization. The simpler configuration with fewer orientations is enough to capture key shape and edge features relevant for classifying these image classes. Thus, a moderate HOG parameter setting helps maintain good performance without unnecessary complexity.
+The **HOG-only feature extraction results show that using 9 orientations outperforms 16 orientations** (65.3% vs. 62.0%). This suggests that increasing the number of orientations beyond a certain point might add noise to our features, reducing model generalization. The simpler configuration with fewer orientations is enough to capture key shape and edge features relevant for classifying these image classes. Thus, a moderate HOG parameter setting helps maintain good performance without unnecessary complexity.
 
-The LBP-only features yield lower accuracy overall compared to HOG, with 8 sampling points performing better than 10 points (52.0% vs. 48.7%). Increasing the number of points in LBP may introduce more local texture detail but can also increase noise or variability, which might reduce classifier accuracy. LBP is known to capture fine texture patterns, but for this dataset and XGBoost model, simpler LBP parameters seem more effective than higher complexity.
+The **LBP-only features yield lower accuracy overall compared to HOG**, with 8 sampling points performing better than 10 points (52.0% vs. 48.7%). Increasing the number of points in LBP may introduce more local texture detail but can also increase noise or variability, which might reduce classifier accuracy. LBP is known to capture fine texture patterns, but for this dataset and XGBoost model, simpler LBP parameters seem more effective than higher complexity.
 
-Combining HOG and LBP features consistently improves accuracy over either method alone. The highest accuracy (71.3%) is achieved with HOG-9 orientations combined with LBP-10 points, demonstrating complementary benefits of capturing both shape and texture information. Interestingly, increasing HOG orientations to 16 while combining with LBP yields slightly lower accuracy, reflecting the previous trend that higher HOG complexity is less helpful. Overall, feature fusion provides richer information for XGBoost to leverage, significantly boosting classification performance across the diverse image classes.
+**Combining HOG and LBP features consistently improves accuracy** over either method alone. The highest accuracy (71.3%) is achieved with HOG-9 orientations combined with LBP-10 points, demonstrating complementary benefits of capturing both shape and texture information. Interestingly, increasing HOG orientations to 16 while combining with LBP yields slightly lower accuracy, reflecting the previous trend that higher HOG complexity is less helpful. Overall, feature fusion provides richer information for XGBoost to leverage, significantly boosting classification performance across the diverse image classes.
 
 #### <a id="stacking-f"></a> Stacking
 
@@ -465,16 +470,18 @@ Combining HOG and LBP features consistently improves accuracy over either method
     <em>Figure 29: Stacking Feature Extraction Parameter Sweep</em>
 </p>
 
-| Method  | HOG Orientations | HOG Pixels/Cell | HOG Cells/Block | LBP P | LBP R | LBP Method | Test Accuracy |
-| ------- | ---------------- | --------------- | --------------- | ----- | ----- | ---------- | ------------- |
-| HOG     | 9                | (8, 8)          | (3, 3)          | –     | –     | –          | **0.667**     |
-| HOG     | 16               | (8, 8)          | (2, 2)          | –     | –     | –          | **0.647**     |
-| LBP     | –                | –               | –               | 8     | 1     | uniform    | **0.527**     |
-| LBP     | –                | –               | –               | 10    | 3     | uniform    | **0.547**     |
-| HOG+LBP | 9                | (8, 8)          | (3, 3)          | 8     | 1     | uniform    | **0.673**     |
-| HOG+LBP | 9                | (8, 8)          | (3, 3)          | 10    | 3     | uniform    | **0.673**     |
-| HOG+LBP | 16               | (8, 8)          | (2, 2)          | 8     | 1     | uniform    | **0.633**     |
-| HOG+LBP | 16               | (8, 8)          | (2, 2)          | 10    | 3     | uniform    | **0.653**     |
+<div align="center">
+
+| Method         | HOG Orientations | HOG Cells/Block | LBP P | LBP R | Test Accuracy |
+|----------------|------------------|------------------|-------|-------|----------------|
+| HOG-9          | 9                | (3, 3)           | –     | –     | 0.660          |
+| HOG-16         | 16               | (2, 2)           | –     | –     | 0.653          |
+| LBP-8          | –                | –                | 8     | 1     | 0.527          |
+| LBP-10         | –                | –                | 10    | 3     | 0.547          |
+| HOG-9+LBP-8    | 9                | (3, 3)           | 8     | 1     | 0.673          |
+| HOG-9+LBP-10   | 9                | (3, 3)           | 10    | 3     | 0.673          |
+| HOG-16+LBP-8   | 16               | (2, 2)           | 8     | 1     | 0.633          |
+| HOG-16+LBP-10  | 16               | (2, 2)           | 10    | 3     | 0.653          |
 <p align="center"><em>Table 8: Comparison of Stacking Test Accuracy with Different Feature Extraction Parameters</em></p>
 
 </div>
