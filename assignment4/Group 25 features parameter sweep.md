@@ -140,14 +140,47 @@ Figure 7 shows the number of misplaced images detected by the algorithm for all 
 
 ### Feature extraction
 
-We have used the following feature extraction methodes: HOG and LBP.
+We have used the following feature extraction methodes: HOG, LBP Histogram and a combination of both.
+
+**Histogram of Oriented Gradients (HOG)**
+
+Histogram of Oriented Gradients (HOG) was chosen because it captures edges, contours, and global shape structure—key cues for classes such as buildings, mountains, and streets. We implemented HOG by converting images to grayscale and computing gradient-orientation histograms across spatial cells, normalized over blocks for lighting robustness. We tested multiple orientation and block configurations to evaluate how much structural detail benefits the classifiers, and HOG consistently produced the most informative standalone features.
+
+**Local Binary Pattern (LBP) Histogram**
+
+Local Binary Patterns (LBP) was included to capture fine-grained texture information that HOG does not explicitly model. After converting each image to grayscale, we computed uniform LBP patterns and summarized them into normalized histograms that reflect the image’s texture distribution. We varied parameters such as the number of sampling points and radius. Although LBP alone performed weaker than HOG, it contributed valuable texture cues for classes like forest, glacier, and sea.
+
+**Combined HOG + LBP Features**
+
+The combined HOG+LBP descriptor merges global structure from HOG with localized texture information from LBP. We implemented this by computing both descriptors separately and concatenating them into a single feature vector. This hybrid approach aims to support classes requiring both shape and texture cues, such as distinguishing built environments from natural ones. In practice, HOG+LBP often matched or slightly exceeded HOG alone, showing that LBP adds complementary information even if it is not strong as a standalone feature extractor.
+
+**Data augmentation**
+
+We used data augmentation only for the CNN models because they learn visual patterns directly from pixels and improve when exposed to varied versions of the same image. HOG and LBP do not benefit from this, since their hand-crafted descriptors change too much under transformations. For image recognition, augmentation helps CNNs generalize while offering no meaningful gain for classical feature extractors.
 
 ### Feature selection
+
+For the Intel Image Classification dataset, each image is represented by **high-dimensional feature vectors** extracted from HOG (Histogram of Oriented Gradients) and LBP (Local Binary Pattern) descriptors. Specifically, HOG features are computed with 16 orientations, 8×8 pixels per cell, and 2×2 cells per block, while LBP uses P=10 and R=3 with a uniform pattern. Concatenating these descriptors produces several hundred features per image, capturing complementary information about edge orientations and local texture patterns.
+
+Although this rich representation improves the expressiveness of the data, it also introduces redundancy: some features may be irrelevant or contribute little to class discrimination. To address this, **manual feature selection** can be applied after initial model training to reduce dimensionality, improve interpretability, and potentially enhance classification performance.
+
+The recommended approach involves using a **RandomForest or XGBoost model** trained on the full set of features to compute **feature importances**. A threshold-based selection is then applied: features whose importance exceeds the **median value** are retained, while less informative features are discarded. This strategy balances dimensionality reduction with preservation of meaningful descriptors, ensuring that both HOG and LBP contribute to the final representation.
+
+The workflow can be summarized as follows:
+
+1. **Feature extraction:** Compute HOG + LBP descriptors for all images.
+2. **Initial model training:** Train a RandomForest or XGBoost on the extracted features.
+3. **Compute feature importances:** Identify which features contribute most to class separation.
+4. **Select informative features:** Keep features above the median importance threshold.
+5. **Final classification:** Train the main classifier (RandomForest, XGBoost, SVM, or Stacking) using the reduced feature set.
+
+This method offers several benefits for the Intel dataset: it reduces noise from less informative HOG/LBP bins, can speed up training for high-dimensional classifiers, mitigates the risk of overfitting, and provides insight into which visual patterns are most relevant for each class (e.g., buildings, forest, glacier, mountain, sea, street). By manually selecting features based on model-driven importances, the pipeline leverages both domain knowledge and data-driven evidence to improve classification performance while maintaining interpretability.
 
 <h2 style="color: green;">TODO: 
 - legg til intro
 - forklaring på hva, hvorfor, hvordan for alle feature extraction methodene
 - only data aug for CNN, not for HOG, LBP
+- eller velge vi features manuelt? står i oppgaven: "select features and justify the methods used"
 </h2>
 
 ### <a id="task-1-b"></a> Implement (using the selected features) one basic machine learning algorithm for classification and justify your choice.
@@ -156,6 +189,8 @@ We have used the following feature extraction methodes: HOG and LBP.
 - legg til intro
 - forklaring på hva, hvorfor, hvordan randomforest, svm
 </h2>
+
+We have chosen to use two basic models, as described in the lecture slides: SVM and RandomForest.
 
 #### SVM
 
@@ -172,6 +207,8 @@ We selected `SVM (Support Vector Machines)` because it's a method that we're fam
 - forklaring på hva, hvorfor, hvordan for xgboost og stacking
 </h2>
 
+We chose two advanced models: XGBoost and Stacking.
+
 #### XGBoost
 
 `XGBoost` was chosen because its gradient-boosted tree structure captures complex interactions between HOG, LBP, and combined features better than bagging-based methods. Its regularization and iterative boosting process help it achieve strong generalization even with large, mixed feature sets. For our scene types, `XGBoost` handles fine distinctions—such as mountain vs. glacier or glacier vs. sea—more effectively than `RandomForest` because boosting gradually corrects misclassifications. The downside is that `XGBoost` is more sensitive to hyperparameters and more computationally demanding, especially when scenes contain highly variable textures like forest landscapes.
@@ -181,6 +218,10 @@ We selected `SVM (Support Vector Machines)` because it's a method that we're fam
 We chose `stacking` because it lets us combine models that capture different aspects of our scene-classification task—*buildings, forest, glacier, mountain, sea,* and *street*—resulting in a more balanced and robust classifier. `Random Forest` handles nonlinear patterns and noisy HOG/LBP features well, while `SVM` provides strong margin-based separation in high-dimensional space. Using `logistic regression` as the meta-learner keeps the final decision simple, well-regularized, and less prone to overfitting. Beyond sounding like a cool, advanced technique, stacking gives us a technically strong way to merge complementary strengths into a single, more reliable model.
 
 ### Feature parameter sweep
+
+We performed a parameter sweep to systematically identify which feature configurations produce the highest classification accuracy for our models.
+
+We performed thi sweep susing only 10% of the dataset to keep extraction and training times manageable. This smaller subset allowed us to compare configurations efficiently without the sweep taking an impractical amount of time.
 
 **SVM**
 
@@ -219,11 +260,11 @@ For the combined HOG+LBP approach, the results show **incremental improvement ov
 | **LBP-10**     | LBP with 10 points             |
 | **HOG-9 + LBP-8** | HOG with 16 bins + LBP with 8 points |
 
-The parameter sweep and resulting accuracy plot clearly show that **HOG features consistently outperform LBP features** when used independently with a RandomForest classifier. HOG with either 9 or 16 orientation bins produces test accuracies in the range of **0.62–0.63**, which is notably higher than the LBP configurations, which remain around **0.54–0.55** regardless of whether 8 or 10 sampling points are used. This difference reflects the fact that HOG captures richer gradient-based spatial structure, edges, shapes, and contours, while LBP focuses primarily on local texture micro-patterns.
+The parameter sweep shows that **HOG features clearly outperform LBP histograms** when used with a RandomForest classifier. HOG configurations reach **0.62 to 0.63** accuracy because they capture strong gradient structure such as edges, contours, and overall shape, which aligns well with differences between scene classes. In contrast, LBP histograms stay around **0.54 to 0.55**, since they focus only on small local textures and lose spatial information when converted into global histograms.
 
-LBP on its own underperforms because RandomForests tend to benefit from moderately high-dimensional, discriminative features that capture variation at different spatial scales, whereas LBP produces relatively coarse binary patterns that emphasize uniform local texture. Even with different P values (8 vs. 10 sampling points), the performance remains tightly clustered around 0.54–0.55, indicating that changing the radius or number of neighbors does not significantly increase discriminative power for this dataset. This suggests that the dataset’s class boundaries are not strongly explained by micro-textures alone, and LBP’s invariance properties may also reduce useful variation that the classifier could exploit.
+LBP histogram performance also changes very little with different **P values**, where P represents the number of sampling points used to form each binary texture pattern. Whether P is 8 or 10, the resulting histograms still emphasize micro-textures rather than larger spatial structure. Because RandomForest models benefit from richer and more descriptive features, the compact texture-only representation of LBP histograms limits their effectiveness for this dataset.
 
-The combined **HOG+LBP** features perform between the individual methods: better than LBP alone, but not always exceeding HOG alone. Their accuracies cluster around **0.60–0.65**, with the best combination (HOG-9 + LBP-8) reaching the highest overall accuracy of roughly **0.647**. This indicates that LBP contributes some complementary information, but not enough to consistently improve upon HOG alone. RandomForests may also struggle with the increased dimensionality when HOG and LBP are concatenated, especially if some dimensions are redundant or noisy. Overall, the results show that HOG is the most useful individual descriptor, while combining it with LBP can offer moderate improvements but is not uniformly beneficial across parameter settings.
+The combined **HOG plus LBP histogram** features perform between the two individual methods, consistently better than LBP alone but only occasionally exceeding HOG by itself. Accuracies fall around **0.60 to 0.65**, with the best combination reaching **0.647**, indicating that LBP contributes some complementary texture information, but HOG remains the main driver of accuracy.
 
 <h2 style="color: green;">TODO: 
 - forklar hva p values er
@@ -247,19 +288,11 @@ The combined **HOG+LBP** features perform between the individual methods: better
 | HOG + LBP | 16               | 8              | 0.687         |
 | HOG + LBP | 16               | 10             | 0.627         |
 
-Effect of HOG parameters on accuracy
-
 The HOG-only feature extraction results show that using 9 orientations outperforms 16 orientations (65.3% vs. 62.0%). This suggests that increasing the number of orientations beyond a certain point might add noise to our features, reducing model generalization. The simpler configuration with fewer orientations is enough to capture key shape and edge features relevant for classifying these image classes. Thus, a moderate HOG parameter setting helps maintain good performance without unnecessary complexity.
-
-Effect of LBP parameters on accuracy
 
 The LBP-only features yield lower accuracy overall compared to HOG, with 8 sampling points performing better than 10 points (52.0% vs. 48.7%). Increasing the number of points in LBP may introduce more local texture detail but can also increase noise or variability, which might reduce classifier accuracy. LBP is known to capture fine texture patterns, but for this dataset and XGBoost model, simpler LBP parameters seem more effective than higher complexity.
 
-Combining HOG and LBP features
-
 Combining HOG and LBP features consistently improves accuracy over either method alone. The highest accuracy (71.3%) is achieved with HOG-9 orientations combined with LBP-10 points, demonstrating complementary benefits of capturing both shape and texture information. Interestingly, increasing HOG orientations to 16 while combining with LBP yields slightly lower accuracy, reflecting the previous trend that higher HOG complexity is less helpful. Overall, feature fusion provides richer information for XGBoost to leverage, significantly boosting classification performance across the diverse image classes.
-
-This analysis highlights how tuning feature extraction parameters impacts model accuracy, balancing complexity and representational richness for optimal image classification.
 
 <h2 style="color: green;">TODO: 
 - nevn at vi bruker mye enklere versjoner av modelene på 10% av data slik at feature parameter sweep ikke tar uendelig mye tid.

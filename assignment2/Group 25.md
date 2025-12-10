@@ -373,12 +373,18 @@ We implemented HOG using scikit-image and applied it to four images with varying
 
 As shown in figure 17, HOG is better at capturing sharp edges and overall shape/contour than fine textures. Consequently, it renders the human and car contour more clearly since the original images contain fewer details and has well-defined edges. The strawberry and tiger are harder to recognize from HOG features because their appearances are dominated by fine textures as seeds and fur. 
 
+<div style="page-break-after: always;"></div>
+
+<div align="center">
+
 | Image      | Resolution  | HOG Length | % Non-Zero (Sparsity) |
 | ---------- | ----------- | ---------- | --------------------- |
 | Tiger      | 755×860     | 352,836    | 52.1%                 |
 | Fruit      | same size   | 352,836    | 55.3%                 |
 | Person     | similar     | 354,888    | 55.6%                 |
 | Car        | much larger | 1,456,380  | 38.8%                 |
+
+</div>
 
 These results highlight two important observations:
 - Feature vector length scales strongly with image size. The car image being larger produces a feature vector over four times longer.
@@ -408,6 +414,8 @@ Block size has less impact than cell size, but tiny blocks (1×1) preserve more 
 
 The amount of orientation also does not have the same impact as cell size, but fewer orientation bins (6) give more compact, coarse angle coding that highlights major contours, while many bins (18) capture subtle angle changes but can add redundancy/noise.
 
+<div align="center">
+
 | Parameters (cell × block × bins) | Feature Length | Sparsity (% non-zero) | Notes                                                                            |
 | -------------------------------- | -------------- | --------------------- | -------------------------------------------------------------------------------- |
 | 8×8 – 2×2 – 9                    | 354,888        | 55.6%                 | Baseline: balanced detail & robustness                                           |
@@ -415,6 +423,8 @@ The amount of orientation also does not have the same impact as cell size, but f
 | 16×16 – 2×2 – 9                  | 86,112         | 71.0%                 | Larger cells capture only rough shapes; higher sparsity                          |
 | 8×8 – 1×1 – 9                    | 90,522         | 54.6%                 | Single-cell blocks reduce robustness to illumination but preserve local contrast |
 | 8×8 – 2×2 – 18                   | 709,776        | 45.7%                 | More orientation bins capture finer angle detail; lower sparsity                 |
+
+</div>
 
 From the parameter sweep:
 - Cell size: Smaller cells (4×4) produce longer feature vectors and are more sensitive to fine textures while larger cells (16×16) produce shorter vectors and emphasize only coarse shapes.
@@ -472,7 +482,9 @@ For the basic 8-neighbour LBP, the histogram spans all 256 codes, capturing fine
 Rotation-invariant LBP groups patterns that are identical up to rotation, producing a more compact histogram that is robust to orientation changes.\
 Uniform LBP further reduces the histogram to 59 bins by combining all non-uniform patterns, emphasizing fundamental edges and corners while ignoring rare, complex patterns.
 
-In Figure 20, the histograms highlight texture structure: the basic LBP shows peaks across the full 0–255 range, rotation-invariant LBP, the histogram shows a few isolated peaks between 0 and 125, reflecting that many patterns differing only by rotation are mapped to the same code, and uniform LBP emphasizes common uniform patterns near 0 and 60.
+In Figure 20, the histograms highlight texture structure: the basic LBP shows peaks across the full 0–255 range, rotation-invariant LBP, the histogram shows a few isolated peaks between 0 and 125, reflecting that many patterns differing only by rotation are mapped to the same code, and uniform LBP emphasizes common uniform patterns near 0 and 10.
+
+Basic LBP ranges 0–255 because it uses all 256 possible 8-bit patterns. Rotation-invariant LBP groups rotated versions of the same pattern, leaving far fewer distinct patterns, but libraries still plot their raw numeric values, so the range looks larger. Uniform LBP keeps only patterns with ≤2 transitions, giving just 10 labels, so its histogram spans 0–10.
 
 <div style="page-break-after: always;"></div>
 
