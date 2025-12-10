@@ -115,7 +115,7 @@ We also observed a significant shift in stock prices around 1970 and 2005. As il
 In the initial analysis, we observed that the open, high, low, and close prices of the stocks were relatively similar in terms of their mean and average values (see Figures 4–8).
 
 <!---Outliers-->
-Boxplots for each column in figure 12 reveal many high outliers, though they do not fully explain their causes. It is also important to note that market trends vary, and sharp drops do not always indicate unrealistic prices but can reflect real economic events, such as the 2008 financial crisis observed in Figures 4–8. 
+Boxplots for each column in figure 12 reveal many high outliers, though they do not fully explain their causes. It is also important to note that market trends vary, and sharp drops do not always indicate unrealistic prices but can reflect real economic events, such as the 2008 financial crisis observed in Figures 4–8. The further outlier handling will be described in section 3.
 
 <p align="center">
   <img src="img/boxplots.png" width="500"/><br>
@@ -206,25 +206,25 @@ The open interest column is excluded since it contains only zeros for all entrie
 
 ### <a id="3-handling-outliers-section-a"></a> a. Detect outliers using methods such as the IQR method or Z-score.
 
-We have decided to detect outliers using a per-stock rolling Z-score over a 1-month window. Values with a Z-score above 3 are treated as outlier and replaced with the values from the previous data on that stock. We apply the same replacement to negative values, since price and volume cannot be negative. Figure 22 shows the statisctics of the dataset after replacing outliers with forward-filling, where negative values in the low column has been removed.
+We have decided to detect outliers using a per-stock rolling Z-score over a 1-month window. Values with a Z-score above 3 are treated as outliers and are replaced using the value from the previous day for that stock, similar to the forward-filling method applied to missing days in the stock data. We apply the same replacement to negative values, since price and volume cannot be negative. Figure 22 shows the statisctics of the dataset after replacing outliers with forward-filling, where negative values in the low column has been removed.
 
 <p align="center">
   <img src="img/removed_outliers.png" width="600"/><br>
   <em>Figure 22: Statistics of the dataset after imputing outliers</em>
 </p>
 
-As shown in Figure 23, this method detected 184,512 rows with an outlier in at least one of the Open, High, Low, Close, or Volume columns, corresponding to about 1.21% of the dataset. Since this is a very small share of the dataset, imputing these rows is justifiable.
+As shown in Figure 23, this method detected 184 512 rows with an outlier in at least one of the Open, High, Low, Close, or Volume columns, corresponding to about 1.21% of the dataset. Since this is a very small share of the dataset, imputing these rows is justifiable.
 
 <p align="center">
   <img src="img/rows_outliers.png" width="500"/><br>
-  <em>Figure 23: Statistics of the dataset after forward-filling</em>
+  <em>Figure 23: Number of outliers detected and imputed in the dataset</em>
 </p>
 
-Further analysis showed that most outliers were detected by unusually high trading activity on specific days for several stocks. This is supported by Figure 24, which shows 170 404 flagged rows in the Volume column, indicating days with abnormally large trading volumes.
+Further analysis showed that most outliers were detected by unusually high trading activity on specific days for several stocks. This is supported by Figure 24, which shows 170 404 flagged rows in the Volume column, indicating days with abnormally large trading volumes. There were total of 191 516 outliers were detected across all columns, which is higher than the 184 512 rows containing outliers, since this count is per column and does not account for multiple outliers occurring in the same row.
 
 <p align="center">
   <img src="img/column_outliers.png" width="600"/><br>
-  <em>Figure 24: Open price over time after removing outliers</em>
+  <em>Figure 24: Number of outliers detected for each column</em>
 </p>
 
 After applying rolling Z-score–based outlier detection and imputing flagged values, the resulting distributions remain largely unchanged relative to the old versions versions shown in Figures 15–19. This suggests the procedure had little effect on the overall index, but inspecting individuals companies reveals clearer effects
@@ -254,7 +254,7 @@ After applying rolling Z-score–based outlier detection and imputing flagged va
   <em>Figure 29: Volume over time after removing outliers</em>
 </p>
 
-When ranking companies by the number of detected outliers per column, we see that the cleaning step had a clear impact on a few individual stocks, even though the overall index changed only slightly. The figures below list, for each column, the company with the most outliers before and after imputing values flagged by the rolling z-score.
+When ranking companies by the number of detected outliers per column, we see that the cleaning step had a clear impact on some individual stocks, even though the overall index changed only slightly. The figures below list, for each column, the unique company with the most outliers before and after imputing values flagged by the rolling z-score. The total number of outliers in each column is 191 516.
 
 <p align="center">
   <img src="img/drys_open.png" width="600"/><br>
@@ -284,7 +284,9 @@ When ranking companies by the number of detected outliers per column, we see tha
   <em>Figure 34: Volume before and after handling outlier for nav</em>
 </p>
 
-In particular, Figure 31 shows a clear impact of outlier handling on the High price for SPTS, with the high spikes removed. Figure 34 shows that several extreme Volume spikes for NAV were reduced after cleaning. By contrast, Figures 32 and 33 show only small changes on low and close price for Ator and TRXC in figure 32 and 33, which corresponds with the small number of outliers detected.
+In particular, Figure 31 shows a clear impact of outlier handling on the High price for SPTS, with the high spikes removed. Figure 34 shows that several extreme Volume spikes for NAV were reduced after cleaning. By contrast, Figure 32 and 33 show only small changes on low and close price for Ator and TRXC, which corresponds with the small number of outliers detected. 
+
+Although 122 outliers were detected for Drys in the Open price series, as shown in Figure 30, they make up only a small portion of the company’s total trading days. Because each outlier is replaced with the previous day’s value, which is usually very close to the original Open price, the overall price distribution and trend for Drys remain unchanged after imputation.
 
 ### <a id="3-handling-outliers-section-b"></a> b. Decide whether to remove, cap, or transform the outliers. Justify your decisions.
 
@@ -338,7 +340,7 @@ We are aware that label encoding imposes an arbitrary ordering on the symbols, w
 
 This effect can be mitigated if the models are tree-based like Decision Tree, Random Forest and XGBoost, since they split on thresholds and are generally less sensitive the actual numeric scale of the labels.
 
-By contrast, other models such as linear/logistic regression and many neural networks, can misinterpret these encoded integers as meaningful magnitudes. For those models, one-hot encoding would be more appropriate, even though it increases dimensionality.
+By contrast, other models such as linear/logistic regression and many neural networks, can misinterpret these encoded integers as meaningful magnitudes. For those models, one-hot encoding could be more appropriate, even though it increases dimensionality. This also increase the training time, which is the trade-off for using a more appropiate encoding technique.
 
 Label encoding is acceptable when using tree-based models, which are relatively robust to label bias and keeps the dataset computationally manageable.
 
@@ -356,7 +358,7 @@ What you can tell from the result of Min-Max scaling is what percentage from the
 
 
 <p align="center">
-  <img src="img/statistics_after_label_encoding.png" width="600"/><br>
+  <img src="img/statistics_after_label_encoding.png" width="500"/><br>
   <em>Figure 40a: Statistics of the dataset before scaling numeric features</em>
 </p>
 
@@ -447,7 +449,7 @@ A validation set is often used during training to tune hyperparameters and monit
 
 ## <a id="6-PCA"></a> 6. Apply dimensionality reduction techniques such as Principal Component Analysis (PCA) and discuss how it affects the dataset.
 
-Applying Principal Component Analysis (PCA) to our stock dataset reduces dimensionality by turning the original, correlated features into a smaller set of uncorrelated components. This lets us keep the most informative parts of the data while dropping redundant features, which can speed up model training, reduce multicollinearity, and make the data easier to visualize. The trade-off is that the new features (principal components) are linear combinations of the original ones, so they’re less interpretable, and some information is inevitably lost when lower-variance components are discarded. 
+Applying Principal Component Analysis (PCA) to our stock dataset reduces dimensionality by turning the original, correlated features into a smaller set of uncorrelated components. This lets us keep the most informative parts of the data while dropping redundant features, which can speed up model training, reduce multicollinearity, and make the data easier to visualize. The trade-off is that the new features (principal components) are linear combinations of the original variables, making them less interpretable than directly meaningful attributes like Open or Close price. Additionally, some information is inevitably lost when components with lower variance are discarded.
 
 We applied PCA to the Open, High, Low, Close, and Volume features and retained the first two components. Figures 48 and 49 show these two components for the training and test sets, respectively. The reason for choosing two components will be described shortly.
 
@@ -484,7 +486,7 @@ Figure 50 and 51 show this clearly. The first PCA component (PC1) explains 96.09
 <div style="page-break-after: always;"></div>
 
 # Changelog
-- Added numerical count and percentage of days with missing stock data in section [1b.](#1-data-exploration-section-b) to improve: 
+- Added numerical count and percentage of days with missing stock data in section [1b.](#1-data-exploration-section-b) and outliers detected in section [3a.](#3-handling-outliers-section-a) to improve: 
   - While graphs provided are informative, there’s limited statistical summary (e.g., no numerical count or percentage of missing values/outliers).
 - Used the NYSE stock calendar to forward fill data in section [2](#2-data-cleaning)
 - Added a quantative check with number and percentage of rows forward-filled in section to handle days with missing stock data [2a.](#2-data-cleaning-section-a) to improve:
@@ -493,9 +495,9 @@ Figure 50 and 51 show this clearly. The first PCA component (PC1) explains 96.09
   - You could have visualized before/after distributions or volatility metrics to strengthen discussion of impact.
 - Mentioned mitigation strategies which are less sensitive to label bias to justify our label encoding choice in section [4a. ii)](#4-data-transformation-section-a-ii) to improve:
   - You could have mentioned mitigation strategies if used in ML (e.g., tree-based models less sensitive to label bias).
-- Included numeric evidence in terms of mean and variance before and after applying Min-max normalization in section [4b. ii)](#4-data-transformation-section-b-ii) to improve:
+- Added numeric evidence in terms of mean and other metrics before and after applying Min-max normalization in section [4b.](#4-data-transformation-section-b) to improve:
   - You could have included numerical evidence (e.g., mean, variance before/after) or rationale for not choosing standardization (beyond intuition).
 - Briefly noted how our split maintains time distribution to avoid data leakage in section [5a.](#5-data-splitting-section-a) to improve:
   - You could have briefly noted how this split maintains class/time distribution
-- Included variance explained by first PCA components and justified retaining two components in section [6](#6-PCA) to improve:
+- Included variance explained by first PCA components and justified retaining two components in section [6.](#6-PCA) to improve:
   - You could have included quantitative detail (e.g., variance explained by first components, number of components retained).
