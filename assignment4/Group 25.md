@@ -18,19 +18,19 @@
     - [Feature Selection](#feature-selection)
   - [Implement (using the selected features) one basic machine learning algorithm for classification and justify your choice](#implement-using-the-selected-features-one-basic-machine-learning-algorithm-for-classification-and-justify-your-choice)
     - [SVM](#svm)
-    - [Random forest](#Random forest)
+    - [Random forest](#random-forest)
   - [Implement (using the selected features) one advanced machine learning algorithm for classification and justify your choice](#implement-using-the-selected-features-one-advanced-machine-learning-algorithm-for-classification-and-justify-your-choice)
     - [XGBoost](#xgboost)
     - [Stacking](#stacking)
   - [Feature Parameter Sweep](#feature-parameter-sweep)
-      - [SVM](#svm-1)
-      - [Random forest](#Random forest-1)
-      - [XGBoost](#xgboost-1)
-      - [Stacking](#stacking-1)
+      - [SVM](#svm-f)
+      - [Random forest](#rf-f)
+      - [XGBoost](#xgb-f)
+      - [Stacking](#stacking-f)
   - [Implement a CNN with hyperparameter tuning](#implement-a-cnn-with-hyperparameter-tuning)
   - [Compare and Explain the results in terms of both the computation time and the performance of the classification algorithms](#compare-and-explain-the-results-in-terms-of-both-the-computation-time-and-the-performance-of-the-classification-algorithms)
     - [Reasons For Differences In Model Computation Performance](#reasons-for-differences-in-model-computation-performance)
-    - [Misclassifications](#extra-preprocessing-cost)
+    - [Misclassifications](#misclassifications)
 - [Task 2](#task-2)
   - [Pick any dataset from the list, implement the preprocessing and justify the preprocessing steps, extract features and justify the methods used, select features and justify the methods used](#pick-any-dataset-from-the-list-implement-the-preprocessing-and-justify-the-preprocessing-steps-extract-features-and-justify-the-methods-used-select-features-and-justify-the-methods-used)
     - [Scaling](#scaling)
@@ -41,16 +41,15 @@
     - [Fuzzy C-means](#fuzzy-c-means)
     - [Gaussian Mixture Models](#gaussian-mixture-models)
   - [Compare and Explain the results](#compare-and-explain-the-results)
-    - [K-means](#k-means-1)
-    - [Fuzzy C-means](#fuzzy-c-means-1)
-    - [Gaussian Mixture Models](#gaussian-mixture-models-1)
-
+    - [K-means](#compare-k-means)
+    - [Fuzzy C-means](#compare-fuzzy-c-means)
+    - [Gaussian Mixture Models](#compare-gaussian-mixture-models)
 
 <div style="page-break-after: always;"></div>
 
 ## <a id="task-1"></a> Task 1
 
-### <a id="task-1-a"></a> Pick any image based dataset from the list, implement the preprocessing and justify the preprocessing steps, extract features and justify the methods used, select features and justify the methods used.
+### Pick any image based dataset from the list, implement the preprocessing and justify the preprocessing steps, extract features and justify the methods used, select features and justify the methods used.
 
 We used the Intel Image Classification dataset for this task. It contains natural scene images labeled into six categories: buildings, forest, glacier, mountain, sea, and street. These category labels are the targets our models predict. The table below summarizes the number of images in the provided training and test sets. The dataset is already divided up into train, validation and test sets, thus we do not have to split it ourselves.
 
@@ -428,7 +427,7 @@ The workflow can be summarized as follows:
 
 This method offers several benefits for the Intel dataset: it reduces noise from less informative features, which can speed up training for high-dimensional classifiers, and provides insight into which visual patterns are most relevant for each class. By manually selecting features based on model-driven importance, we select the best features to improve model performance.
 
-### <a id="task-1-b"></a> Implement (using the selected features) one basic machine learning algorithm for classification and justify your choice.
+### Implement (using the selected features) one basic machine learning algorithm for classification and justify your choice.
 
 We have chosen to use two basic models, as described in the lecture slides: SVM and Random forest.
 
@@ -455,7 +454,7 @@ However, tree splits can miss subtle continuous gradients in texture and appeara
 
 `Random forest` achieved an accuracy of 66.2%. From the confusion matrix in figure 23, we notice that `Random forest` struggles with predicting the same classes as `SVM`.
 
-### <a id="task-1-c"></a> Implement (using the selected features) one advanced machine learning algorithm for classification and justify your choice.
+### Implement (using the selected features) one advanced machine learning algorithm for classification and justify your choice.
 
 We chose two advanced models: XGBoost and Stacking.
 
@@ -582,7 +581,7 @@ For the combined HOG+LBP approach, the results show **incremental improvement ov
 #### <a id="rf-f"></a> Random forest
 
 <p align="center">
-    <img src="task1/img/Random forest.png" width="700"/><br>
+    <img src="task1/img/randomforest.png" width="700"/><br>
     <em>Figure 27: Random forest Feature Extraction Parameter Sweep</em>
 </p>
 
@@ -855,7 +854,7 @@ LBP alone again performs noticeably worse than any HOG-based configuration, thou
 
 The combined HOG+LBP results reveal that **adding LBP to HOG-9 improves performance**, raising accuracy from 0.667 to **0.673**, the highest score in the sweep. However, combinations using HOG-16 underperform relative to HOG-9, again showing that richer HOG features do not necessarily benefit the stacking framework. These results suggest that the stacking classifier leverages complementary texture information only when the gradient features are not overly complex. When HOG is high-dimensional (16 orientations, 2×2 blocks), adding LBP is either redundant or destabilizing, but when HOG is simpler (9 orientations), LBP adds modest but consistent benefit.
 
-### <a id="task-1-d"></a> Implement a CNN with hyperparameter tuning
+### Implement a CNN with hyperparameter tuning
 
 Convolutional Neural Networks (CNNs) are a class of deep learning models specifically designed to exploit the spatial structure in image data. Instead of treating each pixel as an independent feature (as in traditional machine learning models), CNNs use convolutional filters and pooling operations to learn hierarchical feature representations directly from the raw image. This makes them particularly well suited for image classification, compared to models such as Random forests, XGBoost, or stacking ensembles which typically rely on hand-crafted and/or pre-computed features.
 
@@ -922,7 +921,7 @@ However, when we trained our CNN model with the best hyperparameters from the gr
 </p>
 As seen in figure 30 the CNN classifies most of the categories correctly. Still it struggles with misclassifying glaciers as mountains, and distinguishing between street and buildings. We suspect this is because, as mentioned in our preprocessing section, these categories sometimes contain the same or very similar subjects and some labels are not always mutually exclusive categories (e.g. some mountain pictures contain glacier and vice versa). As a result, some erroneous classifications are to be expected between these classes.
 
-### <a id="task-1-e"></a> Compare and Explain the results in terms of both the computation time and the performance of the classification algorithms
+### Compare and Explain the results in terms of both the computation time and the performance of the classification algorithms
 
 When comparing the different classification algorithms, both computation time and predictive performance showed clear differences between the CNN and the traditional machine learning models (Random forest, XGBoost, and the stacking ensemble).
 
@@ -1018,9 +1017,9 @@ The acceptable level of misclassification depends on the use case of the algorit
 
 <div style="page-break-after: always;"></div>
 
-## <a id="task-2"></a> Task 2
+## Task 2
 
-### <a id="task-2-a"></a> Pick any dataset from the list, implement the preprocessing and justify the preprocessing steps, extract features and justify the methods used, select features and justify the methods used
+### Pick any dataset from the list, implement the preprocessing and justify the preprocessing steps, extract features and justify the methods used, select features and justify the methods used
 
 We picked the social media dataset for clustering. The dataset contains data about online news, such as categories they fit into, sentiment analysis, and their popularity. 
 
@@ -1232,7 +1231,7 @@ The other advantage of PCA is being useful for visualizing data. We can see the 
 <em>Figure 49: 3D plot of first 3 principal components</em>
 </p>
 
-### <a id="task-2-b"></a> Implement three clustering methods out of the following: (K-means, Hierarchical Clustering, Fuzzy-C-means, DBSCAN, Gaussian mixture models, Self-organizing maps) and justify your choices
+### Implement three clustering methods out of the following: (K-means, Hierarchical Clustering, Fuzzy-C-means, DBSCAN, Gaussian mixture models, Self-organizing maps) and justify your choices
 
 There are several types of clustering algorithms to choose from, but we mainly looked at centroid-based, density-based and distribution-based clustering algorithms.
 
@@ -1258,7 +1257,7 @@ Like fuzzy C-means, GMM assigns a probability to each article for belonging to e
 
 A problem shared between all our selected clustering algorithms is that you have to specify the amount of clusters created for each of them. While it would be nice to use a clustering method that doesn't depend on the amount of clusters, we think we were able to pick a good value by seeing how different values performed on certain metrics for each clustering algorithm.
 
-### <a id="task-2-c"></a> Compare and Explain the results
+### Compare and Explain the results
 
 #### <a id="compare-k-means"></a> K-means
 
