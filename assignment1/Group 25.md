@@ -501,3 +501,4 @@ Figure 50 and 51 show this clearly. The first PCA component (PC1) explains 96.09
   - You could have briefly noted how this split maintains class/time distribution
 - Included variance explained by first PCA components and justified retaining two components in section [6.](#6-PCA) to improve:
   - You could have included quantitative detail (e.g., variance explained by first components, number of components retained).
+  
