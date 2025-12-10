@@ -54,36 +54,86 @@
 
 We used the Intel Image Classification dataset for this task. It contains natural scene images labeled into six categories: buildings, forest, glacier, mountain, sea, and street. These category labels are the targets our models predict. The table below summarizes the number of images in the provided training and test sets. The dataset is already divided up into train, validation and test sets, thus we do not have to split it ourselves.
 
-<div align="center">
-
-| Category      | Training images | Test images | 
-|---------------|-----------------|-------------|
-| **Buildings** | 2 191           | 437         |
-| **Forest**    | 2 271           | 474         |
-| **Glacier**   | 2,404           | 553         |
-| **Mountain**  | 2 512           | 525         |
-| **Sea**       | 2 274           | 510         |
-| **Street**    | 2 382           | 501         |
-| **Total**     | 14 034          | 3 000       |
-
+<div style="text-align: center">
+  <table style="margin-left:auto; margin-right:auto; border-collapse: collapse;" border="1" cellpadding="5">
+    <tr>
+      <th>Category</th>
+      <th>Training images</th>
+      <th>Test images</th>
+    </tr>
+    <tr>
+      <td><strong>Buildings</strong></td>
+      <td>2 191</td>
+      <td>437</td>
+    </tr>
+    <tr>
+      <td><strong>Forest</strong></td>
+      <td>2 271</td>
+      <td>474</td>
+    </tr>
+    <tr>
+      <td><strong>Glacier</strong></td>
+      <td>2,404</td>
+      <td>553</td>
+    </tr>
+    <tr>
+      <td><strong>Mountain</strong></td>
+      <td>2 512</td>
+      <td>525</td>
+    </tr>
+    <tr>
+      <td><strong>Sea</strong></td>
+      <td>2 274</td>
+      <td>510</td>
+    </tr>
+    <tr>
+      <td><strong>Street</strong></td>
+      <td>2 382</td>
+      <td>501</td>
+    </tr>
+    <tr>
+      <td><strong>Total</strong></td>
+      <td>14 034</td>
+      <td>3 000</td>
+    </tr>
+  </table>
+  <em>Table 1: Number of training and test images per category</em>
+  <br><br>
 </div>
-
-<p align="center"><em>Table 1: Number of training and test images per category.</em></p>
 
 In total, we removed 78 images from the training set, approximately 0.5% of all training images, a negligible proportion that can be discarded without meaningfully reducing the available information. Table 2 summarizes how many images were removed at each preprocessing stage, which will be further described in the following sections.
 
-<div align="center">
-
-| Method                    | Removed images  | Share      |
-|---------------------------|-----------------|------------|
-| **Exact Duplicates**      | 5               | 0.04%      |
-| **Perceptual Duplicates** | 10              | 0.07%      |
-| **Miscategorized Images** | 63              | 0.4%       |
-| **Total**                 | 78              | 0.6%       |
-
+<div style="text-align: center">
+  <table style="margin-left:auto; margin-right:auto; border-collapse: collapse;" border="1" cellpadding="5">
+    <tr>
+      <th>Method</th>
+      <th>Removed images</th>
+      <th>Share</th>
+    </tr>
+    <tr>
+      <td><strong>Exact Duplicates</strong></td>
+      <td>5</td>
+      <td>0.04%</td>
+    </tr>
+    <tr>
+      <td><strong>Perceptual Duplicates</strong></td>
+      <td>10</td>
+      <td>0.07%</td>
+    </tr>
+    <tr>
+      <td><strong>Miscategorized Images</strong></td>
+      <td>63</td>
+      <td>0.4%</td>
+    </tr>
+    <tr>
+      <td><strong>Total</strong></td>
+      <td>78</td>
+      <td>0.6%</td>
+    </tr>
+  </table>
+  <em>Table 2: Number of removed images from training set.</em>
+  <br><br>
 </div>
-
-<p align="center"><em>Table 2: Number of removed images from training set.</em></p>
 
 Figure 1 and 2 show some sample images from each category in the training and test set.
 
@@ -137,18 +187,42 @@ We also examined whether the dataset contained blurry, empty/low-edge, almost un
 
 We applied these checks to identify foggy, grainy, blurry, and otherwise unrepresentative images that would be difficult to classify and could introduce noise into the model. In practice, we found only a small number of blurry and empty/low-edge images shown in figure 7 and 8, and visual inspection showed that they are still sufficiently clear and structured to represent their categories, so we decided to keep them in the training set. We found no other potentially unrecongnizable images, as shown in table 3.
 
-<div align="center">
-
-| Type                    | Detected images  | Share      |
-|---------------------------|-----------------|------------|
-| Empty/Low edge      | 5               | 0.04%      |
-| Almost uniform      | 0              | 0%      |
-| Too noisy |  0              | 0%       |
-| Blurry                 | 1              | 0.007%       |
-| Total                 | 6              | 0.05%       |
+<div style="text-align: center">
+  <table style="margin-left:auto; margin-right:auto; border-collapse: collapse;" border="1" cellpadding="5">
+    <tr>
+      <th>Type</th>
+      <th>Detected images</th>
+      <th>Share</th>
+    </tr>
+    <tr>
+      <td>Empty/Low edge</td>
+      <td>5</td>
+      <td>0.04%</td>
+    </tr>
+    <tr>
+      <td>Almost uniform</td>
+      <td>0</td>
+      <td>0%</td>
+    </tr>
+    <tr>
+      <td>Too noisy</td>
+      <td>0</td>
+      <td>0%</td>
+    </tr>
+    <tr>
+      <td>Blurry</td>
+      <td>1</td>
+      <td>0.007%</td>
+    </tr>
+    <tr>
+      <td>Total</td>
+      <td>6</td>
+      <td>0.05%</td>
+    </tr>
+  </table>
+  <em>Table 3: Number of unrecongnizable images detected in the dataset.</em>
+  <br><br>
 </div>
-
-<p align="center"><em>Table 3: Number of unrecongnizable images detected in the dataset.</em></p>
 
 <p align="center">
   <img src="task1/results/blurry_examples/blurry_examples.png" width="500"/><br>
@@ -195,21 +269,60 @@ We could have experimented with other parameter settings to detect more suspicio
 
 In total, we removed 63 miscategorized images from the glacier category, most of which were images of flowers, animals, forest scenes, indoor environments, or lakes, and some are shown in figure 12. We acknowledge that some noisy or mislabeled data may still remain in the dataset, but we consider this acceptable given that the KNN results suggest only a small number of additional suspicious cases in the other categories, and that further cleaning would require substantial manual effort. We also chose not to reassign the removed glacier images to other categories, since many did not clearly belong to any of the predefined classes and they represent only a very small fraction of the overall dataset.
 
-<div align="center">
-
-| **Class**     | **Total images** | **Suspicious images** | **Share suspicious** |
-|---------------|------------------|------------------------|---------------------|
-| **Buildings** | 2 191            | 103                    | 4.70%               |
-| **Forest**    | 2 271            | 15                     | 0.66%               |
-| **Glacier**   | 2 404            | 48                     | 2.00%               |
-| **Mountain**  | 2 512            | 149                    | 5.93%               |
-| **Sea**       | 2 274            | 112                    | 4.93%               |
-| **Street**    | 2 382            | 60                     | 2.52%               |
-| **Total**     | 14 034           | 537                    | 3.5%                |
-
+<div style="text-align: center">
+  <table style="margin-left:auto; margin-right:auto; border-collapse: collapse;" border="1" cellpadding="5">
+    <tr>
+      <th>Class</th>
+      <th>Total images</th>
+      <th>Suspicious images</th>
+      <th>Share suspicious</th>
+    </tr>
+    <tr>
+      <td><strong>Buildings</strong></td>
+      <td>2 191</td>
+      <td>103</td>
+      <td>4.70%</td>
+    </tr>
+    <tr>
+      <td><strong>Forest</strong></td>
+      <td>2 271</td>
+      <td>15</td>
+      <td>0.66%</td>
+    </tr>
+    <tr>
+      <td><strong>Glacier</strong></td>
+      <td>2 404</td>
+      <td>48</td>
+      <td>2.00%</td>
+    </tr>
+    <tr>
+      <td><strong>Mountain</strong></td>
+      <td>2 512</td>
+      <td>149</td>
+      <td>5.93%</td>
+    </tr>
+    <tr>
+      <td><strong>Sea</strong></td>
+      <td>2 274</td>
+      <td>112</td>
+      <td>4.93%</td>
+    </tr>
+    <tr>
+      <td><strong>Street</strong></td>
+      <td>2 382</td>
+      <td>60</td>
+      <td>2.52%</td>
+    </tr>
+    <tr>
+      <td><strong>Total</strong></td>
+      <td>14 034</td>
+      <td>537</td>
+      <td>3.5%</td>
+    </tr>
+  </table>
+  <em>Table 4: Potentially miscategorized images detected by K-Nearest-Neighboor.</em>
+  <br><br>
 </div>
-
-<p align="center"><em>Table 4: Potentially miscategorized images detected by K-Nearest-Neighboor.</em></p>
 
 <p align="center">
   <img src="task1/results/knn_suspicious/buildings_suspicious.png" width="500"/><br>
@@ -381,20 +494,83 @@ We performed this sweep using only 25% of the dataset to keep extraction and tra
     <em>Figure 26: SVM Feature Extraction Parameter Sweep</em>
 </p>
 
-<div align="center">
-
-| Method         | HOG Orientations | HOG Cells/Block | LBP P | LBP R | Test Accuracy |
-|----------------|------------------|------------------|-------|-------|----------------|
-| HOG-9          | 9                | (3, 3)           | –     | –     | 0.573          |
-| HOG-16         | 16               | (2, 2)           | –     | –     | 0.627          |
-| LBP-8          | –                | –                | 8     | 1     | 0.460          |
-| LBP-10         | –                | –                | 10    | 3     | 0.413          |
-| HOG-9+LBP-8    | 9                | (3, 3)           | 8     | 1     | 0.587          |
-| HOG-9+LBP-10   | 9                | (3, 3)           | 10    | 3     | 0.587          |
-| HOG-16+LBP-8   | 16               | (2, 2)           | 8     | 1     | 0.627          |
-| HOG-16+LBP-10  | 16               | (2, 2)           | 10    | 3     | 0.627          |
-<p align="center"><em>Table 5: Comparison of SVM Test Accuracy with Different Feature Extraction Parameters</em></p>
-
+<div style="text-align: center">
+  <table style="margin-left:auto; margin-right:auto; border-collapse: collapse;" border="1" cellpadding="5">
+    <tr>
+      <th>Method</th>
+      <th>HOG Orientations</th>
+      <th>HOG Cells/Block</th>
+      <th>LBP P</th>
+      <th>LBP R</th>
+      <th>Test Accuracy</th>
+    </tr>
+    <tr>
+      <td>HOG-9</td>
+      <td>9</td>
+      <td>(3, 3)</td>
+      <td>–</td>
+      <td>–</td>
+      <td>0.573</td>
+    </tr>
+    <tr>
+      <td>HOG-16</td>
+      <td>16</td>
+      <td>(2, 2)</td>
+      <td>–</td>
+      <td>–</td>
+      <td>0.627</td>
+    </tr>
+    <tr>
+      <td>LBP-8</td>
+      <td>–</td>
+      <td>–</td>
+      <td>8</td>
+      <td>1</td>
+      <td>0.460</td>
+    </tr>
+    <tr>
+      <td>LBP-10</td>
+      <td>–</td>
+      <td>–</td>
+      <td>10</td>
+      <td>3</td>
+      <td>0.413</td>
+    </tr>
+    <tr>
+      <td>HOG-9+LBP-8</td>
+      <td>9</td>
+      <td>(3, 3)</td>
+      <td>8</td>
+      <td>1</td>
+      <td>0.587</td>
+    </tr>
+    <tr>
+      <td>HOG-9+LBP-10</td>
+      <td>9</td>
+      <td>(3, 3)</td>
+      <td>10</td>
+      <td>3</td>
+      <td>0.587</td>
+    </tr>
+    <tr>
+      <td>HOG-16+LBP-8</td>
+      <td>16</td>
+      <td>(2, 2)</td>
+      <td>8</td>
+      <td>1</td>
+      <td>0.627</td>
+    </tr>
+    <tr>
+      <td>HOG-16+LBP-10</td>
+      <td>16</td>
+      <td>(2, 2)</td>
+      <td>10</td>
+      <td>3</td>
+      <td>0.627</td>
+    </tr>
+  </table>
+  <em>Table 5: Comparison of SVM Test Accuracy with Different Feature Extraction Parameters</em>
+  <br><br>
 </div>
 
 The parameter sweep shows that **HOG parameters have the strongest impact on SVM performance**. Increasing the number of orientations from 9 to 16 notably improves accuracy (from 0.573 to 0.627), suggesting that for this dataset, capturing finer gradient direction detail helps the classifier better distinguish class-relevant shape structures. The smaller HOG cell-block size (2×2 instead of 3×3) may also contribute by producing more localized contrast-sensitive features, which appear beneficial for the SVM’s linear decision boundaries.
@@ -410,20 +586,83 @@ For the combined HOG+LBP approach, the results show **incremental improvement ov
     <em>Figure 27: Random Forest Feature Extraction Parameter Sweep</em>
 </p>
 
-<div align="center">
-
-| Method         | HOG Orientations | HOG Cells/Block | LBP P | LBP R | Test Accuracy |
-|----------------|------------------|------------------|-------|-------|----------------|
-| HOG-9          | 9                | (3, 3)           | –     | –     | 0.633          |
-| HOG-16         | 16               | (2, 2)           | –     | –     | 0.620          |
-| LBP-8          | –                | –                | 8     | 1     | 0.540          |
-| LBP-10         | –                | –                | 10    | 3     | 0.547          |
-| HOG-9+LBP-8    | 9                | (3, 3)           | 8     | 1     | 0.647          |
-| HOG-9+LBP-10   | 9                | (3, 3)           | 10    | 3     | 0.607          |
-| HOG-16+LBP-8   | 16               | (2, 2)           | 8     | 1     | 0.600          |
-| HOG-16+LBP-10  | 16               | (2, 2)           | 10    | 3     | 0.600          |
-<p align="center"><em>Table 6: Comparison of Random Forest Test Accuracy with Different Feature Extraction Parameters</em></p>
-
+<div style="text-align: center">
+  <table style="margin-left:auto; margin-right:auto; border-collapse: collapse;" border="1" cellpadding="5">
+    <tr>
+      <th>Method</th>
+      <th>HOG Orientations</th>
+      <th>HOG Cells/Block</th>
+      <th>LBP P</th>
+      <th>LBP R</th>
+      <th>Test Accuracy</th>
+    </tr>
+    <tr>
+      <td>HOG-9</td>
+      <td>9</td>
+      <td>(3, 3)</td>
+      <td>–</td>
+      <td>–</td>
+      <td>0.633</td>
+    </tr>
+    <tr>
+      <td>HOG-16</td>
+      <td>16</td>
+      <td>(2, 2)</td>
+      <td>–</td>
+      <td>–</td>
+      <td>0.620</td>
+    </tr>
+    <tr>
+      <td>LBP-8</td>
+      <td>–</td>
+      <td>–</td>
+      <td>8</td>
+      <td>1</td>
+      <td>0.540</td>
+    </tr>
+    <tr>
+      <td>LBP-10</td>
+      <td>–</td>
+      <td>–</td>
+      <td>10</td>
+      <td>3</td>
+      <td>0.547</td>
+    </tr>
+    <tr>
+      <td>HOG-9+LBP-8</td>
+      <td>9</td>
+      <td>(3, 3)</td>
+      <td>8</td>
+      <td>1</td>
+      <td>0.647</td>
+    </tr>
+    <tr>
+      <td>HOG-9+LBP-10</td>
+      <td>9</td>
+      <td>(3, 3)</td>
+      <td>10</td>
+      <td>3</td>
+      <td>0.607</td>
+    </tr>
+    <tr>
+      <td>HOG-16+LBP-8</td>
+      <td>16</td>
+      <td>(2, 2)</td>
+      <td>8</td>
+      <td>1</td>
+      <td>0.600</td>
+    </tr>
+    <tr>
+      <td>HOG-16+LBP-10</td>
+      <td>16</td>
+      <td>(2, 2)</td>
+      <td>10</td>
+      <td>3</td>
+      <td>0.600</td>
+    </tr>
+  </table>
+  <em>Table 6: Comparison of Random Forest Test Accuracy with Different Feature Extraction Parameters</em>
+  <br><br>
 </div>
 
 The parameter sweep shows that **HOG features clearly outperform LBP histograms** when used with a RandomForest classifier. HOG configurations reach 0.620 to 0.633 accuracy because they capture strong gradient structure such as edges, contours, and overall shape, which aligns well with differences between scene classes. In contrast, LBP histograms stay around 0.540 to 0.547, since they focus only on small local textures and lose spatial information when converted into global histograms.
@@ -439,20 +678,83 @@ The combined **HOG plus LBP histogram features perform between the two individua
     <em>Figure 28: XGBoost Feature Extraction Parameter Sweep</em>
 </p>
 
-<div align="center">
-
-| Method         | HOG Orientations | HOG Cells/Block | LBP P | LBP R | Test Accuracy |
-|----------------|------------------|------------------|-------|-------|----------------|
-| HOG-9          | 9                | (3, 3)           | –     | –     | 0.653          |
-| HOG-16         | 16               | (2, 2)           | –     | –     | 0.620          |
-| LBP-8          | –                | –                | 8     | 1     | 0.520          |
-| LBP-10         | –                | –                | 10    | 3     | 0.487          |
-| HOG-9+LBP-8    | 9                | (3, 3)           | 8     | 1     | 0.707          |
-| HOG-9+LBP-10   | 9                | (3, 3)           | 10    | 3     | 0.713          |
-| HOG-16+LBP-8   | 16               | (2, 2)           | 8     | 1     | 0.687          |
-| HOG-16+LBP-10  | 16               | (2, 2)           | 10    | 3     | 0.627          |
-<p align="center"><em>Table 7: Comparison of XGBoost Test Accuracy with Different Feature Extraction Parameters</em></p>
-
+<div style="text-align: center">
+  <table style="margin-left:auto; margin-right:auto; border-collapse: collapse;" border="1" cellpadding="5">
+    <tr>
+      <th>Method</th>
+      <th>HOG Orientations</th>
+      <th>HOG Cells/Block</th>
+      <th>LBP P</th>
+      <th>LBP R</th>
+      <th>Test Accuracy</th>
+    </tr>
+    <tr>
+      <td>HOG-9</td>
+      <td>9</td>
+      <td>(3, 3)</td>
+      <td>–</td>
+      <td>–</td>
+      <td>0.653</td>
+    </tr>
+    <tr>
+      <td>HOG-16</td>
+      <td>16</td>
+      <td>(2, 2)</td>
+      <td>–</td>
+      <td>–</td>
+      <td>0.620</td>
+    </tr>
+    <tr>
+      <td>LBP-8</td>
+      <td>–</td>
+      <td>–</td>
+      <td>8</td>
+      <td>1</td>
+      <td>0.520</td>
+    </tr>
+    <tr>
+      <td>LBP-10</td>
+      <td>–</td>
+      <td>–</td>
+      <td>10</td>
+      <td>3</td>
+      <td>0.487</td>
+    </tr>
+    <tr>
+      <td>HOG-9+LBP-8</td>
+      <td>9</td>
+      <td>(3, 3)</td>
+      <td>8</td>
+      <td>1</td>
+      <td>0.707</td>
+    </tr>
+    <tr>
+      <td>HOG-9+LBP-10</td>
+      <td>9</td>
+      <td>(3, 3)</td>
+      <td>10</td>
+      <td>3</td>
+      <td>0.713</td>
+    </tr>
+    <tr>
+      <td>HOG-16+LBP-8</td>
+      <td>16</td>
+      <td>(2, 2)</td>
+      <td>8</td>
+      <td>1</td>
+      <td>0.687</td>
+    </tr>
+    <tr>
+      <td>HOG-16+LBP-10</td>
+      <td>16</td>
+      <td>(2, 2)</td>
+      <td>10</td>
+      <td>3</td>
+      <td>0.627</td>
+    </tr>
+  </table>
+  <em>Table 7: Comparison of XGBoost Test Accuracy with Different Feature Extraction Parameters</em>
+  <br><br>
 </div>
 
 The **HOG-only feature extraction results show that using 9 orientations outperforms 16 orientations** (65.3% vs. 62.0%). This suggests that increasing the number of orientations beyond a certain point might add noise to our features, reducing model generalization. The simpler configuration with fewer orientations is enough to capture key shape and edge features relevant for classifying these image classes. Thus, a moderate HOG parameter setting helps maintain good performance without unnecessary complexity.
@@ -468,20 +770,83 @@ The **LBP-only features yield lower accuracy overall compared to HOG**, with 8 s
     <em>Figure 29: Stacking Feature Extraction Parameter Sweep</em>
 </p>
 
-<div align="center">
-
-| Method         | HOG Orientations | HOG Cells/Block | LBP P | LBP R | Test Accuracy |
-|----------------|------------------|------------------|-------|-------|----------------|
-| HOG-9          | 9                | (3, 3)           | –     | –     | 0.660          |
-| HOG-16         | 16               | (2, 2)           | –     | –     | 0.653          |
-| LBP-8          | –                | –                | 8     | 1     | 0.527          |
-| LBP-10         | –                | –                | 10    | 3     | 0.547          |
-| HOG-9+LBP-8    | 9                | (3, 3)           | 8     | 1     | 0.673          |
-| HOG-9+LBP-10   | 9                | (3, 3)           | 10    | 3     | 0.673          |
-| HOG-16+LBP-8   | 16               | (2, 2)           | 8     | 1     | 0.633          |
-| HOG-16+LBP-10  | 16               | (2, 2)           | 10    | 3     | 0.653          |
-<p align="center"><em>Table 8: Comparison of Stacking Test Accuracy with Different Feature Extraction Parameters</em></p>
-
+<div style="text-align: center">
+  <table style="margin-left:auto; margin-right:auto; border-collapse: collapse;" border="1" cellpadding="5">
+    <tr>
+      <th>Method</th>
+      <th>HOG Orientations</th>
+      <th>HOG Cells/Block</th>
+      <th>LBP P</th>
+      <th>LBP R</th>
+      <th>Test Accuracy</th>
+    </tr>
+    <tr>
+      <td>HOG-9</td>
+      <td>9</td>
+      <td>(3, 3)</td>
+      <td>–</td>
+      <td>–</td>
+      <td>0.660</td>
+    </tr>
+    <tr>
+      <td>HOG-16</td>
+      <td>16</td>
+      <td>(2, 2)</td>
+      <td>–</td>
+      <td>–</td>
+      <td>0.653</td>
+    </tr>
+    <tr>
+      <td>LBP-8</td>
+      <td>–</td>
+      <td>–</td>
+      <td>8</td>
+      <td>1</td>
+      <td>0.527</td>
+    </tr>
+    <tr>
+      <td>LBP-10</td>
+      <td>–</td>
+      <td>–</td>
+      <td>10</td>
+      <td>3</td>
+      <td>0.547</td>
+    </tr>
+    <tr>
+      <td>HOG-9+LBP-8</td>
+      <td>9</td>
+      <td>(3, 3)</td>
+      <td>8</td>
+      <td>1</td>
+      <td>0.673</td>
+    </tr>
+    <tr>
+      <td>HOG-9+LBP-10</td>
+      <td>9</td>
+      <td>(3, 3)</td>
+      <td>10</td>
+      <td>3</td>
+      <td>0.673</td>
+    </tr>
+    <tr>
+      <td>HOG-16+LBP-8</td>
+      <td>16</td>
+      <td>(2, 2)</td>
+      <td>8</td>
+      <td>1</td>
+      <td>0.633</td>
+    </tr>
+    <tr>
+      <td>HOG-16+LBP-10</td>
+      <td>16</td>
+      <td>(2, 2)</td>
+      <td>10</td>
+      <td>3</td>
+      <td>0.653</td>
+    </tr>
+  </table>
+  <em>Table 8: Comparison of Stacking Test Accuracy with Different Feature Extraction Parameters</em>
+  <br><br>
 </div>
 
 The parameter sweep shows that HOG remains the dominant contributor to performance in a stacking classifier, but its behavior differs from the SVM trends. With stacking, the configuration using **9 orientations** achieves higher accuracy (0.667) than the more detailed 16-orientation variant (0.647). This suggests that the stacking ensemble benefits from slightly simpler gradient representations, potentially because the downstream meta-learner can more effectively combine moderately complex base-model features rather than very high-dimensional HOG descriptors.
@@ -498,20 +863,56 @@ We implemented a CNN with TensorFlow/Keras and trained it on the preprocessed im
 
 We first implemented a CNN with a fixed architecture in regards to filter options and internal dense layer units. This model was trained on the augmented dataset, and took in approximately 23 minutes to train with GPU. To investigate the effect of hyperparameters, we then performed a grid search over multiple CNN configurations. This hyperparameter tuning was substantially more time consuming. As a result we had to limit the tuning to only 50% of the training data and it still took several hours to complete. With this grid search we tuned learning rate, dropout, batch size, kernel size, padding options, filter size options and stride length. This grid search resulted in a CNN model with both a validation and test accuracy of 76%.
 
-<div align="center">
-
-| Hyperparameter      | Value             | Explanation                                                                 |
-|---------------------|-------------------|-----------------------------------------------------------------------------|
-| Stride              | (1,1)             | Controls how far the filter moves across the image; smaller stride preserves more spatial detail. |
-| Filters             | 32, 64, 128       | Number of convolutional kernels per layer; more filters allow the network to learn more features. |
-| Padding             | valid             | No padding is added, causing spatial dimensions to shrink after convolution. |
-| Dense units         | 256               | Number of neurons in the fully connected layer, influencing model capacity. |
-| Learning rate       | 0.01              | Controls how quickly the model updates its weights during training.         |
-| Dropout             | 0.4               | Randomly disables 40 percent of neurons during training to reduce overfitting. |
-| Batch size          | 64                | Number of samples processed before updating model weights.                  |
-| Kernel size         | (3,3)             | Dimensions of the convolutional filter, determining the receptive field.   |
-<p align="center"><em>Table 9: Overview of CNN hyperparameters and their functions</em></p>
-
+<div style="text-align: center">
+  <table style="margin-left:auto; margin-right:auto; border-collapse: collapse;" border="1" cellpadding="5">
+    <tr>
+      <th>Hyperparameter</th>
+      <th>Value</th>
+      <th>Explanation</th>
+    </tr>
+    <tr>
+      <td>Stride</td>
+      <td>(1,1)</td>
+      <td>Controls how far the filter moves across the image; smaller stride preserves more spatial detail.</td>
+    </tr>
+    <tr>
+      <td>Filters</td>
+      <td>32, 64, 128</td>
+      <td>Number of convolutional kernels per layer; more filters allow the network to learn more features.</td>
+    </tr>
+    <tr>
+      <td>Padding</td>
+      <td>valid</td>
+      <td>No padding is added, causing spatial dimensions to shrink after convolution.</td>
+    </tr>
+    <tr>
+      <td>Dense units</td>
+      <td>256</td>
+      <td>Number of neurons in the fully connected layer, influencing model capacity.</td>
+    </tr>
+    <tr>
+      <td>Learning rate</td>
+      <td>0.01</td>
+      <td>Controls how quickly the model updates its weights during training.</td>
+    </tr>
+    <tr>
+      <td>Dropout</td>
+      <td>0.4</td>
+      <td>Randomly disables 40 percent of neurons during training to reduce overfitting.</td>
+    </tr>
+    <tr>
+      <td>Batch size</td>
+      <td>64</td>
+      <td>Number of samples processed before updating model weights.</td>
+    </tr>
+    <tr>
+      <td>Kernel size</td>
+      <td>(3,3)</td>
+      <td>Dimensions of the convolutional filter, determining the receptive field.</td>
+    </tr>
+  </table>
+  <em>Table 9: Overview of CNN hyperparameters and their functions</em>
+  <br><br>
 </div>
 
 However, when we trained our CNN model with the best hyperparameters from the grid search on 100% of the available data (see Table 9), we obtained a substantially higher test accuracy of 85.7% and a total training time of 23 minutes.
