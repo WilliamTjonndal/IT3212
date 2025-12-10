@@ -260,11 +260,11 @@ After resizing, we normalized all images by scaling pixel values from the origin
 
 ### Feature extraction
 
-We have used the following feature extraction methodes: HOG, LBP Histogram and a combination of both.
+We have used the following feature extraction methodes: HOG, LBP Histogram and a combination of both. As the task mentioned, we did not perform feature extraction for CNNs.
 
 **Histogram of Oriented Gradients (HOG)**
 
-Histogram of Oriented Gradients (HOG) was chosen because it captures edges, contours, and global shape structure—key cues for classes such as buildings, mountains, and streets. We implemented HOG by converting images to grayscale and computing gradient-orientation histograms across spatial cells, normalized over blocks for lighting robustness. We tested multiple orientation and block configurations to evaluate how much structural detail benefits the classifiers, and HOG consistently produced the most informative standalone features.
+Histogram of Oriented Gradients (HOG) was chosen because it captures edges, contours, and global shape structure, key cues for classes such as buildings, mountains, and streets. We implemented HOG by converting images to grayscale and computing gradient-orientation histograms across spatial cells, normalized over blocks for lighting robustness. We tested multiple orientation and block configurations to evaluate how much structural detail benefits the classifiers, and HOG consistently produced the most informative standalone features.
 
 **Local Binary Pattern (LBP) Histogram**
 
@@ -276,11 +276,11 @@ The combined HOG+LBP descriptor merges global structure from HOG with localized 
 
 **Data augmentation**
 
-We used data augmentation only for the CNN models because they learn visual patterns directly from pixels and improve when exposed to varied versions of the same image. HOG and LBP do not benefit from this, since their hand-crafted descriptors change too much under transformations. For image recognition, augmentation helps CNNs generalize while offering no meaningful gain for classical feature extractors.
+We used data augmentation only for the CNN models because performing data augmentation with HOG and LBP consumed too much memory.
 
 ### Feature selection
 
-For the Intel Image Classification dataset, each image is represented by **high-dimensional feature vectors** extracted from HOG (Histogram of Oriented Gradients) and LBP (Local Binary Pattern) descriptors. Specifically, HOG features are computed with 16 orientations, 8×8 pixels per cell, and 2×2 cells per block, while LBP uses P=10 and R=3 with a uniform pattern. Concatenating these descriptors produces several hundred features per image, capturing complementary information about edge orientations and local texture patterns.
+For the Intel Image Classification dataset, each image is represented by **high-dimensional feature vectors** extracted from HOG and LBP descriptors. Specifically, HOG features are computed with 16 orientations, 8×8 pixels per cell, and 2×2 cells per block, while LBP uses P=10 and R=3 with a uniform pattern. Concatenating these descriptors produces several hundred features per image, capturing complementary information about edge orientations and local texture patterns.
 
 Although this rich representation improves the expressiveness of the data, it also introduces redundancy: some features may be irrelevant or contribute little to class discrimination. To address this, **manual feature selection** can be applied after initial model training to reduce dimensionality, improve interpretability, and potentially enhance classification performance.
 
@@ -292,9 +292,9 @@ The workflow can be summarized as follows:
 2. **Initial model training:** Train a RandomForest or XGBoost on the extracted features.
 3. **Compute feature importances:** Identify which features contribute most to class separation.
 4. **Select informative features:** Keep features above the median importance threshold.
-5. **Final classification:** Train the main classifier (RandomForest, XGBoost, SVM, or Stacking) using the reduced feature set.
+5. **Final classification:** Train the main classifier (RandomForest, XGBoost, SVM, or Stacking) using the selected feature set.
 
-This method offers several benefits for the Intel dataset: it reduces noise from less informative HOG/LBP bins, can speed up training for high-dimensional classifiers, mitigates the risk of overfitting, and provides insight into which visual patterns are most relevant for each class (e.g., buildings, forest, glacier, mountain, sea, street). By manually selecting features based on model-driven importances, the pipeline leverages both domain knowledge and data-driven evidence to improve classification performance while maintaining interpretability.
+This method offers several benefits for the Intel dataset: it reduces noise from less informative HOG/LBP bins, can speed up training for high-dimensional classifiers, and provides insight into which visual patterns are most relevant for each class (buildings, forest, glacier, mountain, sea, street). By manually selecting features based on model-driven importances, we select the best features to improve model performance.
 
 <h2 style="color: green;">TODO: 
 - legg til intro
@@ -314,11 +314,22 @@ We have chosen to use two basic models, as described in the lecture slides: SVM 
 
 #### SVM
 
-We selected `SVM (Support Vector Machines)` because it's a method that we're familiar with and it performs reliably on high-dimensional features like HOG and LBP. Its ability to create strong separating margins—and, with kernels, capture subtle nonlinear differences—makes it effective for visually overlapping scene categories such as *mountain* vs. *glacier* or *street* vs. *buildings*. This combination of technical suitability and practical familiarity allows us to tune and interpret the model confidently while achieving strong performance on diverse image classes.
+We selected `SVM (Support Vector Machines)` with a linear kernel because it's a method that we're familiar with and it performs reliably on high-dimensional features like HOG and LBP. Its ability to create strong separating margins could make it effective for visually overlapping scene categories such as *mountain* vs. *glacier* or *street* vs. *buildings*. This combination of technical suitability and practical familiarity hopefully allows us to interpret the model confidently while achieving strong performance on diverse image classes.
+
+<p align="center">
+  <img src="task1/img/svc_cm.png" width="500"/><br>
+  <em>Figure x: Confusion matrix for SVM</em>
+</p>
 
 #### RandomForest
 
-`RandomForest` is a reliable ensemble method that works very well with hand-crafted features like HOG and LBP because it naturally handles high-dimensional inputs and nonlinear relationships without extra preprocessing. Its interpretability and resistance to overfitting make it a strong baseline for comparing different feature extraction settings. For our six scene classes, `RandomForest` performs well on categories with strong structural cues—such as buildings and street—because the trees easily separate features tied to edges and geometric patterns. However, it may struggle with visually similar natural classes like forest, mountain, and glacier, since tree splits can miss subtle continuous gradients in texture and appearance.
+`RandomForest` is a reliable ensemble method that works very well with hand-crafted features like HOG and LBP because it naturally handles high-dimensional inputs and nonlinear relationships without extra preprocessing. Its interpretability and resistance to overfitting make it a strong baseline for comparing different feature extraction settings.\
+However, tree splits can miss subtle continuous gradients in texture and appearance. Therefore it may struggle with visually similar or overlapping classes like mountain vs glacier or street vs building.
+
+<p align="center">
+  <img src="task1/img/rf_cm.png" width="500"/><br>
+  <em>Figure x: Confusion matrix for RandomForest</em>
+</p>
 
 ### <a id="task-1-c"></a> Implement (using the selected features) one advanced machine learning algorithm for classification and justify your choice.
 
@@ -331,17 +342,29 @@ We chose two advanced models: XGBoost and Stacking.
 
 #### XGBoost
 
-`XGBoost` was chosen because its gradient-boosted tree structure captures complex interactions between HOG, LBP, and combined features better than bagging-based methods. Its regularization and iterative boosting process help it achieve strong generalization even with large, mixed feature sets. For our scene types, `XGBoost` handles fine distinctions—such as mountain vs. glacier or glacier vs. sea—more effectively than `RandomForest` because boosting gradually corrects misclassifications. The downside is that `XGBoost` is more sensitive to hyperparameters and more computationally demanding, especially when scenes contain highly variable textures like forest landscapes.
+`XGBoost` was mainly chosen because the group has previous experience wih using this model. Addtionally, we hope that its gradient-boosted tree structure captures complex interactions between HOG, LBP, and combined features better than bagging-based methods. For our scene types, we would hope that `XGBoost` handles fine distinctions, such as glacier vs. mountain, more effectively than `RandomForest` because boosting gradually corrects misclassifications. The downside is that `XGBoost` is more computationally demanding for large datasets.
+
+<p align="center">
+  <img src="task1/img/xgboost_cm.png" width="500"/><br>
+  <em>Figure x: Confusion matrix for XGBoost</em>
+</p>
 
 #### Stacking
 
-We chose `stacking` because it lets us combine models that capture different aspects of our scene-classification task—*buildings, forest, glacier, mountain, sea,* and *street*—resulting in a more balanced and robust classifier. `Random Forest` handles nonlinear patterns and noisy HOG/LBP features well, while `SVM` provides strong margin-based separation in high-dimensional space. Using `logistic regression` as the meta-learner keeps the final decision simple, well-regularized, and less prone to overfitting. Beyond sounding like a cool, advanced technique, stacking gives us a technically strong way to merge complementary strengths into a single, more reliable model.
+We chose `stacking` because it lets us combine models that capture different aspects of our scene-classification task: *buildings, forest, glacier, mountain, sea,* and *street*, resulting in a more balanced and robust classifier. `Random Forest` handles nonlinear patterns and noisy HOG/LBP features well, while `SVM` provides strong margin-based separation in high-dimensional space. Using `logistic regression` as the meta-learner keeps the final decision simple while also being an easy to understand model. Stacking gives us a technically strong way to merge complementary strengths into a single, more reliable model.
+
+<p align="center">
+  <img src="task1/img/stacking_cm.png" width="500"/><br>
+  <em>Figure x: Confusion matrix for Stacking (LR, RF and SVM)</em>
+</p>
+
+<h2 style="color: yellow">TODO: add a paragraph about each confusion matrix, with runtime. DO NOT COMPARE<h2>
 
 ### Feature parameter sweep
 
 We performed a parameter sweep to systematically identify which feature configurations produce the highest classification accuracy for our models.
 
-We performed thi sweep susing only 10% of the dataset to keep extraction and training times manageable. This smaller subset allowed us to compare configurations efficiently without the sweep taking an impractical amount of time.
+We performed this sweep using only 10% of the dataset to keep extraction and training times manageable. This smaller subset allowed us to compare configurations efficiently without the sweep taking an impractical amount of time.
 
 **SVM**
 
@@ -460,6 +483,8 @@ By contrast, when we trained our “standard” CNN model (without the heavy gri
 </h2>
 
 ### <a id="task-1-e"></a> Compare and Explain the results in terms of both the computation time and the performance of the classification algorithms.
+
+<h2 style="color: yellow">TODO: add a paragraph about that all models (including CNNs) struggled with mountain vs glacer and street vs building<h2>
 
 Convolutional Neural Networks (CNNs) are a class of deep learning models specifically designed to exploit the spatial structure in image data. Instead of treating each pixel as an independent feature (as in traditional machine learning models), CNNs use convolutional filters and pooling operations to learn hierarchical feature representations directly from the raw image. This makes them particularly well suited for image classification, compared to models such as Random Forests, XGBoost, or stacking ensembles which typically rely on hand-crafted and/or pre-computed features.
 
