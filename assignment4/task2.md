@@ -140,7 +140,7 @@ After removing the columns we don't want to include in clustering, it's time to 
 
 We chose to use min-max scaling, mostly because it's results are easier to understand for columns like `shares` and `num_imgs`, and it preserves the distribution of our data. The results being easier to understand is not really the case for columns representing sentiment analysis, like `global_sentiment_polarity` and `title_subjectivity`, as we don't have an intuitive understanding of what a specific value means, other than in relation to other values. We still chose to use min-max scaling here to keep the same scaling method for all our features, and again to preserve the distribution of all our features. Looking at the distribution of the scaled data in figure #, we can see the distributions now look much more even than before scaling in figure #, which should give better results when clustering.
 
-<table>
+<table align="center">
   <tr>
     <td align="center">
       <img src="task2/img/scaling_dist_before.png" width="500"/><br>
@@ -164,7 +164,7 @@ Performing outlier detection on the remaining columns (not categorical, referenc
 
 In figure #, you can see the distribution of our features after removing outliers, while figure # shows the distribution after re-scaling our dataset between 0 and 1. These figures show the scaled versions of our features for visualization only, and outliers were removed from the original unscaled dataset. The numerical distributions of the features used in outlier detection are also shown before in figure #, and after in figure #.
 
-<table>
+<table align="center">
   <tr>
     <td align="center">
       <img src="task2/img/iqr_dist.png" width="500"/><br>
