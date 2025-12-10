@@ -34,11 +34,11 @@
 
 ### <a id="task-1-a"></a> Pick any image based dataset from the list, implement the preprocessing and justify the preprocessing steps, extract features and justify the methods used, select features and justify the methods used.
 
-We used the Intel Image Classification dataset for this task. It contains natural scene images labeled into six categories: buildings, forest, glacier, mountain, sea, and street. These category labels are the targets our models predict. The table below summarizes the number of images in the provided training and test sets. 
+We used the Intel Image Classification dataset for this task. It contains natural scene images labeled into six categories: buildings, forest, glacier, mountain, sea, and street. These category labels are the targets our models predict. The table below summarizes the number of images in the provided training and test sets. The dataset is already divided up into train, validation and test sets, thus we do not have to split it ourselves.
 
 <div align="center">
 
-| Category      | Training images | Test images |
+| Category      | Training images | Test images | 
 |---------------|-----------------|-------------|
 | **Buildings** | 2 191           | 437         |
 | **Forest**    | 2 271           | 474         |
@@ -365,6 +365,8 @@ We performed this sweep using only 25% of the dataset to keep extraction and tra
     <em>Figure 26: SVM Feature Extraction Parameter Sweep</em>
 </p>
 
+<div align="center">
+
 | Method  | HOG Orientations | HOG Pixels/Cell | HOG Cells/Block | LBP P | LBP R | Test Accuracy |
 | ------- | ---------------- | --------------- | --------------- | ----- | ----- | ------------- |
 | HOG     | 9                | (8, 8)          | (3, 3)          | –     | –     | **0.573**     |
@@ -375,6 +377,9 @@ We performed this sweep using only 25% of the dataset to keep extraction and tra
 | HOG+LBP | 9                | (8, 8)          | (3, 3)          | 10    | 3         | **0.587**     |
 | HOG+LBP | 16               | (8, 8)          | (2, 2)          | 8     | 1         | **0.627**     |
 | HOG+LBP | 16               | (8, 8)          | (2, 2)          | 10    | 3         | **0.627**     |
+<p align="center"><em>Table 5: Comparison of SVM Test Accuracy with Different Feature Extraction Parameters</em></p>
+
+</div>
 
 The parameter sweep shows that **HOG parameters have the strongest impact on SVM performance**. Increasing the number of orientations from 9 to 16 notably improves accuracy (from 0.573 to 0.627), suggesting that for this dataset, capturing finer gradient direction detail helps the classifier better distinguish class-relevant shape structures. The smaller HOG cell-block size (2×2 instead of 3×3) may also contribute by producing more localized contrast-sensitive features, which appear beneficial for the SVM’s linear decision boundaries.
 
@@ -389,6 +394,7 @@ For the combined HOG+LBP approach, the results show **incremental improvement ov
     <em>Figure 27: Random Forest Feature Extraction Parameter Sweep</em>
 </p>
 
+<div align="center">
 | Label example      | Meaning                              |
 | ------------------ | ------------------------------------ |
 | **HOG-9**      | HOG with 9 orientations   |
@@ -396,6 +402,9 @@ For the combined HOG+LBP approach, the results show **incremental improvement ov
 | **LBP-8**      | LBP with 8 points              |
 | **LBP-10**     | LBP with 10 points             |
 | **HOG-9 + LBP-8** | HOG with 16 bins + LBP with 8 points |
+<p align="center"><em>Table 6: Comparison of Random Forest Test Accuracy with Different Feature Extraction Parameters</em></p>
+
+</div>
 
 The parameter sweep shows that **HOG features clearly outperform LBP histograms** when used with a RandomForest classifier. HOG configurations reach **0.62 to 0.63** accuracy because they capture strong gradient structure such as edges, contours, and overall shape, which aligns well with differences between scene classes. In contrast, LBP histograms stay around **0.54 to 0.55**, since they focus only on small local textures and lose spatial information when converted into global histograms.
 
@@ -410,6 +419,7 @@ The combined **HOG plus LBP histogram** features perform between the two individ
     <em>Figure 28: XGBoost Feature Extraction Parameter Sweep</em>
 </p>
 
+<div align="center">
 | Method    | HOG Orientations | LBP Points (P) | Test Accuracy |
 | --------- | ---------------- | -------------- | ------------- |
 | HOG       | 9                | -              | 0.653         |
@@ -420,6 +430,9 @@ The combined **HOG plus LBP histogram** features perform between the two individ
 | HOG + LBP | 9                | 10             | 0.713         |
 | HOG + LBP | 16               | 8              | 0.687         |
 | HOG + LBP | 16               | 10             | 0.627         |
+<p align="center"><em>Table 7: Comparison of XGBoost Test Accuracy with Different Feature Extraction Parameters</em></p>
+
+</div>
 
 The HOG-only feature extraction results show that using 9 orientations outperforms 16 orientations (65.3% vs. 62.0%). This suggests that increasing the number of orientations beyond a certain point might add noise to our features, reducing model generalization. The simpler configuration with fewer orientations is enough to capture key shape and edge features relevant for classifying these image classes. Thus, a moderate HOG parameter setting helps maintain good performance without unnecessary complexity.
 
@@ -444,6 +457,9 @@ Combining HOG and LBP features consistently improves accuracy over either method
 | HOG+LBP | 9                | (8, 8)          | (3, 3)          | 10    | 3     | uniform    | **0.673**     |
 | HOG+LBP | 16               | (8, 8)          | (2, 2)          | 8     | 1     | uniform    | **0.633**     |
 | HOG+LBP | 16               | (8, 8)          | (2, 2)          | 10    | 3     | uniform    | **0.653**     |
+<p align="center"><em>Table 8: Comparison of Stacking Test Accuracy with Different Feature Extraction Parameters</em></p>
+
+</div>
 
 The parameter sweep shows that HOG remains the dominant contributor to performance in a stacking classifier, but its behavior differs from the SVM trends. With stacking, the configuration using **9 orientations** achieves higher accuracy (0.667) than the more detailed 16-orientation variant (0.647). This suggests that the stacking ensemble benefits from slightly simpler gradient representations, potentially because the downstream meta-learner can more effectively combine moderately complex base-model features rather than very high-dimensional HOG descriptors.
 
@@ -471,14 +487,14 @@ We first implemented a CNN with a fixed architecture in regards to filter option
 | Dropout             | 0.4               | Randomly disables 40 percent of neurons during training to reduce overfitting. |
 | Batch size          | 64                | Number of samples processed before updating model weights.                  |
 | Kernel size         | (3,3)             | Dimensions of the convolutional filter, determining the receptive field.   |
-<p align="center"><em>Table #: Overview of CNN hyperparameters and their functions</em></p>
+<p align="center"><em>Table 9: Overview of CNN hyperparameters and their functions</em></p>
 
 </div>
 
 However, when we trained our CNN model with the best hyperparameters from the grid search on 100% of the available data, we obtained a substantially higher test accuracy of 85.7% and a total training time of 23 minutes.
 <p align="center">
 <img src="task1/img/cnn_cm.png" width="600"/><br>
-<em>Figure #:Confusion matrix for convolutional neural network</em>
+<em>Figure 30: Confusion matrix for convolutional neural network</em>
 </p>
 As seen in figure number "riktig nummer" the CNN classifies most of the categories correctly. Still it struggles with misclassifying glaciers as mountains, and distinguishing between street and buildings. We suspect this is because, as mentioned in our preprocessing section, these categories sometimes contain the same or very similar subjects and some labels are not always mutually exclusive categories (e.g. some mountain pictures contain glacier and vice-versa). As a result, some erroneous classifications are to be expected between these classes.
 
@@ -522,46 +538,46 @@ All models, based on their confusion matrices, struggle to distinguish between m
 
 <p align="center">
   <img src="task1/intel-image-classification/seg_test/seg_test/mountain/23838.jpg" width="300"/><br>
-  <em>Figure 5: Mountain detected as glacier by _</em>
+  <em>Figure 31: Mountain detected as glacier by _</em>
 </p>
 
 <p align="center">
   <img src="task1/intel-image-classification/seg_test/seg_test/glacier/20746.jpg" width="300"/><br>
-  <em>Figure 5: Glacier detected as mountain by _</em>
+  <em>Figure 32: Glacier detected as mountain by _</em>
 </p>
 
 CNNs performed fewer misclassifications between mountain and sea, and between glacier and sea, which the other models struggled with. Examples are shown in figure x to y.
 
 <p align="center">
   <img src="task1/intel-image-classification/seg_test/seg_test/mountain/22479.jpg" width="300"/><br>
-  <em>Figure 5: Mountain detected as sea by _</em>
+  <em>Figure 33: Mountain detected as sea by _</em>
 </p>
 
 <p align="center">
   <img src="task1/intel-image-classification/seg_test/seg_test/sea/24187.jpg" width="300"/><br>
-  <em>Figure 5: Sea detected as mountain by _</em>
+  <em>Figure 34: Sea detected as mountain by _</em>
 </p>
 
 <p align="center">
   <img src="task1/intel-image-classification/seg_test/seg_test/glacier/20603.jpg" width="300"/><br>
-  <em>Figure 5: Glacier detected as sea by _</em>
+  <em>Figure 35: Glacier detected as sea by _</em>
 </p>
 
 <p align="center">
   <img src="task1/intel-image-classification/seg_test/seg_test/sea/23889.jpg" width="300"/><br>
-  <em>Figure 5: Sea detected as glacier by _</em>
+  <em>Figure 36: Sea detected as glacier by _</em>
 </p>
 
 Finally, all models struggled a little when classifying between buildings and street and vice versa. As said before, this is due to streets and buildings often appearing in the same scenes. See figure x and y for some examples.
 
 <p align="center">
   <img src="task1/intel-image-classification/seg_test/seg_test/buildings/23733.jpg" width="300"/><br>
-  <em>Figure 5: Building detected as street by _</em>
+  <em>Figure 37: Building detected as street by _</em>
 </p>
 
 <p align="center">
   <img src="task1/intel-image-classification/seg_test/seg_test/street/24280.jpg" width="300"/><br>
-  <em>Figure 5: Street detecteintrod as building by _</em>
+  <em>Figure 38: Street detecteintrod as building by _</em>
 </p>
 
 We could have manually refined the training set by drawing clearer boundaries between scenes and removing images that fit multiple categories, but this would require extensive manual effort and could drastically reduce the dataset.
@@ -634,11 +650,11 @@ An actual use case for clustering on this dataset is to group online news togeth
     </tr>
   </table>
   <br>
-  <em>Figure #: All columns in the dataset</em>
+  <em>Figure 39: All columns in the dataset</em>
 </div>
 
 
-To start off with preprocessing the dataset, we looked at all the columns to get an understanding of what the data represents. The columns are show in in figure #. Features with names starting with `kw_` represent the amount of shares gained by articles assigned each keyword, looking at the min, average, and max shares for the best, average, and worst keywords associated with the article. Features starting with `LDA_` represent closeness to a given LDA topic (abstract topics/themes decided by another machine learning algorithm). Many of the features, such as `global_sentiment_polarity` and `title_subjectivity` are based on sentiment analysis.
+To start off with preprocessing the dataset, we looked at all the columns to get an understanding of what the data represents. The columns are show in in figure 39. Features with names starting with `kw_` represent the amount of shares gained by articles assigned each keyword, looking at the min, average, and max shares for the best, average, and worst keywords associated with the article. Features starting with `LDA_` represent closeness to a given LDA topic (abstract topics/themes decided by another machine learning algorithm). Many of the features, such as `global_sentiment_polarity` and `title_subjectivity` are based on sentiment analysis.
 
 The dataset contains several columns that are not useful for our selected use case. The first we removed was `url`, as it's useless for clustering. This is because it's unique and categorical, making it impossible to create clusters from.
 
@@ -708,7 +724,7 @@ After removing some columns, we are left with the features showing in figure #, 
     <tr><td>shares</td><td>39644</td><td>3395.380184</td><td>11626.950749</td><td>1</td><td>946</td><td>1400</td><td>2800</td><td>843300</td></tr>
   </table>
   <br>
-  <em>Figure #: Distribution statistics for all used features</em>
+  <em>Figure 40: Distribution statistics for all used features</em>
 </div>
 
 #### Scaling
@@ -720,11 +736,11 @@ We chose to use min-max scaling, mostly because its results are easier to unders
   <tr>
     <td align="center">
       <img src="task2/img/scaling_dist_before.png" width="500"/><br>
-      <em>Figure #: Distribution of data before scaling</em>
+      <em>Figure 41: Distribution of data before scaling</em>
     </td>
     <td align="center">
       <img src="task2/img/scaling_dist_after.png" width="500"/><br>
-      <em>Figure #: Distribution of data after scaling</em>
+      <em>Figure 42: Distribution of data after scaling</em>
     </td>
   </tr>
 </table>
@@ -744,23 +760,23 @@ In figure #, you can see the distribution of our features after removing outlier
   <tr>
     <td align="center">
       <img src="task2/img/iqr_dist.png" width="500"/><br>
-      <em>Figure #: Distribution of data after removing outliers</em>
+      <em>Figure 43: Distribution of data after removing outliers</em>
     </td>
     <td align="center">
       <img src="task2/img/iqr_dist_rescaled.png" width="500"/><br>
-      <em>Figure #: Distribution of data after removing outliers and re-scaling</em>
+      <em>Figure 44: Distribution of data after removing outliers and re-scaling</em>
     </td>
   </tr>
 </table>
 
 <p align="center">
 <img src="task2/img/iqr_dist_num_before.png" width="800"/><br>
-<em>Figure #: Numerical distribution of data before removing outliers</em>
+<em>Figure 45: Numerical distribution of data before removing outliers</em>
 </p>
 
 <p align="center">
 <img src="task2/img/iqr_dist_num_after.png" width="800"/><br>
-<em>Figure #: Numerical distribution of data after removing outliers</em>
+<em>Figure 46: Numerical distribution of data after removing outliers</em>
 </p>
 
 #### Dimensionality reduction
@@ -770,19 +786,19 @@ For dimensionality reduction, we thought about using PCA and t-SNE. PCA focuses 
 
 <p align="center">
 <img src="task2/img/pca_95.png" width="500"/><br>
-<em>Figure #: Explained variance by principal components</em>
+<em>Figure 47: Explained variance by principal components</em>
 </p>
 
 The other advantage of PCA is being useful for visualizing data. We can see the visualization of the dataset using the first 3 principal components in both 2D, in figure #, and in 3D, in figure #.
 
 <p align="center">
 <img src="task2/img/pca_pairplot.png" width="600"/><br>
-<em>Figure #: Pairplot of first 3 principal components</em>
+<em>Figure 48: Pairplot of first 3 principal components</em>
 </p>
 
 <p align="center">
 <img src="task2/img/pca_3d.png" width="600"/><br>
-<em>Figure #: 3D plot of first 3 principal components</em>
+<em>Figure 49: 3D plot of first 3 principal components</em>
 </p>
 
 ### <a id="task-2-b"></a> Implement three clustering methods out of the following and justify your choices
@@ -821,42 +837,42 @@ To decide the amount of clusters to use for K-means, we found 2 common clusterin
   <tr>
     <td align="center">
       <img src="task2/img/kmeans_3.png" width="300"/><br>
-      <em>Figure #: K-means clustering with k=3</em>
+      <em>Figure 50: K-means clustering with k=3</em>
     </td>
     <td align="center">
       <img src="task2/img/kmeans_4.png" width="300"/><br>
-      <em>Figure #: K-means clustering with k=4</em>
+      <em>Figure 51: K-means clustering with k=4</em>
     </td>
   </tr>
   <tr>
     <td align="center">
       <img src="task2/img/kmeans_5.png" width="300"/><br>
-      <em>Figure #: K-means clustering with k=5</em>
+      <em>Figure 52: K-means clustering with k=5</em>
     </td>
     <td align="center">
       <img src="task2/img/kmeans_6.png" width="300"/><br>
-      <em>Figure #: K-means clustering with k=6</em>
+      <em>Figure 53: K-means clustering with k=6</em>
     </td>
   </tr>
 </table>
 
 <p align="center">
 <img src="task2/img/kmeans_clusters_score.png" width="650"/><br>
-<em>Figure #: K-means clustering scores with different k</em>
+<em>Figure 54: K-means clustering scores with different k</em>
 </p>
 
 We can see from figure # that the best performing amount of clusters is 4, both maximizing its silhouette score and minimizing its Davies-Bouldin index. Using this value, we find the final clustered dataset using K-means in figure #.
 
 <p align="center">
 <img src="task2/img/kmeans_4.png" width="650"/><br>
-<em>Figure #: Visualization of K-means clustering</em>
+<em>Figure 55: Visualization of K-means clustering</em>
 </p>
 
 We can also tell which features from our dataset have the largest effect on placing data points into clusters, the most influential features for clustering can be seen in figure #.
 
 <p align="center">
 <img src="task2/img/features_kmeans.png" width="650"/><br>
-<em>Figure #: Top features contributing to K-means clustering</em>
+<em>Figure 56: Top features contributing to K-means clustering</em>
 </p>
 
 #### <a id="compare-fuzzy-c-means"></a> Fuzzy C-means
@@ -865,40 +881,40 @@ We can also tell which features from our dataset have the largest effect on plac
   <tr>
     <td align="center">
       <img src="task2/img/fcm_3.png" width="300"/><br>
-      <em>Figure #: Fuzzy C-means clustering with 3 clusters</em>
+      <em>Figure 57: Fuzzy C-means clustering with 3 clusters</em>
     </td>
     <td align="center">
       <img src="task2/img/fcm_4.png" width="300"/><br>
-      <em>Figure #: Fuzzy C-means clustering with 4 clusters</em>
+      <em>Figure 58: Fuzzy C-means clustering with 4 clusters</em>
     </td>
   </tr>
   <tr>
     <td align="center">
       <img src="task2/img/fcm_5.png" width="300"/><br>
-      <em>Figure #: Fuzzy C-means clustering with 5 clusters</em>
+      <em>Figure 59: Fuzzy C-means clustering with 5 clusters</em>
     </td>
     <td align="center">
       <img src="task2/img/fcm_6.png" width="300"/><br>
-      <em>Figure #: Fuzzy C-means clustering with 6 clusters</em>
+      <em>Figure 60: Fuzzy C-means clustering with 6 clusters</em>
     </td>
   </tr>
 </table>
 
 <p align="center">
 <img src="task2/img/fcm_clusters_score.png" width="650"/><br>
-<em>Figure #: Fuzzy C-means clustering scores with different amounts of clusters</em>
+<em>Figure 61: Fuzzy C-means clustering scores with different amounts of clusters</em>
 </p>
 
 We also found 4 clusters to be the optimal amount for fuzzy C-means, as seen in figure #, which is to be expected since it works very similarly to K-means, both being centroid-based clustering algorithms. The visualization of the optimal fuzzy C-means clustering is seen in figure #.
 
 <p align="center">
 <img src="task2/img/fcm_4.png" width="650"/><br>
-<em>Figure #: Visualization of fuzzy C-means clustering</em>
+<em>Figure 62: Visualization of fuzzy C-means clustering</em>
 </p>
 
 <p align="center">
 <img src="task2/img/features_fcm.png" width="650"/><br>
-<em>Figure #: Top features contributing to fuzzy C-means clustering</em>
+<em>Figure 63: Top features contributing to fuzzy C-means clustering</em>
 </p>
 
 #### <a id="compare-gaussian-mixture-models"></a> Gaussian mixture models
@@ -907,40 +923,40 @@ We also found 4 clusters to be the optimal amount for fuzzy C-means, as seen in 
   <tr>
     <td align="center">
       <img src="task2/img/gmm_3.png" width="300"/><br>
-      <em>Figure #: GMM clustering with 3 clusters</em>
+      <em>Figure 64: GMM clustering with 3 clusters</em>
     </td>
     <td align="center">
       <img src="task2/img/gmm_4.png" width="300"/><br>
-      <em>Figure #: GMM clustering with 4 clusters</em>
+      <em>Figure 65: GMM clustering with 4 clusters</em>
     </td>
   </tr>
   <tr>
     <td align="center">
       <img src="task2/img/gmm_5.png" width="300"/><br>
-      <em>Figure #: GMM clustering with 5 clusters</em>
+      <em>Figure 66: GMM clustering with 5 clusters</em>
     </td>
     <td align="center">
       <img src="task2/img/gmm_6.png" width="300"/><br>
-      <em>Figure #: GMM clustering with 6 clusters</em>
+      <em>Figure 67: GMM clustering with 6 clusters</em>
     </td>
   </tr>
 </table>
 
 <p align="center">
 <img src="task2/img/gmm_clusters_score.png" width="650"/><br>
-<em>Figure #: GMM clustering scores with different amounts of clusters</em>
+<em>Figure 68: GMM clustering scores with different amounts of clusters</em>
 </p>
 
 We also found 4 as the optimal number of clusters for GMM, seen in figure #. After finding this, we created the visualization of GMM using 4 clusters shown in figure #.
 
 <p align="center">
 <img src="task2/img/gmm_4.png" width="650"/><br>
-<em>Figure #: Visualization of GMM clustering</em>
+<em>Figure 69: Visualization of GMM clustering</em>
 </p>
 
 <p align="center">
 <img src="task2/img/features_gmm.png" width="650"/><br>
-<em>Figure #: Top features contributing to GMM clustering</em>
+<em>Figure 70: Top features contributing to GMM clustering</em>
 </p>
 
 All our chosen clustering algorithms had very similar visualizations, but the differences are more clear when looking at the clustering metrics. Fuzzy C-means had the best performance, reaching a silhouette score of 0.647 and a Davies-Bouldin index of 0.500. This is a slight performance increase from K-means, and a larger jump from GMM. Part of the reason for this result is likely that both silhouette score and Davies-Bouldin index favor centroid-based clustering, as they both rely on euclidian distance, favoring compact spherical clusters. Both metrics are still valid metrics for GMM and some of the easier to understand among clustering metrics. They also have the advantage of being possible to measure for all our chosen clustering algorihtms, which isn't the case for all metrics.
@@ -955,5 +971,5 @@ From looking at our performance metrics, we chose to select fuzzy C-means as our
 
 <p align="center">
 <img src="task2/img/fcm_examples.png" width="800"/><br>
-<em>Figure #: The 5 most confidently placed data points in each cluster</em>
+<em>Figure 71: The 5 most confidently placed data points in each cluster</em>
 </p>
