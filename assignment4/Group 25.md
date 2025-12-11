@@ -2,48 +2,50 @@
 
 ## Table of Contents
 
-- [Task 1](#task-1)
-  - [Pick any image based dataset from the list, implement the preprocessing and justify the preprocessing steps, extract features and justify the methods used, select features and justify the methods used](#pick-any-image-based-dataset-from-the-list-implement-the-preprocessing-and-justify-the-preprocessing-steps-extract-features-and-justify-the-methods-used-select-features-and-justify-the-methods-used)
+- [IT3212 Assignment 4: Deep learning and unsupervised learning](#it3212-assignment-4-deep-learning-and-unsupervised-learning)
+  - [Table of Contents](#table-of-contents)
+  - [ Task 1](#-task-1)
+    - [Pick any image based dataset from the list, implement the preprocessing and justify the preprocessing steps, extract features and justify the methods used, select features and justify the methods used.](#pick-any-image-based-dataset-from-the-list-implement-the-preprocessing-and-justify-the-preprocessing-steps-extract-features-and-justify-the-methods-used-select-features-and-justify-the-methods-used)
     - [Preprocessing](#preprocessing)
       - [Duplicate Images](#duplicate-images)
-      - [Unrecognizable Images](#unrecognizable-images)
+      - [Unrecognizable images](#unrecognizable-images)
       - [Miscategorized Images](#miscategorized-images)
       - [Data Augmentation](#data-augmentation)
       - [Resizing Images](#resizing-images)
       - [Normalizing Images](#normalizing-images)
     - [Feature Extraction](#feature-extraction)
       - [Histogram of Oriented Gradients](#histogram-of-oriented-gradients)
-      - [Local Binary Patterns](#local-binary-pattern)
+      - [Local Binary Pattern](#local-binary-pattern)
       - [Combined HOG + LBP Features](#combined-hog--lbp-features)
-    - [Feature Selection](#feature-selection)
-  - [Implement (using the selected features) one basic machine learning algorithm for classification and justify your choice](#implement-using-the-selected-features-one-basic-machine-learning-algorithm-for-classification-and-justify-your-choice)
-    - [SVM](#svm)
-    - [Random forest](#random-forest)
-  - [Implement (using the selected features) one advanced machine learning algorithm for classification and justify your choice](#implement-using-the-selected-features-one-advanced-machine-learning-algorithm-for-classification-and-justify-your-choice)
-    - [XGBoost](#xgboost)
-    - [Stacking](#stacking)
-  - [Feature Parameter Sweep](#feature-parameter-sweep)
-      - [SVM](#svm-f)
-      - [Random forest](#rf-f)
-      - [XGBoost](#xgb-f)
-      - [Stacking](#stacking-f)
-  - [Implement a CNN with hyperparameter tuning](#implement-a-cnn-with-hyperparameter-tuning)
-  - [Compare and Explain the results in terms of both the computation time and the performance of the classification algorithms](#compare-and-explain-the-results-in-terms-of-both-the-computation-time-and-the-performance-of-the-classification-algorithms)
-    - [Reasons For Differences In Model Computation Performance](#reasons-for-differences-in-model-computation-performance)
-    - [Misclassifications](#misclassifications)
-- [Task 2](#task-2)
-  - [Pick any dataset from the list, implement the preprocessing and justify the preprocessing steps, extract features and justify the methods used, select features and justify the methods used](#pick-any-dataset-from-the-list-implement-the-preprocessing-and-justify-the-preprocessing-steps-extract-features-and-justify-the-methods-used-select-features-and-justify-the-methods-used)
-    - [Scaling](#scaling)
-    - [Outlier Detection](#outlier-detection)
-    - [Dimensionality Reduction](#dimensionality-reduction)
-  - [Implement three clustering methods out of the following: (K-means, Hierarchical Clustering, Fuzzy-C-means, DBSCAN, Gaussian mixture models, Self-organizing maps) and justify your choices](#implement-three-clustering-methods-out-of-the-following-k-means-hierarchical-clustering-fuzzy-c-means-dbscan-gaussian-mixture-models-self-organizing-maps-and-justify-your-choices)
-    - [K-means](#k-means)
-    - [Fuzzy C-means](#fuzzy-c-means)
-    - [Gaussian Mixture Models](#gaussian-mixture-models)
-  - [Compare and Explain the results](#compare-and-explain-the-results)
-    - [K-means](#compare-k-means)
-    - [Fuzzy C-means](#compare-fuzzy-c-means)
-    - [Gaussian Mixture Models](#compare-gaussian-mixture-models)
+    - [Feature selection](#feature-selection)
+    - [Implement (using the selected features) one basic machine learning algorithm for classification and justify your choice.](#implement-using-the-selected-features-one-basic-machine-learning-algorithm-for-classification-and-justify-your-choice)
+      - [SVM](#svm)
+      - [Random forest](#random-forest)
+    - [Implement (using the selected features) one advanced machine learning algorithm for classification and justify your choice.](#implement-using-the-selected-features-one-advanced-machine-learning-algorithm-for-classification-and-justify-your-choice)
+      - [XGBoost](#xgboost)
+      - [Stacking](#stacking)
+    - [Feature Parameter Sweep](#feature-parameter-sweep)
+      - [ SVM](#-svm)
+      - [ Random forest](#-random-forest)
+      - [ XGBoost](#-xgboost)
+      - [ Stacking](#-stacking)
+    - [Implement a CNN with hyperparameter tuning](#implement-a-cnn-with-hyperparameter-tuning)
+    - [Compare and Explain the results in terms of both the computation time and the performance of the classification algorithms](#compare-and-explain-the-results-in-terms-of-both-the-computation-time-and-the-performance-of-the-classification-algorithms)
+      - [Reasons For Differences In Model Computation Performance](#reasons-for-differences-in-model-computation-performance)
+      - [Misclassifications](#misclassifications)
+  - [Task 2](#task-2)
+    - [Pick any dataset from the list, implement the preprocessing and justify the preprocessing steps, extract features and justify the methods used, select features and justify the methods used](#pick-any-dataset-from-the-list-implement-the-preprocessing-and-justify-the-preprocessing-steps-extract-features-and-justify-the-methods-used-select-features-and-justify-the-methods-used)
+      - [Scaling](#scaling)
+      - [Outlier Detection](#outlier-detection)
+      - [Dimensionality Reduction](#dimensionality-reduction)
+    - [Implement three clustering methods out of the following: (K-means, Hierarchical Clustering, Fuzzy-C-means, DBSCAN, Gaussian mixture models, Self-organizing maps) and justify your choices](#implement-three-clustering-methods-out-of-the-following-k-means-hierarchical-clustering-fuzzy-c-means-dbscan-gaussian-mixture-models-self-organizing-maps-and-justify-your-choices)
+      - [ K-means](#-k-means)
+      - [ Fuzzy C-means](#-fuzzy-c-means)
+      - [ Gaussian mixture models](#-gaussian-mixture-models)
+    - [Compare and Explain the results](#compare-and-explain-the-results)
+      - [ K-means](#-k-means-1)
+      - [ Fuzzy C-means](#-fuzzy-c-means-1)
+      - [ Gaussian mixture models](#-gaussian-mixture-models-1)
 
 <div style="page-break-after: always;"></div>
 
@@ -469,6 +471,8 @@ We selected `SVM (Support Vector Machines)` with a linear kernel because it's a 
 
 `SVM` achieved an accuracy of 62.0%. From the confusion matrix in figure 22, we notice that `SVM` struggles with predicting glacier vs mountain and buildings vs street.
 
+Hyperparameters: We decided to use the default `C` value, `C = 1`, as the documentation argues it is a reasonable choice.
+
 #### Random forest
 
 `Random forest` is a reliable ensemble method that works very well with hand-crafted features like HOG and LBP because it naturally handles high-dimensional inputs and nonlinear relationships without extra preprocessing. Its interpretability and resistance to overfitting make it a strong baseline for comparing different feature extraction settings.\
@@ -480,6 +484,8 @@ However, tree splits can miss subtle continuous gradients in texture and appeara
 </p>
 
 `Random forest` achieved an accuracy of 66.2%. From the confusion matrix in figure 23, we notice that `Random forest` struggles with predicting the same classes as `SVM`.
+
+Hyperparameter tuning: We did a grid search with five fold cross-validation for our hyperparameter tuning. As a result we used `max_depth = None`, `n_estimators = 300`, and `min_samples_split = 5`.
 
 <div style="page-break-after: always;"></div>
 
@@ -498,6 +504,8 @@ We chose two advanced models: XGBoost and Stacking.
 
 `XGBoost` achieved an accuracy of 69.1%. From the confusion matrix in figure 24, we notice that `XGBoost` struggles with predicting the same classes as the models above.
 
+Hyperparameter tuning: Due to time constraints we conducted a grid search without cross-validation and arrived at the following parameters; `max_depth = 8`, `n_estimators = 400` `learning_rate = 0.05`, `subsample = 0.8`.
+
 #### Stacking
 
 We chose `stacking` because it lets us combine models that capture different aspects of our scene-classification task: *buildings, forest, glacier, mountain, sea,* and *street*, resulting in a more balanced and robust classifier. `Random forest` handles nonlinear patterns and noisy HOG/LBP features well, while `SVM` provides strong margin-based separation in high-dimensional space. Using `logistic regression` as the meta-learner keeps the final decision simple while also being an easy-to-understand model. Stacking gives us a technically strong way to merge complementary strengths into a single, more reliable model.
@@ -508,6 +516,8 @@ We chose `stacking` because it lets us combine models that capture different asp
 </p>
 
 `Stacking (LR on RF & SVM)` achieved an accuracy of 66.9%. From the confusion matrix in figure 25, we notice that `Stacking` struggles with the same classes as the other models.
+
+Hyperparameters: We used the same hyperparameters for the base learners as described above. And for the meta model(logistic regression) we used the default parameters.
 
 <div style="page-break-after: always;"></div>
 
@@ -958,13 +968,11 @@ As seen in figure 30 the CNN classifies most of the categories correctly. Still 
 
 ### Compare and Explain the results in terms of both the computation time and the performance of the classification algorithms
 
-When comparing the different classification algorithms, both computation time and predictive performance showed clear differences between the CNN and the traditional machine learning models (Random forest, XGBoost, and the stacking ensemble).
+When comparing the different classification algorithms, both computation time and predictive performance showed clear differences between the CNN and the traditional machine learning models (Random forest, SVM, XGBoost, and the stacking ensemble).
 
-For the basic and advanced models, we did not feed raw images directly. Instead, we first computed feature representations for each image. This feature extraction pipeline took roughly 30 minutes to run. On top of this, training the advanced models significantly exceeded the total training time of the CNN (23 minutes). The XGBoost took about 40 minutes to train and the stacking ensemble took about 1 hour. Random forest required 10 minutes to train, and SVM needed half an hour.
+For the basic and advanced models, we did not feed raw images directly. Instead, we first computed feature representations for each image. This feature extraction pipeline took roughly 30 minutes to run. On top of this, training the advanced models significantly exceeded the total training time of the CNN (23 minutes). The XGBoost took about 40 minutes to train and the stacking ensemble took about 1 hour. Random forest required 10 minutes to train, making it the fastest of all our models, while SVM needed half an hour.
 
 #### Reasons For Differences In Model Computation Performance
-
-There are several plausible reasons for the differences in model computation time and performance.
 
 **Extra preprocessing cost:**\
 The feature extraction step for Random forest, SVM, XGBoost and the stacking ensemble is a separate stage that must be applied to every image before training. In contrast, the CNN learns features directly from the raw pixels, and the only additional preprocessing, data augmentation, is done before its given to the model. If we are considering the entire time of running the pipeline for each model, the CNN performs best on both prediction accuracy and computation time.
@@ -975,9 +983,7 @@ The stacking model combines predictions from several base learners, in our case 
 However in regards to accuracy it performed better than its base learners achieving a 66.9% accuracy compared to 66.2% for Random forest and 62.0% for SVM. Stacking can have the benefit of achieving better accuracy by learning from the predictions of its base learners, thereby making its predictions more reliable. Furthermore, stacking allows the metamodel to make use of its base learners strengths, and recognize their mistakes. Furthermore, can also  be highly flexible to different problems as one can include multiple different models as base learners. However, as in our case, it was computationally heavy, even with only two base learners, and took a substantial amount of time to train. If a problem requires a quick solution and deployment, this strategy would not be advised.
 
 **Hardware constraints:**\
-As mentioned earlier we managed to train our CNN by using a GPU. This significantly reduced the training time of our CNN model. However we did not manage to get the configurations right to run the other models on the GPU. This puts the models at a significant disadvantage in terms of computation time and illustrates the importance of leveraging available hardware when training machine learning models.
-
-This performance gap can be explained by how the models use information in the data:
+As mentioned earlier we managed to train our CNN by using a GPU. This significantly reduced the training time of our CNN model. However we did not manage to get the configurations right to run the other models on the GPU. This puts the basic and advanced models at a significant disadvantage in terms of computation time and illustrates the importance of leveraging available hardware when training machine learning models.
 
 **Exploiting spatial structure:**\
 CNNs operate directly on 2D image grids with multiple channels and use convolutional filters to capture local patterns such as edges, textures, and shapes. Deeper layers combine these into higher-level concepts. This hierarchical feature learning is very effective for images. We think that maybe the features that the CNN extracts on its own might be better features compared to the ones we pre-computed for our other models.
@@ -988,7 +994,7 @@ Furthermore, for Random forest, SVM, XGBoost and the stacking ensemble, we reduc
 **Model capacity and flexibility:**\
 The CNN has a high capacity to approximate complex decision boundaries directly in pixel space, while the basic and advanced models are constrained to operate on a small, fixed feature vector. Even powerful ensemble methods like XGBoost will be limited by the quality and richness of those features. In our experiments, this likely led to a situation where the CNN could capture more nuanced visual patterns and therefore generalize better on the test set.
 
-In terms of classification performance, the CNN clearly outperformed both Random forest and XGBoost on this image classification task. Our CNN model reached 85.7% accuracy, which is substantially better compared even to our XGBoost model which was the fastest and most accurate of the advanced models. If we compare the CNN to our best performing basic model, Random forest, it significantly outperformed it in terms of accuracy, but required about 13 minutes more training time, excluding the feature extraction.
+In terms of classification performance, the CNN clearly outperformed all our other models on this image classification task. Our CNN model reached 85.7% accuracy, which is substantially better than even our second best model, XGBoost, which was the fastest and most accurate of the advanced models. If we compare the CNN to our best performing basic model, Random forest, it significantly outperformed it in terms of accuracy, but required about 13 minutes more training time, excluding the feature extraction.
 
 Overall, the results show that despite the common perception that deep learning models are always slower and more resource-intensive, a reasonably sized CNN can be competitive or even faster than traditional methods when using a GPU. This is especially the case when traditional methods depend on expensive feature extraction pipelines. At the same time, the CNN achieved clearly superior classification performance on this image dataset, which is consistent with its architectural advantages for image-based tasks.
 
@@ -1045,10 +1051,6 @@ Finally, all models struggled a little when classifying between buildings and st
 We could have manually refined the training set by drawing clearer boundaries between scenes and removing images that fit multiple categories, but this would require extensive manual effort and could drastically reduce the dataset.
 
 The acceptable level of misclassification depends on the use case of the algorithm. For separating urban from non-urban environments, such errors may be tolerable. However, for applications like emergency planning, where accurately distinguishing buildings from streets is crucial, even minor errors could lead to faulty risk assessments and unsafe decisions.
-
-<h2 style="color: green;">TODO: 
-- legg til SVM in sammenligningen
-</h2>
 
 <div style="page-break-after: always;"></div>
 

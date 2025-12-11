@@ -4,27 +4,30 @@
 
 ## Table of Contents
 
-- [1. Data Exploration](#1-data-exploration)
-  - [a. Explore the dataset by displaying the first few rows, summary statistics, and data types of each column.](#1-data-exploration-section-a)
-  - [b. Identify missing values, outliers, and unique values in categorical columns.](#1-data-exploration-section-b)
-- [2. Data Cleaning](#2-data-cleaning)
-  - [a. Handling Missing Values](#2-data-cleaning-section-a)
-  - [b. Choose appropriate methods to handle missing values (e.g., mean/median imputation for numerical data, mode imputation for categorical data, or deletion of rows/columns).](#2-data-cleaning-section-b)
-  - [c. Justify your choices for handling missing data.](#2-data-cleaning-section-c)
-- [3. Handling Outliers](#3-handling-outliers)
-  - [a. Detect outliers using methods such as the IQR method or Z-score.](#3-handling-outliers-section-a)
-  - [b. Decide whether to remove, cap, or transform the outliers. Justify your decisions.](#3-handling-outliers-section-b)
-- [4. Data Transformation](#4-data-transformation)
-  - [a. Encoding Categorical Data](#4-data-transformation-section-a)
-    - [i. Apply label encoding or one-hot encoding to transform categorical data into numerical form.](#4-data-transformation-section-a-i)
-    - [ii. Justify your choice of encoding method.](#4-data-transformation-section-a-ii)
-  - [b. Feature Scaling](#4-data-transformation-section-b)
-    - [i. Apply feature scaling techniques such as normalization (Min-Max scaling) or standardization (Z-score normalization) to the dataset.](#4-data-transformation-section-b-i)
-    - [ii. Explain why feature scaling is necessary and how it impacts the model.](#4-data-transformation-section-b-ii)
-- [5. Data Splitting](#5-data-splitting)
-  - [a. Split the preprocessed dataset into training and testing sets. Typically, an 80-20 or 70-30 split is used.](#5-data-splitting-section-a)
-  - [b. Explain the importance of splitting the data and how it prevents overfitting.](#5-data-splitting-section-b)
-- [6. Apply dimensionality reduction techniques such as Principal Component Analysis (PCA) and discuss how it affects the dataset.](#6-PCA)
+- [IT3212 Assignment 1: Data Preprocessing (Second delivery)](#it3212-assignment-1-data-preprocessing-second-delivery)
+  - [Table of Contents](#table-of-contents)
+  - [ 1. Data Exploration](#-1-data-exploration)
+    - [ a. Explore the dataset by displaying the first few rows, summary statistics, and data types of each column.](#-a-explore-the-dataset-by-displaying-the-first-few-rows-summary-statistics-and-data-types-of-each-column)
+    - [ b. Identify missing values, outliers, and unique values in categorical columns.](#-b-identify-missing-values-outliers-and-unique-values-in-categorical-columns)
+  - [ 2. Data Cleaning](#-2-data-cleaning)
+    - [ a. Handling Missing Values](#-a-handling-missing-values)
+    - [ b. Choose appropriate methods to handle missing values (e.g., mean/median imputation for numerical data, mode imputation for categorical data, or deletion of rows/columns).](#-b-choose-appropriate-methods-to-handle-missing-values-eg-meanmedian-imputation-for-numerical-data-mode-imputation-for-categorical-data-or-deletion-of-rowscolumns)
+    - [ c. Justify your choices for handling missing data.](#-c-justify-your-choices-for-handling-missing-data)
+  - [ 3. Handling Outliers](#-3-handling-outliers)
+    - [ a. Detect outliers using methods such as the IQR method or Z-score.](#-a-detect-outliers-using-methods-such-as-the-iqr-method-or-z-score)
+    - [ b. Decide whether to remove, cap, or transform the outliers. Justify your decisions.](#-b-decide-whether-to-remove-cap-or-transform-the-outliers-justify-your-decisions)
+  - [ 4. Data Transformation](#-4-data-transformation)
+    - [ a. Encoding Categorical Data](#-a-encoding-categorical-data)
+      - [ i. Apply label encoding or one-hot encoding to transform categorical data into numerical form.](#-i-apply-label-encoding-or-one-hot-encoding-to-transform-categorical-data-into-numerical-form)
+      - [ ii. Justify your choice of encoding method.](#-ii-justify-your-choice-of-encoding-method)
+    - [ b. Feature Scaling](#-b-feature-scaling)
+      - [ i. Apply feature scaling techniques such as normalization (Min-Max scaling) or standardization (Z-score normalization) to the dataset.](#-i-apply-feature-scaling-techniques-such-as-normalization-min-max-scaling-or-standardization-z-score-normalization-to-the-dataset)
+      - [ ii. Explain why feature scaling is necessary and how it impacts the model.](#-ii-explain-why-feature-scaling-is-necessary-and-how-it-impacts-the-model)
+  - [ 5. Data Splitting](#-5-data-splitting)
+    - [ a. Split the preprocessed dataset into training and testing sets. Typically, an 80-20 or 70-30 split is used.](#-a-split-the-preprocessed-dataset-into-training-and-testing-sets-typically-an-80-20-or-70-30-split-is-used)
+    - [ b. Explain the importance of splitting the data and how it prevents overfitting.](#-b-explain-the-importance-of-splitting-the-data-and-how-it-prevents-overfitting)
+  - [ 6. Apply dimensionality reduction techniques such as Principal Component Analysis (PCA) and discuss how it affects the dataset.](#-6-apply-dimensionality-reduction-techniques-such-as-principal-component-analysis-pca-and-discuss-how-it-affects-the-dataset)
+- [Changelog](#changelog)
 
 <div style="page-break-after: always;"></div>
 
@@ -340,7 +343,7 @@ We are aware that label encoding imposes an arbitrary ordering on the symbols, w
 
 This effect can be mitigated if the models are tree-based like Decision Tree, Random Forest and XGBoost, since they split on thresholds and are generally less sensitive the actual numeric scale of the labels.
 
-By contrast, other models such as linear/logistic regression and many neural networks, can misinterpret these encoded integers as meaningful magnitudes. For those models, one-hot encoding could be more appropriate, even though it increases dimensionality. This also increase the training time, which is the trade-off for using a more appropiate encoding technique.
+By contrast, other models such as linear/logistic regression and many neural networks, can misinterpret these encoded integers as meaningful magnitudes. For those models, one-hot encoding could be more appropriate, even though it increases dimensionality. This expansion of the dataset also increases the training time for models that could accept both label- and one-hot encoding, though it will also allow it to be used to train models that only work well with one-hot encoding.
 
 Label encoding is acceptable when using tree-based models, which are relatively robust to label bias and keeps the dataset computationally manageable.
 
