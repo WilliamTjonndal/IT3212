@@ -1,5 +1,7 @@
 # IT3212 Assignment 3: Basic modelling
 
+[Changelog](#changelog)
+
 ## Table of Contents
 
 - [IT3212 Assignment 3: Basic modelling](#it3212-assignment-3-basic-modelling)
@@ -472,4 +474,9 @@ Boosting performed worse compared to bagging because its reweighting strategy fo
 As mentioned earlier, transfer learning performed poorly because the new dataset was incompatible and required heavy feature dropping. We tried our best a relevant dataset and apply transfer learning on it. Despite this, we didn't find a good dataset, and the model only got an accuracy of 30.5%.
 
 With regards to our problem to our real world problem, we believe that using the `Random Forest` model on this dataset to make predictions for student interventions, such as preventing dropout or prolonging enrollment.\
-However, should a university institution rather prioritize checking on students that are at risk of not graduating on time (enrolled), the `Logistic Regression with Bagging` model would be better at accurately predicting those students.
+However, should a university institution rather prioritize being confident that a student predicted as `Dropout` will actually drop out (perhaps due to constraints on how many students they can intervene with individually), you would instead choose `AdaBoost with Logistic Regression` as your model. This is because `AdaBoost with Logistic Regression` has a high true positive rate while keeping a low false positive rate when predicting `Dropout`, as seen in figure 25.
+
+# Changelog
+
+[Task 9](#9-compare-performance)
+- Updated the final paragraph to better explain model choice given different prioritizations, mentioning AdaBoost with Logistic regression as the best model to minimize false negatives for at-risk students.
