@@ -78,6 +78,7 @@ A low-pass filter on the DFT keeps the low-frequency components near the spectru
 <p align="center">
   <em>Figure 2a: Low-pass filter with radius r = 10</em>
 </p>
+
 A cutoff radius of 10 results in a extremely blurry image since only the largest shapes remain. We can barely recognize these images are supposed to represent.
 
 <div style="display: grid; grid-template-columns: 1fr 1fr; grid-auto-rows: 1fr; gap: 10px;">
@@ -118,7 +119,8 @@ A cutoff radius of 60 results in moderately blurred images where edges are visib
 
 A cutoff radius of 120 results in essentially the same images with slight denoising. These reconstructed images are very similar to the way they were before.
 
-Essentially, increasing the cutoff radius preserves more high-frequency detail and reduces the amount of blur.\
+Essentially, increasing the cutoff radius preserves more high-frequency detail and reduces the amount of blur.
+
 This shows how LPF behavior depends strongly on the cutoff radius when using LPF for either denoising or smoothing. In our case a value of either 30 (or 60 for the forest image) seems appropriate.
 
 <div style="page-break-after: always;"></div>
@@ -257,7 +259,8 @@ A covariance matrix was calculated for the image matrix and it was used to calcu
   <em>Figure 9: Eigen Faces (Principal Components)</em>
 </p>
 
-The images in figure 9 are the eigenfaces obtained from the PCA eigenvectors. We selected the top k = 6 eigenvectors to start with, and will experiment with the amount later. These were used to create our principal components, as seen in figure 9.\
+The images in figure 9 are the eigenfaces obtained from the PCA eigenvectors. We selected the top k = 6 eigenvectors to start with, and will experiment with the amount later. These were used to create our principal components, as seen in figure 9.
+
 These components are called eigenfaces since each eigenvector represents a direction of variation in the dataset.
 
 <p align="center">
@@ -265,7 +268,8 @@ These components are called eigenfaces since each eigenvector represents a direc
   <em>Figure 10: Images visualized as PC1 vs PC2</em>
 </p>
 
-We visualized all 8 images in the 2-dimensional subspace defined by PC1 and PC2, shown in figure 10.\
+We visualized all 8 images in the 2-dimensional subspace defined by PC1 and PC2, shown in figure 10.
+
 PC1 captures the overall lighting and smooth intensity variation across the faces, while PC2 captures mid-frequency facial structure such as nose shadow, brow shape, and the mouth region.
 
 <div style="page-break-after: always;"></div>
@@ -327,7 +331,8 @@ As seen in figure 12, the reconstructed images are very similar to the originals
 
 This problem can also be seen in figure 13, where reconstructions with lower values for k are more blurry than those with higher values.
 
-This happens because PCA minimizes average reconstruction error across the dataset, not the error of each individual image. Images that differ more from the global patterns captured by the first few principal components will reconstruct poorly.\
+This happens because PCA minimizes average reconstruction error across the dataset, not the error of each individual image. Images that differ more from the global patterns captured by the first few principal components will reconstruct poorly.
+
 The fourth image has higher-frequency features like sharp edges especially around the mouth and eyes. The expression is also different from the dataset's dominant variance. Since higher-frequency components are stored in later eigenfaces and since we discard these components for compression, these details are lost thus resulting in the blur.
 
 You can also see a representation of the quality of the reconstruction using MSE in figure 15, and it will be discussed further in the next section.
@@ -408,10 +413,13 @@ As shown in figure 17, HOG is better at capturing sharp edges and overall shape/
       <td>38.8%</td>
     </tr>
   </table>
+  <em>Table 1: HOG feature size and sparsity for four sample images of varying content and resolution.</em>
   <br><br>
+  
 </div>
 
-These results highlight two important observations:
+Table 1 shows the feature vector length and sparsity of the images after applying HOG. These results highlight two key observations: These results highlight two important observations:
+
 - Feature vector length scales strongly with image size. The car image being larger produces a feature vector over four times longer.
 
 - Texture level influences sparsity. Highly textured images (tiger, fruit, person) activate many orientation bins in each cell, which produces less sparse feature vectors (≈55% non-zero). In contrast, the car image contains larger smooth regions (sky, road, uniform surfaces), so many gradient bins remain near zero, leading to greater sparsity (≈39%).
@@ -478,10 +486,12 @@ The amount of orientation also does not have the same impact as cell size, but f
       <td>More orientation bins capture finer angle detail; lower sparsity</td>
     </tr>
   </table>
+   <em>Table 2: Effect of HOG parameter sweap on feature length, sparsity, and descriptive detail.</em>
   <br><br>
 </div>
 
-From the parameter sweep:
+Table 2 summarizes a HOG parameter sweep, showing how cell size, block size, and number of bins affect feature length, sparsity, and the level of detail:
+
 - Cell size: Smaller cells (4×4) produce longer feature vectors and are more sensitive to fine textures while larger cells (16×16) produce shorter vectors and emphasize only coarse shapes.
 
 - Block size: Smaller blocks (1×1) preserve local contrast but are less robust to illumination changes while standard blocks (2×2) normalize gradients over a larger area, improving robustness.
@@ -532,9 +542,12 @@ The basic 8-neighbor and rotation-invariant LBPs look the same because the image
   <em>Figure 20: Histograms the LBP variants: basic, rotation-invariant, and uniform. </em>
 </p>
 
-An LBP histogram counts how many pixels in the LBP image have each code value, showing the distribution of local texture patterns in the original image.\
-For the basic 8-neighbour LBP, the histogram spans all 256 codes, capturing fine-grained variations.\
-Rotation-invariant LBP groups patterns that are identical up to rotation, producing a more compact histogram that is robust to orientation changes.\
+An LBP histogram counts how many pixels in the LBP image have each code value, showing the distribution of local texture patterns in the original image.
+
+For the basic 8-neighbour LBP, the histogram spans all 256 codes, capturing fine-grained variations.
+
+Rotation-invariant LBP groups patterns that are identical up to rotation, producing a more compact histogram that is robust to orientation changes.
+
 Uniform LBP further reduces the histogram to 59 bins by combining all non-uniform patterns, emphasizing fundamental edges and corners while ignoring rare, complex patterns.
 
 In Figure 20, the histograms highlight texture structure: the basic LBP shows peaks across the full 0–255 range, rotation-invariant LBP, the histogram shows a few isolated peaks between 0 and 125, reflecting that many patterns differing only by rotation are mapped to the same code, and uniform LBP emphasizes common uniform patterns near 0 and 10.
@@ -558,19 +571,22 @@ The image of the landscape's histogram is much less uniformly distributed, with 
 
 <p align="center">
   <img src="results/lbp/lbp_grid_rotation_invariant.png" width="600"/><br>
-  <em>Figure 21b: LBP RI for several images</em>
+  <em>Figure 21b: LBP Rotation-Invariant for several images</em>
 </p>
 
 **Mona Lisa**\
-We notice the that texture edges of the face and hair are faintly visible, but overall the low contrast and sparse highlights dominate.\
+We notice the that texture edges of the face and hair are faintly visible, but overall the low contrast and sparse highlights dominate.
+
 The histogram has a sparse distribution with prominent peaks around certain LBP codes, indicating a limited variety of texture patterns in the image.
 
 **Brick Wall**\
-We see a much more pronounced texture patterns which clearly highlight the brick outlines and mortar lines.\
+We see a much more pronounced texture patterns which clearly highlight the brick outlines and mortar lines.
+
 The histogram has several peaks which correspond to repetitive texture elements. This is explained by that fact that many codes are populated which reflects the structured nature of the bricks.
 
 **Landscape**\
-Strong texture edges emphasize the tree lines and landscape contours, showing dense texture variations.\
+Strong texture edges emphasize the tree lines and landscape contours, showing dense texture variations.
+
 The histogram has a broader spread with several dominant LBP codes, indicating diverse local textures across the image.
 
 <p align="center">
@@ -619,9 +635,12 @@ To receive better results, we would perform a discrete fourier transform on the 
 
 **Comparison of the histograms from Basic, Rotation-Invariant and Uniform LBP**
 
-Comparing the histograms for the three images, we see several differences.\
-For ``Basic LBP``, the histograms tend to be very spread out for complex or irregular textures (Mona Lisa and the landscape) because each orientation produces different codes, resulting in many rarely-populated bins; structured textures like the brick wall show more pronounced peaks since the repeating pattern produces similar codes.\
-``Rotation-invariant LBP`` consolidates codes that represent the same pattern at different rotations, which results in fewer peaks and a more concentrated histogram, especially noticeable in the landscape and brick wall images, highlighting the dominant texture motifs rather than their orientation.\
+Comparing the histograms for the three images, we see several differences.
+
+For ``Basic LBP``, the histograms tend to be very spread out for complex or irregular textures (Mona Lisa and the landscape) because each orientation produces different codes, resulting in many rarely-populated bins; structured textures like the brick wall show more pronounced peaks since the repeating pattern produces similar codes.
+
+``Rotation-invariant LBP`` consolidates codes that represent the same pattern at different rotations, which results in fewer peaks and a more concentrated histogram, especially noticeable in the landscape and brick wall images, highlighting the dominant texture motifs rather than their orientation.
+
 ``Uniform LBP`` further compresses the histogram by grouping all non-uniform patterns into a single bin, producing very compact histograms: the Mona Lisa shows mostly low-frequency codes corresponding to smooth facial textures, the brick wall exhibits peaks corresponding to repeating brick edges, and the landscape reveals a modestly wider distribution reflecting diverse natural textures but still more summarized than basic LBP.
 
 
@@ -689,11 +708,16 @@ The `threshold` parameter determines the minimum intensity difference required f
   <em>Figure 25e: Blob detection with different parameters for image 5</em>
 </p>
 
-The parameter sweep across multiple images demonstrates the effect of `threshold` and `max_sigma` on blob detection. Across all images, a `num_sigma` of 10 was used.\
-For **Image 1**, a `threshold` of 0.1 and a `max_sigma` value of 20 works best for general blob detection. Other `thresholds` give either too much noise or too little blob detection.\
-For **Image 2**, a `threshold` of 0.1 and a `max_sigma` value of 20 works best.\
-For **Image 3**, a `threshold` of 0.1 and a `max_sigma` value of 10 works best.\
-For **Image 4**, a `threshold` of 0.1 and a `max_sigma` value of 30 works best.\
+The parameter sweep across multiple images demonstrates the effect of `threshold` and `max_sigma` on blob detection. Across all images, a `num_sigma` of 10 was used.
+
+For **Image 1**, a `threshold` of 0.1 and a `max_sigma` value of 20 works best for general blob detection. Other `thresholds` give either too much noise or too little blob detection.
+
+For **Image 2**, a `threshold` of 0.1 and a `max_sigma` value of 20 works best.
+
+For **Image 3**, a `threshold` of 0.1 and a `max_sigma` value of 10 works best.
+
+For **Image 4**, a `threshold` of 0.1 and a `max_sigma` value of 30 works best.
+
 For **Image 5**, a `threshold` of 0.1 and a `max_sigma` value of 30 works best.
 
 <div style="page-break-after: always;"></div>
