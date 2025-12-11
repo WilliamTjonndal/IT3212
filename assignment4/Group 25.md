@@ -528,7 +528,7 @@ We performed this sweep using only 25% of the dataset to keep extraction and tra
 #### <a id="svm-f"></a> SVM
 
 <p align="center">
-    <img src="task1/img/svm.png" width="700"/><br>
+    <img src="task1/img/svm.png" width="1000"/><br>
     <em>Figure 26: SVM Feature Extraction Parameter Sweep</em>
 </p>
 
@@ -620,7 +620,7 @@ For the combined HOG+LBP approach, the results show **incremental improvement ov
 #### <a id="rf-f"></a> Random forest
 
 <p align="center">
-    <img src="task1/img/randomforest.png" width="700"/><br>
+    <img src="task1/img/randomforest.png" width="1000"/><br>
     <em>Figure 27: Random forest Feature Extraction Parameter Sweep</em>
 </p>
 
@@ -804,7 +804,7 @@ The **LBP-only features yield lower accuracy overall compared to HOG**, with 8 s
 #### <a id="stacking-f"></a> Stacking
 
 <p align="center">
-    <img src="task1/img/stacking.png" width="700"/><br>
+    <img src="task1/img/stacking.png" width="1000"/><br>
     <em>Figure 29: Stacking Feature Extraction Parameter Sweep</em>
 </p>
 
