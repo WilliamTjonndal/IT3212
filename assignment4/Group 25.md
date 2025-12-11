@@ -1000,55 +1000,67 @@ Overall, the results show that despite the common perception that deep learning 
 
 #### Misclassifications
 
-All models, based on their confusion matrices, struggle to distinguish between mountain and glacier and vice versa. As mentioned earlier, this is explained by the fact that such images share many common features. Concrete examples of these misclassifications are shown in figure 31 and 32.
+All models, based on their confusion matrices, struggle to distinguish between mountain and glacier and vice versa. As mentioned earlier, this is explained by the fact that such images share many common features. Concrete examples of these misclassifications are shown in figures 31 to 34. Figures 31 and 32 shows mountain and glacier misclassified by CNN. As mentioned before, CNN does not make use of features extracted as HOG and LBP, so they are not included in these figures. However, we can intuitively see why CNN confuses the features of these images, because mountains can often contain glaciers, while glaciers are often present by mountains.
 
 <p align="center">
-  <img src="task1/intel-image-classification/seg_test/seg_test/mountain/23838.jpg" width="300"/><br>
+  <img src="task1/intel-image-classification/seg_test/seg_test/mountain/24094.jpg" width="300"/><br>
   <em>Figure 31: Mountain detected as glacier by CNN</em>
 </p>
 
 <p align="center">
-  <img src="task1/intel-image-classification/seg_test/seg_test/glacier/20746.jpg" width="300"/><br>
+  <img src="task1/intel-image-classification/seg_test/seg_test/glacier/24248.jpg" width="300"/><br>
   <em>Figure 32: Glacier detected as mountain by CNN</em>
 </p>
 
-CNNs performed fewer misclassifications between mountain and sea and between glacier and sea, which the other models struggled with. Examples are shown in figures 33 to 36.
+Figures 33 and 34 display glaciers and mountains misclassified by SVM. The images were misclassified because HOG captured similar gradient structures across snow, glaciers, and mountains, while LBP produced nearly identical local texture patterns for icy and snowy surfaces. As a result, the features lacked the discriminative power needed to separate the visual classes.
 
 <p align="center">
-  <img src="task1/intel-image-classification/seg_test/seg_test/mountain/22479.jpg" width="300"/><br>
-  <em>Figure 33: Mountain detected as sea by XGBoost</em>
+  <img src="task1/results/misclassifications/Glacier_detected_as_mountain_by_SVM.png" width="700"/><br>
+  <em>Figure 33: Glacier detected as mountain by SVM</em>
 </p>
 
 <p align="center">
-  <img src="task1/intel-image-classification/seg_test/seg_test/sea/24187.jpg" width="300"/><br>
-  <em>Figure 34: Sea detected as mountain by Random forest</em>
+  <img src="task1/results/misclassifications/Mountain_detected_as_sea_by_SVM.png" width="700"/><br>
+  <em>Figure 34: Mountain detected as glacier by SVM</em>
+</p>
+
+In figures 35 and 36, we can see mountain and sea pictures misclassified by Random Forest. Random Forest misclassifies mountains and sea because the HOG features of both classes often contain similar horizontal and diagonal gradient patterns caused by shorelines, reflections, and sloped terrain, while the LBP features capture overlapping fine textures from water and rocks. Since both descriptors can produce feature vectors that look alike for certain mountain and sea scenes, Random Forest struggles to separate the two scenes.
+
+<p align="center">
+  <img src="task1/results/misclassifications/Sea_detected_as_mountain_by_Random_Forest.png" width="700"/><br>
+  <em>Figure 35: Sea detected as mountain by Random Forest</em>
 </p>
 
 <p align="center">
-  <img src="task1/intel-image-classification/seg_test/seg_test/glacier/20603.jpg" width="300"/><br>
-  <em>Figure 35: Glacier detected as sea by SVM</em>
+  <img src="task1/results/misclassifications/Mountain_detected_as_sea_by_Random_Forest.png" width="700"/><br>
+  <em>Figure 36: Mountain detected as sea by Random Forest</em>
+</p>
+
+Figures 37 and 38 display misclassified building and street pictures by stacking. Stacking misclassifies streets and buildings because HOG captures very similar vertical and horizontal edge structures from facades, windows, and street perspectives, while LBP produces overlapping texture patterns from repeated architectural elements such as bricks, windows, and railings. Since both scenes contain dense man-made geometric patterns, the combined features make streets and building-focused images appear nearly identical in feature space, causing the classifier to mix the two classes.
+
+<p align="center">
+  <img src="task1/results/misclassifications/Buildings_detected_as_street_by_Stacking.png" width="700"/><br>
+  <em>Figure 37: Building detected as street by Stacking</em>
 </p>
 
 <p align="center">
-  <img src="task1/intel-image-classification/seg_test/seg_test/sea/23889.jpg" width="300"/><br>
-  <em>Figure 36: Sea detected as glacier by Stacking</em>
+  <img src="task1/results/misclassifications/Street_detected_as_buildings_by_Stacking.png" width="700"/><br>
+  <em>Figure 38: Street detected as building by Stacking</em>
 </p>
 
-Finally, all models struggled a little when classifying between buildings and street and vice versa. As said before, this is due to streets and buildings often appearing in the same scenes. See figure 37 and 38 for some examples.
+In figure 39 and 40, we notice that XGBoost has misclassified pictures belonging to the glacier and sea classes. XGBoost misclassifies glaciers and sea because HOG captures very similar horizontal gradient structures from glacier fronts, water surfaces, and ice floes, while LBP produces nearly indistinguishable texture patterns for smooth water, waves, and icy regions. As a result, the glacier and sea images look alike in feature space, so the classifier mixes the two classes. 
 
 <p align="center">
-  <img src="task1/intel-image-classification/seg_test/seg_test/buildings/23733.jpg" width="300"/><br>
-  <em>Figure 37: Building detected as street by Random forest</em>
+  <img src="task1/results/misclassifications/Glacier_detected_as_sea_by_XGBoost.png" width="700"/><br>
+  <em>Figure 39: Glacier detected as sea by XGBoost</em>
 </p>
 
 <p align="center">
-  <img src="task1/intel-image-classification/seg_test/seg_test/street/24280.jpg" width="300"/><br>
-  <em>Figure 38: Street detected as building by XGBoost</em>
+  <img src="task1/results/misclassifications/Sea_detected_as_glacier_by_XGBoost.png" width="700"/><br>
+  <em>Figure 40: Sea detected as glacier by XGBoost</em>
 </p>
 
-We could have manually refined the training set by drawing clearer boundaries between scenes and removing images that fit multiple categories, but this would require extensive manual effort and could drastically reduce the dataset.
-
-The acceptable level of misclassification depends on the use case of the algorithm. For separating urban from non-urban environments, such errors may be tolerable. However, for applications like emergency planning, where accurately distinguishing buildings from streets is crucial, even minor errors could lead to faulty risk assessments and unsafe decisions.
+We could have manually refined the training set by drawing clearer boundaries between scenes and removing images that fit multiple categories, but this would require extensive manual effort and could drastically reduce the dataset. Removing pictures that belong in several categories, as for example buildings and streets, is undesirable as they often appear together.
 
 <div style="page-break-after: always;"></div>
 
@@ -1111,12 +1123,12 @@ An actual use case for clustering on this dataset is to group online news togeth
       <td>shares</td><td></td><td></td><td></td>
     </tr>
   </table>
-  <em>Figure 39: All columns in the dataset</em>
+  <em>Figure 41: All columns in the dataset</em>
   <br>
   <br>
 </div>
 
-To start off with preprocessing the dataset, we looked at all the columns to get an understanding of what the data represents. The columns are show in figure 39. Features with names starting with `kw_` represent the amount of shares gained by articles assigned each keyword, looking at the min, average, and max shares for the best, average, and worst keywords associated with the article. Features starting with `LDA_` represent closeness to a given LDA topic (abstract topics/themes decided by another machine learning algorithm). Many of the features, such as `global_sentiment_polarity` and `title_subjectivity` are based on sentiment analysis.
+To start off with preprocessing the dataset, we looked at all the columns to get an understanding of what the data represents. The columns are show in figure 41. Features with names starting with `kw_` represent the amount of shares gained by articles assigned each keyword, looking at the min, average, and max shares for the best, average, and worst keywords associated with the article. Features starting with `LDA_` represent closeness to a given LDA topic (abstract topics/themes decided by another machine learning algorithm). Many of the features, such as `global_sentiment_polarity` and `title_subjectivity` are based on sentiment analysis.
 
 The dataset contains several columns that are not useful for our selected use case. The first we removed was `url`, as it's useless for clustering. This is because it's unique and categorical, making it impossible to create clusters from.
 
@@ -1126,7 +1138,7 @@ Using this logic, it might make sense to include `timedelta`, which refers to th
 
 `timedelta` does have an effect on `shares`, as older articles have more time to accumulate shares, but we still chose to include `shares` when clustering. This is because all data points have a `timedelta` of at least 8 days, so we think all articles have had some time to get a number of shares that would be highly correlated with the number of shares they would have after a few days. This assumes articles gain the most traction/shares when they are recently released, meaning even if older articles have much more time to gain shares, most shares are gained within the first few days of release.
 
-After removing some columns, we are left with the features showing in figure 40, along with some data on their distributions. We can also see from this figure that there are no missing values, as each column contains the same count as the total number of rows.
+After removing some columns, we are left with the features showing in figure 42, along with some data on their distributions. We can also see from this figure that there are no missing values, as each column contains the same count as the total number of rows.
 
 <div style="text-align: center">
   <table style="margin-left:auto; margin-right:auto">
@@ -1186,84 +1198,84 @@ After removing some columns, we are left with the features showing in figure 40,
     <tr style="line-height: 0.9;"><td>shares</td><td>39644</td><td>3395.380184</td><td>11626.950749</td><td>1</td><td>946</td><td>1400</td><td>2800</td><td>843300</td></tr>
   </table>
   <br>
-  <em>Figure 40: Distribution statistics for all used features</em>
+  <em>Figure 42: Distribution statistics for all used features</em>
 </div>
 
 #### Scaling
 
-After removing the columns we don't want to include in clustering, it's time to scale the data. It's important to scale our data so the features with a larger range of values won't be preferred over those with smaller ranges based only on their larger range. Looking at the distribution of the data in figure 41, we can see columns referring to shares, like `shares` and `kw_avg_max` have a much larger range than the rest, meaning they would be likely to overpower the other features. Scaling the data will make all our features have the same scale so each feature's importance will be decided fairly.
+After removing the columns we don't want to include in clustering, it's time to scale the data. It's important to scale our data so the features with a larger range of values won't be preferred over those with smaller ranges based only on their larger range. Looking at the distribution of the data in figure 43, we can see columns referring to shares, like `shares` and `kw_avg_max` have a much larger range than the rest, meaning they would be likely to overpower the other features. Scaling the data will make all our features have the same scale so each feature's importance will be decided fairly.
 
-We chose to use min-max scaling, mostly because its results are easier to understand for columns like `shares` and `num_imgs`, and it preserves the distribution of our data. The results being easier to understand is not really the case for columns representing sentiment analysis, like `global_sentiment_polarity` and `title_subjectivity`, as we don't have an intuitive understanding of what a specific value means, other than in relation to other values. We still chose to use min-max scaling here to keep the same scaling method for all our features, and again to preserve the distribution of all our features. Looking at the distribution of the scaled data in figure 42, we can see the distributions now look much more even than before scaling in figure 41, which should give better results when clustering.
+We chose to use min-max scaling, mostly because its results are easier to understand for columns like `shares` and `num_imgs`, and it preserves the distribution of our data. The results being easier to understand is not really the case for columns representing sentiment analysis, like `global_sentiment_polarity` and `title_subjectivity`, as we don't have an intuitive understanding of what a specific value means, other than in relation to other values. We still chose to use min-max scaling here to keep the same scaling method for all our features, and again to preserve the distribution of all our features. Looking at the distribution of the scaled data in figure 44, we can see the distributions now look much more even than before scaling in figure 43, which should give better results when clustering.
 
 <table align="center">
   <tr>
     <td align="center">
       <img src="task2/img/scaling_dist_before.png" width="500"/><br>
-      <em>Figure 41: Distribution of data before scaling</em>
+      <em>Figure 43: Distribution of data before scaling</em>
     </td>
     <td align="center">
       <img src="task2/img/scaling_dist_after.png" width="500"/><br>
-      <em>Figure 42: Distribution of data after scaling</em>
+      <em>Figure 44: Distribution of data after scaling</em>
     </td>
   </tr>
 </table>
 
 #### Outlier Detection
 
-The first outliers we checked for were values outside the possible range for each feature. We found negative values in `kw_min_min`, `kw_avg_min`, and `kw_min_avg`, as seen in figure 40. This is not possible as each of these columns refer to an amount of shares articles with a given keyword have received. Since shares can't be negative, we decided to cap the lower value of these columns to 0.
+The first outliers we checked for were values outside the possible range for each feature. We found negative values in `kw_min_min`, `kw_avg_min`, and `kw_min_avg`, as seen in figure 42. This is not possible as each of these columns refer to an amount of shares articles with a given keyword have received. Since shares can't be negative, we decided to cap the lower value of these columns to 0.
 
-When removing outliers based on distribution from our data, we chose between using z-score and IQR. We decided to use IQR as we can see in figure 41 that the distribution of almost every column is not normally distributed, but skewed. After some testing, we noticed removing outliers using IQR on all non-categorical columns would remove way more rows than expected. To keep a larger portion of the dataset, we had to select which features to use for outlier detection and removal.
+When removing outliers based on distribution from our data, we chose between using z-score and IQR. We decided to use IQR as we can see in figure 43 that the distribution of almost every column is not normally distributed, but skewed. After some testing, we noticed removing outliers using IQR on all non-categorical columns would remove way more rows than expected. To keep a larger portion of the dataset, we had to select which features to use for outlier detection and removal.
 
 We decided not to use outlier detection on columns referencing shares or sentiment analysis, as shares are more extremely skewed than other features in the dataset, which intuitively makes sense, since some articles become way more popular than others. Features referencing shares include `shares` and `kw_avg_max`. We also decided not to remove outliers using features based on sentiment analysis, as it would be very hard for us to tell if a very high or low value is actually outside the range of what's likely a real data point. Detecting outliers based on a column we don't know a real range of would not be a good idea, as the goal of handling outliers is removing or changing values not generated by the same method as the others.
 
 Performing outlier detection on the remaining columns, such as `n_tokens_title` and `num_videos`, we were able to find `5465` outliers. Looking at some of these outliers, they contain things like there being `91` videos or `128` images in an article. This is about 13.7% of our dataset, which has a total of `39644` rows. We decided to remove the data points containing the outliers, because even though it's a sizable portion of our dataset, our chosen clustering algorithms don't include outlier detection themselves, and using 86.3% of the data is still plenty for clustering.
 
-In figure 43, you can see the distribution of our features after removing outliers, while figure 44 shows the distribution after re-scaling our dataset between 0 and 1. These figures show the scaled versions of our features for visualization only, and outliers were removed from the original unscaled dataset. The numerical distributions of the features used in outlier detection are also shown before in figure 45, and after in figure 46.
+In figure 45, you can see the distribution of our features after removing outliers, while figure 46 shows the distribution after re-scaling our dataset between 0 and 1. These figures show the scaled versions of our features for visualization only, and outliers were removed from the original unscaled dataset. The numerical distributions of the features used in outlier detection are also shown before in figure 47, and after in figure 48.
 
 <table align="center">
   <tr>
     <td align="center">
       <img src="task2/img/iqr_dist.png" width="500"/><br>
-      <em>Figure 43: Distribution of data after removing outliers</em>
+      <em>Figure 45: Distribution of data after removing outliers</em>
     </td>
     <td align="center">
       <img src="task2/img/iqr_dist_rescaled.png" width="500"/><br>
-      <em>Figure 44: Distribution of data after removing outliers and re-scaling</em>
+      <em>Figure 46: Distribution of data after removing outliers and re-scaling</em>
     </td>
   </tr>
 </table>
 
 <p align="center">
 <img src="task2/img/iqr_dist_num_before.png" width="800"/><br>
-<em>Figure 45: Numerical distribution of data before removing outliers</em>
+<em>Figure 47: Numerical distribution of data before removing outliers</em>
 </p>
 
 <p align="center">
 <img src="task2/img/iqr_dist_num_after.png" width="800"/><br>
-<em>Figure 46: Numerical distribution of data after removing outliers</em>
+<em>Figure 48: Numerical distribution of data after removing outliers</em>
 </p>
 
 #### Dimensionality Reduction
 
 We decided to reduce the dimensions of our dataset, as we think it will improve the performance of our clustering methods, as well as giving us a better visualization of our data. Our biggest reason for thinking reducing dimensions will give better performance when clustering is that distance between points becomes less useful when more dimensions are used. Due to how euclidiean distance is calculated, the distance between every point converges as dimensions increase, meaning the more dimensions there are in the dataset, the less variation there is in the distance between each point. If every point is almost the same distance from each other, it becomes very hard to separate them into meaningful clusters. This problem is a bit exaggerated as it has a much more noticeable impact with 100+ dimensions, but it's still better to reduce the dimensions to minimize this effect.
 
-For dimensionality reduction, we thought about using PCA and t-SNE. PCA focuses on keeping as much of the variance in the data as possible, while t-SNE tries to keep higher-dimensional neighbors close even in lower dimensions. While t-SNE sounds like a good fit for our dataset, it has a problem which makes it unsuitable for our selected use case. t-SNE finds similarities between all points in the dataset, which works well for preserving neighborhoods, but makes no mapping function that can be used for future data points. This means that if we want to add a new data point (such as a new article being created), we would have to redo our dimensionality reduction on all our data. Due to this, we chose to use PCA for dimensionality reduction, keeping enough principal components to preserve 95% of the variance of the data. This leaves us with 22 out of the 51 original features remaining, as seen in figure 47.
+For dimensionality reduction, we thought about using PCA and t-SNE. PCA focuses on keeping as much of the variance in the data as possible, while t-SNE tries to keep higher-dimensional neighbors close even in lower dimensions. While t-SNE sounds like a good fit for our dataset, it has a problem which makes it unsuitable for our selected use case. t-SNE finds similarities between all points in the dataset, which works well for preserving neighborhoods, but makes no mapping function that can be used for future data points. This means that if we want to add a new data point (such as a new article being created), we would have to redo our dimensionality reduction on all our data. Due to this, we chose to use PCA for dimensionality reduction, keeping enough principal components to preserve 95% of the variance of the data. This leaves us with 22 out of the 51 original features remaining, as seen in figure 49.
 
 <p align="center">
 <img src="task2/img/pca_95.png" width="500"/><br>
-<em>Figure 47: Explained variance by principal components</em>
+<em>Figure 49: Explained variance by principal components</em>
 </p>
 
-The other advantage of PCA is being useful for visualizing data. We can see the visualization of the dataset using the first 3 principal components in both 2D, in figure 48, and in 3D, in figure 49.
+The other advantage of PCA is being useful for visualizing data. We can see the visualization of the dataset using the first 3 principal components in both 2D, in figure 50, and in 3D, in figure 51.
 
 <p align="center">
 <img src="task2/img/pca_pairplot.png" width="600"/><br>
-<em>Figure 48: Pair plot of first 3 principal components</em>
+<em>Figure 50: Pair plot of first 3 principal components</em>
 </p>
 
 <p align="center">
 <img src="task2/img/pca_3d.png" width="600"/><br>
-<em>Figure 49: 3D plot of first 3 principal components</em>
+<em>Figure 51: 3D plot of first 3 principal components</em>
 </p>
 
 <div style="page-break-after: always;"></div>
@@ -1288,7 +1300,7 @@ Fuzzy C-means works almost like an improved version of K-means for this dataset.
 
 #### <a id="gaussian-mixture-models"></a> Gaussian mixture models
 
-Gaussian Mixture Models were chosen because they offer a more flexible way to cluster the data. As opposed to centroid-based clustering algorithms which assume roughly spherical clusters of similar size, GMM is a distribution-based clustering algorithm that assumes each cluster has a shape and spread in the data, which means clusters don’t have to be perfectly round or all the same size. This fits better for our dataset, as we think it better matches the distribution of the clusters we can visualize from figure 49.
+Gaussian Mixture Models were chosen because they offer a more flexible way to cluster the data. As opposed to centroid-based clustering algorithms which assume roughly spherical clusters of similar size, GMM is a distribution-based clustering algorithm that assumes each cluster has a shape and spread in the data, which means clusters don’t have to be perfectly round or all the same size. This fits better for our dataset, as we think it better matches the distribution of the clusters we can visualize from figure 51.
 
 Like fuzzy C-means, GMM assigns a probability to each article for belonging to every cluster. This way, this clustering algorithm doens't force articles that could belong to multiple clusters into just one.
 
@@ -1304,42 +1316,42 @@ To decide the amount of clusters to use for K-means, we found 2 common clusterin
   <tr>
     <td align="center">
       <img src="task2/img/kmeans_3.png" width="300"/><br>
-      <em>Figure 50: K-means clustering with k=3</em>
+      <em>Figure 52: K-means clustering with k=3</em>
     </td>
     <td align="center">
       <img src="task2/img/kmeans_4.png" width="300"/><br>
-      <em>Figure 51: K-means clustering with k=4</em>
+      <em>Figure 53: K-means clustering with k=4</em>
     </td>
   </tr>
   <tr>
     <td align="center">
       <img src="task2/img/kmeans_5.png" width="300"/><br>
-      <em>Figure 52: K-means clustering with k=5</em>
+      <em>Figure 54: K-means clustering with k=5</em>
     </td>
     <td align="center">
       <img src="task2/img/kmeans_6.png" width="300"/><br>
-      <em>Figure 53: K-means clustering with k=6</em>
+      <em>Figure 55: K-means clustering with k=6</em>
     </td>
   </tr>
 </table>
 
 <p align="center">
 <img src="task2/img/kmeans_clusters_score.png" width="650"/><br>
-<em>Figure 54: K-means clustering scores with different k</em>
+<em>Figure 56: K-means clustering scores with different k</em>
 </p>
 
-We can see from figure 54 that the best performing amount of clusters is 4, both maximizing its silhouette score and minimizing its Davies-Bouldin index. Using this value, we find the final clustered dataset using K-means in figure 55.
+We can see from figure 56 that the best performing amount of clusters is 4, both maximizing its silhouette score and minimizing its Davies-Bouldin index. Using this value, we find the final clustered dataset using K-means in figure 57.
 
 <p align="center">
 <img src="task2/img/kmeans_4.png" width="650"/><br>
-<em>Figure 55: Visualization of K-means clustering</em>
+<em>Figure 57: Visualization of K-means clustering</em>
 </p>
 
-We can also tell which features from our dataset have the largest effect on placing data points into clusters, the most influential features for clustering can be seen in figure 56.
+We can also tell which features from our dataset have the largest effect on placing data points into clusters, the most influential features for clustering can be seen in figure 58.
 
 <p align="center">
 <img src="task2/img/features_kmeans.png" width="650"/><br>
-<em>Figure 56: Top features contributing to K-means clustering</em>
+<em>Figure 58: Top features contributing to K-means clustering</em>
 </p>
 
 #### <a id="compare-fuzzy-c-means"></a> Fuzzy C-means
@@ -1348,40 +1360,40 @@ We can also tell which features from our dataset have the largest effect on plac
   <tr>
     <td align="center">
       <img src="task2/img/fcm_3.png" width="300"/><br>
-      <em>Figure 57: Fuzzy C-means clustering with 3 clusters</em>
+      <em>Figure 59: Fuzzy C-means clustering with 3 clusters</em>
     </td>
     <td align="center">
       <img src="task2/img/fcm_4.png" width="300"/><br>
-      <em>Figure 58: Fuzzy C-means clustering with 4 clusters</em>
+      <em>Figure 60: Fuzzy C-means clustering with 4 clusters</em>
     </td>
   </tr>
   <tr>
     <td align="center">
       <img src="task2/img/fcm_5.png" width="300"/><br>
-      <em>Figure 59: Fuzzy C-means clustering with 5 clusters</em>
+      <em>Figure 61: Fuzzy C-means clustering with 5 clusters</em>
     </td>
     <td align="center">
       <img src="task2/img/fcm_6.png" width="300"/><br>
-      <em>Figure 60: Fuzzy C-means clustering with 6 clusters</em>
+      <em>Figure 62: Fuzzy C-means clustering with 6 clusters</em>
     </td>
   </tr>
 </table>
 
 <p align="center">
 <img src="task2/img/fcm_clusters_score.png" width="650"/><br>
-<em>Figure 61: Fuzzy C-means clustering scores with different amounts of clusters</em>
+<em>Figure 63: Fuzzy C-means clustering scores with different amounts of clusters</em>
 </p>
 
-We also found 4 clusters to be the optimal amount for fuzzy C-means, as seen in figure 61, which is to be expected since it works very similarly to K-means, both being centroid-based clustering algorithms. The visualization of the optimal fuzzy C-means clustering is seen in figure 62.
+We also found 4 clusters to be the optimal amount for fuzzy C-means, as seen in figure 63, which is to be expected since it works very similarly to K-means, both being centroid-based clustering algorithms. The visualization of the optimal fuzzy C-means clustering is seen in figure 64.
 
 <p align="center">
 <img src="task2/img/fcm_4.png" width="650"/><br>
-<em>Figure 62: Visualization of fuzzy C-means clustering</em>
+<em>Figure 64: Visualization of fuzzy C-means clustering</em>
 </p>
 
 <p align="center">
 <img src="task2/img/features_fcm.png" width="650"/><br>
-<em>Figure 63: Top features contributing to fuzzy C-means clustering</em>
+<em>Figure 65: Top features contributing to fuzzy C-means clustering</em>
 </p>
 
 #### <a id="compare-gaussian-mixture-models"></a> Gaussian mixture models
@@ -1390,40 +1402,40 @@ We also found 4 clusters to be the optimal amount for fuzzy C-means, as seen in 
   <tr>
     <td align="center">
       <img src="task2/img/gmm_3.png" width="300"/><br>
-      <em>Figure 64: GMM clustering with 3 clusters</em>
+      <em>Figure 66: GMM clustering with 3 clusters</em>
     </td>
     <td align="center">
       <img src="task2/img/gmm_4.png" width="300"/><br>
-      <em>Figure 65: GMM clustering with 4 clusters</em>
+      <em>Figure 67: GMM clustering with 4 clusters</em>
     </td>
   </tr>
   <tr>
     <td align="center">
       <img src="task2/img/gmm_5.png" width="300"/><br>
-      <em>Figure 66: GMM clustering with 5 clusters</em>
+      <em>Figure 68: GMM clustering with 5 clusters</em>
     </td>
     <td align="center">
       <img src="task2/img/gmm_6.png" width="300"/><br>
-      <em>Figure 67: GMM clustering with 6 clusters</em>
+      <em>Figure 69: GMM clustering with 6 clusters</em>
     </td>
   </tr>
 </table>
 
 <p align="center">
 <img src="task2/img/gmm_clusters_score.png" width="650"/><br>
-<em>Figure 68: GMM clustering scores with different amounts of clusters</em>
+<em>Figure 70: GMM clustering scores with different amounts of clusters</em>
 </p>
 
-We also found 4 as the optimal number of clusters for GMM, seen in figure 68. After finding this, we created the visualization of GMM using 4 clusters shown in figure 69.
+We also found 4 as the optimal number of clusters for GMM, seen in figure 70. After finding this, we created the visualization of GMM using 4 clusters shown in figure 71.
 
 <p align="center">
 <img src="task2/img/gmm_4.png" width="650"/><br>
-<em>Figure 69: Visualization of GMM clustering</em>
+<em>Figure 71: Visualization of GMM clustering</em>
 </p>
 
 <p align="center">
 <img src="task2/img/features_gmm.png" width="650"/><br>
-<em>Figure 70: Top features contributing to GMM clustering</em>
+<em>Figure 72: Top features contributing to GMM clustering</em>
 </p>
 
 All our chosen clustering algorithms had very similar visualizations, but the differences are more clear when looking at the clustering metrics. Fuzzy C-means had the best performance, reaching a silhouette score of 0.647 and a Davies-Bouldin index of 0.500. This is a slight performance increase from K-means, and a larger jump from GMM. Part of the reason for this result is likely that both silhouette score and Davies-Bouldin index favor centroid-based clustering, as they both rely on euclidean distance, favoring compact spherical clusters. Both metrics are still valid metrics for GMM and some of the easier to understand among clustering metrics. They also have the advantage of being possible to measure for all our chosen clustering algorithms, which isn't the case for all metrics.
@@ -1434,9 +1446,9 @@ We can also see the top features contributing to the selection of clusters by ea
 
 A lot of the similarity here likely come from how the original features were translated into principal components when doing PCA, and you might see a more varied set of contributing features if using the base data. Even if the results are very similar and mostly using the same few features to base a data point's cluster on, this actually fits very well for our use case. Splitting articles mainly by categories and topics makes the most sense to create a useful recommendation algorithm. Had our results been that clusters were mainly decided by `shares` and similar features, this would probably not show users articles they are as interested in as with our current main clustering factors.
 
-From looking at our performance metrics, we chose to select fuzzy C-means as our preferred clustering algorithm for this dataset. After selecting our preferred clustering algorithm, we took a look at some of the data points most confidently placed in each cluster to see how similar they were. The top 10 contributing features for 5 points in each cluster can be seen in figure 71. It's clear from the points that the clustering has worked well, placing data points in clusters along with other points that are very similar to them in multiple columns.
+From looking at our performance metrics, we chose to select fuzzy C-means as our preferred clustering algorithm for this dataset. After selecting our preferred clustering algorithm, we took a look at some of the data points most confidently placed in each cluster to see how similar they were. The top 10 contributing features for 5 points in each cluster can be seen in figure 73. It's clear from the points that the clustering has worked well, placing data points in clusters along with other points that are very similar to them in multiple columns.
 
 <p align="center">
 <img src="task2/img/fcm_examples.png" width="800"/><br>
-<em>Figure 71: The 5 most confidently placed data points in each cluster</em>
+<em>Figure 73: The 5 most confidently placed data points in each cluster</em>
 </p>
