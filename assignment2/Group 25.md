@@ -514,7 +514,7 @@ From the parameter sweep:
 
 <p align="center">
   <img src="results/lbp/lbp.png" width="800"/><br>
-  <em>Figure 19: LBP</em>
+  <em>Figure 19: Original image and its LBP variants: basic, rotation-invariant, and uniform</em>
 </p>
 
 Local Binary Patterns (LBP) encodes local texture at each pixel by comparing the pixel's intensity to its eight immediate neighbors: 1 for each neighbor that is at least as bright as the center, otherwise 0. Reading these eight bits in a fixed order yields an 8-bit pattern that is converted to a decimal value in the range from 0 to 255, and the pixel in the LBP image is replaced by this value. Figure 19 show the original images alongside its basic 8-neighbour, rotation-invariant and uniform LBP representations.
@@ -529,7 +529,7 @@ The basic 8-neighbor and rotation-invariant LBPs look the same because the image
 
 <p align="center">
   <img src="results/lbp/lbp_three_panel.png" width="800"/><br>
-  <em>Figure 20: LBP histogram</em>
+  <em>Figure 20: Histograms the LBP variants: basic, rotation-invariant, and uniform. </em>
 </p>
 
 An LBP histogram counts how many pixels in the LBP image have each code value, showing the distribution of local texture patterns in the original image.\
@@ -867,7 +867,7 @@ The new images are used in every subsection.
 - Updated LPF and HPF to use multiple cutoff values\
 Under section [2.](#DFT-section-2) and [3.](#DFT-section-3), we have added many new figures with different radius cutoff values.
 - Updated LPF and HPF with improved with parameter sweeps, showing how behavior changes\
-Added a discussion over how the images changes whith different cutoff radii under [2.](#DFT-section-2) and [3.](#DFT-section-3)\
+Added a discussion over how the images changes whith different cutoff radius under [2.](#DFT-section-2) and [3.](#DFT-section-3)\
 Applied LPF and HPF to different images
 
 [PCA](#2-principal-component-analysis)
